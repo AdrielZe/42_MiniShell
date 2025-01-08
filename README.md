@@ -1,7 +1,7 @@
 # 42_MiniShell
 
 ## About the Project
-The **Minishell** is a 42 project that aims to create a small command interpreter based on Bash. The main challenge is to implement features of a real shell, ensuring compliance with practical behaviors and POSIX standards, while learning more about operating systems and inter-process communication.
+The **Minishell** is a 42 project that aims to create a command interpreter based on Bash. The main challenge is to implement features of a real shell, ensuring compliance with practical behaviors and POSIX standards, while learning more about operating systems and inter-process communication.
 
 This repository was created to document and organize the development of the project, which is being done collaboratively and following good programming practices.
 
