@@ -1,16 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/13 10:56:21 by asilveir          #+#    #+#             */
+/*   Updated: 2025/01/13 10:56:50 by asilveir         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../headers/main.h"
 
-// typedef enum {INT, FLOAT} TokenTypeNumber;
-
-// void	identifyTokenType(TokenTypeNumber token)
-// {
-// 	if (token == INT)
-// 		printf("Token is an int");
-
-// }
-
-
-int	main()
+int	main(void)
 {
 	char	*input;
 
@@ -20,11 +22,11 @@ int	main()
 		if (input == NULL)
 		{
 			printf("Saindo do programa.\n");
-			break;
+			break ;
 		}
 		printf("%s\n", process_env_var(input));
 		if (*input)
-			add_history(input);		
+			add_history(input);
 		free(input);
 	}
 	write_history(".my_history");
