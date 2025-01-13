@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:17:56 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/13 11:32:11 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/01/13 15:14:32 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static char	*find_string_to_replace(char *input, int index_of_env_symbol, int i)
 
 	start = index_of_env_symbol + 1;
 	end = start;
-	while (ft_isalnum(input[end]))
+	while (ft_isalnum(input[end]) || input[end] == '_')
 		end++;
 	word_to_switch = ft_calloc((end - start + 1), sizeof(char));
 	if (!word_to_switch)
