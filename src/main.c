@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:56:21 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/13 10:56:50 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/01/13 19:27:33 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	main(void)
 {
 	char	*input;
+	char	**token;
 
 	while (1)
 	{
@@ -24,7 +25,13 @@ int	main(void)
 			printf("Saindo do programa.\n");
 			break ;
 		}
-		printf("%s\n", process_env_var(input));
+		token = tokenize(input, ' ');
+	    printf("Tokens:\n");
+		for (int i = 0; token[i] != NULL; i++) {
+			printf("Token %d: %s\n", i + 1, token[i]);
+			free(token[i]);
+		}
+		// printf("%s\n", process_env_var(input));
 		if (*input)
 			add_history(input);
 		free(input);

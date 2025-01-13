@@ -2,14 +2,14 @@
 NAME = program
 
 # Compilador e flags
-CC = gcc
+CC = gcc -g3
 CFLAGS = #-Wall -Wextra -Werror
 
 # Diretórios e arquivos
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 INCLUDES = -I$(LIBFT_DIR)
-SRCS = src/main.c src/process_env_var.c
+SRCS = src/main.c src/process_env_var.c src/tokenize.c
 OBJS = $(SRCS:.c=.o)
 LIBS = -lreadline
 

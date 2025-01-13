@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:28:59 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/13 11:36:43 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/01/13 17:25:03 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@
 # include "../libft/libft.h" //libft
 
 char	*process_env_var(char *input);
+char	**tokenize(char const *s, char c);
 
 #endif

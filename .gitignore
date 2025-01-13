@@ -9,3 +9,8 @@
 # Ignorar arquivos de configuração do editor (exemplo para VSCode)
 .vscode/
 tokens.tx
+
+.my_history
+
+program
+minishell
