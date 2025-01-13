@@ -1,0 +1,11 @@
+# Ignorar arquivos binários gerados
+*.o
+*.out
+*.exe
+*.a
+*.so
+*.d
+
+# Ignorar arquivos de configuração do editor (exemplo para VSCode)
+.vscode/
+tokens.tx
