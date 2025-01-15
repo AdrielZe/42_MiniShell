@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   count_if.c                                         :+:      :+:    :+:   */
+/*   classify_token.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:36:14 by victda-s          #+#    #+#             */
-/*   Updated: 2025/01/15 12:38:42 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/01/15 16:41:18 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/main.h"
+#include "../../headers/tokenize.h"
 
 int	count_if(size_t *count, const char *s, char c)
 {
@@ -36,4 +36,50 @@ int	count_if(size_t *count, const char *s, char c)
 		(*count)++;
 	}
 	return (s - start);
+}
+
+void	classify_token(char **tokens)
+{
+	int	i;
+
+	i = 0;
+	while (tokens[i])
+	{
+		if (ft_strchr(tokens[i], '$'))
+		{
+			// ENV_VAR
+			printf("1");
+		}
+		else if (ft_strcmp(tokens[i], ">>") == 0)
+		{
+			// Redirecionamento de Saída (Anexar)
+			printf("2");
+		}
+		else if (ft_strcmp(tokens[i], "<<") == 0)
+		{
+			// Here Document
+			printf("3");
+		}
+		else if (ft_strcmp(tokens[i], ">") == 0)
+		{
+			// Redirecionamento de Saída
+			printf("4");
+		}
+		else if (ft_strcmp(tokens[i], "<") == 0)
+		{
+			// Redirecionamento de Entrada
+			printf("5");
+		}
+		else if (ft_strcmp(tokens[i], "|") == 0)
+		{
+			// PIPE
+			printf("6");
+		}
+		else
+		{
+			// word
+			printf("7");
+		}
+		i++;
+	}
 }
