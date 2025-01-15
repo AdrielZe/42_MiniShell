@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:32:27 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/15 16:36:34 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/01/15 16:48:11 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,14 @@ void	append_token(t_tokens **token_list, t_token_type type, char *value)
 	current = *token_list;
 	new_token_type = type;
 	new_node = malloc(sizeof(t_tokens));
+	if (!new_node)
+	{
+		perror("malloc");
+		exit(EXIT_FAILURE);
+	}
 	new_node->type = new_token_type;
 	new_node->value = value;
+	new_node->next = NULL;
 	if (!*token_list)
 	{
 		*token_list = new_node;
