@@ -6,11 +6,11 @@
 /*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:59:58 by victda-s          #+#    #+#             */
-/*   Updated: 2025/01/15 12:10:25 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/01/15 12:52:47 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "../../headers/main.h"
+#include "../../headers/tokenize.h"
 
 void	free_array(char **array, int i)
 {
@@ -26,7 +26,7 @@ char	*allocate_word(const char *s, int len)
 	word = malloc((len + 1) * sizeof(char));
 	if (!word)
 		return (NULL);
-	strncpy(word, s, len);
+	ft_memcpy(word, s, len);
 	word[len] = '\0';
 	return (word);
 }
@@ -34,28 +34,11 @@ char	*allocate_word(const char *s, int len)
 size_t	ft_count_word(const char *s, char c)
 {
 	size_t	count;
-	char	quote;
 
 	count = 0;
 	while (*s)
 	{
-		if (*s == '"' || *s == '\'')
-		{
-			quote = *s++;
-			while (*s && *s != quote)
-				s++;
-			if (*s)
-				s++;
-			count++;
-		}
-		else if (*s++ == '|')
-			count++;
-		else
-		{
-			while (*s && *s != c && *s != '|' && *s != '"' && *s != '\'')
-				s++;
-			count++;
-		}
+		s += count_if(&count, s, c);
 		while (*s == c)
 			s++;
 	}
@@ -115,20 +98,3 @@ char	**tokenize(const char *s, char c)
 	array[i] = NULL;
 	return (array);
 }
-
-// int main() {
-//     char str[] = " Teste de Funcionamento  ok ";
-//     char delimiter = ' ';
-//     char **result = ft_split(str, delimiter);
-//     if (!result) {
-//         printf("Erro ao alocar memória.\n");
-//         return (1);
-//     }
-//     printf("Tokens:\n");
-//     for (int i = 0; result[i] != NULL; i++) {
-//         printf("Token %d: %s\n", i + 1, result[i]);
-//         free(result[i]);
-//     }
-//     free(result);
-//     return (0);
-// }
