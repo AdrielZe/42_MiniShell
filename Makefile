@@ -4,7 +4,7 @@ NAME = program
 # Compilador e flags
 VALGRIND = valgrind --leak-check=full --show-leak-kinds=all
 CC = cc
-gdb = -g3
+gdb = -g -O0 -fno-inline
 CFLAGS = -Wall -Wextra -Werror
 
 # Diretórios

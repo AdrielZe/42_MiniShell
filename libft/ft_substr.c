@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:46:49 by asilveir          #+#    #+#             */
-/*   Updated: 2024/10/23 17:36:57 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/01/16 20:14:54 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ size_t	check_len(size_t len, size_t strlen, unsigned int start)
 }
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
-{	
+{
 	char	*substr;
 	size_t	i;
 
