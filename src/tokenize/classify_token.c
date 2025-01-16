@@ -6,11 +6,12 @@
 /*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:36:14 by victda-s          #+#    #+#             */
-/*   Updated: 2025/01/15 16:41:18 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/01/15 21:08:39 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/tokenize.h"
+#include <stdio.h>
 
 int	count_if(size_t *count, const char *s, char c)
 {
@@ -38,48 +39,29 @@ int	count_if(size_t *count, const char *s, char c)
 	return (s - start);
 }
 
-void	classify_token(char **tokens)
+void	classify_token(char **tokens, t_tokens *token_list)
 {
 	int	i;
 
 	i = 0;
 	while (tokens[i])
 	{
-		if (ft_strchr(tokens[i], '$'))
-		{
-			// ENV_VAR
-			printf("1");
-		}
+		if (ft_strchr(tokens[i], '$') || (ft_strchr(tokens[i], '$')
+				&& (ft_strchr(tokens[i], '"'))))
+			append_token(&token_list, TOKEN_ENV_VAR, tokens[i]);
 		else if (ft_strcmp(tokens[i], ">>") == 0)
-		{
-			// Redirecionamento de Saída (Anexar)
-			printf("2");
-		}
+			append_token(&token_list, TOKEN_APPEND, tokens[i]);
 		else if (ft_strcmp(tokens[i], "<<") == 0)
-		{
-			// Here Document
-			printf("3");
-		}
+			append_token(&token_list, TOKEN_HEREDOC, tokens[i]);
 		else if (ft_strcmp(tokens[i], ">") == 0)
-		{
-			// Redirecionamento de Saída
-			printf("4");
-		}
+			append_token(&token_list, TOKEN_REDIRECT_OUT, tokens[i]);
 		else if (ft_strcmp(tokens[i], "<") == 0)
-		{
-			// Redirecionamento de Entrada
-			printf("5");
-		}
+			append_token(&token_list, TOKEN_REDIRECT_IN, tokens[i]);
 		else if (ft_strcmp(tokens[i], "|") == 0)
-		{
-			// PIPE
-			printf("6");
-		}
+			append_token(&token_list, TOKEN_PIPE, tokens[i]);
 		else
-		{
-			// word
-			printf("7");
-		}
+			append_token(&token_list, TOKEN_WORD, tokens[i]);
 		i++;
 	}
+	print_list(token_list);
 }

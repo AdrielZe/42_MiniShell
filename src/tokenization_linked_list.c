@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization_linked_list.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:32:27 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/15 16:48:11 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/01/15 17:31:58 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	print_list(t_tokens *token_list)
 	while (current)
 	{
 		printf("[%u -", current->type);
-		printf(" %s]", current->value);
+		printf(" %s]\n", current->value);
 		current = current->next;
 	}
 }
