@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:32:27 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/20 17:18:16 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/01/20 18:31:45 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,3 @@ void	print_list(t_tokens *token_list)
 		current = current->next;
 	}
 }
-// int	main(void)
-// {
-// 	t_tokens *token_list = NULL;
-// 	// Testando append_token
-// 	append_token(&token_list, TOKEN_REDIRECT_OUT, ">");
-// 	append_token(&token_list, TOKEN_APPEND, ">>");
-// 	// append_token(&token_list, TOKEN_HEREDOC, "<<");
-
-// 	// Imprimindo a lista completa
-// 	printf("Lista de tokens:\n");
-// 	print_list(token_list);
-// 	printf("\n");
-
-// 	return 0;
-// }
