@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:56:21 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/15 21:09:20 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/01/20 17:16:15 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/main.h"
 #include "../headers/tokenize.h"
+
 
 int	main(void)
 {
@@ -23,20 +24,17 @@ int	main(void)
 	while (1)
 	{
 		input = readline("Digite algo> ");
-		if (input == NULL)
+		if (ft_strcmp("exit", input) == 0)
 		{
 			printf("Saindo do programa.\n");
 			break ;
 		}
 		token = tokenize(input, ' ');
 		printf("Lista de tokens:\n");
-		classify_token(token, token_list);
-		// print_list(token_list);
+		classify_token(token, &token_list);
+		printf("[%s]\n", get_token_by_index(token_list, 1));
+		//print_list(token_list);
 		// printf("Tokens:\n");
-		// for (int i = 0; token[i] != NULL; i++) {
-		// 	printf("Token %d: %s\n", i + 1, token[i]);
-		// 	free(token[i]);
-		// }
 		// printf("%s", input);
 		// printf("%s\n", process_env_var(input));
 		if (*input)
@@ -44,6 +42,7 @@ int	main(void)
 		free(input);
 		input = NULL;
 	}
+	clear_token_list(&token_list);
 	write_history(".my_history");
 	return (0);
 }
