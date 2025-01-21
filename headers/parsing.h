@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:38:26 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/20 18:46:39 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:01:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef enum e_node_type
 	NODE_APPEND,
 	NODE_HEREDOC,
 	NODE_ENV_VAR,
-	NODE_UNKNOWN
+	NODE_COMMAND,
 }	t_node_type;
 
 typedef struct s_ast_node
@@ -36,6 +36,7 @@ typedef struct s_ast_node
 } t_ast_node;
 
 t_ast_node *create_node(t_node_type type, char *value);
+t_ast_node	*build_ast(t_tokens *tokens);
 
 
 #endif
