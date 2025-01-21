@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:56:21 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/20 17:16:15 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/01/21 14:50:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/main.h"
 #include "../headers/tokenize.h"
+#include "../headers/parsing.h"
+
 
 
 int	main(void)
@@ -32,7 +34,8 @@ int	main(void)
 		token = tokenize(input, ' ');
 		printf("Lista de tokens:\n");
 		classify_token(token, &token_list);
-		printf("[%s]\n", get_token_by_index(token_list, 1));
+		// printf("[%s]\n", get_token_by_index(token_list, 1));
+		build_ast(token_list);
 		//print_list(token_list);
 		// printf("Tokens:\n");
 		// printf("%s", input);
