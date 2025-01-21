@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:56:21 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/21 14:50:09 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/21 17:29:29 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	main(void)
 	char		*input;
 	char		**token;
 	t_tokens	*token_list;
+	t_ast_node *root;
 
 	token_list = NULL;
 	while (1)
@@ -35,7 +36,8 @@ int	main(void)
 		printf("Lista de tokens:\n");
 		classify_token(token, &token_list);
 		// printf("[%s]\n", get_token_by_index(token_list, 1));
-		build_ast(token_list);
+		root = build_ast(token_list);
+		printf(" RESULT: %s\n", concatenate_commands(root));
 		//print_list(token_list);
 		// printf("Tokens:\n");
 		// printf("%s", input);
