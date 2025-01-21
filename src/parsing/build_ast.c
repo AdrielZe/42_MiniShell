@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:32:49 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/21 17:05:35 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/21 18:25:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ void print_ast(t_ast_node *node, int level)
 }
 
 
-//char    test_ast()
+// char    test_ast(t_ast  *node)
+// {
+    
+// }
 
 void free_ast(t_ast_node *node) 
 {
@@ -85,7 +88,7 @@ t_ast_node	*build_ast(t_tokens *tokens)
 			t_ast_node	*pipe_node;
 
 			pipe_node = create_node(NODE_PIPE, "|");
-            pipe_node->left = root;   // O comando anterior será o filho esquerdo do PIPE
+            pipe_node->left = root;
             root = pipe_node;
             current = root;
 		} else if (tokens->type == TOKEN_COMMAND)
@@ -101,4 +104,34 @@ t_ast_node	*build_ast(t_tokens *tokens)
 	}    
     print_ast(root, 0);
 	return (root);
+}
+
+char *concatenate_commands(t_ast_node *node) {
+    if (!node)
+        return NULL;
+
+    char *result = malloc(1);
+    result[0] = '\0';
+
+    if (node->type == NODE_COMMAND) {
+        // logica para procurar o comando (funcao) , e se for valido, direcionar o retorno para um pipe e passar para o proximo processo
+        result = realloc(result, strlen(result) + strlen(node->value) + 1);
+        strcat(result, node->value);
+    }
+
+    if (node->left) {
+        char *left_result = concatenate_commands(node->left);
+        result = realloc(result, strlen(result) + strlen(left_result) + 1);
+        strcat(result, left_result);
+        free(left_result);
+    }
+
+    if (node->right) {
+        char *right_result = concatenate_commands(node->right);
+        result = realloc(result, strlen(result) + strlen(right_result) + 1);
+        strcat(result, right_result);
+        free(right_result);
+    }
+
+    return result;
 }
