@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:12:24 by victda-s          #+#    #+#             */
-/*   Updated: 2025/01/20 17:12:00 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:01:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef enum e_token_type
 	TOKEN_APPEND,
 	TOKEN_HEREDOC,
 	TOKEN_ENV_VAR,
-	TOKEN_UNKNOWN
+	TOKEN_COMMAND,
 }	t_token_type;
 
 typedef struct s_tokens
