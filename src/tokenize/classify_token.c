@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   classify_token.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:36:14 by victda-s          #+#    #+#             */
-/*   Updated: 2025/01/20 17:17:45 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/01/21 14:57:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	classify_token(char **tokens, t_tokens **token_list)
 			&& tokens[i][ft_strlen(tokens[i]) - 1] == '"')
 			append_token(token_list, TOKEN_WORD, tokens[i]);
 		else
-			append_token(token_list, TOKEN_UNKNOWN, tokens[i]);
+			append_token(token_list, TOKEN_COMMAND, tokens[i]);
 		i++;
 	}
 	print_list(*token_list);
