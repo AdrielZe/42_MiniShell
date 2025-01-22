@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 22:28:39 by asilveir          #+#    #+#             */
-/*   Updated: 2024/12/17 16:46:43 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/01/22 17:01:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	ft_putendl_fd(char *s, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putnbr_fd(int n, int fd);
+void	*ft_realloc(void *ptr, size_t size);
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
 int		ft_isascii(int c);
@@ -43,6 +44,7 @@ int		ft_tolower(int c);
 int		ft_atoi(const char *num);
 int		ft_strcmp(char *s1, char *s2);
 char	*ft_itoa(int n);
+char	*ft_strcat(char *dest, char *src);
 char	**ft_split(char const *s, char c);
 char	*ft_strchr(char const *s, int c);
 char	*ft_strrchr(char const *s, int c);
