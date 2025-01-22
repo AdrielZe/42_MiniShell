@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:56:21 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/21 17:29:29 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/22 17:02:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(void)
 		classify_token(token, &token_list);
 		// printf("[%s]\n", get_token_by_index(token_list, 1));
 		root = build_ast(token_list);
-		printf(" RESULT: %s\n", concatenate_commands(root));
+		printf(" RESULT: %s\n", parse_commands(root));
 		//print_list(token_list);
 		// printf("Tokens:\n");
 		// printf("%s", input);
