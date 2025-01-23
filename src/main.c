@@ -6,7 +6,7 @@
 /*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:56:21 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/23 11:48:16 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/01/23 12:47:22 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -54,6 +54,9 @@ int	main(void)
 			add_history(input);
 		free(input);
 		input = NULL;
+		if(token)
+			free(token);
+		token = NULL;
 	}
 	clear_token_list(&token_list);
 	write_history(".my_history");
