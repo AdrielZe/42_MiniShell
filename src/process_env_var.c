@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   process_env_var.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:17:56 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/13 15:14:32 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/01/23 12:40:09 by victda-s         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "../headers/main.h"
 
@@ -16,28 +16,31 @@ static char	*replace_substring(char *string, char *replace_string, int index)
 {
 	char	*string_rest;
 	char	*env_value;
-	int		i;
+	char	*new_string;
+	int		new_length;
 
-	i = 0;
 	string_rest = ft_substr(string, index + ft_strlen(replace_string) + 1,
-			ft_strlen(string) - index);
+				ft_strlen(string) - index);
 	if (!string_rest)
 		return (string);
 	env_value = getenv(replace_string);
 	if (!env_value)
-		return (string);
-	while (env_value[i])
 	{
-		string[index] = env_value[i];
-		index++;
-		i++;
-	}
-	string[index] = '\0';
-	string = ft_strjoin(string, string_rest);
-	if (!string)
+		free(string_rest);
 		return (string);
+	}
+	new_length = index + ft_strlen(env_value) + ft_strlen(string_rest) + 1;
+	new_string = malloc(new_length);
+	if (!new_string)
+	{
+		free(string_rest);
+		return (string);
+	}
+	ft_strlcpy(new_string, string, index + 1);
+	ft_strlcat(new_string, env_value, new_length);
+	ft_strlcat(new_string, string_rest, new_length);
 	free(string_rest);
-	return (string);
+	return (new_string);
 }
 
 static char	*find_string_to_replace(char *input, int index_of_env_symbol, int i)
