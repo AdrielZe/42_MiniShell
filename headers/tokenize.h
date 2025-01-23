@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   tokenize.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:12:24 by victda-s          #+#    #+#             */
-/*   Updated: 2025/01/21 15:01:12 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/23 11:36:47 by victda-s         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef TOKENIZE_H
 # define TOKENIZE_H
@@ -38,9 +38,10 @@ int		count_if(size_t *count, const char *s, char c);
 void	append_token(t_tokens **token_list, t_token_type type, char *value);
 void	print_list(t_tokens *token_list);
 char	**tokenize(const char *s, char c);
-char	*get_token_by_index(t_tokens *token_list, int index);
+t_tokens	*get_token_by_index(t_tokens *token_list, int index);
 void	classify_token(char **tokens, t_tokens **token_list);
 void	clear_token_list(t_tokens **token_list);
 void	free_array(char **array, int i);
+void	echo(t_tokens *tokens);
 
 #endif
