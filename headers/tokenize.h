@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:12:24 by victda-s          #+#    #+#             */
-/*   Updated: 2025/01/16 20:14:20 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:01:36 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "../headers/main.h"
 
-typedef enum e_token_type
+typedef enum e_token_typeh
 {
 	TOKEN_WORD,
 	TOKEN_PIPE,
