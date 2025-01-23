@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   classify_token.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:36:14 by victda-s          #+#    #+#             */
-/*   Updated: 2025/01/16 20:25:35 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/01/21 14:57:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,32 +39,51 @@ int	count_if(size_t *count, const char *s, char c)
 	return (s - start);
 }
 
-void	classify_token(char **tokens, t_tokens *token_list)
+void	clear_token_list(t_tokens **token_list)
+{
+	t_tokens	*current;
+	t_tokens	*next;
+
+	if (!token_list || !*token_list)
+		return ;
+	current = *token_list;
+	while (current)
+	{
+		next = current->next;
+		free (current->value);
+		free (current);
+		current = next;
+	}
+	*token_list = NULL;
+}
+
+void	classify_token(char **tokens, t_tokens **token_list)
 {
 	int	i;
 
 	i = 0;
+	clear_token_list(token_list);
 	while (tokens[i])
 	{
 		if (ft_strchr(tokens[i], '$') || (ft_strchr(tokens[i], '$')
 				&& (ft_strchr(tokens[i], '"'))))
-			append_token(&token_list, TOKEN_ENV_VAR, tokens[i]);
+			append_token(token_list, TOKEN_ENV_VAR, tokens[i]);
 		else if (ft_strcmp(tokens[i], ">>") == 0)
-			append_token(&token_list, TOKEN_APPEND, tokens[i]);
+			append_token(token_list, TOKEN_APPEND, tokens[i]);
 		else if (ft_strcmp(tokens[i], "<<") == 0)
-			append_token(&token_list, TOKEN_HEREDOC, tokens[i]);
+			append_token(token_list, TOKEN_HEREDOC, tokens[i]);
 		else if (ft_strcmp(tokens[i], ">") == 0)
-			append_token(&token_list, TOKEN_REDIRECT_OUT, tokens[i]);
+			append_token(token_list, TOKEN_REDIRECT_OUT, tokens[i]);
 		else if (ft_strcmp(tokens[i], "<") == 0)
-			append_token(&token_list, TOKEN_REDIRECT_IN, tokens[i]);
+			append_token(token_list, TOKEN_REDIRECT_IN, tokens[i]);
 		else if (ft_strcmp(tokens[i], "|") == 0)
-			append_token(&token_list, TOKEN_PIPE, tokens[i]);
+			append_token(token_list, TOKEN_PIPE, tokens[i]);
 		else if (tokens[i] && ft_strlen(tokens[i]) > 1 && tokens[i][0] == '"'
 			&& tokens[i][ft_strlen(tokens[i]) - 1] == '"')
-			append_token(&token_list, TOKEN_WORD, tokens[i]);
+			append_token(token_list, TOKEN_WORD, tokens[i]);
 		else
-			append_token(&token_list, TOKEN_UNKNOWN, tokens[i]);
+			append_token(token_list, TOKEN_COMMAND, tokens[i]);
 		i++;
 	}
-	print_list(token_list);
+	print_list(*token_list);
 }

@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/13 11:28:59 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/21 14:13:38 by marvin           ###   ########.fr       */
+/*   Created: 2025/01/22 16:48:28 by marvin            #+#    #+#             */
+/*   Updated: 2025/01/22 16:48:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_H
-# define MAIN_H
+#include "libft.h"
 
-# include <stdio.h> //printf
-# include <stdlib.h> //malloc, free
-# include <readline/readline.h> //readline
-# include <readline/history.h> //readline history
-# include "tokenize.h"
-# include "../libft/libft.h" //libft
+char	*ft_strcat(char *dest, char *src)
+{
+	int	i;
+	int	j;
 
-char	*process_env_var(char *input);
-char	**tokenize(char const *s, char c);
-
-#endif
+	i = 0;
+	while (dest[i] != '\0')
+		i++;
+	j = 0;
+	while (src[j] != '\0')
+	{
+		dest[i + j] = src[j];
+		j++;
+	}
+	dest[i + j] = '\0';
+	return (dest);
+}

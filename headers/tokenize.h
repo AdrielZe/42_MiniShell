@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:12:24 by victda-s          #+#    #+#             */
-/*   Updated: 2025/01/16 20:14:20 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:01:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef enum e_token_type
 	TOKEN_APPEND,
 	TOKEN_HEREDOC,
 	TOKEN_ENV_VAR,
-	TOKEN_UNKNOWN
+	TOKEN_COMMAND,
 }	t_token_type;
 
 typedef struct s_tokens
@@ -38,6 +38,9 @@ int		count_if(size_t *count, const char *s, char c);
 void	append_token(t_tokens **token_list, t_token_type type, char *value);
 void	print_list(t_tokens *token_list);
 char	**tokenize(const char *s, char c);
-void	classify_token(char **tokens, t_tokens *token_list);
+char	*get_token_by_index(t_tokens *token_list, int index);
+void	classify_token(char **tokens, t_tokens **token_list);
+void	clear_token_list(t_tokens **token_list);
+void	free_array(char **array, int i);
 
 #endif

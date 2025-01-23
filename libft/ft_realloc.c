@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/13 11:28:59 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/21 14:13:38 by marvin           ###   ########.fr       */
+/*   Created: 2025/01/22 16:44:18 by marvin            #+#    #+#             */
+/*   Updated: 2025/01/22 16:44:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_H
-# define MAIN_H
+#include "libft.h"
 
-# include <stdio.h> //printf
-# include <stdlib.h> //malloc, free
-# include <readline/readline.h> //readline
-# include <readline/history.h> //readline history
-# include "tokenize.h"
-# include "../libft/libft.h" //libft
+void	*ft_realloc(void *ptr, size_t size)
+{
+	void	*new_ptr;
 
-char	*process_env_var(char *input);
-char	**tokenize(char const *s, char c);
-
-#endif
+	if (ptr == NULL)
+		return (malloc(size));
+	if (!size)
+		return (ptr);
+	new_ptr = malloc(size);
+	ft_memcpy(new_ptr, ptr, size);
+	return (new_ptr);
+}
