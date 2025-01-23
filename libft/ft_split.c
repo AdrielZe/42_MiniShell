@@ -6,13 +6,13 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 14:17:14 by asilveir          #+#    #+#             */
-/*   Updated: 2024/10/23 18:01:13 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/01/23 15:37:46 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	free_array(char **array, int i)
+void	free_array_split(char **array, int i)
 {
 	while (i > 0)
 	{
@@ -22,7 +22,7 @@ void	free_array(char **array, int i)
 	free(array);
 }
 
-char	*allocate_word(const char *s, char c)
+char	*allocate_word_split(const char *s, char c)
 {
 	char	*word;
 	int		i;
@@ -51,7 +51,7 @@ char	*allocate_word(const char *s, char c)
 	return (word);
 }
 
-size_t	ft_count_word(char *s, char c)
+size_t	ft_count_word_split(char *s, char c)
 {
 	size_t	i;
 	int		in_word;
@@ -78,7 +78,7 @@ char	**ft_split(char const *s, char c)
 	int		i;
 
 	i = 0;
-	array = (char **)malloc((ft_count_word((char *)s, c) + 1) * sizeof(char *));
+	array = (char **)malloc((ft_count_word_split((char *)s, c) + 1) * sizeof(char *));
 	if (!array)
 		return (NULL);
 	while (*s)
@@ -87,9 +87,9 @@ char	**ft_split(char const *s, char c)
 			s++;
 		if (*s)
 		{
-			array[i] = allocate_word(s, c);
+			array[i] = allocate_word_split(s, c);
 			if (!array[i])
-				free_array(array, i);
+				free_array_split(array, i);
 			i++;
 		}
 		while (*s && *s != c)
