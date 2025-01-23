@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:38:26 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/22 17:16:50 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/22 17:43:57 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,12 @@ char		*parse_commands(t_ast_node *node);
 void		create_pipe_node(t_ast_node	**root, t_ast_node **current);
 void		create_command_node(t_ast_node **root,
 				t_ast_node **current, t_tokens *tokens);
+void		exit_if_invalid_path(char **cmd);
+void		free_paths(char **paths);
+char		*search_valid_path(char *cmd, char *envp);
+int		search_for_path_index(char **envp);
+void		free_cmd(char **cmd);
+void		execute_command(char *argv, char *envp);
+
 
 #endif

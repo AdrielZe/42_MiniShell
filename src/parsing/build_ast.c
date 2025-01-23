@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:32:49 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/22 17:03:38 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/22 17:41:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,7 @@ char	*parse_commands(t_ast_node *node)
 	result[0] = '\0';
 	if (node->type == NODE_COMMAND)
 	{
-	// logica para procurar o comando (funcao) ,
-	// e se for valido, direcionar o retorno para um pipe e passar para o proximo processo
+		search_valid_path(node->value, getenv("PATH"));
 		result = ft_realloc(result, ft_strlen(result) + ft_strlen(node->value) + 1);
 		ft_strcat(result, node->value);
 	}
