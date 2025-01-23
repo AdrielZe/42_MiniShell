@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:56:21 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/22 17:39:24 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/23 15:58:00 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,30 @@ int	main(void)
 			break ;
 		}
 		token = tokenize(input, ' ');
-		printf("Lista de tokens:\n");
 		classify_token(token, &token_list);
+		if (strcmp(token_list->value, "echo") == 0)
+		{
+			echo(token_list);
+		}
+		else
+		{
+
 		// printf("[%s]\n", get_token_by_index(token_list, 1));
+		printf("Lista de tokens:\n");
 		root = build_ast(token_list);
 		printf(" RESULT: %s\n", parse_commands(root));
 		//print_list(token_list);
 		// printf("Tokens:\n");
 		// printf("%s", input);
 		// printf("%s\n", process_env_var(input));
+		}
 		if (*input)
 			add_history(input);
 		free(input);
 		input = NULL;
+		if(token)
+			free(token);
+		token = NULL;
 	}
 	clear_token_list(&token_list);
 	write_history(".my_history");

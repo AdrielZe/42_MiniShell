@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   tokenization_linked_list.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:32:27 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/22 17:11:03 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/23 11:16:41 by victda-s         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "../headers/tokenize.h"
 
@@ -40,7 +40,7 @@ void	append_token(t_tokens **token_list, t_token_type type, char *value)
 	current->next = new_node;
 }
 
-char	*get_token_by_index(t_tokens *token_list, int index)
+t_tokens	*get_token_by_index(t_tokens *token_list, int index)
 {
 	int			i;
 	t_tokens	*current;
@@ -50,7 +50,7 @@ char	*get_token_by_index(t_tokens *token_list, int index)
 	while (current)
 	{
 		if (i == index)
-			return (current->value);
+			return (current);
 		i++;
 		current = current->next;
 	}

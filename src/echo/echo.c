@@ -1,27 +1,30 @@
 /******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   .c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/18 14:32:59 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/23 11:06:32 by victda-s         ###   ########.fr       */
+/*   Created: 2025/01/23 11:13:17 by victda-s          #+#    #+#             */
+/*   Updated: 2025/01/23 11:28:37 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
-#include "libft.h"
 
-void	*ft_memchr(const void *s, int c, size_t n)
-{
-	size_t	i;
+#include "../../headers/tokenize.h"
 
-	i = 0;
-	while (i < n)
+void echo(t_tokens *tokens) {
+	tokens = tokens->next;
+
+    while (tokens)
 	{
-		if (((unsigned char *)s)[i] == (unsigned char)c)
-			return ((unsigned char *)s + i);
-		i++;
-	}
-	return (NULL);
+		if(tokens->type == TOKEN_ENV_VAR)
+		{
+			tokens-> value = process_env_var(tokens->value);
+		}
+        ft_putstr_fd(tokens->value, 1);
+		ft_putstr_fd(" ", 1);
+        tokens = tokens->next; // Avança para o próximo token na lista
+    }
+    printf("\n"); 
 }
