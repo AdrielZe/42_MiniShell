@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:56:21 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/23 16:33:12 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/01/23 20:24:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@
 
 
 
-int	main(void)
+int	main(int argc, char *argv[], char **envp)
 {
+   if(!argc && ! argv)
+    printf("Ok");
 	char		*input;
 	char		**token;
 	t_tokens	*token_list;
@@ -44,7 +46,7 @@ int	main(void)
 		// printf("[%s]\n", get_token_by_index(token_list, 1));
 		//printf("Lista de tokens:\n");
 		root = build_ast(token_list);
-		parse_commands(root);
+		parse_commands(root, envp);
 		//print_list(token_list);
 		// printf("Tokens:\n");
 		// printf("%s", input);
