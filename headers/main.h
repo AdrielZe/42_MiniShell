@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:28:59 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/21 14:13:38 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/23 16:30:50 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h> //malloc, free
 # include <readline/readline.h> //readline
 # include <readline/history.h> //readline history
+# include <sys/wait.h> // waitpid
 # include "tokenize.h"
 # include "../libft/libft.h" //libft
 

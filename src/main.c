@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:56:21 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/23 15:58:00 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:33:12 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ int	main(void)
 		{
 
 		// printf("[%s]\n", get_token_by_index(token_list, 1));
-		printf("Lista de tokens:\n");
+		//printf("Lista de tokens:\n");
 		root = build_ast(token_list);
-		printf(" RESULT: %s\n", parse_commands(root));
+		parse_commands(root);
 		//print_list(token_list);
 		// printf("Tokens:\n");
 		// printf("%s", input);

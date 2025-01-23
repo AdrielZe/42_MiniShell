@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_ast.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:32:49 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/22 17:41:04 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/23 16:20:21 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_ast_node	*build_ast(t_tokens *tokens)
 			create_command_node(&root, &current, tokens);
 		tokens = tokens->next;
 	}
-	print_ast(root, 0);
+	// print_ast(root, 0);
 	return (root);
 }
 
@@ -102,9 +102,7 @@ char	*parse_commands(t_ast_node *node)
 	result[0] = '\0';
 	if (node->type == NODE_COMMAND)
 	{
-		search_valid_path(node->value, getenv("PATH"));
-		result = ft_realloc(result, ft_strlen(result) + ft_strlen(node->value) + 1);
-		ft_strcat(result, node->value);
+		execute_command(node->value, getenv("PATH"));
 	}
 	if (node->left)
 	{

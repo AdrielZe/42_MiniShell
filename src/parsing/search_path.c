@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_path.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/22 17:27:34 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/23 16:32:53 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	exit_if_invalid_path(char **cmd)
 		ft_putstr_fd("\n", 2);
 	}
 	free_cmd(cmd);
-	exit(127);
+	// exit(127);
 }
 
 void	free_paths(char **paths)
@@ -48,7 +48,7 @@ char	*search_valid_path(char *cmd, char *envp)
 	if (access(cmd, F_OK | X_OK) == 0)
 		return (cmd);
 	paths = ft_split(envp, ':');
-	if (!paths)
+	if (!paths)	// exit(127);
 		free_paths(paths);
 	while (paths && paths[j])
 	{
@@ -60,6 +60,7 @@ char	*search_valid_path(char *cmd, char *envp)
 		free(current_path_and_command);
 		j++;
 	}
+	printf("commmand not found.");
 	free_paths(paths);
 	return (NULL);
 }
@@ -98,20 +99,30 @@ void	execute_command(char *argv, char *envp)
 {
 	char	**command;
 	char	*path;
+	int	id;
+	id = fork();
 
 	command = ft_split(argv, ' ');
 	if (!command || !command[0])
 	{
-		perror("command not found: ");
-		exit(EXIT_FAILURE);
+		printf("command not found: ");
+		//exit(EXIT_FAILURE);
 	}
 	path = search_valid_path(command[0], envp);
 	if (!path)
-		exit_if_invalid_path(&command[0]);
+		//exit_if_invalid_path(&command[0]);
 	printf("Path found!");
-	// if (execve(path, command, envp) == -1)
-	// {
-	// 	perror("execve failed.");
-	// 	exit(127);
-	// }
+	if (id == 0)
+	{
+		if (execve(path, command, &envp))
+		{
+			printf("executed");
+			// perror("execve failed.");
+			// exit(127);
+		}
+	} else 
+	{
+		waitpid(id, NULL, 0);
+
+	}
 }
