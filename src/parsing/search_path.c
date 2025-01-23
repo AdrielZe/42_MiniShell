@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_path.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/23 16:32:53 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/01/23 20:45:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,20 @@ void	free_paths(char **paths)
 	free(paths);
 }
 
-char	*search_valid_path(char *cmd, char *envp)
+char	*search_valid_path(char *cmd, char **envp)
 {
 	char		**paths;
 	char		*current_path;	
 	char		*current_path_and_command;
+	int			i;
 	int			j;
 
 	j = 0;
 	if (access(cmd, F_OK | X_OK) == 0)
 		return (cmd);
-	paths = ft_split(envp, ':');
-	if (!paths)	// exit(127);
+	i = search_for_path_index(envp);
+	paths = ft_split(envp[i] + 5, ':');
+	if (!paths)
 		free_paths(paths);
 	while (paths && paths[j])
 	{
@@ -60,7 +62,6 @@ char	*search_valid_path(char *cmd, char *envp)
 		free(current_path_and_command);
 		j++;
 	}
-	printf("commmand not found.");
 	free_paths(paths);
 	return (NULL);
 }
@@ -95,34 +96,37 @@ void	free_cmd(char **cmd)
 	}
 }
 
-void	execute_command(char *argv, char *envp)
+void	execute_command(char *argv, char **envp)
 {
 	char	**command;
 	char	*path;
 	int	id;
+
 	id = fork();
+
 
 	command = ft_split(argv, ' ');
 	if (!command || !command[0])
 	{
-		printf("command not found: ");
-		//exit(EXIT_FAILURE);
+		perror("command not found: ");
+		exit(EXIT_FAILURE);
 	}
 	path = search_valid_path(command[0], envp);
-	if (!path)
-		//exit_if_invalid_path(&command[0]);
-	printf("Path found!");
 	if (id == 0)
 	{
-		if (execve(path, command, &envp))
+		if (!path)
 		{
-			printf("executed");
-			// perror("execve failed.");
-			// exit(127);
+			printf("invalid path\n");
+			free(path);
+			exit(EXIT_FAILURE);
+
+		}
+		if (execve(path, command, envp) == -1)
+		{
+			free(path);
+			perror("execve failed.");
+			exit(127);
 		}
 	} else 
-	{
 		waitpid(id, NULL, 0);
-
-	}
 }
