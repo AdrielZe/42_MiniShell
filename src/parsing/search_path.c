@@ -6,11 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/23 20:45:45 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/24 13:57:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../headers/parsing.h"
+#include "../headers/parsing.h"
 
 void	exit_if_invalid_path(char **cmd)
 {
@@ -21,7 +21,6 @@ void	exit_if_invalid_path(char **cmd)
 		ft_putstr_fd("\n", 2);
 	}
 	free_cmd(cmd);
-	// exit(127);
 }
 
 void	free_paths(char **paths)
@@ -94,39 +93,4 @@ void	free_cmd(char **cmd)
 		}
 		free(cmd);
 	}
-}
-
-void	execute_command(char *argv, char **envp)
-{
-	char	**command;
-	char	*path;
-	int	id;
-
-	id = fork();
-
-
-	command = ft_split(argv, ' ');
-	if (!command || !command[0])
-	{
-		perror("command not found: ");
-		exit(EXIT_FAILURE);
-	}
-	path = search_valid_path(command[0], envp);
-	if (id == 0)
-	{
-		if (!path)
-		{
-			printf("invalid path\n");
-			free(path);
-			exit(EXIT_FAILURE);
-
-		}
-		if (execve(path, command, envp) == -1)
-		{
-			free(path);
-			perror("execve failed.");
-			exit(127);
-		}
-	} else 
-		waitpid(id, NULL, 0);
 }

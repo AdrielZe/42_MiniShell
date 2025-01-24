@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:12:24 by victda-s          #+#    #+#             */
-/*   Updated: 2025/01/23 16:03:24 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:04:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ typedef struct s_tokens
 	struct s_tokens	*next;
 }	t_tokens;
 
-int		count_if(size_t *count, const char *s, char c);
-void	append_token(t_tokens **token_list, t_token_type type, char *value);
-void	print_list(t_tokens *token_list);
-char	**tokenize(const char *s, char c);
 t_tokens	*get_token_by_index(t_tokens *token_list, int index);
-void	classify_token(char **tokens, t_tokens **token_list);
-void	clear_token_list(t_tokens **token_list);
-void	free_array(char **array, int i);
-void	echo(t_tokens *tokens);
+void		append_token(t_tokens **token_list, t_token_type type, char *value);
+void		print_list(t_tokens *token_list);
+void		classify_token(char **tokens, t_tokens **token_list);
+void		clear_token_list(t_tokens **token_list);
+void		free_array(char **array, int i);
+void		echo(t_tokens *tokens);
+char		**tokenize(const char *s, char c);
+int			count_if(size_t *count, const char *s, char c);
 
 #endif
