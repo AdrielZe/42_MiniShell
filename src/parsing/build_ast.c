@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:32:49 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/28 16:11:23 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:48:08 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ char	*parse_commands(t_ast_node *node, char **envp)
 	if (!node)
 		return (NULL);
 	result = malloc(1);
-	result[0] = '\0';
 	if (node->type == NODE_COMMAND)
 	{
 		execute_command(node->value, envp);

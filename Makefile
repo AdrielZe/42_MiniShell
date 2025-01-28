@@ -5,7 +5,7 @@ NAME = program
 VALGRIND = valgrind --leak-check=full --show-leak-kinds=all
 CC = cc
 gdb = -g -O0 -fno-inline
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -g3 -Wall -Wextra -Werror
 
 # Diretórios
 LIBFT_DIR = libft

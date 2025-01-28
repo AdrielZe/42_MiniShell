@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/28 17:42:19 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/01/28 19:26:29 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,11 +105,16 @@ void	execute_command(char *argv, char **envp)
 
 
 	command = ft_split(argv, ' ');
-	if (!command || command[0])
+	// if (ft_strchr(argv, '\0'))
+	// {
+	// printf("argv: %s\n", );
+	// 	printf("space found");
+	// }
+	if (!command || !command[0])
 	{
-		printf("no command");
-		// exit(EXIT_SUCCESS);
+		printf("Not found");
 	}
+
 	path = search_valid_path(command[0], envp);
 	if (id == 0)
 	{
@@ -147,8 +152,9 @@ void	execute_piped_command(t_ast_node *node, char **envp)
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
-		printf("CHILD PROCESS\n");
 		argv = parse_commands(node->left, envp);
+		if (argv == NULL)
+			return;
 		execute_command(argv, envp);
 		exit(EXIT_SUCCESS);
 	}
@@ -157,13 +163,9 @@ void	execute_piped_command(t_ast_node *node, char **envp)
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
-		printf("PARENT PROCESS\n");
 		argv = parse_commands(node->right, envp);
+		if (argv == NULL)
+			return;
 		execute_command(argv, envp);
-	}
-	else 
-	{
-		perror("fork failed");
-		exit(EXIT_FAILURE);
 	}
 }

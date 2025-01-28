@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:38:26 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/28 16:06:48 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/01/28 19:23:45 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ typedef struct s_ast_node
 	t_node_type			type;
 	char				*value;
 }	t_ast_node;
+
+void print_ast(t_ast_node *node, int level);
 
 t_ast_node	*create_node(t_node_type type, char *value);
 t_ast_node	*build_ast(t_tokens *tokens);
