@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_ast.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:32:49 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/23 20:24:33 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/28 16:11:23 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,18 +104,18 @@ char	*parse_commands(t_ast_node *node, char **envp)
 	{
 		execute_command(node->value, envp);
 	}
+	if (node->type == NODE_PIPE)
+	{
+		execute_piped_command(node, envp);
+	}
 	if (node->left)
 	{
 		left_result = parse_commands(node->left, envp);
-		result = ft_realloc(result, ft_strlen(result) + ft_strlen(left_result) + 1);
-		ft_strcat(result, left_result);
 		free(left_result);
 	}
 	if (node->right)
 	{
 		right_result = parse_commands(node->right, envp);
-		result = ft_realloc(result, ft_strlen(result) + ft_strlen(right_result) + 1);
-		ft_strcat(result, right_result);
 		free(right_result);
 	}
 	return (result);

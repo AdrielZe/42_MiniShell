@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_path.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/23 20:45:45 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/28 17:42:19 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	exit_if_invalid_path(char **cmd)
 {
 	if (cmd && cmd[0])
 	{
-		ft_putstr_fd("pipex: command not found: ", 2);
+		ft_putstr_fd("hereeee ", 2);
 		ft_putstr_fd(cmd[0], 2);
 		ft_putstr_fd("\n", 2);
 	}
@@ -101,15 +101,14 @@ void	execute_command(char *argv, char **envp)
 	char	**command;
 	char	*path;
 	int	id;
-
 	id = fork();
 
 
 	command = ft_split(argv, ' ');
-	if (!command || !command[0])
+	if (!command || command[0])
 	{
-		perror("command not found: ");
-		exit(EXIT_FAILURE);
+		printf("no command");
+		// exit(EXIT_SUCCESS);
 	}
 	path = search_valid_path(command[0], envp);
 	if (id == 0)
@@ -129,4 +128,42 @@ void	execute_command(char *argv, char **envp)
 		}
 	} else 
 		waitpid(id, NULL, 0);
+}
+
+void	execute_piped_command(t_ast_node *node, char **envp)
+{
+	int		fd[2];
+	int		id;
+	char	*argv;
+
+	if (pipe(fd) == -1)
+	{
+		perror("pipe failed");
+		exit(EXIT_FAILURE);
+	}
+	id = fork();
+	if (id == 0)
+	{
+		close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
+		printf("CHILD PROCESS\n");
+		argv = parse_commands(node->left, envp);
+		execute_command(argv, envp);
+		exit(EXIT_SUCCESS);
+	}
+	else if (id > 0)
+	{
+		close(fd[1]);
+		dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
+		printf("PARENT PROCESS\n");
+		argv = parse_commands(node->right, envp);
+		execute_command(argv, envp);
+	}
+	else 
+	{
+		perror("fork failed");
+		exit(EXIT_FAILURE);
+	}
 }

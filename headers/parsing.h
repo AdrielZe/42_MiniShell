@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:38:26 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/23 20:27:33 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/28 16:06:48 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ char		*search_valid_path(char *cmd, char **envp);
 int		search_for_path_index(char **envp);
 void		free_cmd(char **cmd);
 void		execute_command(char *argv, char **envp);
+void		execute_piped_command(t_ast_node *node, char **envp);
 
 
 #endif
