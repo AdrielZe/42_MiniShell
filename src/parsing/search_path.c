@@ -139,6 +139,7 @@ void	execute_piped_command(t_ast_node *node, char **envp)
 	int		fd[2];
 	int		id;
 	char	*argv;
+	int status;
 
 	if (pipe(fd) == -1)
 	{
@@ -152,9 +153,8 @@ void	execute_piped_command(t_ast_node *node, char **envp)
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 		argv = parse_commands(node->left, envp);
-		if (argv == NULL)
-			return;
-		execute_command(argv, envp);
+		if (ft_isalnum(argv[0]) == 0)
+			execute_command(argv, envp);
 		exit(EXIT_SUCCESS);
 	}
 	else if (id > 0)
@@ -162,9 +162,8 @@ void	execute_piped_command(t_ast_node *node, char **envp)
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
-		argv = parse_commands(node->right, envp);
-		if (argv == NULL)
-			return;
-		execute_command(argv, envp);
+		waitpid(id, &status, 0);
+		parse_commands(node->right, envp);
+		exit(EXIT_SUCCESS);
 	}
 }

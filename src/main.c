@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:56:21 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/29 16:04:05 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/29 16:04:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ int	main(int argc, char *argv[], char *envp[])
 	t_ast_node *root;
 
 	if (argc && argv)
+	{
 		;
+	}
 	token_list = NULL;
 	while (1)
 	{
