@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   process_env_var.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:17:56 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/23 12:40:09 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:05:57 by marvin           ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "../headers/main.h"
 
@@ -20,7 +20,7 @@ static char	*replace_substring(char *string, char *replace_string, int index)
 	int		new_length;
 
 	string_rest = ft_substr(string, index + ft_strlen(replace_string) + 1,
-				ft_strlen(string) - index);
+			ft_strlen(string) - index);
 	if (!string_rest)
 		return (string);
 	env_value = getenv(replace_string);
@@ -32,10 +32,7 @@ static char	*replace_substring(char *string, char *replace_string, int index)
 	new_length = index + ft_strlen(env_value) + ft_strlen(string_rest) + 1;
 	new_string = malloc(new_length);
 	if (!new_string)
-	{
-		free(string_rest);
-		return (string);
-	}
+		return (free(string_rest), (string));
 	ft_strlcpy(new_string, string, index + 1);
 	ft_strlcat(new_string, env_value, new_length);
 	ft_strlcat(new_string, string_rest, new_length);

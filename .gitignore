@@ -16,3 +16,4 @@ program
 minishell
 norminette_env/
 .gitignore
+ast_print.txt

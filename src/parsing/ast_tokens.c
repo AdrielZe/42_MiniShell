@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_tokens.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:02:59 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/23 15:42:28 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/01/24 13:12:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	create_pipe_node(t_ast_node	**root, t_ast_node **current)
 	*root = pipe_node;
 	*current = *root;
 }
-// ab cv |
+
 void	create_command_node(t_ast_node **root,
 				t_ast_node **current, t_tokens *tokens)
 {

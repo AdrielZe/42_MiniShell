@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   search_path.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/28 19:26:29 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:03:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../headers/parsing.h"
+#include "../headers/parsing.h"
 
 void	exit_if_invalid_path(char **cmd)
 {
@@ -21,7 +21,6 @@ void	exit_if_invalid_path(char **cmd)
 		ft_putstr_fd("\n", 2);
 	}
 	free_cmd(cmd);
-	// exit(127);
 }
 
 void	free_paths(char **paths)
