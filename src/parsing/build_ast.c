@@ -88,34 +88,94 @@ t_ast_node	*build_ast(t_tokens *tokens)
 	return (root);
 }
 
-char	*parse_commands(t_ast_node *node, char **envp)
+void parse_commands(t_ast_node *node, char **envp)
 {
-	char	*result;
-	char	*left_result;
-	char	*right_result;
+    int	pipefd[2];
+    if (!node)
+        return;
 
-	left_result = NULL;
-	right_result = NULL;
-	if (!node)
-		return (NULL);
-	result = malloc(1);
-	if (node->type == NODE_PIPE)
+    if (node->type == NODE_PIPE)
 	{
-		execute_piped_command(node, envp);
-	}
-	if (node->type == NODE_COMMAND)
+        if (pipe(pipefd) == -1)
+		{
+            perror("pipe");
+            return;
+        }
+        pid_t pid_left = fork();
+        if (pid_left < 0)
+		{
+            perror("fork left");
+            return;
+        }
+        if (pid_left == 0) {
+            if (dup2(pipefd[1], STDOUT_FILENO) == -1)
+			{
+                perror("dup2 left");
+                exit(1);
+            }
+            close(pipefd[0]);
+            close(pipefd[1]);
+            parse_commands(node->left, envp);
+            exit(0);
+        }
+        pid_t pid_right = fork();
+        if (pid_right < 0)
+		{
+            perror("fork right");
+            return;
+        }
+        if (pid_right == 0)
+		{
+            if (dup2(pipefd[0], STDIN_FILENO) == -1)
+			{
+                perror("dup2 right");
+                exit(1);
+            }
+            close(pipefd[0]);
+            close(pipefd[1]);
+            parse_commands(node->right, envp);
+            exit(0);
+        }
+        close(pipefd[0]);
+        close(pipefd[1]);
+        waitpid(pid_left, NULL, 0);
+        waitpid(pid_right, NULL, 0);
+    }
+    else if (node->type == NODE_COMMAND)
 	{
-		execute_command(node->value, envp);
-	}
-	if (node->left)
-	{
-		left_result = parse_commands(node->left, envp);
-		free(left_result);
-	}
-	if (node->right)
-	{
-		right_result = parse_commands(node->right, envp);
-		free(right_result);
-	}
-	return (result);
+        execute_command(node->value, envp);
+    }
 }
+
+// char	*parse_commands(t_ast_node *node, char **envp)
+// {
+// 	char	*result;
+// 	// char	*left_result;
+// 	// char	*right_result;
+
+// 	// left_result = NULL;
+// 	// right_result = NULL;
+// 	if (!node)
+// 		return (NULL);
+// 	result = malloc(1);
+// 	if (node->type == NODE_PIPE)
+// 	{
+// 		// execute_command(node, envp, node);
+// 		parse_commands(node->left, envp);
+// 	}
+// 	if (node->type == NODE_COMMAND)
+// 	{
+// 		execute_command(node->value, envp, node);
+// 	}
+// 	// if (node->left)
+// 	// {
+// 	// 	left_result = parse_commands(node->left, envp);
+// 	// 	free(left_result);
+// 	// }
+// 	if (node->right)
+// 	{
+// 		right_result = parse_commands(node->right, envp);
+// 		free(right_result);
+// 	}
+// 	return (result);
+// }

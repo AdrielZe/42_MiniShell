@@ -53,6 +53,7 @@ int	main(int argc, char *argv[], char *envp[])
 		// printf("[%s]\n", get_token_by_index(token_list, 1));
 		//printf("Lista de tokens:\n");
 		root = build_ast(token_list);
+		// print_ast(root, 0);
 		parse_commands(root, envp);
 		// print_ast(root, 0);
 		//print_list(token_list);

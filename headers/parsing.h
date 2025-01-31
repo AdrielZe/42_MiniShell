@@ -39,7 +39,7 @@ void print_ast(t_ast_node *node, int level);
 
 t_ast_node	*create_node(t_node_type type, char *value);
 t_ast_node	*build_ast(t_tokens *tokens);
-char		*parse_commands(t_ast_node *node, char **envp);
+void		parse_commands(t_ast_node *node, char **envp);
 void		create_pipe_node(t_ast_node	**root, t_ast_node **current);
 void		create_command_node(t_ast_node **root,
 				t_ast_node **current, t_tokens *tokens);
@@ -49,7 +49,7 @@ char		*search_valid_path(char *cmd, char **envp);
 int		search_for_path_index(char **envp);
 void		free_cmd(char **cmd);
 void		execute_command(char *argv, char **envp);
-void		execute_piped_command(t_ast_node *node, char **envp);
+// void		execute_piped_command(t_ast_node *node, char **envp);
 
 
 #endif

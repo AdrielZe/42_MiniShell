@@ -95,75 +95,63 @@ void	free_cmd(char **cmd)
 	}
 }
 
-void	execute_command(char *argv, char **envp)
+void execute_command(char *cmd, char **envp)
 {
-	char	**command;
-	char	*path;
-	int	id;
-	id = fork();
+    char **tokens;
+    char *path;
+    pid_t pid;
 
-
-	command = ft_split(argv, ' ');
-	// if (ft_strchr(argv, '\0'))
-	// {
-	// printf("argv: %s\n", );
-	// 	printf("space found");
-	// }
-	if (!command || !command[0])
-	{
-		printf("Not found");
-	}
-
-	path = search_valid_path(command[0], envp);
-	if (id == 0)
-	{
-		if (!path)
-		{
-			printf("invalid path\n");
-			free(path);
-			exit(EXIT_FAILURE);
-
-		}
-		if (execve(path, command, envp) == -1)
-		{
-			free(path);
-			perror("execve failed.");
-			exit(127);
-		}
-	} else 
-		waitpid(id, NULL, 0);
+	tokens = ft_split(cmd, ' ');
+    if (!tokens || !tokens[0]) {
+        perror("Comando vazio\n");
+        return;
+    }
+	path = search_valid_path(tokens[0], envp);
+	pid = fork();
+    if (pid < 0) {
+        perror("fork command");
+        return;
+    }
+    if (pid == 0) {
+        if (execve(path, tokens, envp) == -1) {
+            perror("execve");
+            exit(127);
+        }
+        exit(0);
+    }
+    waitpid(pid, NULL, 0);
 }
 
-void	execute_piped_command(t_ast_node *node, char **envp)
-{
-	int		fd[2];
-	int		id;
-	char	*argv;
-	int status;
+// void	execute_command(char *argv, char **envp, t_ast_node *node)
+// {
+// 	char	**command;
+// 	char	*path;
+// 	int	id;
 
-	if (pipe(fd) == -1)
-	{
-		perror("pipe failed");
-		exit(EXIT_FAILURE);
-	}
-	id = fork();
-	if (id == 0)
-	{
-		close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
-		argv = parse_commands(node->left, envp);
-		if (ft_isalnum(argv[0]) == 0)
-			execute_command(argv, envp);
-		exit(EXIT_SUCCESS);
-	}
-	else if (id > 0)
-	{
-		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-		waitpid(id, &status, 0);
-		parse_commands(node->right, envp);
-		exit(EXIT_SUCCESS);
-	}
-}
+// 	node = node;
+// 	command = ft_split(argv, ' ');
+// 	if (!command || !command[0])
+// 	{
+// 		printf("Not found");
+// 	}
+
+// 	path = search_valid_path(command[0], envp);
+// 	id = fork();
+// 	if (id == 0)
+// 	{
+// 		if (!path)
+// 		{
+// 			printf("invalid path\n");
+// 			free(path);
+// 			exit(EXIT_FAILURE);
+
+// 		}
+// 		if (execve(path, command, envp) == -1)
+// 		{
+// 			free(path);
+// 			perror("execve failed.");
+// 			exit(127);
+// 		}
+// 	} else 
+// 		waitpid(id, NULL, 0);
+// }
