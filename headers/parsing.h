@@ -15,7 +15,7 @@
 
 # include "main.h"
 
-struct s_tokens;
+struct	s_tokens;
 
 typedef enum e_node_type
 {
@@ -37,9 +37,9 @@ typedef struct s_ast_node
 	char				*value;
 }	t_ast_node;
 
-
 t_ast_node	*create_node(t_node_type type, char *value);
 t_ast_node	*build_ast(struct s_tokens *tokens);
+int			search_for_path_index(char **envp);
 void		parse_commands(t_ast_node *node, char **envp);
 void		create_pipe_node(t_ast_node	**root, t_ast_node **current);
 void		create_command_node(t_ast_node **root,
@@ -47,10 +47,7 @@ void		create_command_node(t_ast_node **root,
 void		exit_if_invalid_path(char **cmd);
 void		free_paths(char **paths);
 char		*search_valid_path(char *cmd, char **envp);
-int		search_for_path_index(char **envp);
 void		free_cmd(char **cmd);
 void		execute_command(char *argv, char **envp);
-// void		execute_piped_command(t_ast_node *node, char **envp);
-
 
 #endif

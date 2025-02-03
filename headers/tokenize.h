@@ -45,6 +45,4 @@ void		echo(t_tokens *tokens);
 char		**tokenize(const char *s, char c);
 int			count_if(size_t *count, const char *s, char c);
 
-
-
 #endif

@@ -57,6 +57,28 @@ void	clear_token_list(t_tokens **token_list)
 	*token_list = NULL;
 }
 
+void	create_tokens(char *token_value, t_tokens **token_list)
+{
+	if (ft_strchr(token_value, '$') || (ft_strchr(token_value, '$')
+			&& (ft_strchr(token_value, '"'))))
+		append_token(token_list, TOKEN_ENV_VAR, token_value);
+	else if (ft_strcmp(token_value, ">>") == 0)
+		append_token(token_list, TOKEN_APPEND, token_value);
+	else if (ft_strcmp(token_value, "<<") == 0)
+		append_token(token_list, TOKEN_HEREDOC, token_value);
+	else if (ft_strcmp(token_value, ">") == 0)
+		append_token(token_list, TOKEN_REDIRECT_OUT, token_value);
+	else if (ft_strcmp(token_value, "<") == 0)
+		append_token(token_list, TOKEN_REDIRECT_IN, token_value);
+	else if (ft_strcmp(token_value, "|") == 0)
+		append_token(token_list, TOKEN_PIPE, token_value);
+	else if (token_value && ft_strlen(token_value) > 1 && token_value[0] == '"'
+		&& token_value[ft_strlen(token_value) - 1] == '"')
+		append_token(token_list, TOKEN_WORD, token_value);
+	else
+		append_token(token_list, TOKEN_COMMAND, token_value);
+}
+
 void	classify_token(char **tokens, t_tokens **token_list)
 {
 	int	i;
@@ -65,24 +87,7 @@ void	classify_token(char **tokens, t_tokens **token_list)
 	clear_token_list(token_list);
 	while (tokens[i])
 	{
-		if (ft_strchr(tokens[i], '$') || (ft_strchr(tokens[i], '$')
-				&& (ft_strchr(tokens[i], '"'))))
-			append_token(token_list, TOKEN_ENV_VAR, tokens[i]);
-		else if (ft_strcmp(tokens[i], ">>") == 0)
-			append_token(token_list, TOKEN_APPEND, tokens[i]);
-		else if (ft_strcmp(tokens[i], "<<") == 0)
-			append_token(token_list, TOKEN_HEREDOC, tokens[i]);
-		else if (ft_strcmp(tokens[i], ">") == 0)
-			append_token(token_list, TOKEN_REDIRECT_OUT, tokens[i]);
-		else if (ft_strcmp(tokens[i], "<") == 0)
-			append_token(token_list, TOKEN_REDIRECT_IN, tokens[i]);
-		else if (ft_strcmp(tokens[i], "|") == 0)
-			append_token(token_list, TOKEN_PIPE, tokens[i]);
-		else if (tokens[i] && ft_strlen(tokens[i]) > 1 && tokens[i][0] == '"'
-			&& tokens[i][ft_strlen(tokens[i]) - 1] == '"')
-			append_token(token_list, TOKEN_WORD, tokens[i]);
-		else
-			append_token(token_list, TOKEN_COMMAND, tokens[i]);
+		create_tokens(tokens[i], token_list);
 		i++;
 	}
 }

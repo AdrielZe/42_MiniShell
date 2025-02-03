@@ -22,12 +22,12 @@
 # include "tokenize.h"
 # include "parsing.h"
 
-struct s_tokens;
-struct s_ast_node;
+struct	s_tokens;
+struct	s_ast_node;
 
 char	*process_env_var(char *input);
 char	**tokenize(char const *s, char c);
-void	init_shell(char ***token, struct s_tokens **token_list, char *envp[], struct s_ast_node **root);
-
+void	init_shell(char ***token, struct s_tokens **token_list,
+			char *envp[], struct s_ast_node **root);
 
 #endif
