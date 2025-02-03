@@ -48,7 +48,7 @@ t_ast_node	*build_ast(t_tokens *tokens)
 	{
 		if (tokens->type == TOKEN_PIPE)
 			create_pipe_node(&root, &current);
-		else if (tokens->type == TOKEN_COMMAND)
+		else if (tokens->type == TOKEN_COMMAND && tokens->next && tokens->next->type == TOKEN_COMMAND)
 			create_command_node(&root, &current, tokens);
 		tokens = tokens->next;
 	}

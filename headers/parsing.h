@@ -48,6 +48,7 @@ void		exit_if_invalid_path(char **cmd);
 void		free_paths(char **paths);
 char		*search_valid_path(char *cmd, char **envp);
 void		free_cmd(char **cmd);
-void		execute_command(char *argv, char **envp);
+void		execute_command(char **argv, char **envp);
+char		**split_command(char *command);
 
 #endif

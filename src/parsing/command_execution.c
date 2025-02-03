@@ -85,5 +85,8 @@ void	parse_commands(t_ast_node *node, char **envp)
 		waitpid(pid_right, NULL, 0);
 	}
 	else if (node->type == NODE_COMMAND)
-		execute_command(node->value, envp);
+	{
+		char **args = split_command(node->value);
+		execute_command(args, envp);
+	}
 }

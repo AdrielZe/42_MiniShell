@@ -6,31 +6,31 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/03 18:17:06 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/03 20:21:11 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/main.h"
 
-void	execute_command(char *cmd, char **envp)
+void	execute_command(char **argv, char **envp)
 {
-	char	**tokens;
+	// char	**tokens;
 	char	*path;
 	pid_t	pid;
 
-	tokens = ft_split(cmd, ' ');
-	if (!tokens || !tokens[0])
-	{
-		perror("Comando vazio\n");
-		return ;
-	}
-	path = search_valid_path(tokens[0], envp);
+	// tokens = ft_split(*argv, ' ');
+	// if (!tokens || !tokens[0])
+	// {
+	// 	perror("Comando vazio\n");
+	// 	return ;
+	// }
+	path = search_valid_path(argv[0], envp);
 	pid = fork();
 	if (pid < 0)
 		return ;
 	if (pid == 0)
 	{
-		if (execve(path, tokens, envp) == -1)
+		if (execve(path, argv, envp) == -1)
 		{
 			perror("execve");
 			exit(127);
