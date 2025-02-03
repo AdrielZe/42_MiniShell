@@ -13,7 +13,9 @@
 #ifndef PARSING_H
 # define PARSING_H
 
-# include "../headers/main.h"
+# include "main.h"
+
+struct s_tokens;
 
 typedef enum e_node_type
 {
@@ -35,14 +37,13 @@ typedef struct s_ast_node
 	char				*value;
 }	t_ast_node;
 
-void print_ast(t_ast_node *node, int level);
 
 t_ast_node	*create_node(t_node_type type, char *value);
-t_ast_node	*build_ast(t_tokens *tokens);
+t_ast_node	*build_ast(struct s_tokens *tokens);
 void		parse_commands(t_ast_node *node, char **envp);
 void		create_pipe_node(t_ast_node	**root, t_ast_node **current);
 void		create_command_node(t_ast_node **root,
-				t_ast_node **current, t_tokens *tokens);
+				t_ast_node **current, struct s_tokens *tokens);
 void		exit_if_invalid_path(char **cmd);
 void		free_paths(char **paths);
 char		*search_valid_path(char *cmd, char **envp);

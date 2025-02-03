@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/parsing.h"
+#include "../headers/main.h"
 
 void	exit_if_invalid_path(char **cmd)
 {
@@ -94,64 +94,3 @@ void	free_cmd(char **cmd)
 		free(cmd);
 	}
 }
-
-void execute_command(char *cmd, char **envp)
-{
-    char **tokens;
-    char *path;
-    pid_t pid;
-
-	tokens = ft_split(cmd, ' ');
-    if (!tokens || !tokens[0]) {
-        perror("Comando vazio\n");
-        return;
-    }
-	path = search_valid_path(tokens[0], envp);
-	pid = fork();
-    if (pid < 0) {
-        perror("fork command");
-        return;
-    }
-    if (pid == 0) {
-        if (execve(path, tokens, envp) == -1) {
-            perror("execve");
-            exit(127);
-        }
-        exit(0);
-    }
-    waitpid(pid, NULL, 0);
-}
-
-// void	execute_command(char *argv, char **envp, t_ast_node *node)
-// {
-// 	char	**command;
-// 	char	*path;
-// 	int	id;
-
-// 	node = node;
-// 	command = ft_split(argv, ' ');
-// 	if (!command || !command[0])
-// 	{
-// 		printf("Not found");
-// 	}
-
-// 	path = search_valid_path(command[0], envp);
-// 	id = fork();
-// 	if (id == 0)
-// 	{
-// 		if (!path)
-// 		{
-// 			printf("invalid path\n");
-// 			free(path);
-// 			exit(EXIT_FAILURE);
-
-// 		}
-// 		if (execve(path, command, envp) == -1)
-// 		{
-// 			free(path);
-// 			perror("execve failed.");
-// 			exit(127);
-// 		}
-// 	} else 
-// 		waitpid(id, NULL, 0);
-// }

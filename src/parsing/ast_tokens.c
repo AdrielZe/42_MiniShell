@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/parsing.h"
+#include "../headers/main.h"
 
 void	create_pipe_node(t_ast_node	**root, t_ast_node **current)
 {

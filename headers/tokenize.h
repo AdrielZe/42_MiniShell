@@ -13,7 +13,8 @@
 #ifndef TOKENIZE_H
 # define TOKENIZE_H
 
-# include "../headers/main.h"
+# include <stdlib.h>
+# include "parsing.h" 
 
 typedef enum e_token_typeh
 {
@@ -43,5 +44,7 @@ void		free_array(char **array, int i);
 void		echo(t_tokens *tokens);
 char		**tokenize(const char *s, char c);
 int			count_if(size_t *count, const char *s, char c);
+
+
 
 #endif

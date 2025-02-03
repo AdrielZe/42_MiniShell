@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/parsing.h"
+#include "../headers/main.h"
 
 // void	execute_command(char *argv, char **envp)
 // {
