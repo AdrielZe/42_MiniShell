@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:36:49 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/03 18:09:20 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/04 16:54:58 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	init_shell(char ***token, t_tokens **token_list, char
 			continue ;
 		}
 		exit_if_typed_exit(input);
-		*token = tokenize(input, ' ');
+		*token = tokenize(input, '|');
 		classify_token(*token, token_list);
 		if (ft_strcmp((*token_list)->value, "echo") == 0)
 			echo(*token_list);
@@ -51,6 +51,7 @@ void	init_shell(char ***token, t_tokens **token_list, char
 			*root = build_ast(*token_list);
 			parse_commands(*root, envp);
 		}
+		print_ast(*root, 0);
 		if (input)
 			add_history(input);
 		input = NULL;

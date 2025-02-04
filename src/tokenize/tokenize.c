@@ -15,8 +15,13 @@
 
 void	free_array(char **array, int i)
 {
+	if (!array)
+		return ;
 	while (i-- > 0)
-		free(array[i]);
+	{
+		if (array[i])
+			free(array[i]);
+	}
 	free(array);
 }
 
@@ -61,12 +66,12 @@ static char	*process_quotes(const char **s, char c)
 			(*s)++;
 		return (allocate_word(start, *s - start));
 	}
-	else if (**s == '|')
-		return (allocate_word((*s)++, 1));
+	// else if (**s == '|')
+	// 	return (allocate_word((*s)++, 1));
 	else
 	{
 		start = *s;
-		while (**s && **s != c && **s != '|' && **s != '"' && **s != '\'')
+		while (**s && **s != c && **s != '"' && **s != '\'')
 			(*s)++;
 		return (allocate_word(start, *s - start));
 	}
@@ -83,19 +88,28 @@ char	**tokenize(const char *s, char c)
 		return (NULL);
 	while (*s)
 	{
-		while (*s == c)
+		while (*s == ' ')
 			s++;
 		if (*s)
 		{
-			array[i] = process_quotes(&s, c);
-			if (!array[i])
+			if (*s == '|')
 			{
-				free_array(array, i);
-				return (NULL);
+				array[i++] = allocate_word(s, 1);
+				s++;
 			}
-			i++;
+			else
+			{
+				array[i] = process_quotes(&s, c);
+				if (!array[i])
+				{
+					free_array(array, i);
+					return (NULL);
+				}
+				i++;
+			}
 		}
 	}
 	array[i] = NULL;
 	return (array);
 }
+

@@ -29,5 +29,7 @@ char	*process_env_var(char *input);
 char	**tokenize(char const *s, char c);
 void	init_shell(char ***token, struct s_tokens **token_list,
 			char *envp[], struct s_ast_node **root);
+void	print_ast(struct s_ast_node *node, int level);
+
 
 #endif
