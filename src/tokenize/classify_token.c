@@ -30,21 +30,19 @@ int	count_if(size_t *count, const char *s, char c)
 			s++;
 		(*count)++;
 	}
-	else if (*s++ == '|')
-		(*count)++;
 	else
 	{
-		while (*s && *s != c && *s != '|' && *s != '"' && *s != '\'')
+		while (*s && *s != c && *s != '"' && *s != '\'')
 			s++;
 		(*count)++;
 	}
 	return (s - start);
 }
 
-void	clear_token_list(t_tokens **token_list)
+void clear_token_list(t_tokens **token_list)
 {
-	t_tokens	*current;
-	t_tokens	*next;
+	t_tokens *current;
+	t_tokens *next;
 
 	if (!token_list || !*token_list)
 		return ;
@@ -52,12 +50,13 @@ void	clear_token_list(t_tokens **token_list)
 	while (current)
 	{
 		next = current->next;
-		free (current->value);
-		free (current);
-		current = next;
-	}
+		if (current)
+			free(current);
+        	current = next;
+    	}
 	*token_list = NULL;
 }
+
 
 void	create_tokens(char *token_value, t_tokens **token_list)
 {
