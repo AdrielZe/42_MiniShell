@@ -29,9 +29,22 @@ t_ast_node	*create_node(t_node_type type, char *value)
 
 	node = malloc(sizeof(t_ast_node));
 	if (!node)
-		return (NULL);
+	{
+		perror("malloc failed");
+		exit(EXIT_FAILURE);
+	}
 	node->type = type;
-	node->value = ft_strdup(value);
+	if (value)
+	{
+		node->value = ft_strdup(value);
+		if (!node->value)
+		{
+			perror("strdup failed");
+			exit(EXIT_FAILURE);
+		}
+	}
+	else
+		node->value = NULL;
 	node->left = NULL;
 	node->right = NULL;
 	return (node);
