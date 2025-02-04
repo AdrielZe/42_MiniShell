@@ -33,6 +33,7 @@ typedef struct s_ast_node
 	struct s_ast_node	*right;
 	t_node_type			type;
 	char				*value;
+	char				*args[];
 }	t_ast_node;
 
 void print_ast(t_ast_node *node, int level);
@@ -48,7 +49,7 @@ void		free_paths(char **paths);
 char		*search_valid_path(char *cmd, char **envp);
 int		search_for_path_index(char **envp);
 void		free_cmd(char **cmd);
-void		execute_command(char *argv, char **envp);
+void		execute_command(char *argv, char **envp, t_ast_node *node);
 // void		execute_piped_command(t_ast_node *node, char **envp);
 
 

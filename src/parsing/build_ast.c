@@ -73,15 +73,34 @@ t_ast_node	*build_ast(t_tokens *tokens)
 {
 	t_ast_node	*root;
 	t_ast_node	*current;
+	int	i;
 
 	current = NULL;
 	root = NULL;
+	i = 0;
 	while (tokens)
 	{
 		if (tokens->type == TOKEN_PIPE)
+		{
 			create_pipe_node(&root, &current);
-		else if (tokens->type == TOKEN_COMMAND)
-			create_command_node(&root, &current, tokens);
+			i = 0;
+		}
+		if (tokens->type == TOKEN_COMMAND)
+		{
+			if (!root || current->type == NODE_PIPE)
+			{
+				create_command_node(&root, &current, tokens);
+				current->args[i] = tokens->value;
+				i++;
+				current->args[i] = NULL;
+			}
+			else
+			{
+				current->args[i] = tokens->value;
+				i++;
+				current->args[i] = NULL;
+			}
+		}
 		tokens = tokens->next;
 	}
 	// print_ast(root, 0);
@@ -143,7 +162,7 @@ void parse_commands(t_ast_node *node, char **envp)
     }
     else if (node->type == NODE_COMMAND)
 	{
-        execute_command(node->value, envp);
+        execute_command(node->value, envp, node);
     }
 }
 

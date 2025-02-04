@@ -95,7 +95,7 @@ void	free_cmd(char **cmd)
 	}
 }
 
-void execute_command(char *cmd, char **envp)
+void execute_command(char *cmd, char **envp, t_ast_node *node)
 {
     char **tokens;
     char *path;
@@ -113,7 +113,7 @@ void execute_command(char *cmd, char **envp)
         return;
     }
     if (pid == 0) {
-        if (execve(path, tokens, envp) == -1) {
+        if (execve(path, node->args, envp) == -1) {
             perror("execve");
             exit(127);
         }
