@@ -66,8 +66,6 @@ static char	*process_quotes(const char **s, char c)
 			(*s)++;
 		return (allocate_word(start, *s - start));
 	}
-	// else if (**s == '|')
-	// 	return (allocate_word((*s)++, 1));
 	else
 	{
 		start = *s;
@@ -94,7 +92,7 @@ char	**tokenize(const char *s, char c)
 		{
 			if (*s == '|')
 			{
-				array[i++] = allocate_word(s, 1);
+				array[i++] = ft_strdup("|");
 				s++;
 			}
 			else
