@@ -53,8 +53,6 @@ void		clear_token_list(t_tokens **token_list);
 void		free_array(char **array, int i);
 void		echo(t_tokens *tokens);
 char		**tokenize(const char *s, char c);
-char	*process_quotes(const char **s, char c);
-int		manipulate_token_array(char ***array, int i, const char *s, char c);
 int			count_if(size_t *count, const char *s, char c);
 
 #endif
