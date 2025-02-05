@@ -40,15 +40,21 @@ char	*allocate_word(const char *s, int len)
 size_t	ft_count_word(const char *s, char c)
 {
 	size_t	count;
+	size_t pipe_count;
 
+	pipe_count = 0;
 	count = 0;
 	while (*s)
 	{
 		s += count_if(&count, s, c);
 		while (*s == c)
+		{
+			pipe_count++;
 			s++;
+		}
 	}
-	return (count);
+	printf("Count: %ld\n", count);
+	return (count + pipe_count);
 }
 
 static char	*process_quotes(const char **s, char c)

@@ -31,5 +31,4 @@ void	init_shell(char ***token, struct s_tokens **token_list,
 			char *envp[], struct s_ast_node **root);
 void	print_ast(struct s_ast_node *node, int level);
 
-
 #endif

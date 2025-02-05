@@ -22,7 +22,7 @@ void	append_token(t_tokens **token_list, t_token_type type, char *value)
 	if (!new_node)
 		exit(EXIT_FAILURE);
 	new_node->type = type;
-	new_node->value = value;
+	new_node->value = ft_strdup(value);
 	if (!new_node->value)
 	{
 		perror("strdup");

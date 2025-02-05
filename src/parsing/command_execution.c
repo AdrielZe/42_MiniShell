@@ -66,7 +66,7 @@ static void	open_right_pipe(pid_t *pid_right)
 void	parse_commands(t_ast_node *node, char **envp)
 {
 	pid_t	pid_left;
-	pid_t	pid_right;
+	pid_t	pid_right;	
 	int		pipefd[2];
 
 	if (!node)
