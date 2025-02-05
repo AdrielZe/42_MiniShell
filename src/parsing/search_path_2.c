@@ -20,21 +20,21 @@ void	execute_command(char *cmd, char **envp)
 
 	tokens = ft_split(cmd, ' ');
 	if (!tokens || !tokens[0])
+		return (perror("Comando vazio\n"));
+	path = search_valid_path(tokens[0], envp);
+	if (!path)
 	{
-		perror("Comando vazio\n");
+		free(path);
+		printf("command not found: %s\n", cmd);
 		return ;
 	}
-	path = search_valid_path(tokens[0], envp);
 	pid = fork();
 	if (pid < 0)
 		return ;
 	if (pid == 0)
 	{
 		if (execve(path, tokens, envp) == -1)
-		{
-			perror("execve");
 			exit(127);
-		}
 		exit(0);
 	}
 	waitpid (pid, NULL, 0);

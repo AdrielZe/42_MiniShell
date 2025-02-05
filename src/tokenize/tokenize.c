@@ -40,7 +40,7 @@ char	*allocate_word(const char *s, int len)
 size_t	ft_count_word(const char *s, char c)
 {
 	size_t	count;
-	size_t pipe_count;
+	size_t	pipe_count;
 
 	pipe_count = 0;
 	count = 0;
@@ -53,7 +53,6 @@ size_t	ft_count_word(const char *s, char c)
 			s++;
 		}
 	}
-	printf("Count: %ld\n", count);
 	return (count + pipe_count);
 }
 
@@ -94,26 +93,12 @@ char	**tokenize(const char *s, char c)
 	{
 		while (*s == ' ')
 			s++;
-		if (*s)
-		{
-			if (*s == '|')
-			{
-				array[i++] = ft_strdup("|");
-				s++;
-			}
-			else
-			{
-				array[i] = process_quotes(&s, c);
-				if (!array[i])
-				{
-					free_array(array, i);
-					return (NULL);
-				}
-				i++;
-			}
-		}
+		alloc_pipe(&s, &array, &i);
+		array[i] = process_quotes(&s, c);
+		if (!array[i])
+			return (free_array(array, i), (NULL));
+		i++;
 	}
 	array[i] = NULL;
 	return (array);
 }
-
