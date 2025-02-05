@@ -6,11 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:32:49 by asilveir          #+#    #+#             */
-/*   Updated: 2025/01/24 13:54:59 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/29 16:00:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/parsing.h"
+#include "../headers/main.h"
 
 void	free_ast(t_ast_node *node)
 {
@@ -53,21 +53,4 @@ t_ast_node	*build_ast(t_tokens *tokens)
 		tokens = tokens->next;
 	}
 	return (root);
-}
-
-char	*parse_commands(t_ast_node *node, char **envp)
-{
-	char	*result;
-
-	if (!node)
-		return (NULL);
-	result = malloc(1);
-	result[0] = '\0';
-	if (node->type == NODE_COMMAND)
-		execute_command(node->value, envp);
-	if (node->left)
-		result = parse_commands(node->left, envp);
-	if (node->right)
-		result = parse_commands(node->right, envp);
-	return (result);
 }

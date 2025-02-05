@@ -6,17 +6,17 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/24 13:57:24 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/29 16:03:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/parsing.h"
+#include "../headers/main.h"
 
 void	exit_if_invalid_path(char **cmd)
 {
 	if (cmd && cmd[0])
 	{
-		ft_putstr_fd("pipex: command not found: ", 2);
+		ft_putstr_fd("hereeee ", 2);
 		ft_putstr_fd(cmd[0], 2);
 		ft_putstr_fd("\n", 2);
 	}

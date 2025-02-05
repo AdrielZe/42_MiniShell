@@ -4,13 +4,15 @@
 /*   ast_tokens.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:02:59 by marvin            #+#    #+#             */
+/*   Updated: 2025/01/24 13:12:38 by marvin           ###   ########.fr       */
 /*   Updated: 2025/01/24 13:12:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/parsing.h"
+#include "../headers/main.h"
 
 void	create_pipe_node(t_ast_node	**root, t_ast_node **current)
 {
