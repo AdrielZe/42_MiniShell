@@ -15,29 +15,30 @@
 #include "../../headers/tokenize.h"
 #include <stdio.h>
 
-int	count_if(size_t *count, const char *s, char c)
+int count_if(size_t *count, const char *s, char *c)
 {
 	const char	*start;
-	char		quote;
+	char quote;
 
 	start = s;
 	if (*s == '"' || *s == '\'')
 	{
 		quote = *s++;
 		while (*s && *s != quote)
-			s++;
+		s++;
 		if (*s)
 			s++;
 		(*count)++;
 	}
 	else
 	{
-		while (*s && *s != c && *s != '"' && *s != '\'')
+		while (*s && *s != '"' && *s != '\'') 
 			s++;
 		(*count)++;
 	}
 	return (s - start);
 }
+
 
 void	clear_token_list(t_tokens **token_list)
 {

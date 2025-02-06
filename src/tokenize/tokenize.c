@@ -37,17 +37,15 @@ char	*allocate_word(const char *s, int len)
 	return (word);
 }
 
-size_t	ft_count_word(const char *s, char c)
+size_t ft_count_word(const char *s, char *c)
 {
-	size_t	count;
-	size_t	pipe_count;
+	size_t	count = 0;
+	size_t pipe_count = 0;
 
-	pipe_count = 0;
-	count = 0;
 	while (*s)
 	{
 		s += count_if(&count, s, c);
-		while (*s == c)
+		while (*s && strchr(c, *s))
 		{
 			pipe_count++;
 			s++;
@@ -55,11 +53,15 @@ size_t	ft_count_word(const char *s, char c)
 	}
 	return (count + pipe_count);
 }
+			
 
-static char	*process_quotes(const char **s, char c)
+
+static char *process_quotes(const char **s, char *c)
 {
 	const char	*start;
-	char		quote;
+	char	quote;
+	int	is_delim;
+	int	i;
 
 	if (**s == '"' || **s == '\'')
 	{
@@ -74,31 +76,71 @@ static char	*process_quotes(const char **s, char c)
 	else
 	{
 		start = *s;
-		while (**s && **s != c && **s != '"' && **s != '\'')
+		while (**s)
+		{
+			is_delim = 0;
+			i = 0;
+			while (c[i] != '\0')
+			{
+				if (**s == c[i]) 
+				{
+					is_delim = 1;
+              			break;
+                		}
+				i++;
+			}
+			if (is_delim || **s == '"' || **s == '\'')
+				break;
 			(*s)++;
-		return (allocate_word(start, *s - start));
-	}
+        }
+        return (allocate_word(start, *s - start));
+    }
 }
 
-char	**tokenize(const char *s, char c)
+
+char **tokenize(const char *s, char **c)
 {
-	int		i;
-	char	**array;
+    int i;
+    int j;
+    char **array;
+    int word_count;
 
-	i = 0;
-	array = malloc((ft_count_word(s, c) + 1) * sizeof(char *));
-	if (!array)
-		return (NULL);
-	while (*s)
-	{
-		while (*s == ' ')
-			s++;
-		alloc_pipe(&s, &array, &i);
-		array[i] = process_quotes(&s, c);
-		if (!array[i])
-			return (free_array(array, i), (NULL));
-		i++;
-	}
-	array[i] = NULL;
-	return (array);
+    i = 0;
+    j = 0;
+    word_count = 0;
+
+    while (c[j]) 
+    {
+        word_count += ft_count_word(s, c[j]);
+        j++;
+    }
+	printf("%i\n", word_count);
+    array = malloc((word_count + 1) * sizeof(char *));
+    if (!array)
+        return (NULL);
+
+    j = 0;
+    while (c[j]) 
+    {
+	printf("entrou\n");
+        while (*s)
+        {
+            while (*s == ' ')
+                s++;
+            alloc_pipe(&s, &array, &i);
+            alloc_heredoc(&s, &array, &i);
+            array[i] = process_quotes(&s, c[j]);
+            if (!array[i])
+            {
+                free_array(array, i);
+                return (NULL);  
+            }
+            i++;
+        }
+        j++;
+    }
+    array[i] = NULL;
+    return (array);
 }
+
+

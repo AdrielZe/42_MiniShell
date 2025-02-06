@@ -32,6 +32,10 @@ void	init_shell(char ***token, t_tokens **token_list, char
 			*envp[], t_ast_node **root)
 {
 	char	*input;
+	char	*arr[2];
+
+	arr[0] = "|";
+	arr[1] = "<<";
 
 	while (1)
 	{
@@ -42,7 +46,7 @@ void	init_shell(char ***token, t_tokens **token_list, char
 			continue ;
 		}
 		exit_if_typed_exit(input);
-		*token = tokenize(input, '|');
+		*token = tokenize(input, arr);
 		classify_token(*token, token_list);
 		if (ft_strcmp((*token_list)->value, "echo") == 0)
 			echo(*token_list);
