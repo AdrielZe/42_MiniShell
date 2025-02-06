@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../headers/main.h"
+int	open_stdout(char *file);
 
 static void	left_process(int *pipe, t_ast_node *node, char **envp)
 {
@@ -25,17 +26,40 @@ static void	left_process(int *pipe, t_ast_node *node, char **envp)
 	exit(0);
 }
 
-static void	right_process(int *pipe, t_ast_node *node, char **envp)
+static void right_process(int *pipe, t_ast_node *node, char **envp, char *outfile)
 {
-	if (dup2(pipe[0], STDIN_FILENO) == -1)
-	{
-		perror("dup2 right");
-		exit(1);
-	}
-	close(pipe[0]);
-	close(pipe[1]);
-	parse_commands(node->right, envp);
-	exit(0);
+    int fd;
+
+	printf("oinasondadioasndainda[%s]\n", outfile);
+    if (outfile) // Se um arquivo de saída foi especificado, redireciona a saída
+    {
+        fd = open_stdout("abriu_aqui");
+        if (fd == -1)
+        {
+            perror("open outfile");
+            exit(1);
+        }
+        if (dup2(fd, STDOUT_FILENO) == -1)
+        {
+            perror("dup2 outfile");
+            close(fd);
+            exit(1);
+        }
+        close(fd);
+    }
+    else // Se não há arquivo, lê do pipe como normalmente
+    {
+        if (dup2(pipe[0], STDIN_FILENO) == -1)
+        {
+            perror("dup2 right");
+            exit(1);
+        }
+    }
+
+    close(pipe[0]);
+    close(pipe[1]);
+    parse_commands(node->right, envp);
+    exit(0);
 }
 
 static void	open_left_pipe(int *pipefd, pid_t *pid_left)
@@ -63,27 +87,36 @@ static void	open_right_pipe(pid_t *pid_right)
 	}
 }
 
-void	parse_commands(t_ast_node *node, char **envp)
+void parse_commands(t_ast_node *node, char **envp)
 {
-	pid_t	pid_left;
-	pid_t	pid_right;
-	int		pipefd[2];
+    pid_t pid_left, pid_right;
+    int pipefd[2];
 
-	if (!node)
-		return ;
-	if (node->type == NODE_PIPE)
-	{
-		open_left_pipe(pipefd, &pid_left);
-		if (pid_left == 0)
-			left_process(pipefd, node, envp);
-		open_right_pipe(&pid_right);
-		if (pid_right == 0)
-			right_process(pipefd, node, envp);
-		close(pipefd[0]);
-		close(pipefd[1]);
-		waitpid(pid_left, NULL, 0);
-		waitpid(pid_right, NULL, 0);
-	}
-	else if (node->type == NODE_COMMAND)
-		execute_command(node->value, envp);
+    if (!node)
+        return;
+
+    if (node->type == NODE_PIPE)
+    {
+        open_left_pipe(pipefd, &pid_left);
+        if (pid_left == 0)
+            left_process(pipefd, node, envp); // Primeiro processo, saída no pipe
+
+        open_right_pipe(&pid_right);
+        if (pid_right == 0)
+        {
+			if(!node->right)
+				right_process(pipefd, node ,envp, "asknlasdn1");
+			else
+            	right_process(pipefd, node, envp, NULL);
+        }
+
+        close(pipefd[0]);
+        close(pipefd[1]);
+        waitpid(pid_left, NULL, 0);
+        waitpid(pid_right, NULL, 0);
+    }
+    else if (node->type == NODE_COMMAND)
+    {
+        execute_command(node->value, envp);
+    }
 }
