@@ -36,14 +36,15 @@ static void right_process(int *pipe, t_ast_node *node, char **envp, char *outfil
         perror("dup2 right");
         exit(1);
     }
-    if (outfile) // Se um arquivo de saída foi especificado, redireciona a saída
+    if (outfile)
     {
-        fd = open_stdout("abriu_aqui");
+        fd = open_stdout(outfile);
         if (fd == -1)
         {
             perror("open outfile");
             exit(1);
         }
+        outfile = NULL;
         if (dup2(fd, STDOUT_FILENO) == -1)
         {
             perror("dup2 outfile");
@@ -96,19 +97,11 @@ void parse_commands(t_ast_node *node, char **envp)
     {
         open_left_pipe(pipefd, &pid_left);
         if (pid_left == 0)
-            left_process(pipefd, node, envp); // Primeiro processo, saída no pipe
-
+            left_process(pipefd, node, envp);
         waitpid(pid_left, NULL, 0);
-
         open_right_pipe(&pid_right);
         if (pid_right == 0)
-        {
-			if(node->right->type == NODE_COMMAND)
-				right_process(pipefd, node ,envp, "asknlasdn1");
-			else
-            	right_process(pipefd, node, envp, NULL);
-        }
-
+            right_process(pipefd, node, envp, node->right->outfile);
         close(pipefd[0]);
         close(pipefd[1]);
         waitpid(pid_left, NULL, 0);

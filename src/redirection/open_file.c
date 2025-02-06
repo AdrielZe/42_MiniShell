@@ -6,7 +6,7 @@
 /*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 19:35:00 by victda-s          #+#    #+#             */
-/*   Updated: 2025/01/27 20:11:37 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:33:18 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	open_stdout(char *file)
 {
 	int fd;
 
-	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC);
+	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		return (-1);
 	return (fd);

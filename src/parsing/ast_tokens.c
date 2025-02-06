@@ -19,6 +19,7 @@ void	create_pipe_node(t_ast_node	**root, t_ast_node **current)
 	t_ast_node	*pipe_node;
 
 	pipe_node = create_node(NODE_PIPE, "|");
+	pipe_node->outfile = NULL;
 	pipe_node->left = *root;
 	*root = pipe_node;
 	*current = *root;
