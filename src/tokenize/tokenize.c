@@ -94,6 +94,7 @@ char	**tokenize(const char *s, char c)
 		while (*s == ' ')
 			s++;
 		alloc_pipe(&s, &array, &i);
+		alloc_heredoc(&s, &array, &i);
 		array[i] = process_quotes(&s, c);
 		if (!array[i])
 			return (free_array(array, i), (NULL));

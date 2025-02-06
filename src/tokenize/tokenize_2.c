@@ -13,6 +13,15 @@
 #include "../../headers/tokenize.h"
 #include "../../headers/parsing.h"
 
+void alloc_heredoc(const char **s, char ***array, int *i)
+{
+    if (**s == '<' && (*s)[1] == '<') 
+    {
+        (*array)[(*i)++] = ft_strdup("<<");
+        *s += 2;
+    }
+}
+
 void	alloc_pipe(const char **s, char ***array, int *i)
 {
 	if (**s == '|')
