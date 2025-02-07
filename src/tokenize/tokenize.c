@@ -22,7 +22,7 @@ void	free_array(char **array, int i)
 		if (array[i])
 			free(array[i]);
 	}
-	free(array); 
+	free(array);
 }
 
 char	*allocate_word(const char *s, int len)
@@ -52,47 +52,34 @@ size_t	ft_count_word(const char *s)
 			delim_counter++;
 			s++;
 		}
-              count++;
+		count++;
 	}
 	return (count + delim_counter);
 }
 
-static char *process_quotes(const char **s)
+static char	*process_quotes(const char **s)
 {
 	const char	*start;
-	char	quote;
-	int	is_delim;
-	int	i;
+	char		quote;
+	int			i;
 
 	if (**s == '"' || **s == '\'')
-	{
-		quote = **s;
-		start = (*s)++;
-		while (**s && **s != quote)
-			(*s)++;
-		if (**s)
-			(*s)++;
-		return (allocate_word(start, *s - start));
-	}
+		return (extract_quoted_word(&quote, &start, s));
 	else
 	{
 		start = *s;
 		while (**s)
 		{
-			is_delim = 0;
 			i = 0;
 			if (**s == '|' || (**s == '<' && *(*s + 1) == '<'))
-			{
-				is_delim = 1;
-				break;
-			}
-				i++;
-			if (is_delim || **s == '"' || **s == '\'')
-				break;
+				break ;
+			i++;
+			if (**s == '"' || **s == '\'')
+				break ;
 			(*s)++;
-       	 }
-        return (allocate_word(start, *s - start));
-    }
+		}
+		return (allocate_word(start, *s - start));
+	}
 }
 
 char	**tokenize(const char *s)

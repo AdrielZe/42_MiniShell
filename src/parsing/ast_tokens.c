@@ -23,6 +23,7 @@ void	create_heredoc_node(t_ast_node **root, t_ast_node **current)
 	*root = heredoc_node;
 	*current = *root;
 }
+
 void	create_pipe_node(t_ast_node	**root, t_ast_node **current)
 {
 	t_ast_node	*pipe_node;

@@ -34,7 +34,7 @@ int	count_if(size_t *count, const char *s)
 		(*count)++;
 	else
 	{
-		while (*s  && *s != '|' && *s != '<' && *s != '"' && *s != '\'')
+		while (*s && *s != '|' && *s != '<' && *s != '"' && *s != '\'')
 			s++;
 		(*count)++;
 	}
@@ -85,8 +85,7 @@ void	classify_token(char **tokens, t_tokens **token_list)
 	int	i;
 
 	i = 0;
-	if (*token_list)
-		clear_token_list(token_list);
+	clear_token_list(token_list);
 	while (tokens[i])
 	{
 		create_tokens(tokens[i], token_list);

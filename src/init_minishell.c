@@ -51,7 +51,6 @@ void	init_shell(char ***token, t_tokens **token_list, char
 			*root = build_ast(*token_list);
 			parse_commands(*root, envp);
 		}
-		print_ast(*root, 0);
 		if (input)
 			add_history(input);
 		input = NULL;
