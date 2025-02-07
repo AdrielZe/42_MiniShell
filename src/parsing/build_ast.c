@@ -46,10 +46,17 @@ t_ast_node	*build_ast(t_tokens *tokens)
 	root = NULL;
 	while (tokens)
 	{
-		if (tokens->type == NODE_REDIRECT_OUT)
+		if (tokens->type == TOKEN_REDIRECT_OUT)
 		{
 			current->outfile = tokens->next->value;
+			current->outfile_type = NODE_REDIRECT_OUT;
 			tokens = tokens->next;
+		}
+		else if(tokens->type == TOKEN_APPEND)
+		{
+			current->outfile = tokens->next->value;
+			current->outfile_type = NODE_APPEND;
+			tokens = tokens->next;			
 		}
 		else if (tokens->type == TOKEN_PIPE)
 			create_pipe_node(&root, &current);

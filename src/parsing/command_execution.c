@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 #include "../headers/main.h"
-int	open_stdout(char *file);
+// int	open_stdout(char *file);
+// int	open_append(char *file);
 
 static void	left_process(int *pipe, t_ast_node *node, char **envp)
 {
@@ -38,7 +39,10 @@ static void right_process(int *pipe, t_ast_node *node, char **envp, char *outfil
     }
     if (outfile)
     {
-        fd = open_stdout(outfile);
+		if(node->right->outfile_type == NODE_REDIRECT_OUT)
+        	fd = open_stdout(outfile);
+		else
+			fd = open_append(outfile);
         if (fd == -1)
         {
             perror("open outfile");
@@ -109,6 +113,6 @@ void parse_commands(t_ast_node *node, char **envp)
     }
     else if (node->type == NODE_COMMAND)
     {
-        execute_command(node->value, envp);
+        execute_command(node->value, envp, node);
     }
 }

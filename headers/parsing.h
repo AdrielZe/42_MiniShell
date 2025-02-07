@@ -36,6 +36,7 @@ typedef struct s_ast_node
 	t_node_type			type;
 	char				*value;
 	char				*outfile;
+	t_node_type			outfile_type;
 }	t_ast_node;
 
 t_ast_node	*create_node(t_node_type type, char *value);
@@ -49,6 +50,9 @@ void		exit_if_invalid_path(char **cmd);
 void		free_paths(char **paths);
 char		*search_valid_path(char *cmd, char **envp);
 void		free_cmd(char **cmd);
-void		execute_command(char *argv, char **envp);
+void		execute_command(char *argv, char **envp, t_ast_node *node);
+int	open_stdin(char *file);
+int	open_append(char *file);
+int	open_stdout(char *file);
 
 #endif
