@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "../headers/main.h"
-// int	open_stdout(char *file);
-// int	open_append(char *file);
 
 static void	left_process(int *pipe, t_ast_node *node, char **envp)
 {
@@ -31,7 +29,7 @@ static void right_process(int *pipe, t_ast_node *node, char **envp, char *outfil
 {
     int fd;
 
-	printf("oinasondadioasndainda[%s]\n", outfile);
+	fd = 0;
     if (dup2(pipe[0], STDIN_FILENO) == -1)
     {
         perror("dup2 right");
@@ -39,16 +37,7 @@ static void right_process(int *pipe, t_ast_node *node, char **envp, char *outfil
     }
     if (outfile)
     {
-		if(node->right->outfile_type == NODE_REDIRECT_OUT)
-        	fd = open_stdout(outfile);
-		else
-			fd = open_append(outfile);
-        if (fd == -1)
-        {
-            perror("open outfile");
-            exit(1);
-        }
-        outfile = NULL;
+		fd = check_outfile(node, fd);
         if (dup2(fd, STDOUT_FILENO) == -1)
         {
             perror("dup2 outfile");

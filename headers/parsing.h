@@ -54,5 +54,6 @@ void		execute_command(char *argv, char **envp, t_ast_node *node);
 int	open_stdin(char *file);
 int	open_append(char *file);
 int	open_stdout(char *file);
+int	check_outfile(t_ast_node *node, int fd);
 
 #endif

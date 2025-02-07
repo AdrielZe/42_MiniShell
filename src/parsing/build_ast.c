@@ -37,6 +37,23 @@ t_ast_node	*create_node(t_node_type type, char *value)
 	return (node);
 }
 
+static int	redirection_if(t_tokens *tokens, t_ast_node *node)
+{
+	if (tokens->type == TOKEN_REDIRECT_OUT)
+	{
+		node->outfile = tokens->next->value;
+		node->outfile_type = NODE_REDIRECT_OUT;
+		return (1);
+	}
+	else if(tokens->type == TOKEN_APPEND)
+	{
+		node->outfile = tokens->next->value;
+		node->outfile_type = NODE_APPEND;
+		return (1);			
+	}
+	return (0);
+}
+
 t_ast_node	*build_ast(t_tokens *tokens)
 {
 	t_ast_node	*root;
@@ -46,18 +63,8 @@ t_ast_node	*build_ast(t_tokens *tokens)
 	root = NULL;
 	while (tokens)
 	{
-		if (tokens->type == TOKEN_REDIRECT_OUT)
-		{
-			current->outfile = tokens->next->value;
-			current->outfile_type = NODE_REDIRECT_OUT;
+		if (redirection_if(tokens, current))
 			tokens = tokens->next;
-		}
-		else if(tokens->type == TOKEN_APPEND)
-		{
-			current->outfile = tokens->next->value;
-			current->outfile_type = NODE_APPEND;
-			tokens = tokens->next;			
-		}
 		else if (tokens->type == TOKEN_PIPE)
 			create_pipe_node(&root, &current);
 		else if (tokens->type == TOKEN_COMMAND)
