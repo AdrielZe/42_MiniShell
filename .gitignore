@@ -17,4 +17,5 @@ minishell
 norminette_env/
 .gitignore
 ast_print.txt
+print_ast.c
 old_tree.txt

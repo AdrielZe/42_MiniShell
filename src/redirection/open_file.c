@@ -6,7 +6,7 @@
 /*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 19:35:00 by victda-s          #+#    #+#             */
-/*   Updated: 2025/02/07 18:08:58 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/07 18:18:06 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,6 @@ int	check_outfile(t_ast_node *node, int fd)
     	fd = open_stdout(node->right->outfile);
 	else
 		fd = open_append(node->right->outfile);
-    if (fd == -1)
-    {
-        perror("open outfile");
-        exit(1);
-    }
     node->outfile = NULL;
 	return (fd);
 }

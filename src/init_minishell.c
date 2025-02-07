@@ -6,46 +6,12 @@
 /*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:36:49 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/05 19:31:50 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/07 18:16:54 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/main.h"
-void print_indent(int level)
-{
-    for (int i = 0; i < level; i++)
-        printf("  ");
-}
 
-// Função recursiva para imprimir a árvore de comandos
-void print_ast_tree(t_ast_node *node, int level)
-{
-    if (!node)
-        return;
-    
-    print_indent(level);
-    
-    if (node->type == NODE_PIPE)
-        printf("[PIPE]\n");
-    else if (node->type == NODE_COMMAND)
-        printf("[COMMAND]: %s\n", node->value ? node->value : "(null)");
-    else
-        printf("[UNKNOWN NODE TYPE]\n");
-    
-    if (node->left)
-    {
-        print_indent(level);
-        printf("LEFT ->\n");
-        print_ast_tree(node->left, level + 1);
-    }
-    
-    if (node->right)
-    {
-        print_indent(level);
-        printf("RIGHT ->\n");
-        print_ast_tree(node->right, level + 1);
-    }
-}
 static void	exit_if_typed_exit(char *input)
 {
 	if (ft_strcmp("exit", input) == 0)
@@ -83,7 +49,6 @@ void	init_shell(char ***token, t_tokens **token_list, char
 		else
 		{
 			*root = build_ast(*token_list);
-			print_ast_tree(*root, 0);
 			parse_commands(*root, envp);
 		}
 		if (input)

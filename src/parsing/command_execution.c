@@ -38,12 +38,7 @@ static void right_process(int *pipe, t_ast_node *node, char **envp, char *outfil
     if (outfile)
     {
 		fd = check_outfile(node, fd);
-        if (dup2(fd, STDOUT_FILENO) == -1)
-        {
-            perror("dup2 outfile");
-            close(fd);
-            exit(1);
-        }
+        dup2(fd, STDOUT_FILENO);
         close(fd);
     }
 
