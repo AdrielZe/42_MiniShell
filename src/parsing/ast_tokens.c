@@ -18,7 +18,7 @@ void	create_heredoc_node(t_ast_node **root, t_ast_node **current)
 {
 	t_ast_node	*heredoc_node;
 
-	heredoc_node = create_node(NODE_HEREDOC, "|");
+	heredoc_node = create_node(NODE_HEREDOC, "<<");
 	heredoc_node->left = *root;
 	*root = heredoc_node;
 	*current = *root;

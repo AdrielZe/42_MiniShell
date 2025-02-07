@@ -44,16 +44,15 @@ void		classify_token(char **tokens, t_tokens **token_list);
 void		clear_token_list(t_tokens **token_list);
 void		free_array(char **array, int i);
 void		echo(t_tokens *tokens);
-int			count_if(size_t *count, const char *s, char c);
 void		append_token(t_tokens **token_list, t_token_type type, char *value);
 void		print_list(t_tokens *token_list);
 void		classify_token(char **tokens, t_tokens **token_list);
 void		clear_token_list(t_tokens **token_list);
 void		free_array(char **array, int i);
 void		echo(t_tokens *tokens);
-char		**tokenize(const char *s, char c);
+char		**tokenize(const char *s);
 void		alloc_pipe(const char **s, char ***array, int *i);
 void 		alloc_heredoc(const char **s, char ***array, int *i);
-int			count_if(size_t *count, const char *s, char c);
+int			count_if(size_t *count, const char *s);
 
 #endif

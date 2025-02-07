@@ -15,7 +15,7 @@
 #include "../../headers/tokenize.h"
 #include <stdio.h>
 
-int	count_if(size_t *count, const char *s, char c)
+int	count_if(size_t *count, const char *s)
 {
 	const char	*start;
 	char		quote;
@@ -30,9 +30,11 @@ int	count_if(size_t *count, const char *s, char c)
 			s++;
 		(*count)++;
 	}
+	else if (*s++ == '|')
+		(*count)++;
 	else
 	{
-		while (*s && *s != c && *s != '"' && *s != '\'')
+		while (*s  && *s != '|' && *s != '<' && *s != '"' && *s != '\'')
 			s++;
 		(*count)++;
 	}

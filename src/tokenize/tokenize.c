@@ -22,7 +22,7 @@ void	free_array(char **array, int i)
 		if (array[i])
 			free(array[i]);
 	}
-	free(array);
+	free(array); 
 }
 
 char	*allocate_word(const char *s, int len)
@@ -37,29 +37,32 @@ char	*allocate_word(const char *s, int len)
 	return (word);
 }
 
-size_t	ft_count_word(const char *s, char c)
+size_t	ft_count_word(const char *s)
 {
 	size_t	count;
-	size_t	pipe_count;
+	size_t	delim_counter;
 
-	pipe_count = 0;
+	delim_counter = 0;
 	count = 0;
 	while (*s)
 	{
-		s += count_if(&count, s, c);
-		while (*s == c)
+		s += count_if(&count, s);
+		while (*s == '|' || (*s == '<' && *s++ == '<'))
 		{
-			pipe_count++;
+			delim_counter++;
 			s++;
 		}
+              count++;
 	}
-	return (count + pipe_count);
+	return (count + delim_counter);
 }
 
-static char	*process_quotes(const char **s, char c)
+static char *process_quotes(const char **s)
 {
 	const char	*start;
-	char		quote;
+	char	quote;
+	int	is_delim;
+	int	i;
 
 	if (**s == '"' || **s == '\'')
 	{
@@ -74,19 +77,31 @@ static char	*process_quotes(const char **s, char c)
 	else
 	{
 		start = *s;
-		while (**s && **s != c && **s != '"' && **s != '\'')
+		while (**s)
+		{
+			is_delim = 0;
+			i = 0;
+			if (**s == '|' || (**s == '<' && *(*s + 1) == '<'))
+			{
+				is_delim = 1;
+				break;
+			}
+				i++;
+			if (is_delim || **s == '"' || **s == '\'')
+				break;
 			(*s)++;
-		return (allocate_word(start, *s - start));
-	}
+       	 }
+        return (allocate_word(start, *s - start));
+    }
 }
 
-char	**tokenize(const char *s, char c)
+char	**tokenize(const char *s)
 {
 	int		i;
 	char	**array;
 
 	i = 0;
-	array = malloc((ft_count_word(s, c) + 1) * sizeof(char *));
+	array = malloc((ft_count_word(s) + 1) * sizeof(char *));
 	if (!array)
 		return (NULL);
 	while (*s)
@@ -95,7 +110,7 @@ char	**tokenize(const char *s, char c)
 			s++;
 		alloc_pipe(&s, &array, &i);
 		alloc_heredoc(&s, &array, &i);
-		array[i] = process_quotes(&s, c);
+		array[i] = process_quotes(&s);
 		if (!array[i])
 			return (free_array(array, i), (NULL));
 		i++;

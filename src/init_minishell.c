@@ -42,7 +42,7 @@ void	init_shell(char ***token, t_tokens **token_list, char
 			continue ;
 		}
 		exit_if_typed_exit(input);
-		*token = tokenize(input, '|');
+		*token = tokenize(input);
 		classify_token(*token, token_list);
 		if (ft_strcmp((*token_list)->value, "echo") == 0)
 			echo(*token_list);
@@ -51,6 +51,7 @@ void	init_shell(char ***token, t_tokens **token_list, char
 			*root = build_ast(*token_list);
 			parse_commands(*root, envp);
 		}
+		print_ast(*root, 0);
 		if (input)
 			add_history(input);
 		input = NULL;
