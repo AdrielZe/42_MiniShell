@@ -55,6 +55,7 @@ void		free_array(char **array, int i);
 void		echo(t_tokens *tokens);
 char		**tokenize(const char *s);
 void		alloc_pipe(const char **s, char ***array, int *i);
+size_t		ft_count_word(const char *s);
 void		alloc_heredoc(const char **s, char ***array, int *i);
 int			count_if(size_t *count, const char *s);
 

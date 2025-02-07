@@ -84,6 +84,35 @@ void	parse_commands(t_ast_node *node, char **envp)
 		waitpid(pid_left, NULL, 0);
 		waitpid(pid_right, NULL, 0);
 	}
+	else if (node->type == NODE_HEREDOC)
+	{	
+		char	*input;
+		char	*inputs[100];
+		char	*value;
+		int	i;
+		input = NULL;
+		if (node->right && node->left)
+		{
+			value = ft_split(node->right->value, ' ')[0];
+			while(1)
+			{
+				input = readline("heredoc> ");
+				if (input && input != value)
+				{
+					if (ft_strcmp(value, input) == 0)
+						break ;
+					inputs[i] = malloc(ft_strlen(input) + 1);
+					inputs[i] = input;
+					printf("input: %s added to array!\n", input);
+				}
+				i++;
+			}
+			execute_command(node->left->value, envp);
+	
+		}
+		else
+			printf("cant handle!\n");
+	}
 	else if (node->type == NODE_COMMAND)
 		execute_command(node->value, envp);
 }

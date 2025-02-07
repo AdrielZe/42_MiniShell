@@ -24,7 +24,6 @@ void	execute_command(char *cmd, char **envp)
 	path = search_valid_path(tokens[0], envp);
 	if (!path)
 	{
-		free(path);
 		printf("command not found: %s\n", cmd);
 		return ;
 	}
