@@ -10,7 +10,7 @@ CFLAGS = -g3 # -Wall -Wextra -Werror
 # Diretórios
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
-INCLUDES = -I$(LIBFT_DIR) -Isrc/tokenize
+INCLUDES = -Wall -Wextra -Werror -I$(LIBFT_DIR) -Isrc/tokenize
 SRC_DIR = src
 OBJ_DIR = obj
 
