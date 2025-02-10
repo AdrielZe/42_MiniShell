@@ -21,7 +21,7 @@ int	main(int argc, char *argv[], char *envp[])
 	t_ast_node	*root;
 
 	if (argc && argv)
-		printf("");
+		printf(" ");
 	token_list = NULL;
 	init_shell(&token, &token_list, envp, &root);
 	clear_token_list(&token_list);
