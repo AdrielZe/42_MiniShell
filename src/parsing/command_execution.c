@@ -38,7 +38,7 @@ static void	right_process(int *pipe, t_ast_node *node, char **envp)
 	exit(0);
 }
 
-static void	open_left_pipe(int *pipefd, pid_t *pid_left)
+static void	open_left_pipe(int *pipefd, pid_t *pid_left) //Tudo o que esse processo imprimir será enviado pelo pipe para o próximo comando.
 {
 	if (pipe(pipefd) == -1)
 	{
@@ -67,6 +67,7 @@ void	parse_commands(t_ast_node *node, char **envp)
 {
 	pid_t	pid_left;
 	pid_t	pid_right;	
+	pid_t	pid;
 	int		pipefd[2];
 
 	if (!node)
@@ -86,32 +87,64 @@ void	parse_commands(t_ast_node *node, char **envp)
 	}
 	else if (node->type == NODE_HEREDOC)
 	{	
-		char	*input;
-		char	*inputs[100];
-		char	*value;
-		int	i;
-		input = NULL;
-		if (node->right && node->left)
+		if (pipe(pipefd) == -1)
 		{
-			value = ft_split(node->right->value, ' ')[0];
-			while(1)
+			perror("pipe");
+			return ;
+		}
+
+		pid = fork();
+		if (pid < 0)
+		{
+			perror("fork");
+			return ;
+		}
+
+		if (pid == 0)
+		{
+			close(pipefd[0]);
+			char	*input;
+			char	*delimiter;
+
+			delimiter = ft_split(node->right->value, ' ')[0];
+
+			while (1)
 			{
 				input = readline("heredoc> ");
-				if (input && input != value)
+				if (!input || ft_strcmp(input, delimiter) == 0)
 				{
-					if (ft_strcmp(value, input) == 0)
-						break ;
-					inputs[i] = malloc(ft_strlen(input) + 1);
-					inputs[i] = input;
-					printf("input: %s added to array!\n", input);
+					free(input);
+					break ;
 				}
-				i++;
+				write(pipefd[1], input, ft_strlen(input));
+				write(pipefd[1], "\n", 1);
+				free(input);
 			}
-			execute_command(node->left->value, envp);
-	
+			close(pipefd[1]);
+			exit(0);
 		}
-		else
-			printf("cant handle!\n");
+		waitpid(pid, NULL, 0);
+		close(pipefd[1]);
+		pid = fork();
+		if (pid < 0)
+		{
+			perror("fork");
+			return ;
+		}
+
+		if (pid == 0)
+		{
+			dup2(pipefd[0], STDIN_FILENO);
+			close(pipefd[0]);
+			close(pipefd[1]);
+			
+			char *cmd_path = search_valid_path(node->left->value, envp);
+			char *args[] = {node->left->value, NULL};
+			execute_command(node->left->value, envp);
+			exit(1);
+		}
+		close (pipefd[0]);
+		waitpid(pid, NULL, 0);
 	}
 	else if (node->type == NODE_COMMAND)
 		execute_command(node->value, envp);
