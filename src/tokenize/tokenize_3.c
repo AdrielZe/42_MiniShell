@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:49:40 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/10 17:49:32 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/10 18:56:44 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,16 @@
 char	*extract_quoted_word(char *quote, const char **start, const char **s)
 {
 	const char	*end;
-	char	*word;
+	char		*word;
 
 	*quote = **s;
 	(*s)++;
 	*start = *s;
-
 	while (**s && **s != *quote)
 		(*s)++;
-
 	end = *s;
 	if (**s == *quote)
 		(*s)++;
-
 	word = allocate_word(*start, end - *start);
 	return (word);
 }
-

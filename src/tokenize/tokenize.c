@@ -82,14 +82,11 @@ static char	*process_quotes(const char **s)
 	}
 }
 
-
 char	**tokenize(const char *s)
 {
 	int		i;
 	char	**array;
 	char	*new_word;
-	char	*temp;
-	char	*joined;
 
 	i = 0;
 	array = malloc((ft_count_word(s) + 1) * sizeof(char *));
@@ -97,31 +94,17 @@ char	**tokenize(const char *s)
 		return (NULL);
 	while (*s)
 	{
-		while (*s == ' ')
-			s++;
-		alloc_pipe(&s, &array, &i);
-		alloc_heredoc(&s, &array, &i);
+		skip_spaces_and_alloc_elements(&s, &array, &i);
 		if (*s == '\0')
-			break;
+			break ;
 		new_word = process_quotes(&s);
 		if (!new_word)
 			return (free_array(array, i), NULL);
-		if (i > 0 && array[i - 1] && array[i - 1][0] != '|' && array[i - 1][0] != '<' && array[i - 1][0] != '>')
-		{
-			temp = ft_strjoin(array[i - 1], " ");
-			joined = ft_strjoin(temp, new_word);
-			free(temp);
-			free(array[i - 1]);
-			free(new_word);
-			array[i - 1] = joined;
-		}
+		if (should_merge_token(array, i))
+			merge_last_token(&array, i, new_word);
 		else
-		{
-			array[i] = new_word;
-			i++;
-		}
+			alloc_new_word_in_array(&array, &i, new_word);
 	}
 	array[i] = NULL;
 	return (array);
 }
-

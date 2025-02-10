@@ -49,6 +49,11 @@ char		*extract_quoted_word(char *quote,
 				const char **start, const char **s);
 void		append_token(t_tokens **token_list, t_token_type type, char *value);
 void		print_list(t_tokens *token_list);
+void		skip_spaces_and_alloc_elements(const char **s,
+				char ***array, int *i);
+void		alloc_new_word_in_array(char ***array, int *i, char *new_word);
+void		free_elements(char ***array, int i, char **temp, char **new_word);
+void		merge_last_token(char ***array, int i, char *new_word);
 void		classify_token(char **tokens, t_tokens **token_list);
 void		clear_token_list(t_tokens **token_list);
 void		free_array(char **array, int i);
@@ -58,5 +63,7 @@ void		alloc_pipe(const char **s, char ***array, int *i);
 size_t		ft_count_word(const char *s);
 void		alloc_heredoc(const char **s, char ***array, int *i);
 int			count_if(size_t *count, const char *s);
+int			should_merge_token(char **array, int i);
+int			malloc_array(char ***array, const char *s);
 
 #endif
