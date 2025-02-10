@@ -63,31 +63,33 @@ static char	*process_quotes(const char **s)
 {
 	const char	*start;
 	char		quote;
-	int			i;
+	char		*extracted_word;
 
 	if (**s == '"' || **s == '\'')
-		return (extract_quoted_word(&quote, &start, s));
+	{
+		quote = **s;
+		extracted_word = extract_quoted_word(&quote, &start, s);
+		if (!extracted_word)
+			return (NULL);
+		return (extracted_word);
+	}
 	else
 	{
 		start = *s;
-		while (**s)
-		{
-			i = 0;
-			if (**s == '|' || (**s == '<' && *(*s + 1) == '<'))
-				break ;
-			i++;
-			if (**s == '"' || **s == '\'')
-				break ;
+		while (**s && **s != ' ' && **s != '|' && **s != '<' && **s != '>')
 			(*s)++;
-		}
 		return (allocate_word(start, *s - start));
 	}
 }
+
 
 char	**tokenize(const char *s)
 {
 	int		i;
 	char	**array;
+	char	*new_word;
+	char	*temp;
+	char	*joined;
 
 	i = 0;
 	array = malloc((ft_count_word(s) + 1) * sizeof(char *));
@@ -100,12 +102,26 @@ char	**tokenize(const char *s)
 		alloc_pipe(&s, &array, &i);
 		alloc_heredoc(&s, &array, &i);
 		if (*s == '\0')
-			break ;
-		array[i] = process_quotes(&s);
-		if (!array[i])
-			return (free_array(array, i), (NULL));
-		i++;
+			break;
+		new_word = process_quotes(&s);
+		if (!new_word)
+			return (free_array(array, i), NULL);
+		if (i > 0 && array[i - 1] && array[i - 1][0] != '|' && array[i - 1][0] != '<' && array[i - 1][0] != '>')
+		{
+			temp = ft_strjoin(array[i - 1], " ");
+			joined = ft_strjoin(temp, new_word);
+			free(temp);
+			free(array[i - 1]);
+			free(new_word);
+			array[i - 1] = joined;
+		}
+		else
+		{
+			array[i] = new_word;
+			i++;
+		}
 	}
 	array[i] = NULL;
 	return (array);
 }
+
