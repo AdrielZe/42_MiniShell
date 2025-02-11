@@ -25,12 +25,22 @@ static void	left_process(int *pipe, t_ast_node *node, char **envp)
 	exit(0);
 }
 
-static void	right_process(int *pipe, t_ast_node *node, char **envp)
+static void	right_process(int *pipe, t_ast_node *node,
+	char **envp, char *outfile)
 {
+	int	fd;
+
+	fd = 0;
 	if (dup2(pipe[0], STDIN_FILENO) == -1)
 	{
 		perror("dup2 right");
 		exit(1);
+	}
+	if (outfile)
+	{
+		fd = check_outfile(node, fd);
+		dup2(fd, STDOUT_FILENO);
+		close(fd);
 	}
 	close(pipe[0]);
 	close(pipe[1]);
@@ -65,9 +75,9 @@ static void	open_right_pipe(pid_t *pid_right)
 
 void	parse_commands(t_ast_node *node, char **envp)
 {
-	pid_t	pid_left;
-	pid_t	pid_right;	
-	int		pipefd[2];
+	pid_t		pid_left;
+	pid_t		pid_right;
+	int			pipefd[2];
 
 	if (!node)
 		return ;
@@ -76,9 +86,10 @@ void	parse_commands(t_ast_node *node, char **envp)
 		open_left_pipe(pipefd, &pid_left);
 		if (pid_left == 0)
 			left_process(pipefd, node, envp);
+		waitpid(pid_left, NULL, 0);
 		open_right_pipe(&pid_right);
 		if (pid_right == 0)
-			right_process(pipefd, node, envp);
+			right_process(pipefd, node, envp, node->right->outfile);
 		close(pipefd[0]);
 		close(pipefd[1]);
 		waitpid(pid_left, NULL, 0);
@@ -87,5 +98,5 @@ void	parse_commands(t_ast_node *node, char **envp)
 	else if (node->type == NODE_HEREDOC)
 		handle_heredoc(node, envp);
 	else if (node->type == NODE_COMMAND)
-		execute_command(node->value, envp);
+		execute_command(node->value, envp, node);
 }

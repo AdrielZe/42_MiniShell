@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:59:58 by victda-s          #+#    #+#             */
-/*   Updated: 2025/02/10 18:57:39 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/10 20:58:14 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	skip_spaces_and_alloc_elements(const char **s, char ***array, int *i)
 	if (**s == '\0')
 		return ;
 	alloc_pipe(s, array, i);
+	alloc_append(s, array, i);
+	alloc_outfile(s, array, i);
 	alloc_heredoc(s, array, i);
 }
 

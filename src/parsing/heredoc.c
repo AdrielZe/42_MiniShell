@@ -6,7 +6,7 @@
 /*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:41:35 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/10 20:25:59 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/10 20:38:25 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	execute_command_with_heredoc(int *pipefd,
 		dup2(pipefd[0], STDIN_FILENO);
 		close(pipefd[0]);
 		close(pipefd[1]);
-		execute_command(node->left->value, envp);
+		execute_command(node->left->value, envp, node);
 		exit(1);
 	}
 	close(pipefd[0]);

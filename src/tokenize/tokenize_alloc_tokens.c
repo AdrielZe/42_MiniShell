@@ -22,11 +22,29 @@ void	alloc_heredoc(const char **s, char ***array, int *i)
 	}
 }
 
+void	alloc_append(const char **s, char ***array, int *i)
+{
+	if (**s == '>' && (*s)[1] == '>')
+	{
+		(*array)[(*i)++] = ft_strdup(">>");
+		*s += 2;
+	}
+}
+
 void	alloc_pipe(const char **s, char ***array, int *i)
 {
 	if (**s == '|')
 	{
 		(*array)[(*i)++] = ft_strdup("|");
+		(*s)++;
+	}
+}
+
+void	alloc_outfile(const char **s, char ***array, int *i)
+{
+	if (**s == '>')
+	{
+		(*array)[(*i)++] = ft_strdup(">");
 		(*s)++;
 	}
 }

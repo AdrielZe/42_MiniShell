@@ -19,5 +19,5 @@ norminette_env/
 ast_print.txt
 print_ast.c
 print_ast.txt
-old_tree.txt
 utils
+old_tree.txt
