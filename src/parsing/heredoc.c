@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:41:35 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/12 19:41:18 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/12 20:56:14 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,13 @@ void	execute_command_with_heredoc(int *pipefd,
 		close(pipefd[1]);
 		while (current)
 		{
-			if (current->type == NODE_COMMAND)
-			{	
-				execute_command(current->value, envp, node);
-			}
+			if (current->type == NODE_HEREDOC && current->left->type == NODE_PIPE)
+				execute_command(current->left->right->value, envp, node);
 			current = current->left;
 		}
 		exit(1);
 	}
+
 	close(pipefd[0]);
 	waitpid(pid, NULL, 0);
 }

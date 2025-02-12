@@ -16,13 +16,12 @@ static void	left_process(int *pipe, t_ast_node *node, char **envp)
 {
 	t_ast_node	*current;
 
+	
 	current = node;
 	while (current)
 	{
 		if (current->left->type == NODE_HEREDOC)
-		{
 			read_heredoc(pipe, ft_split(current->left->right->value, ' ')[0]);
-		}
 		current = current->left;
 	}
 
@@ -113,7 +112,10 @@ void	parse_commands(t_ast_node *node, char **envp)
 		waitpid(pid_right, NULL, 0);
 	}
 	else if (node->type == NODE_HEREDOC)
+	{
+		printf("Origem : parse commands\n");
 		handle_heredoc(node, envp);
+	}
 	else if (node->type == NODE_COMMAND)
 		execute_command(node->value, envp, node);
 }
