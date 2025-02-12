@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:41:35 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/10 20:38:25 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/12 19:41:18 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ void	execute_command_with_heredoc(int *pipefd,
 			pid_t pid, t_ast_node *node, char **envp)
 {
 	char	**args;
+	t_ast_node	*current;
 
+	current = node;
 	args = malloc(2 * sizeof(char *));
 	args[0] = node->left->value;
 	args[1] = NULL;
@@ -75,7 +77,14 @@ void	execute_command_with_heredoc(int *pipefd,
 		dup2(pipefd[0], STDIN_FILENO);
 		close(pipefd[0]);
 		close(pipefd[1]);
-		execute_command(node->left->value, envp, node);
+		while (current)
+		{
+			if (current->type == NODE_COMMAND)
+			{	
+				execute_command(current->value, envp, node);
+			}
+			current = current->left;
+		}
 		exit(1);
 	}
 	close(pipefd[0]);

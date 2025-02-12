@@ -14,15 +14,30 @@
 
 static void	left_process(int *pipe, t_ast_node *node, char **envp)
 {
-	if (dup2(pipe[1], STDOUT_FILENO) == -1)
+	t_ast_node	*current;
+
+	current = node;
+	while (current)
 	{
-		perror("dup2 left");
-		exit(1);
+		if (current->left->type == NODE_HEREDOC)
+		{
+			read_heredoc(pipe, ft_split(current->left->right->value, ' ')[0]);
+		}
+		current = current->left;
 	}
+
+		if (dup2(pipe[1], STDOUT_FILENO) == -1)
+		{
+			perror("dup2 left");
+			exit(1);
+		}
+	
 	close(pipe[0]);
 	close(pipe[1]);
 	parse_commands(node->left, envp);
 	exit(0);
+	
+
 }
 
 static void	right_process(int *pipe, t_ast_node *node,
@@ -30,7 +45,9 @@ static void	right_process(int *pipe, t_ast_node *node,
 {
 	int	fd;
 
-	fd = 0;
+	fd = -1;
+	if (!node || !node->right)
+		return ;
 	if (dup2(pipe[0], STDIN_FILENO) == -1)
 	{
 		perror("dup2 right");
