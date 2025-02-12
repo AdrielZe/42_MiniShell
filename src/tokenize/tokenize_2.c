@@ -6,7 +6,7 @@
 /*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:59:58 by victda-s          #+#    #+#             */
-/*   Updated: 2025/02/10 20:58:14 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/12 18:05:11 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	skip_spaces_and_alloc_elements(const char **s, char ***array, int *i)
 	alloc_pipe(s, array, i);
 	alloc_append(s, array, i);
 	alloc_outfile(s, array, i);
+	alloc_infile(s, array, i);
 	alloc_heredoc(s, array, i);
 }
 

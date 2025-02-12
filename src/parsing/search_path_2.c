@@ -6,7 +6,7 @@
 /*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/11 13:26:14 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/12 19:41:21 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,6 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 	if (!tokens || !tokens[0])
 		return (perror("Comando vazio\n"));
 	path = search_valid_path(tokens[0], envp);
-	if (!path)
-	{
-		printf("command not found: %s\n", cmd);
-		return ;
-	}
 	pid = fork();
 	if (pid < 0)
 		return ;
@@ -39,11 +34,16 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 			else
 				dup2(open_append(node->outfile), STDOUT_FILENO);
 		}
-		if (execve(path, tokens, envp) == -1)
+		if(node->infile)
+			dup2(node->infile, STDIN_FILENO);
+		if (!path)
 		{
-			perror("execve");
+			ft_putstr_fd(cmd, STDERR_FILENO);
+			ft_putstr_fd(" :command not found\n", STDERR_FILENO);
 			exit(127);
 		}
+		if (execve(path, tokens, envp) == -1)
+			exit(127);
 		exit(0);
 	}
 	waitpid (pid, NULL, 0);

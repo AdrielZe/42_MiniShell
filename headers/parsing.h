@@ -37,6 +37,7 @@ typedef struct s_ast_node
 	char				*value;
 	char				*outfile;
 	t_node_type			outfile_type;
+	int					infile;
 }	t_ast_node;
 
 t_ast_node	*create_node(t_node_type type, char *value);

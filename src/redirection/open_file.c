@@ -6,7 +6,7 @@
 /*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 19:35:00 by victda-s          #+#    #+#             */
-/*   Updated: 2025/02/11 13:13:21 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/12 20:02:58 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,16 @@ int	open_append(char *file)
 int	open_stdin(char *file)
 {
 	int	fd;
-
+	if(file[0] == ' ')
+		file++;
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
+	{
+		perror("Erro ao abrir o arquivo");
 		return (-1);
+	}
+	if(file)
+		return (fd);
 	return (fd);
 }
 

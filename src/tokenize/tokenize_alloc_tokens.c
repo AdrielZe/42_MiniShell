@@ -48,3 +48,12 @@ void	alloc_outfile(const char **s, char ***array, int *i)
 		(*s)++;
 	}
 }
+
+void	alloc_infile(const char **s, char ***array, int *i)
+{
+	if (**s == '<')
+	{
+		(*array)[(*i)++] = ft_strdup("<");
+		(*s)++;
+	}
+}
