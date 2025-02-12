@@ -12,18 +12,37 @@
 
 #include "../headers/main.h"
 
-static void	left_process(int *pipe, t_ast_node *node, char **envp)
+static void left_process(int *pipe, t_ast_node *node, char **envp)
 {
-	if (dup2(pipe[1], STDOUT_FILENO) == -1)
-	{
-		perror("dup2 left");
-		exit(1);
-	}
-	close(pipe[0]);
-	close(pipe[1]);
-	parse_commands(node->left, envp);
-	exit(0);
+    int heredoc_fd;
+
+    if (node->left->type == NODE_HEREDOC)
+    {
+        // Processar o conteúdo do heredoc e redirecioná-lo para o stdin
+        heredoc_fd = handle_heredoc(node->left, envp); // handle_heredoc retorna o fd do heredoc
+        if (dup2(heredoc_fd, STDIN_FILENO) == -1)  // Redireciona o stdin para o arquivo do heredoc
+        {
+            perror("dup2 heredoc");
+            exit(1);
+        }
+        close(heredoc_fd); // Fecha o fd do heredoc após redirecioná-lo
+    }
+    else
+    {
+        // Caso contrário, redireciona para o pipe
+        if (dup2(pipe[1], STDOUT_FILENO) == -1)
+        {
+            perror("dup2 left");
+            exit(1);
+        }
+    }
+
+    close(pipe[0]);
+    close(pipe[1]);
+    parse_commands(node->left, envp);
+    exit(0);
 }
+
 
 static void	right_process(int *pipe, t_ast_node *node,
 	char **envp, char *outfile)
@@ -44,6 +63,7 @@ static void	right_process(int *pipe, t_ast_node *node,
 	}
 	close(pipe[0]);
 	close(pipe[1]);
+
 	parse_commands(node->right, envp);
 	exit(0);
 }

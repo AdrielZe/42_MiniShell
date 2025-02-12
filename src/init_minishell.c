@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_minishell.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:36:49 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/10 20:37:19 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/11 20:38:52 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	init_shell(char ***token, t_tokens **token_list, char
 			*root = build_ast(*token_list);
 			parse_commands(*root, envp);
 		}
+		//print_ast(*root, 0);
 		if (input)
 			add_history(input);
 		input = NULL;
