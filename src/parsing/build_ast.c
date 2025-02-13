@@ -61,7 +61,13 @@ static int	redirection_if(t_tokens *tokens, t_ast_node *node)
 		ft_putstr_fd("Erro de sintaxe!\n", STDERR_FILENO);
 		return (0);
 	}
-	if (tokens->type == TOKEN_REDIRECT_OUT)
+	if (tokens->type == TOKEN_REDIRECT_IN)
+	{
+		node->infile = open_stdin(tokens->next->value);
+		node->outfile_type = NODE_REDIRECT_IN;
+		return (1);
+	}
+	else if (tokens->type == TOKEN_REDIRECT_OUT)
 	{
 		node->outfile = open_stdout(tokens->next->value);
 		node->outfile_type = NODE_REDIRECT_OUT;
@@ -71,12 +77,6 @@ static int	redirection_if(t_tokens *tokens, t_ast_node *node)
 	{
 		node->outfile = open_append(tokens->next->value);
 		node->outfile_type = NODE_APPEND;
-		return (1);
-	}
-	else if (tokens->type == TOKEN_REDIRECT_IN)
-	{
-		node->infile = open_stdin(tokens->next->value);
-		node->outfile_type = NODE_REDIRECT_IN;
 		return (1);
 	}
 	return (0);
