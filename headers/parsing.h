@@ -17,6 +17,12 @@
 
 struct	s_tokens;
 
+typedef struct s_delim
+{
+	char			*delimiter;
+	struct s_delim	*next;
+} t_delim;
+
 typedef enum e_node_type
 {
 	NODE_WORD,
@@ -48,7 +54,10 @@ void		create_command_node(t_ast_node **root,
 				t_ast_node **current, struct s_tokens *tokens);
 void		create_heredoc_node(t_ast_node	**root, t_ast_node **current);
 void		handle_heredoc(t_ast_node *node, char **envp);
-void	read_heredoc(int *pipefd, char *delimiter);
+void		read_heredoc(int *pipefd, t_delim *delimiter);
+t_delim	*create_delim_list(char **delims);
+t_delim *get_all_delimiters(t_ast_node *node);
+void		free_delimiters(t_delim *head);
 void		exit_if_invalid_path(char **cmd);
 void		free_paths(char **paths);
 char		*search_valid_path(char *cmd, char **envp);

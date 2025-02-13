@@ -12,25 +12,27 @@
 
 #include "../headers/main.h"
 
-static void	left_process(int *pipe, t_ast_node *node, char **envp)
+static void	left_process(int *pipe, t_ast_node *node, t_delim *delimiters, char **envp)
 {
 	t_ast_node	*current;
-
+	t_delim	*delim_current;
 	
 	current = node;
 	while (current)
 	{
 		if (current->left->type == NODE_HEREDOC)
-			read_heredoc(pipe, ft_split(current->left->right->value, ' ')[0]);
+		{
+			delimiters = get_all_delimiters(current->left);
+			print_delim_list(delimiters);
+			read_heredoc(pipe, delimiters);
+		}
 		current = current->left;
 	}
-
-		if (dup2(pipe[1], STDOUT_FILENO) == -1)
-		{
-			perror("dup2 left");
-			exit(1);
-		}
-	
+	if (dup2(pipe[1], STDOUT_FILENO) == -1)
+	{
+		perror("dup2 left");
+		exit(1);
+	}
 	close(pipe[0]);
 	close(pipe[1]);
 	parse_commands(node->left, envp);
@@ -94,14 +96,16 @@ void	parse_commands(t_ast_node *node, char **envp)
 	pid_t		pid_left;
 	pid_t		pid_right;
 	int			pipefd[2];
+	t_delim	*delimiters;
 
 	if (!node)
 		return ;
 	if (node->type == NODE_PIPE)
 	{
+		delimiters = get_all_delimiters(node);
 		open_left_pipe(pipefd, &pid_left);
 		if (pid_left == 0)
-			left_process(pipefd, node, envp);
+			left_process(pipefd, node, delimiters, envp);
 		waitpid(pid_left, NULL, 0);
 		open_right_pipe(&pid_right);
 		if (pid_right == 0)
@@ -113,6 +117,7 @@ void	parse_commands(t_ast_node *node, char **envp)
 	}
 	else if (node->type == NODE_HEREDOC)
 	{
+		delimiters = get_all_delimiters(node);
 		printf("Origem : parse commands\n");
 		handle_heredoc(node, envp);
 	}

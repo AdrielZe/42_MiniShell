@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:41:35 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/13 00:10:24 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/13 00:46:17 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,24 +54,33 @@ void	open_heredoc_pipe(int *pipefd, pid_t *pid)
 	}
 }
 
-void	read_heredoc(int *pipefd, char *delimiter)
+void	read_heredoc(int *pipefd, t_delim *delimiters)
 {
 	char	*input;
+	t_delim *current;
 
 	close(pipefd[0]);
-	while (1)
+	current = delimiters;
+	while (current)
 	{
-		input = readline("heredoc> ");
-		if (!input || !ft_strcmp(input, delimiter))
+		while (1)
 		{
+			input = readline("heredoc> ");
+			if (!input)
+				break;
+			if (!ft_strcmp(input, current->delimiter))
+			{
+				free(input);
+				current = current->next;
+				break;
+			}
+			write(pipefd[1], input, ft_strlen(input));
+			write(pipefd[1], "\n", 1);
 			free(input);
-			break ;
 		}
-		write(pipefd[1], input, ft_strlen(input));
-		write(pipefd[1], "\n", 1);
-		free(input);
 	}
 	close(pipefd[1]);
+	free_delimiters(delimiters);
 	exit(0);
 }
 
@@ -109,17 +118,59 @@ void	execute_command_with_heredoc(int *pipefd,
 	waitpid(pid, NULL, 0);
 }
 
+
+void	print_delim_list(t_delim *delim_list)
+{
+	t_delim	*current = delim_list;
+	int		index = 1;
+
+	if (!current)
+	{
+		printf("Lista de delimitadores vazia.\n");
+		return;
+	}
+
+	printf("Lista de delimitadores:\n");
+	while (current)
+	{
+		current = current->next;
+		index++;
+	}
+}
+
+t_delim *get_all_delimiters(t_ast_node *node)
+{
+	t_delim	*head = NULL;
+	t_delim	*new;
+
+	while (node && node->type == NODE_HEREDOC)
+	{
+		new = malloc(sizeof(t_delim));
+		if (!new)
+			return (NULL);
+		new->delimiter = strdup(ft_split(node->right->value, ' ')[0]);
+		new->next = head;
+
+		head = new;
+		node = node->left;
+	}
+	return (head);
+}
+
+
+
 void	handle_heredoc(t_ast_node *node, char **envp)
 {
 	pid_t	pid;
-	int		pipefd[2];
-	char	*delimiter;
+	int	pipefd[2];
+	t_delim	*delim_list;
 
+	//current = node;
 	open_heredoc_pipe(pipefd, &pid);
 	if (pid == 0)
 	{
-		delimiter = ft_split(node->right->value, ' ')[0];
-		read_heredoc(pipefd, delimiter);
+		delim_list = get_all_delimiters(node);
+		read_heredoc(pipefd, delim_list);
 	}
 	execute_command_with_heredoc(pipefd, pid, node, envp);
 }
