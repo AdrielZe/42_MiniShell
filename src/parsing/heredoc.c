@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:41:35 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/12 21:26:13 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/13 00:10:24 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,24 @@ void	protect_fork(pid_t *pid)
 		perror("fork");
 		return ;
 	}
+}
+void	check_all_commands(t_ast_node *node, char **envp)
+{
+	if (!node)
+		return;
+	
+
+	if (node->type == NODE_PIPE)
+	{
+		while (node->type != NODE_COMMAND)
+			node = node->left;
+		if (!search_valid_path(node->value, envp))
+			printf("command not found: %s\n", node->value);
+		
+	}
+
+	check_all_commands(node->left, envp);
+	check_all_commands(node->right, envp);
 }
 
 void	open_heredoc_pipe(int *pipefd, pid_t *pid)
@@ -83,17 +101,7 @@ void	execute_command_with_heredoc(int *pipefd,
 		{
 			execute_command(current->left->value, envp, node);
 		}
-		while (current)
-		{
-			if (current->type == NODE_COMMAND)
-			{
-				if (!search_valid_path(current->value, envp))
-					printf("command not found: %s\n", current->value);
-				
-			}
-			current = current->left;
-		}
-	//	current = current->left;
+		check_all_commands(node, envp);
 		exit(1);
 	}
 
@@ -115,3 +123,4 @@ void	handle_heredoc(t_ast_node *node, char **envp)
 	}
 	execute_command_with_heredoc(pipefd, pid, node, envp);
 }
+
