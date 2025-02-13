@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:41:35 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/12 20:56:14 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/12 21:26:13 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,23 @@ void	execute_command_with_heredoc(int *pipefd,
 		dup2(pipefd[0], STDIN_FILENO);
 		close(pipefd[0]);
 		close(pipefd[1]);
+		if (current->type == NODE_HEREDOC && current->left->type == NODE_PIPE)
+			execute_command(current->left->right->value, envp, node);
+		else 
+		{
+			execute_command(current->left->value, envp, node);
+		}
 		while (current)
 		{
-			if (current->type == NODE_HEREDOC && current->left->type == NODE_PIPE)
-				execute_command(current->left->right->value, envp, node);
+			if (current->type == NODE_COMMAND)
+			{
+				if (!search_valid_path(current->value, envp))
+					printf("command not found: %s\n", current->value);
+				
+			}
 			current = current->left;
 		}
+	//	current = current->left;
 		exit(1);
 	}
 
