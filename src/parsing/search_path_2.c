@@ -6,11 +6,25 @@
 /*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/12 19:41:21 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/13 18:33:44 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/main.h"
+
+static void	valid_outfile_and_path(char *cmd, t_ast_node *node, char *path)
+{
+	if (node->outfile)
+		dup2(node->outfile, STDOUT_FILENO);
+	if (node->infile)
+		dup2(node->infile, STDIN_FILENO);
+	if (!path)
+	{
+		ft_putstr_fd(cmd, STDERR_FILENO);
+		ft_putstr_fd(" :command not found\n", STDERR_FILENO);
+		exit(127);
+	}
+}
 
 void	execute_command(char *cmd, char **envp, t_ast_node *node)
 {
@@ -27,21 +41,7 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 		return ;
 	if (pid == 0)
 	{
-		if(node->outfile)
-		{
-			if(node->outfile_type == NODE_REDIRECT_OUT)
-				dup2(open_stdout(node->outfile), STDOUT_FILENO);
-			else
-				dup2(open_append(node->outfile), STDOUT_FILENO);
-		}
-		if(node->infile)
-			dup2(node->infile, STDIN_FILENO);
-		if (!path)
-		{
-			ft_putstr_fd(cmd, STDERR_FILENO);
-			ft_putstr_fd(" :command not found\n", STDERR_FILENO);
-			exit(127);
-		}
+		valid_outfile_and_path(cmd, node, path);
 		if (execve(path, tokens, envp) == -1)
 			exit(127);
 		exit(0);
