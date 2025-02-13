@@ -118,7 +118,6 @@ void	parse_commands(t_ast_node *node, char **envp)
 	else if (node->type == NODE_HEREDOC)
 	{
 		delimiters = get_all_delimiters(node);
-		printf("Origem : parse commands\n");
 		handle_heredoc(node, envp);
 	}
 	else if (node->type == NODE_COMMAND)

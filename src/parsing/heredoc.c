@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:41:35 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/13 00:46:17 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/13 17:42:57 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,13 @@ void	execute_command_with_heredoc(int *pipefd,
 {
 	char	**args;
 	t_ast_node	*current;
+	int	pipe_found;
 
 	current = node;
 	args = malloc(2 * sizeof(char *));
 	args[0] = node->left->value;
 	args[1] = NULL;
+	pipe_found = 0;
 	search_valid_path(node->left->value, envp);
 	waitpid(pid, NULL, 0);
 	close(pipefd[1]);
@@ -104,12 +106,32 @@ void	execute_command_with_heredoc(int *pipefd,
 		dup2(pipefd[0], STDIN_FILENO);
 		close(pipefd[0]);
 		close(pipefd[1]);
-		if (current->type == NODE_HEREDOC && current->left->type == NODE_PIPE)
-			execute_command(current->left->right->value, envp, node);
-		else 
+		while (current->type != NODE_COMMAND)
 		{
-			execute_command(current->left->value, envp, node);
+			current = current->left;
+			if (current->type == NODE_PIPE && pipe_found == 0)
+			{
+				pipe_found = 1;
+				execute_command(current->right->value, envp, node);
+			}	
 		}
+		while (current)
+		{
+			if (current->type == NODE_COMMAND && pipe_found == 0)
+			{
+				execute_command(current->value, envp, node);
+			}
+			else
+				search_valid_path(ft_split(current->value, ' ')[0], envp);
+			current = current->left;
+		}
+		
+		// if (current->type == NODE_HEREDOC && current->left->type == NODE_PIPE)
+		// 	execute_command(current->left->right->value, envp, node);
+		// else 
+		// {
+		// 	execute_command(current->left->value, envp, node);
+		// }
 		check_all_commands(node, envp);
 		exit(1);
 	}
@@ -129,8 +151,6 @@ void	print_delim_list(t_delim *delim_list)
 		printf("Lista de delimitadores vazia.\n");
 		return;
 	}
-
-	printf("Lista de delimitadores:\n");
 	while (current)
 	{
 		current = current->next;
