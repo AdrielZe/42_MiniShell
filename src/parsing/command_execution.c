@@ -40,12 +40,8 @@ static void	left_process(int *pipe, t_ast_node *node, t_delim *delimiters, char 
 
 }
 
-static void	right_process(int *pipe, t_ast_node *node,
-	char **envp, char *outfile)
+static void	right_process(int *pipe, t_ast_node *node, char **envp)
 {
-	int	fd;
-
-	fd = -1;
 	if (!node || !node->right)
 		return ;
 	if (dup2(pipe[0], STDIN_FILENO) == -1)
@@ -53,11 +49,9 @@ static void	right_process(int *pipe, t_ast_node *node,
 		perror("dup2 right");
 		exit(1);
 	}
-	if (outfile)
+	if (node->outfile)
 	{
-		fd = check_outfile(node, fd);
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
+		dup2(node->outfile, STDOUT_FILENO);
 	}
 	close(pipe[0]);
 	close(pipe[1]);
@@ -108,7 +102,7 @@ void	parse_commands(t_ast_node *node, char **envp)
 		waitpid(pid_left, NULL, 0);
 		open_right_pipe(&pid_right);
 		if (pid_right == 0)
-			right_process(pipefd, node, envp, node->right->outfile);
+			right_process(pipefd, node, envp);
 		close(pipefd[0]);
 		close(pipefd[1]);
 		waitpid(pid_left, NULL, 0);

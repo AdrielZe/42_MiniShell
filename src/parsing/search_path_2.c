@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   search_path_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/13 18:09:21 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/13 19:59:20 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/main.h"
+
+static void	valid_outfile_and_path(char *cmd, t_ast_node *node, char *path)
+{
+	if (node->outfile)
+		dup2(node->outfile, STDOUT_FILENO);
+	if (node->infile)
+		dup2(node->infile, STDIN_FILENO);
+	if (!path)
+	{
+		ft_putstr_fd(cmd, STDERR_FILENO);
+		ft_putstr_fd(" :command not found\n", STDERR_FILENO);
+		exit(127);
+	}
+}
 
 void	execute_command(char *cmd, char **envp, t_ast_node *node)
 {
@@ -22,28 +36,14 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 	if (!tokens || !tokens[0])
 		return (perror("Comando vazio\n"));
 	path = search_valid_path(tokens[0], envp);
-	if (!path)
-	{
-		printf("command not found: %s\n", cmd);
-		return ;
-	}
 	pid = fork();
 	if (pid < 0)
 		return ;
 	if (pid == 0)
 	{
-		if (node->outfile)
-		{
-			if (node->outfile_type == NODE_REDIRECT_OUT)
-				dup2(open_stdout(node->outfile), STDOUT_FILENO);
-			else
-				dup2(open_append(node->outfile), STDOUT_FILENO);
-		}
+		valid_outfile_and_path(cmd, node, path);
 		if (execve(path, tokens, envp) == -1)
-		{
-			perror("execve");
 			exit(127);
-		}
 		exit(0);
 	}
 	waitpid (pid, NULL, 0);
