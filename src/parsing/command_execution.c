@@ -23,7 +23,6 @@ static void	left_process(int *pipe, t_ast_node *node, t_delim *delimiters, char 
 		if (current->left->type == NODE_HEREDOC)
 		{
 			delimiters = get_all_delimiters(current->left);
-			print_delim_list(delimiters);
 			read_heredoc(pipe, delimiters);
 		}
 		current = current->left;

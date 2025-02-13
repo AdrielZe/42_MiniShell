@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/12 20:51:33 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/13 18:09:21 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 		return ;
 	if (pid == 0)
 	{
-		if(node->outfile)
+		if (node->outfile)
 		{
-			if(node->outfile_type == NODE_REDIRECT_OUT)
+			if (node->outfile_type == NODE_REDIRECT_OUT)
 				dup2(open_stdout(node->outfile), STDOUT_FILENO);
 			else
 				dup2(open_append(node->outfile), STDOUT_FILENO);
@@ -48,3 +48,4 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 	}
 	waitpid (pid, NULL, 0);
 }
+
