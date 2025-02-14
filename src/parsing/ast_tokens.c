@@ -40,8 +40,8 @@ void	create_command_node(t_ast_node **root,
 	t_ast_node	*command_node;
 
 	command_node = create_node(NODE_COMMAND, tokens->value);
-	command_node->infile = -1;
-	command_node->outfile = -1;
+	command_node->infile = 0;
+	command_node->outfile = 0;
 	if (!*root)
 		*root = command_node;
 	else if (*current)
