@@ -48,3 +48,18 @@ void	create_command_node(t_ast_node **root,
 		(*current)->right = command_node;
 	*current = command_node;
 }
+
+void	create_envp_node(t_ast_node **root,
+				t_ast_node **current, t_tokens *tokens)
+{
+	t_ast_node	*env_var_node;
+
+	env_var_node = create_node(NODE_ENV_VAR, tokens->value);
+	env_var_node->infile = 0;
+	env_var_node->outfile = 0;
+	if (!*root)
+		*root = env_var_node;
+	else if (*current)
+		(*current)->right = env_var_node;
+	*current = env_var_node;
+}

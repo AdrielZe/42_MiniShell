@@ -34,7 +34,7 @@ int	count_if(size_t *count, const char *s)
 		(*count)++;
 	else
 	{
-		while (*s && *s != '|' && *s != '<' && *s != '"' && *s != '\'')
+		while (*s && *s != '|' && *s != '<' && *s != '"' && *s != '\'' && *s != '$') 
 			s++;
 		(*count)++;
 	}

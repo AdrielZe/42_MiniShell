@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_path_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/13 19:59:20 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/16 20:37:37 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,29 @@ static void	valid_outfile_and_path(char *cmd, t_ast_node *node, char *path)
 	}
 }
 
+void	if_env_var(t_ast_node *node, char **tokens)
+{
+	char	*cmd;
+	char	*expanded;
+	int		i;
+
+	i = 0;
+	if (node->type == NODE_ENV_VAR)
+	{
+		cmd = process_env_var(tokens[0]);
+		while (tokens[i])
+		{
+			if (ft_strchr(tokens[i], '$') != NULL)
+			{
+				expanded = process_env_var(tokens[i]);
+				if (expanded)
+					tokens[i] = expanded;
+			}
+			i++;
+		}
+	}
+}
+
 void	execute_command(char *cmd, char **envp, t_ast_node *node)
 {
 	char	**tokens;
@@ -39,6 +62,8 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 	pid = fork();
 	if (pid < 0)
 		return ;
+	if_env_var(node, tokens);
+	path = search_valid_path(ft_split(cmd, ' ')[0], envp);
 	if (pid == 0)
 	{
 		valid_outfile_and_path(cmd, node, path);
@@ -48,4 +73,3 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 	}
 	waitpid (pid, NULL, 0);
 }
-

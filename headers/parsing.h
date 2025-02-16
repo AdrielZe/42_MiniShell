@@ -44,6 +44,7 @@ typedef struct s_ast_node
 	int					outfile;
 	t_node_type			outfile_type;
 	int					infile;
+	int				env_var;
 }	t_ast_node;
 
 t_ast_node	*create_node(t_node_type type, char *value);
@@ -52,6 +53,8 @@ int			search_for_path_index(char **envp);
 void		parse_commands(t_ast_node *node, char **envp);
 void		create_pipe_node(t_ast_node	**root, t_ast_node **current);
 void		create_command_node(t_ast_node **root,
+				t_ast_node **current, struct s_tokens *tokens);
+void		create_envp_node(t_ast_node **root,
 				t_ast_node **current, struct s_tokens *tokens);
 void		create_heredoc_node(t_ast_node	**root, t_ast_node **current);
 void		handle_heredoc(t_ast_node *node, char **envp);

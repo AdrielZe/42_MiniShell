@@ -82,11 +82,11 @@ char	*process_env_var(char *input)
 					index_of_env_symbol, i);
 			input_to_return = replace_substring(input,
 					word_to_switch, index_of_env_symbol);
-			input = input_to_return;
-			free(word_to_switch);
+			input = input_to_return;			free(word_to_switch);
 		}
 		index_of_env_symbol++;
 		i = 0;
 	}
+//	printf("input: %s\n", input);
 	return (input);
 }
