@@ -1,0 +1,5 @@
+Atualizar a cópia da envp quando :
+
+- O usuário executa o comando export. Ex: "export VAR=valor".
+- O usuário executa o comando unset. Ex: "unset VAR".
+- O cd pode afetar a varíavel pwd, então deve-se tbm atualizar pwd e oldpwd na cópia.

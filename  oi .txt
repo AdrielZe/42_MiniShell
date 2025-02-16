@@ -1,0 +1,23 @@
+# Ignorar arquivos binários gerados
+*.o
+*.out
+*.exe
+*.a
+*.so
+*.d
+
+# Ignorar arquivos de configuração do editor (exemplo para VSCode)
+.vscode/
+tokens.tx
+
+.my_history
+
+program
+minishell
+norminette_env/
+.gitignore
+ast_print.txt
+print_ast.c
+print_ast.txt
+utils
+old_tree.txt

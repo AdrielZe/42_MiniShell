@@ -14,17 +14,43 @@
 #include "../headers/tokenize.h"
 #include "../headers/parsing.h"
 
+char	**copy_envp(char *envp[])
+{
+	int		i;
+	char	**envp_copy;
+
+	i = 0;
+	while (envp[i])
+		i++;
+	envp_copy = (char **)malloc(sizeof(char *) * (i + 1));
+	if (!envp_copy)
+	{
+		perror("malloc");
+		exit(1);
+	}
+	i = 0;
+	while (envp[i])
+	{
+		envp_copy[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	envp_copy[i] = NULL;
+	return (envp_copy);
+}
 int	main(int argc, char *argv[], char *envp[])
 {
 	char		**token;
 	t_tokens	*token_list;
+	char		**envp_copy;
 	t_ast_node	*root;
 
-	if (argc && argv)
-		printf(" ");
+	(void) argc;
+	(void) argv;
+	envp_copy = copy_envp(envp);
 	token_list = NULL;
-	init_shell(&token, &token_list, envp, &root);
+	init_shell(&token, &token_list, envp_copy, &root);
 	clear_token_list(&token_list);
 	write_history(".my_history");
 	return (0);
 }
+
