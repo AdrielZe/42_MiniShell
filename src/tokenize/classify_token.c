@@ -38,6 +38,8 @@ int	count_if(size_t *count, const char *s)
 			s++;
 		(*count)++;
 	}
+	printf("Token identificado: [%.*s]\n", (int)(s - start), start);
+
 	return (s - start);
 }
 
