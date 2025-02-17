@@ -63,6 +63,7 @@ void	handle_nodes_to_execute_command(t_ast_node *current, int pipe_found, t_ast_
 t_delim	*create_delim_list(char **delims);
 t_delim *get_all_delimiters(t_ast_node *node);
 void		check_all_commands(t_ast_node *node, char **envp);
+char		*if_env_var(t_ast_node *node, char **tokens);
 void		free_delimiters(t_delim *head);
 void		exit_if_invalid_path(char **cmd);
 void		free_paths(char **paths);

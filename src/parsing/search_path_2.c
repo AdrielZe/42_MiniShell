@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/16 20:37:37 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/16 21:24:35 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,28 @@ static void	valid_outfile_and_path(char *cmd, t_ast_node *node, char *path)
 	}
 }
 
-void	if_env_var(t_ast_node *node, char **tokens)
+char	*if_env_var(t_ast_node *node, char **tokens)
 {
 	char	*cmd;
 	char	*expanded;
 	int		i;
 
 	i = 0;
+	cmd = process_env_var(tokens[0]);
 	if (node->type == NODE_ENV_VAR)
 	{
-		cmd = process_env_var(tokens[0]);
 		while (tokens[i])
 		{
 			if (ft_strchr(tokens[i], '$') != NULL)
 			{
 				expanded = process_env_var(tokens[i]);
-				if (expanded)
-					tokens[i] = expanded;
+				break;
 			}
 			i++;
 		}
+		return (expanded);
 	}
+	return (cmd);
 }
 
 void	execute_command(char *cmd, char **envp, t_ast_node *node)
@@ -62,7 +63,7 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 	pid = fork();
 	if (pid < 0)
 		return ;
-	if_env_var(node, tokens);
+	cmd = if_env_var(node, tokens);
 	path = search_valid_path(ft_split(cmd, ' ')[0], envp);
 	if (pid == 0)
 	{
