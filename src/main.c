@@ -60,6 +60,7 @@ int	main(int argc, char *argv[], char *envp[])
 	(void) argc;
 	(void) argv;
 	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
 	envp_copy = copy_envp(envp);
 	token_list = NULL;
 	init_shell(&token, &token_list, envp_copy, &root);

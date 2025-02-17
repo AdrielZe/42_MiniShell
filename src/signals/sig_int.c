@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 21:49:18 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/16 23:00:45 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/17 01:10:42 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,3 @@ void	handle_ctrl_d(int sig)
 	write(1, "Exiting minishell\n", 19);
 	exit(0);
 }
-
-
