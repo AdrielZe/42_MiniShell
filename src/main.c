@@ -14,6 +14,16 @@
 #include "../headers/tokenize.h"
 #include "../headers/parsing.h"
 
+int	array_len(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i])
+		i++;
+	return (i);
+};
+
 char	**copy_envp(char *envp[])
 {
 	int		i;
@@ -32,16 +42,18 @@ char	**copy_envp(char *envp[])
 	while (envp[i])
 	{
 		envp_copy[i] = ft_strdup(envp[i]);
-		i++;
+		i++; 
 	}
 	envp_copy[i] = NULL;
 	return (envp_copy);
 }
+
 int	main(int argc, char *argv[], char *envp[])
 {
 	char		**token;
 	t_tokens	*token_list;
 	char		**envp_copy;
+	int		len;
 	t_ast_node	*root;
 
 	(void) argc;
@@ -51,6 +63,8 @@ int	main(int argc, char *argv[], char *envp[])
 	init_shell(&token, &token_list, envp_copy, &root);
 	clear_token_list(&token_list);
 	write_history(".my_history");
+	len = array_len(envp_copy);
+	free_array(envp_copy, len);
 	return (0);
 }
 
