@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_path_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/16 21:24:35 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/17 01:31:45 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static void	valid_outfile_and_path(char *cmd, t_ast_node *node, char *path)
 {
 	if (node->outfile)
 		dup2(node->outfile, STDOUT_FILENO);
+	else if (node->right->outfile)
+		dup2(node->right->outfile, STDOUT_FILENO);
 	if (node->infile)
 		dup2(node->infile, STDIN_FILENO);
 	if (!path)
