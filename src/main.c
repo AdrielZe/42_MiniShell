@@ -13,6 +13,7 @@
 #include "../headers/main.h"
 #include "../headers/tokenize.h"
 #include "../headers/parsing.h"
+#include <signal.h>
 
 int	array_len(char **array)
 {
@@ -58,6 +59,7 @@ int	main(int argc, char *argv[], char *envp[])
 
 	(void) argc;
 	(void) argv;
+	signal(SIGINT, handle_sigint);
 	envp_copy = copy_envp(envp);
 	token_list = NULL;
 	init_shell(&token, &token_list, envp_copy, &root);

@@ -22,6 +22,7 @@ static void	left_process(int *pipe, t_ast_node *node, t_delim *delimiters, char 
 	{
 		if (current->left->type == NODE_HEREDOC)
 		{
+			printf("heredoc left process\n");
 			delimiters = get_all_delimiters(current->left);
 			read_heredoc(pipe, delimiters);
 		}
@@ -110,14 +111,17 @@ void	parse_commands(t_ast_node *node, char **envp)
 	}
 	else if (node->type == NODE_HEREDOC)
 	{
+		printf("heredoc direto\n");
 		delimiters = get_all_delimiters(node);
 		handle_heredoc(node, envp);
 	}
 	else if (node->type == NODE_ENV_VAR)	
 	{
-		
 		execute_command(node->value, envp, node);
 	}
 	else if (node->type == NODE_COMMAND)
-		execute_command(node->value, envp, node);
+	{
+		if (node->infile == -1)
+			execute_command(node->value, envp, node);
+	}
 }

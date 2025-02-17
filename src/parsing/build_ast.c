@@ -56,11 +56,11 @@ t_ast_node	*create_node(t_node_type type, char *value)
 
 static int	redirection_if(t_tokens *tokens, t_ast_node *node)
 {
-	// if (!tokens->next)
-	// {
-	// 	ft_putstr_fd("Erro de sintaxe!\n", STDERR_FILENO);
-	// 	return (0);
-	// }
+	if (!tokens->next)
+	{
+		ft_putstr_fd("Erro de sintaxe!\n", STDERR_FILENO);
+		return (0);
+	}
 	if (tokens->type == TOKEN_REDIRECT_IN)
 	{
 		node->infile = open_stdin(tokens->next->value);

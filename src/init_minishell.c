@@ -6,16 +6,19 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:36:49 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/16 21:30:05 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/16 22:59:19 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/main.h"
 
-static void	exit_if_typed_exit(char *input)
+static void	exit_if_typed_exit(char *input, t_tokens **token_list, char **envp_copy)
 {
 	if (ft_strcmp("exit", input) == 0)
 	{
+		clear_token_list(token_list);
+		free_array(envp_copy, array_len(envp_copy));
+		free(input);
 		printf("Saindo do programa.\n");
 		exit(0);
 	}
@@ -36,12 +39,14 @@ void	init_shell(char ***token, t_tokens **token_list, char
 	while (1)
 	{
 		input = readline("Digite algo> ");
+		if (input == NULL)
+			handle_ctrl_d();
 		if (!input || ft_strlen(input) == 0)
 		{
 			free(input);
 			continue ;
 		}
-		exit_if_typed_exit(input);
+		exit_if_typed_exit(input, token_list, envp);
 		*token = tokenize(input);
 		classify_token(*token, token_list);
 		//print_list(*token_list);

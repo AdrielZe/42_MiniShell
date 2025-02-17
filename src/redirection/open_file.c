@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 19:35:00 by victda-s          #+#    #+#             */
-/*   Updated: 2025/02/13 18:23:51 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/16 23:26:10 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,15 @@ int	open_stdin(char *file)
 {
 	int	fd;
 
-	if (file[0] == ' ')
+	if (file && file[0] == ' ')
+	{
 		file++;
+	}
+	// if (!file)
+	// {
+	// 	perror("Erro ao abrir o arquivo");
+	// 	return (-1);
+	// }
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
