@@ -20,10 +20,10 @@ static void	left_process(int *pipe, t_ast_node *node, t_delim *delimiters, char 
 	current = node;
 	while (current)
 	{
-		if (current->left->type == NODE_HEREDOC)
+		if (current->type == NODE_HEREDOC)
 		{
 			printf("heredoc left process\n");
-			delimiters = get_all_delimiters(current->left);
+			delimiters = get_all_delimiters(current);
 			read_heredoc(pipe, delimiters);
 		}
 		current = current->left;
@@ -37,8 +37,6 @@ static void	left_process(int *pipe, t_ast_node *node, t_delim *delimiters, char 
 	close(pipe[1]);
 	parse_commands(node->left, envp);
 	exit(0);
-	
-
 }
 
 static void	right_process(int *pipe, t_ast_node *node, char **envp)
@@ -121,7 +119,7 @@ void	parse_commands(t_ast_node *node, char **envp)
 	}
 	else if (node->type == NODE_COMMAND)
 	{
-		if (node->infile == -1)
+		// if (node->infile == -1)
 			execute_command(node->value, envp, node);
 	}
 }
