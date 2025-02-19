@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:59:58 by victda-s          #+#    #+#             */
-/*   Updated: 2025/02/17 01:42:53 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:08:09 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,14 @@ void	alloc_new_word_in_array(char ***array, int *i, char *new_word)
 	(*i)++;
 }
 
-int	should_merge_token(char **array, int i)
+int	should_merge_token(char **array, int i, const char *new_word)
 {
-	return (i > 0 && array[i - 1] && array[i - 1][0] != '|' &&
-			array[i - 1][0] != '<' && array[i - 1][0] != '>');
+	// Verifica se já existe um token anterior e se ele NÃO é um operador especial
+	if (i > 0 && array[i - 1] && array[i - 1][0] != '|' &&
+			array[i - 1][0] != '<' && array[i - 1][0] != '>' &&
+			new_word[0] != '"' && new_word[0] != '\'') // Garante que palavras entre aspas não sejam mescladas
+		return (1);
+	return (0);
 }
 
 void	merge_last_token(char ***array, int i, char *new_word)
