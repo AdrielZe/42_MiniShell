@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:41:35 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/13 21:12:53 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/19 13:19:58 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ void	handle_heredoc(t_ast_node *node, char **envp)
 	pid_t	pid;
 	int		pipefd[2];
 
-	pipefd[1] = node->right->outfile;
 	open_heredoc_pipe(pipefd, &pid);
 	if (pid == 0)
 	{
