@@ -62,10 +62,8 @@ void	clear_token_list(t_tokens **token_list)
 
 void	create_tokens(char *token_value, t_tokens **token_list)
 {
-	if (ft_strchr(token_value, '$') || (ft_strchr(token_value, '$')
-			&& (ft_strchr(token_value, '"'))))
-		append_token(token_list, TOKEN_ENV_VAR, token_value);
-	else if (ft_strcmp(token_value, ">>") == 0)
+	printf("token_value: %s\n", token_value);
+	if (ft_strcmp(token_value, ">>") == 0)
 		append_token(token_list, TOKEN_APPEND, token_value);
 	else if (ft_strcmp(token_value, "<<") == 0)
 		append_token(token_list, TOKEN_HEREDOC, token_value);
@@ -75,8 +73,9 @@ void	create_tokens(char *token_value, t_tokens **token_list)
 		append_token(token_list, TOKEN_REDIRECT_IN, token_value);
 	else if (ft_strcmp(token_value, "|") == 0)
 		append_token(token_list, TOKEN_PIPE, token_value);
-	else if (token_value && ft_strlen(token_value) > 1 && token_value[0] == '"'
-		&& token_value[ft_strlen(token_value) - 1] == '"')
+	else if (token_value && ft_strlen(token_value) > 1 && (token_value[0] == '"'
+		&& token_value[ft_strlen(token_value) - 1] == '"' ||
+			token_value[0] == '\'' && token_value[ft_strlen(token_value) - 1] == '\''))
 		append_token(token_list, TOKEN_WORD, token_value);
 	else
 		append_token(token_list, TOKEN_COMMAND, token_value);

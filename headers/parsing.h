@@ -52,6 +52,7 @@ t_ast_node	*build_ast(struct s_tokens *tokens);
 int			search_for_path_index(char **envp);
 void		parse_commands(t_ast_node *node, char **envp);
 void		create_pipe_node(t_ast_node	**root, t_ast_node **current);
+char **split_with_quotes(const char *s);
 void		create_command_node(t_ast_node **root,
 				t_ast_node **current, struct s_tokens *tokens);
 void		create_envp_node(t_ast_node **root,

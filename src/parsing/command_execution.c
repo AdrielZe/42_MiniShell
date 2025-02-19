@@ -113,13 +113,10 @@ void	parse_commands(t_ast_node *node, char **envp)
 		delimiters = get_all_delimiters(node);
 		handle_heredoc(node, envp);
 	}
-	else if (node->type == NODE_ENV_VAR)	
-	{
-		execute_command(node->value, envp, node);
-	}
 	else if (node->type == NODE_COMMAND)
 	{
-		// if (node->infile == -1)
-			execute_command(node->value, envp, node);
+		
+		node->value = process_env_var(node->value);
+		execute_command(node->value, envp, node);
 	}
 }
