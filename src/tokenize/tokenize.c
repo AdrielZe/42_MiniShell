@@ -111,16 +111,16 @@ char	**tokenize(const char *s)
 		int len = ft_strlen(new_word);
 		if ((new_word[0] == '"' || new_word[0] == '\'') && new_word[len - 1] == new_word[0] && len > 1)
 			is_string = 1;
-		printf("new_word: %s\n", new_word);
+		// printf("new_word: %s\n", new_word);
 		if (should_merge_token(array, i, is_string, new_word) == 1)
 		{
-			printf("fez o merge: %s\n", new_word);
+			// printf("fez o merge: %s\n", new_word);
 			merge_last_token(&array, i, new_word);
 			is_string = 0;
 		}
 		else
 		{
-			printf("alocou new word: %s\n", new_word);
+			// printf("alocou new word: %s\n", new_word);
 			alloc_new_word_in_array(&array, &i, new_word);
 		}
 	}

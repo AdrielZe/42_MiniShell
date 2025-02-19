@@ -109,7 +109,7 @@ void	parse_commands(t_ast_node *node, char **envp)
 	}
 	else if (node->type == NODE_HEREDOC)
 	{
-		printf("heredoc direto\n");
+		// printf("heredoc direto\n");
 		delimiters = get_all_delimiters(node);
 		handle_heredoc(node, envp);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_path_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/19 18:48:07 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/19 19:54:31 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,11 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 		return ;
 	cmd = if_env_var(node, tokens);
 	int i = 0;
-	while(tokens[i])
-	{
-		printf("tokens[%d]: %s\n", i, tokens[i]);
-		i++;
-	}
+	// while(tokens[i])
+	// {
+	// 	printf("tokens[%d]: %s\n", i, tokens[i]);
+	// 	i++;
+	// }
 	path = search_valid_path(ft_split(cmd, ' ')[0], envp);
 	if (pid == 0)
 	{

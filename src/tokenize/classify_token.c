@@ -38,7 +38,7 @@ int	count_if(size_t *count, const char *s)
 			s++;
 		(*count)++;
 	}
-	printf("Token identificado: [%.*s]\n", (int)(s - start), start);
+	// printf("Token identificado: [%.*s]\n", (int)(s - start), start);
 
 	return (s - start);
 }
@@ -62,7 +62,7 @@ void	clear_token_list(t_tokens **token_list)
 
 void	create_tokens(char *token_value, t_tokens **token_list)
 {
-	printf("token_value: %s\n", token_value);
+	// printf("token_value: %s\n", token_value);
 	if (ft_strcmp(token_value, ">>") == 0)
 		append_token(token_list, TOKEN_APPEND, token_value);
 	else if (ft_strcmp(token_value, "<<") == 0)
