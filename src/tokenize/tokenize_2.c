@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:59:58 by victda-s          #+#    #+#             */
-/*   Updated: 2025/02/19 19:02:17 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/19 19:14:08 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	is_command(char *s)
 int should_merge_token(char **array, int i, int is_string, char *new_word)
 {
 
+	if (!array[i - 1])
+		return (0);
     	if ((i > 0 && array && array[i - 1] && array[i - 1][0] != '|' &&
             array[i - 1][0] != '<' && array[i - 1][0] != '>') || is_string == 1) 
 	     {
@@ -67,7 +69,6 @@ void	merge_last_token(char ***array, int i, char *new_word)
 	char	*temp;
 	char	*joined;
 
-	// Junta os tokens com um espaço entre eles, sem remover as aspas
 	temp = ft_strjoin((*array)[i - 1], " ");
 	joined = ft_strjoin(temp, new_word);
 

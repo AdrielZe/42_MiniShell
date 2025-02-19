@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 23:51:32 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/16 01:47:44 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/19 19:11:09 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	handle_nodes_to_execute_command(t_ast_node *current,
 	}
 	while (current)
 	{
-		if (current->type == NODE_COMMAND && pipe_found == 0 && node->infile == -1) 
+		if (current->type == NODE_COMMAND && pipe_found == 0) 
 		{
 			execute_command(current->value, envp, node);
 		}
