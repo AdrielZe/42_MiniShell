@@ -63,32 +63,40 @@ static char	*process_quotes(const char **s)
 {
 	const char	*start;
 	char		quote;
-	char		*extracted_word;
 
+	start = *s;
 	if (**s == '"' || **s == '\'')
 	{
-		quote = **s;
-		extracted_word = extract_quoted_word(&quote, &start, s);
-		if (!extracted_word)
-			return (NULL);
-		return (extracted_word);
+		quote = *(*s)++; // Captura a aspa inicial e avança
+		while (**s && **s != quote)
+			(*s)++;
+		if (**s == quote) // Se encontrar a aspa final, avança novamente
+			(*s)++;
 	}
+	else if (**s == '|') // Se for pipe, apenas avança um caractere
+		(*s)++;
 	else
 	{
-		start = *s;
-		while (**s && **s != ' ' && **s != '|' && **s != '<' && **s != '>')
+		while (**s && **s != '|' && **s != '<' && **s != '>' 
+			&& **s != '"' && **s != '\'')
 			(*s)++;
-		return (allocate_word(start, *s - start));
 	}
+
+	// Aloca a palavra corretamente, considerando os caracteres percorridos
+	return (allocate_word(start, *s - start));
 }
+
 
 char	**tokenize(const char *s)
 {
 	int		i;
 	char	**array;
 	char	*new_word;
+	int	is_string;
+	char	*new_str;
 
 	i = 0;
+	is_string = 0;
 	array = malloc((ft_count_word(s) + 1) * sizeof(char *));
 	if (!array)
 		return (NULL);
@@ -100,7 +108,16 @@ char	**tokenize(const char *s)
 		new_word = process_quotes(&s);
 		if (!new_word)
 			return (free_array(array, i), NULL);
-		if (should_merge_token(array, i))
+		int len = ft_strlen(new_word);
+		if ((new_word[0] == '"' || new_word[0] == '\'') && new_word[len - 1] == new_word[0] && len > 1)
+		{
+			new_str = ft_substr(new_word, 1, len - 2); // Remove primeira e última aspas
+			is_string = 1;
+			printf("new_str: %s\n", new_str);
+
+		}
+		new_word = remove_quotes(new_word);
+		if (should_merge_token(array, i, is_string, new_word) == 1)
 			merge_last_token(&array, i, new_word);
 		else
 			alloc_new_word_in_array(&array, &i, new_word);
