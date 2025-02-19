@@ -110,17 +110,19 @@ char	**tokenize(const char *s)
 			return (free_array(array, i), NULL);
 		int len = ft_strlen(new_word);
 		if ((new_word[0] == '"' || new_word[0] == '\'') && new_word[len - 1] == new_word[0] && len > 1)
-		{
-			new_str = ft_substr(new_word, 1, len - 2); // Remove primeira e última aspas
 			is_string = 1;
-			printf("new_str: %s\n", new_str);
-
-		}
-		new_word = remove_quotes(new_word);
+		printf("new_word: %s\n", new_word);
 		if (should_merge_token(array, i, is_string, new_word) == 1)
+		{
+			printf("fez o merge: %s\n", new_word);
 			merge_last_token(&array, i, new_word);
+			is_string = 0;
+		}
 		else
+		{
+			printf("alocou new word: %s\n", new_word);
 			alloc_new_word_in_array(&array, &i, new_word);
+		}
 	}
 	array[i] = NULL;
 	return (array);

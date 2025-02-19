@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:59:58 by victda-s          #+#    #+#             */
-/*   Updated: 2025/02/19 17:45:45 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/19 19:02:17 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,10 @@ int should_merge_token(char **array, int i, int is_string, char *new_word)
 {
 
     	if ((i > 0 && array && array[i - 1] && array[i - 1][0] != '|' &&
-            array[i - 1][0] != '<' && array[i - 1][0] != '>' &&
-            (array[i - 1][0] != '"' && array[i - 1][0] != '\'' && 
-            new_word[0] != '"' && new_word[0] != '\'')) || is_string == 1) 
-	{	
-		printf("Realizou o merge!\n");
-		merge_last_token(&array, i, new_word);
-    	}
+            array[i - 1][0] != '<' && array[i - 1][0] != '>') || is_string == 1) 
+	     {
+			return (1);
+	     }
     	return 0;
 }
 
@@ -68,25 +65,18 @@ char	*remove_quotes(const char *str)
 void	merge_last_token(char ***array, int i, char *new_word)
 {
 	char	*temp;
-	char	*cleaned_last;
-	char	*cleaned_new;
 	char	*joined;
 
-	// Remove aspas do último token e do novo token se necessário
-	cleaned_last = remove_quotes((*array)[i - 1]);
-	cleaned_new = remove_quotes(new_word);
+	// Junta os tokens com um espaço entre eles, sem remover as aspas
+	temp = ft_strjoin((*array)[i - 1], " ");
+	joined = ft_strjoin(temp, new_word);
 
-	// Faz o join dos tokens limpos
-	temp = ft_strjoin(cleaned_last, " ");
-	joined = ft_strjoin(temp, cleaned_new);
-
-	// Libera memória das strings temporárias
+	// Libera memória das strings antigas
 	free(temp);
-	free(cleaned_last);
-	free(cleaned_new);
 	free((*array)[i - 1]);
 	free(new_word);
 
 	// Atualiza o último token no array
 	(*array)[i - 1] = joined;
 }
+
