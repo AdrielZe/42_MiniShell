@@ -34,12 +34,11 @@ int	count_if(size_t *count, const char *s)
 		(*count)++;
 	else
 	{
-		while (*s && *s != '|' && *s != '<' && *s != '"' && *s != '\'' && *s != '>' && *s != '$') 
+		while (*s && *s != '|' && *s != '<'
+			&& *s != '"' && *s != '\'' && *s != '>' && *s != '$')
 			s++;
 		(*count)++;
 	}
-	printf("Token identificado: [%.*s]\n", (int)(s - start), start);
-
 	return (s - start);
 }
 
@@ -74,8 +73,9 @@ void	create_tokens(char *token_value, t_tokens **token_list)
 	else if (ft_strcmp(token_value, "|") == 0)
 		append_token(token_list, TOKEN_PIPE, token_value);
 	else if (token_value && ft_strlen(token_value) > 1 && (token_value[0] == '"'
-		&& token_value[ft_strlen(token_value) - 1] == '"' ||
-			token_value[0] == '\'' && token_value[ft_strlen(token_value) - 1] == '\''))
+			&& token_value[ft_strlen(token_value) - 1] == '"'
+			|| token_value[0] == '\''
+			&& token_value[ft_strlen(token_value) - 1] == '\''))
 		append_token(token_list, TOKEN_WORD, token_value);
 	else
 		append_token(token_list, TOKEN_COMMAND, token_value);
