@@ -12,11 +12,12 @@
 
 #include "../headers/main.h"
 
-static void	left_process(int *pipe, t_ast_node *node, t_delim *delimiters, char **envp)
+static void	left_process(int *pipe, t_ast_node *node,
+	t_delim *delimiters, char **envp)
 {
 	t_ast_node	*current;
-	t_delim	*delim_current;
-	
+	t_delim		*delim_current;
+
 	current = node;
 	while (current)
 	{
@@ -88,7 +89,7 @@ void	parse_commands(t_ast_node *node, char **envp)
 	pid_t		pid_left;
 	pid_t		pid_right;
 	int			pipefd[2];
-	t_delim	*delimiters;
+	t_delim		*delimiters;
 
 	if (!node)
 		return ;
@@ -109,13 +110,11 @@ void	parse_commands(t_ast_node *node, char **envp)
 	}
 	else if (node->type == NODE_HEREDOC)
 	{
-		// printf("heredoc direto\n");
 		delimiters = get_all_delimiters(node);
 		handle_heredoc(node, envp);
 	}
 	else if (node->type == NODE_COMMAND)
 	{
-		
 		node->value = process_env_var(node->value);
 		execute_command(node->value, envp, node);
 	}

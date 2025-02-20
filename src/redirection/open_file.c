@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   open_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 19:35:00 by victda-s          #+#    #+#             */
-/*   Updated: 2025/02/16 23:26:10 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/20 20:16:32 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../headers/main.h"
 #include <fcntl.h>
 #include <unistd.h>
-#include "../headers/main.h"
 
 int	open_stdout(char *file)
 {
 	int	fd;
 
-	if (file[0] == ' ')
-		file++;
+	file = ft_strtrim(file, " ");
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	free(file);
 	if (fd == -1)
 		return (-1);
 	return (fd);
@@ -30,9 +30,9 @@ int	open_append(char *file)
 {
 	int	fd;
 
-	if (file[0] == ' ')
-		file++;
+	file = ft_strtrim(file, " ");
 	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR, 0644);
+	free(file);
 	if (fd == -1)
 		return (-1);
 	return (fd);
@@ -42,16 +42,9 @@ int	open_stdin(char *file)
 {
 	int	fd;
 
-	if (file && file[0] == ' ')
-	{
-		file++;
-	}
-	// if (!file)
-	// {
-	// 	perror("Erro ao abrir o arquivo");
-	// 	return (-1);
-	// }
+	file = ft_strtrim(file, " ");
 	fd = open(file, O_RDONLY);
+	free(file);
 	if (fd == -1)
 	{
 		perror("Erro ao abrir o arquivo");

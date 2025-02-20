@@ -6,7 +6,7 @@
 /*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/19 19:54:31 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/20 20:14:25 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*if_env_var(t_ast_node *node, char **tokens)
 			if (ft_strchr(tokens[i], '$') != NULL)
 			{
 				expanded = process_env_var(tokens[i]);
-				break;
+				break ;
 			}
 			i++;
 		}
@@ -64,12 +64,6 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 	if (pid < 0)
 		return ;
 	cmd = if_env_var(node, tokens);
-	int i = 0;
-	// while(tokens[i])
-	// {
-	// 	printf("tokens[%d]: %s\n", i, tokens[i]);
-	// 	i++;
-	// }
 	path = search_valid_path(ft_split(cmd, ' ')[0], envp);
 	if (pid == 0)
 	{

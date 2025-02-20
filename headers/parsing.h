@@ -21,7 +21,7 @@ typedef struct s_delim
 {
 	char			*delimiter;
 	struct s_delim	*next;
-} t_delim;
+}	t_delim;
 
 typedef enum e_node_type
 {
@@ -44,7 +44,7 @@ typedef struct s_ast_node
 	int					outfile;
 	t_node_type			outfile_type;
 	int					infile;
-	int				env_var;
+	int					env_var;
 }	t_ast_node;
 
 t_ast_node	*create_node(t_node_type type, char *value);
@@ -52,7 +52,7 @@ t_ast_node	*build_ast(struct s_tokens *tokens);
 int			search_for_path_index(char **envp);
 void		parse_commands(t_ast_node *node, char **envp);
 void		create_pipe_node(t_ast_node	**root, t_ast_node **current);
-char **split_with_quotes(const char *s);
+char		**split_with_quotes(const char *s);
 void		create_command_node(t_ast_node **root,
 				t_ast_node **current, struct s_tokens *tokens);
 void		create_envp_node(t_ast_node **root,
@@ -60,9 +60,10 @@ void		create_envp_node(t_ast_node **root,
 void		create_heredoc_node(t_ast_node	**root, t_ast_node **current);
 void		handle_heredoc(t_ast_node *node, char **envp);
 void		read_heredoc(int *pipefd, t_delim *delimiter);
-void	handle_nodes_to_execute_command(t_ast_node *current, int pipe_found, t_ast_node *node, char **envp);
-t_delim	*create_delim_list(char **delims);
-t_delim *get_all_delimiters(t_ast_node *node);
+void		handle_nodes_to_execute_command(t_ast_node *current, int pipe_found,
+				t_ast_node *node, char **envp);
+t_delim		*create_delim_list(char **delims);
+t_delim		*get_all_delimiters(t_ast_node *node);
 void		check_all_commands(t_ast_node *node, char **envp);
 char		*if_env_var(t_ast_node *node, char **tokens);
 void		free_delimiters(t_delim *head);

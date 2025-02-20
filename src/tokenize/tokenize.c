@@ -67,13 +67,13 @@ static char	*process_quotes(const char **s)
 	start = *s;
 	if (**s == '"' || **s == '\'')
 	{
-		quote = *(*s)++; // Captura a aspa inicial e avança
+		quote = *(*s)++;
 		while (**s && **s != quote)
 			(*s)++;
-		if (**s == quote) // Se encontrar a aspa final, avança novamente
+		if (**s == quote)
 			(*s)++;
 	}
-	else if (**s == '|') // Se for pipe, apenas avança um caractere
+	else if (**s == '|')
 		(*s)++;
 	else
 	{
@@ -81,8 +81,6 @@ static char	*process_quotes(const char **s)
 			&& **s != '"' && **s != '\'')
 			(*s)++;
 	}
-
-	// Aloca a palavra corretamente, considerando os caracteres percorridos
 	return (allocate_word(start, *s - start));
 }
 
@@ -111,18 +109,13 @@ char	**tokenize(const char *s)
 		int len = ft_strlen(new_word);
 		if ((new_word[0] == '"' || new_word[0] == '\'') && new_word[len - 1] == new_word[0] && len > 1)
 			is_string = 1;
-		// printf("new_word: %s\n", new_word);
 		if (should_merge_token(array, i, is_string, new_word) == 1)
 		{
-			// printf("fez o merge: %s\n", new_word);
 			merge_last_token(&array, i, new_word);
 			is_string = 0;
 		}
 		else
-		{
-			// printf("alocou new word: %s\n", new_word);
 			alloc_new_word_in_array(&array, &i, new_word);
-		}
 	}
 	array[i] = NULL;
 	return (array);

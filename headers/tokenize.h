@@ -66,7 +66,8 @@ size_t		ft_count_word(const char *s);
 void		alloc_heredoc(const char **s, char ***array, int *i);
 void		alloc_infile(const char **s, char ***array, int *i);
 int			count_if(size_t *count, const char *s);
-int			should_merge_token(char **array, int i, int is_string, char *new_word);
+int			should_merge_token(char **array, int i,
+				int is_string, char *new_word);
 int			malloc_array(char ***array, const char *s);
 
 #endif

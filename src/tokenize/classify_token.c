@@ -2,10 +2,14 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   classify_token.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+      
+	+#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2025/01/15 12:36:14 by victda-s          #+#    #+#             */
 /*   Updated: 2025/01/24 13:58:31 by marvin           ###   ########.fr       */
 /*   Updated: 2025/01/24 13:58:31 by marvin           ###   ########.fr       */
@@ -34,12 +38,11 @@ int	count_if(size_t *count, const char *s)
 		(*count)++;
 	else
 	{
-		while (*s && *s != '|' && *s != '<' && *s != '"' && *s != '\'' && *s != '>' && *s != '$') 
+		while (*s && *s != '|' && *s != '<' && *s != '"' && *s != '\''
+			&& *s != '>' && *s != '$')
 			s++;
 		(*count)++;
 	}
-	// printf("Token identificado: [%.*s]\n", (int)(s - start), start);
-
 	return (s - start);
 }
 
@@ -62,7 +65,6 @@ void	clear_token_list(t_tokens **token_list)
 
 void	create_tokens(char *token_value, t_tokens **token_list)
 {
-	// printf("token_value: %s\n", token_value);
 	if (ft_strcmp(token_value, ">>") == 0)
 		append_token(token_list, TOKEN_APPEND, token_value);
 	else if (ft_strcmp(token_value, "<<") == 0)
@@ -74,8 +76,9 @@ void	create_tokens(char *token_value, t_tokens **token_list)
 	else if (ft_strcmp(token_value, "|") == 0)
 		append_token(token_list, TOKEN_PIPE, token_value);
 	else if (token_value && ft_strlen(token_value) > 1 && (token_value[0] == '"'
-		&& token_value[ft_strlen(token_value) - 1] == '"' ||
-			token_value[0] == '\'' && token_value[ft_strlen(token_value) - 1] == '\''))
+			&& token_value[ft_strlen(token_value) - 1] == '"'
+			|| token_value[0] == '\'' && token_value[ft_strlen(token_value)
+				- 1] == '\''))
 		append_token(token_list, TOKEN_WORD, token_value);
 	else
 		append_token(token_list, TOKEN_COMMAND, token_value);
