@@ -60,6 +60,7 @@ void		create_envp_node(t_ast_node **root,
 void		create_heredoc_node(t_ast_node	**root, t_ast_node **current);
 void		handle_heredoc(t_ast_node *node, char **envp);
 void		read_heredoc(int *pipefd, t_delim *delimiter);
+void	handle_node_types(t_ast_node *node, char **envp, t_delim **delimiters);
 void	handle_nodes_to_execute_command(t_ast_node *current, int pipe_found, t_ast_node *node, char **envp);
 t_delim	*create_delim_list(char **delims);
 t_delim *get_all_delimiters(t_ast_node *node);

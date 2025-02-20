@@ -59,6 +59,8 @@ void		clear_token_list(t_tokens **token_list);
 void		free_array(char **array, int i);
 void		echo(t_tokens *tokens);
 char		**tokenize(const char *s);
+char		*process_quotes(const char **s);
+void	process_words(const char **s, char ***array, int *i);
 void		alloc_pipe(const char **s, char ***array, int *i);
 void		alloc_outfile(const char **s, char ***array, int *i);
 void		alloc_append(const char **s, char ***array, int *i);

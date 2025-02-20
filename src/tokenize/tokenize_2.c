@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:59:58 by victda-s          #+#    #+#             */
-/*   Updated: 2025/02/19 19:44:26 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/20 16:41:20 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,6 @@ void	alloc_new_word_in_array(char ***array, int *i, char *new_word)
 {
 	(*array)[*i] = new_word;
 	(*i)++;
-}
-
-int	is_command(char *s)
-{
-	if (s[0] == '"' || s[0] == '\'')
-		return (0);
-	return (1);
 }
 
 int	should_merge_token(char **array, int i, int is_string, char *new_word)

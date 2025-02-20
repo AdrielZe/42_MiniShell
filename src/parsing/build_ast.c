@@ -101,9 +101,7 @@ t_ast_node	*build_ast(t_tokens *tokens)
 		else if (redirection_if(tokens, current))
 		{
 			if (current && current->infile == -1)
-			{
 				return (NULL);
-			}
 			tokens = tokens->next;
 		}
 		tokens = tokens->next;

@@ -59,7 +59,7 @@ size_t	ft_count_word(const char *s)
 	return (count + delim_counter);
 }
 
-static char	*process_quotes(const char **s)
+char	*process_quotes(const char **s)
 {
 	const char	*start;
 	char		quote;
@@ -88,41 +88,12 @@ char	**tokenize(const char *s)
 {
 	int		i;
 	char	**array;
-	char	*new_word;
-	char	*new_str;
-	int		is_string;
-	int		len;
 
 	i = 0;
-	is_string = 0;
 	array = malloc((ft_count_word(s) + 1) * sizeof(char *));
 	if (!array)
 		return (NULL);
-	while (*s)
-	{
-		skip_spaces_and_alloc_elements(&s, &array, &i);
-		if (*s == '\0')
-			break ;
-		new_word = process_quotes(&s);
-		if (!new_word)
-			return (free_array(array, i), NULL);
-		len = ft_strlen(new_word);
-		if ((new_word[0] == '"' || new_word[0] == '\'')
-			&& new_word[len - 1] == new_word[0] && len > 1)
-			is_string = 1;
-		printf("new_word: %s\n", new_word);
-		if (should_merge_token(array, i, is_string, new_word) == 1)
-		{
-			printf("fez o merge: %s\n", new_word);
-			merge_last_token(&array, i, new_word);
-			is_string = 0;
-		}
-		else
-		{
-			printf("alocou new word: %s\n", new_word);
-			alloc_new_word_in_array(&array, &i, new_word);
-		}
-	}
+	process_words(&s, &array, &i);
 	array[i] = NULL;
 	return (array);
 }
