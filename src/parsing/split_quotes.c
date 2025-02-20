@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:29:27 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/20 17:46:52 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/20 20:20:48 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,30 +55,15 @@ char	*extract_word(const char **s)
 	int			len;
 	int			in_quotes;
 
-	len = 0;
-	in_quotes = 0;
-	quote_char = 0;
 	start = *s;
-	if (**s == '"' || **s == '\'')
-	{
-		quote_char = **s;
-		start++;
-		(*s)++;
-		in_quotes = 1;
-		while (**s && **s != quote_char)
-		{
-			(*s)++;
-			len++;
-		}
-		if (**s == quote_char)
-			(*s)++;
-	}
-	else
-		count_word_len_split(s, &len);
+	get_word_length(s, &len, &in_quotes, &quote_char);
 	word = (char *)malloc(len + 1);
 	if (!word)
 		return (NULL);
-	ft_strncpy(word, start, len);
+	if (in_quotes == 1)
+		ft_strncpy(word, start + (1), len);
+	else
+		ft_strncpy(word, start, len);
 	word[len] = '\0';
 	return (word);
 }

@@ -31,5 +31,7 @@ void	init_shell(char ***token, struct s_tokens **token_list,
 			char **envp, struct s_ast_node **root);
 void	handle_sigint(int sig);
 void	print_ast(struct s_ast_node *node, int level);
+void	handle_ctrl_d(void);
+int	array_len(char **array);
 
 #endif

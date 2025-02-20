@@ -51,6 +51,7 @@ void		append_token(t_tokens **token_list, t_token_type type, char *value);
 void		print_list(t_tokens *token_list);
 void		skip_spaces_and_alloc_elements(const char **s,
 				char ***array, int *i);
+void	free_array(char **array, int i);
 void		alloc_new_word_in_array(char ***array, int *i, char *new_word);
 void		free_elements(char ***array, int i, char **temp, char **new_word);
 void		merge_last_token(char ***array, int i, char *new_word);

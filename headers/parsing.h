@@ -69,6 +69,7 @@ char		*if_env_var(t_ast_node *node, char **tokens);
 void		free_delimiters(t_delim *head);
 void		skip_quotes(char *quote_char, const char **s);
 void	count_word_len_split(const char **s, int *len);
+int	get_word_length(const char **s, int *len, int *in_quotes, char *quote_char);
 void	find_string_end(const char **s, char *quote_char, int *in_quotes, const char **start);
 int	is_space(char c);
 void		exit_if_invalid_path(char **cmd);
