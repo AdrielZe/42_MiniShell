@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:29:27 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/20 21:39:21 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/20 21:40:15 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	count_unquoted_word_length(const char **s, int *len)
 	}
 }
 
-void	count_word_len_split(const char **s, int *len)
+static void	count_word_len_split(const char **s, int *len)
 {
 	char	quote_char;
 

@@ -63,7 +63,7 @@ void	clear_token_list(t_tokens **token_list)
 	*token_list = NULL;
 }
 
-void	create_tokens(char *token_value, t_tokens **token_list)
+static void	create_tokens(char *token_value, t_tokens **token_list)
 {
 	if (ft_strcmp(token_value, ">>") == 0)
 		append_token(token_list, TOKEN_APPEND, token_value);

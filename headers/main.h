@@ -25,18 +25,18 @@
 struct	s_tokens;
 struct	s_ast_node;
 
-//main.c
+//src/main.c
 int		array_len(char **array);
 
-//init_minishell.c
+//src/init_minishell.c
 void	init_shell(char ***token, struct s_tokens **token_list,
 			char **envp, struct s_ast_node **root);
 
-//signals/sig_int.c
+//src/signals/sig_int.c
 void	handle_sigint(int sig);
 void	handle_ctrl_d(void);
 
-//env_var/process_env_var.c
+//src/env_var/process_env_var.c
 char	*process_env_var(char *input);
 
 #endif

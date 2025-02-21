@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   heredoc_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:41:35 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/19 19:42:24 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/20 21:46:28 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/main.h"
 
-void	protect_fork(pid_t *pid)
+static void	protect_fork(pid_t *pid)
 {
 	if (*pid < 0)
 	{
@@ -21,7 +21,7 @@ void	protect_fork(pid_t *pid)
 	}
 }
 
-void	open_heredoc_pipe(int *pipefd, pid_t *pid)
+static void	open_heredoc_pipe(int *pipefd, pid_t *pid)
 {
 	if (pipe(pipefd) == -1)
 	{

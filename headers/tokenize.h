@@ -37,11 +37,16 @@ typedef struct s_tokens
 	struct s_tokens	*next;
 }	t_tokens;
 
-t_tokens	*get_token_by_index(t_tokens *token_list, int index);
-void		append_token(t_tokens **token_list, t_token_type type, char *value);
-void		print_list(t_tokens *token_list);
-void		classify_token(char **tokens, t_tokens **token_list);
+//src/tokenize/classify_token.c
+int			count_if(size_t *count, const char *s);
 void		clear_token_list(t_tokens **token_list);
+void		classify_token(char **tokens, t_tokens **token_list);
+
+//src/tokenize/tokenization_linked_list.c
+void		append_token(t_tokens **token_list, t_token_type type, char *value);
+
+
+void		print_list(t_tokens *token_list);
 void		free_array(char **array, int i);
 void		echo(t_tokens *tokens);
 char		*allocate_word(const char *s, int len);
@@ -54,7 +59,6 @@ void		skip_spaces_and_alloc_elements(const char **s,
 void		alloc_new_word_in_array(char ***array, int *i, char *new_word);
 void		free_elements(char ***array, int i, char **temp, char **new_word);
 void		merge_last_token(char ***array, int i, char *new_word);
-void		classify_token(char **tokens, t_tokens **token_list);
 void		clear_token_list(t_tokens **token_list);
 void		free_array(char **array, int i);
 void		echo(t_tokens *tokens);
@@ -67,7 +71,6 @@ void		alloc_append(const char **s, char ***array, int *i);
 size_t		ft_count_word(const char *s);
 void		alloc_heredoc(const char **s, char ***array, int *i);
 void		alloc_infile(const char **s, char ***array, int *i);
-int			count_if(size_t *count, const char *s);
 int			should_merge_token(char **array, int i,
 				int is_string, char *new_word);
 int			malloc_array(char ***array, const char *s);

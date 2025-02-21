@@ -47,7 +47,7 @@ typedef struct s_ast_node
 	int					env_var;
 }	t_ast_node;
 
-//ast_tokens.c
+//src/ast_tokens.c
 void		create_heredoc_node(t_ast_node	**root, t_ast_node **current);
 void		create_pipe_node(t_ast_node	**root, t_ast_node **current);
 void		create_command_node(t_ast_node **root,
@@ -55,42 +55,49 @@ void		create_command_node(t_ast_node **root,
 void		create_envp_node(t_ast_node **root,
 				t_ast_node **current, struct s_tokens *tokens);
 
-//build_ast.c
+//src/build_ast.c
 t_ast_node	*create_node(t_node_type type, char *value);
 t_ast_node	*build_ast(struct s_tokens *tokens);
 
-//command_execution_2.c
-void	handle_node_types(t_ast_node *node, char **envp, t_delim **delimiters);
-
-//command_execution.c
+//src/command_execution_1.c
 void		parse_commands(t_ast_node *node, char **envp);
 
-//search_path_2.c
-void		execute_command(char *argv, char **envp, t_ast_node *node);
+//src/command_execution_2.c
+void		handle_node_types(t_ast_node *node,
+				char **envp, t_delim **delimiters);
 
-//search_path.c
+//src/search_path_1.c
 char		*search_valid_path(char *cmd, char **envp);
 
-//split_quotes_2.c
-void		skip_quotes(char *quote_char, const char **s);
+//src/search_path_2.c
+void		execute_command(char *argv, char **envp, t_ast_node *node);
 
-
-
+//src/split_quotes_1.c
 char		**split_with_quotes(const char *s);
-void		handle_heredoc(t_ast_node *node, char **envp);
+int			is_space(char c);
+
+//src/split_quotes_2.c
+void		skip_quotes(char *quote_char, const char **s);
+int			get_word_length(const char **s, int *len,
+				int *in_quotes, char *quote_char);
+
+//src/heredoc/heredoc_1.c
 void		read_heredoc(int *pipefd, t_delim *delimiter);
-void	handle_nodes_to_execute_command(t_ast_node *current, int pipe_found, t_ast_node *node, char **envp);
-t_delim	*create_delim_list(char **delims);
-t_delim *get_all_delimiters(t_ast_node *node);
-void		check_all_commands(t_ast_node *node, char **envp);
+void		handle_heredoc(t_ast_node *node, char **envp);
+
+//src/heredoc/heredoc_2.c
+t_delim		*get_all_delimiters(t_ast_node *node);
 void		free_delimiters(t_delim *head);
-void	count_word_len_split(const char **s, int *len);
-void	find_string_end(const char **s, char *quote_char, int *in_quotes, const char **start);
-int	is_space(char c);
-int	get_word_length(const char **s, int *len, int *in_quotes, char *quote_char);
+void		check_all_commands(t_ast_node *node, char **envp);
+
+//src/heredoc/heredoc_3.c
+void		handle_nodes_to_execute_command(t_ast_node *current,
+				int pipe_found, t_ast_node *node, char **envp);
+
+//src/redirection/open_file.c
 int			open_stdin(char *file);
-int			open_append(char *file);
 int			open_stdout(char *file);
+int			open_append(char *file);
 int			check_outfile(t_ast_node *node, int fd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:29:27 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/20 21:12:04 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/20 21:42:59 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	is_space(char c)
 	return (c == ' ' || c == '\t');
 }
 
-int	count_words(const char *s)
+static int	count_words(const char *s)
 {
 	char	quote_char;
 	int		count;
@@ -47,7 +47,7 @@ int	count_words(const char *s)
 	return (count);
 }
 
-char	*extract_word(const char **s)
+static char	*extract_word(const char **s)
 {
 	const char	*start;
 	char		*word;

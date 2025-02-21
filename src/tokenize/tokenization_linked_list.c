@@ -40,23 +40,6 @@ void	append_token(t_tokens **token_list, t_token_type type, char *value)
 	current->next = new_node;
 }
 
-t_tokens	*get_token_by_index(t_tokens *token_list, int index)
-{
-	int			i;
-	t_tokens	*current;
-
-	i = 0;
-	current = token_list;
-	while (current)
-	{
-		if (i == index)
-			return (current);
-		i++;
-		current = current->next;
-	}
-	return (NULL);
-}
-
 void	print_list(t_tokens *token_list)
 {
 	t_tokens	*current;

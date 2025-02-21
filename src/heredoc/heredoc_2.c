@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 23:51:32 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/13 18:43:17 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/20 21:47:58 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	free_delimiters(t_delim *head)
 	}
 }
 
-t_delim	*create_delim_list(char **delims)
+static t_delim	*create_delim_list(char **delims)
 {
 	t_delim	*head;
 	t_delim	*new;
