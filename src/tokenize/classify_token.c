@@ -65,6 +65,9 @@ void	clear_token_list(t_tokens **token_list)
 
 static void	create_tokens(char *token_value, t_tokens **token_list)
 {
+	// if (ft_strchr(token_value, '$') || (ft_strchr(token_value, '$')
+	// 		&& (ft_strchr(token_value, '"'))))
+	// 	append_token(token_list, TOKEN_ENV_VAR, token_value);
 	if (ft_strcmp(token_value, ">>") == 0)
 		append_token(token_list, TOKEN_APPEND, token_value);
 	else if (ft_strcmp(token_value, "<<") == 0)

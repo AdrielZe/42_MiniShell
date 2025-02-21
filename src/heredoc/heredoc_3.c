@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 23:51:32 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/20 21:11:06 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/21 17:37:07 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	handle_nodes_to_execute_command(t_ast_node *current, int pipe_found,
 			pipe_found = 1;
 			if (node->right->outfile)
 				dup2(node->right->outfile, STDOUT_FILENO);
-			execute_command(current->right->value, envp, node);
+			execute_command(current->right->value, envp, node, 0);
 		}
 	}
 	while (current)
@@ -32,7 +32,7 @@ void	handle_nodes_to_execute_command(t_ast_node *current, int pipe_found,
 		{
 			if (node->right->outfile)
 				dup2(node->right->outfile, STDOUT_FILENO);
-			execute_command(current->value, envp, node);
+			execute_command(current->value, envp, node, 0);
 		}
 		else
 			search_valid_path(ft_split(current->value, ' ')[0], envp);

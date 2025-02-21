@@ -70,7 +70,7 @@ void		handle_node_types(t_ast_node *node,
 char		*search_valid_path(char *cmd, char **envp);
 
 //src/search_path_2.c
-void		execute_command(char *argv, char **envp, t_ast_node *node);
+void		execute_command(char *argv, char **envp, t_ast_node *node, int is_env_var);
 
 //src/split_quotes_1.c
 char		**split_with_quotes(const char *s);

@@ -1,0 +1,12 @@
+total 184
+drwxr-xr-x  2 asilveir candidate  4096 Feb 21 15:22 headers
+drwxr-xr-x  2 asilveir candidate  4096 Feb 21 17:36 libft
+-rw-r--r--  1 asilveir candidate     0 Feb 21  2025 listing.txt
+-rw-r--r--  1 asilveir candidate  1228 Feb 21 13:42 Makefile
+-rwxr-xr-x  1 asilveir candidate 70912 Feb 21 18:31 minishell
+drwxr-xr-x  9 asilveir candidate  4096 Feb 21 18:18 obj
+-rw-r--r--  1 asilveir candidate     5 Feb 21 18:33 output.txt
+-rwxr-xr-x  1 asilveir candidate 69792 Feb 21 13:41 program
+-rw-r--r--  1 asilveir candidate   473 Feb 20 22:22 readline.supp
+-rw-r--r--  1 asilveir candidate  1451 Feb 16 03:10 README.md
+drwxr-xr-x 10 asilveir candidate  4096 Feb 21 15:22 src
