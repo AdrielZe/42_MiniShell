@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_path_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/20 21:30:49 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/21 20:22:47 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 	char	**tokens;
 	char	*path;
 	pid_t	pid;
+	char	**built;
 
+	built = ft_split("PATH=built-ins", ' ');
 	tokens = split_with_quotes(cmd);
 	if (!tokens || !tokens[0])
 		return (perror("Comando vazio\n"));
@@ -64,7 +66,9 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 	if (pid < 0)
 		return ;
 	cmd = if_env_var(node, tokens);
-	path = search_valid_path(ft_split(cmd, ' ')[0], envp);
+	path = search_valid_path(ft_split(cmd, ' ')[0], built);
+	if(!path)
+		path = search_valid_path(ft_split(cmd, ' ')[0], envp);
 	if (pid == 0)
 	{
 		valid_outfile_and_path(cmd, node, path);

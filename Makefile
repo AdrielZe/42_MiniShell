@@ -1,28 +1,25 @@
-# Nome do executável
 NAME = minishell
 
-# Compilador e flags
-VALGRIND = valgrind --leak-check=full --show-leak-kinds=all
 CC = cc
-gdb = -g -O0 -fno-inline
-CFLAGS = -g3 # -Wall -Wextra -Werror
+CFLAGS = -g3 # -Wall -Wextra -Werror (coloque se precisar)
 
-# Diretórios
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 INCLUDES = -I$(LIBFT_DIR) -Isrc/tokenize
 SRC_DIR = src
 OBJ_DIR = obj
-
-# Procurar todos os arquivos .c no diretório src e subpastas
-SRCS = $(shell find $(SRC_DIR) -name "*.c")
-OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
+BUILT_INS = built-ins
 LIBS = -lreadline
 
-all: $(LIBFT) $(NAME)
+# Pega todos os .c dentro de src/
+SRCS = $(shell find $(SRC_DIR) -name "*.c")
+OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
-debug: GDB += -g
-debug: re
+# Pega todos os .c dentro de built-ins/
+SRC_BUILTINS = $(shell find $(BUILT_INS) -name "*.c")
+OBJS_BUILTINS = $(patsubst $(BUILT_INS)/%.c, built-ins/%, $(SRC_BUILTINS))
+
+all: $(LIBFT) $(NAME) built
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LIBS) $(INCLUDES) -o $(NAME)
@@ -37,18 +34,16 @@ $(LIBFT):
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
 	rm -rf $(OBJ_DIR)
+	rm $(OBJS_BUILTINS)
 
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
+	rm $(OBJS_BUILTINS)
 
 re: fclean all
 
-v: all
-	@valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --trace-children-skip='/bin/,/sbin/' --keep-debuginfo=yes \
-	--suppressions=readline.supp --track-fds=yes ./$(NAME)
-
-valgrind: $(NAME) 
-	$(VALGRIND) ./$(NAME)
+built:
+	$(CC) $(SRC_BUILTINS) -o $(OBJS_BUILTINS)
 
 .PHONY: all clean fclean re
