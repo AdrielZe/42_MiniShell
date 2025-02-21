@@ -6,31 +6,14 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:49:40 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/20 16:40:52 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/20 22:16:02 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/tokenize.h"
 #include "../../headers/parsing.h"
 
-char	*extract_quoted_word(char *quote, const char **start, const char **s)
-{
-	const char	*end;
-	char		*word;
-
-	*quote = **s;
-	(*s)++;
-	*start = *s;
-	while (**s && **s != *quote)
-		(*s)++;
-	end = *s;
-	if (**s == *quote)
-		(*s)++;
-	word = allocate_word(*start, end - *start);
-	return (word);
-}
-
-void	get_new_word(char **new_word, const char **s, char ***array, int *i)
+static void	get_new_word(char **new_word, const char **s, char ***array, int *i)
 {
 	*new_word = process_quotes(s);
 	if (!new_word)

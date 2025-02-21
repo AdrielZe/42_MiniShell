@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:59:58 by victda-s          #+#    #+#             */
-/*   Updated: 2025/02/20 20:49:49 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/20 22:13:45 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,6 @@ int	should_merge_token(char **array, int i, int is_string, char *new_word)
 		&& array[i - 1][0] != '<' && array[i - 1][0] != '>') || is_string == 1)
 		return (1);
 	return (0);
-}
-
-char	*remove_quotes(const char *str)
-{
-	size_t	len;
-	char	*new_str;
-
-	len = ft_strlen(str);
-	if ((str[0] == '"' || str[0] == '\'') && str[len - 1] == str[0] && len > 1)
-	{
-		new_str = ft_substr(str, 1, len - 2);
-		return (new_str);
-	}
-	return (ft_strdup(str));
 }
 
 void	merge_last_token(char ***array, int i, char *new_word)
