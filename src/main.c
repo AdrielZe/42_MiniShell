@@ -23,7 +23,7 @@ int	array_len(char **array)
 	while (array[i])
 		i++;
 	return (i);
-};
+}
 
 char	**copy_envp(char *envp[])
 {
@@ -43,7 +43,7 @@ char	**copy_envp(char *envp[])
 	while (envp[i])
 	{
 		envp_copy[i] = ft_strdup(envp[i]);
-		i++; 
+		i++;
 	}
 	envp_copy[i] = NULL;
 	return (envp_copy);
@@ -54,7 +54,7 @@ int	main(int argc, char *argv[], char *envp[])
 	char		**token;
 	t_tokens	*token_list;
 	char		**envp_copy;
-	int		len;
+	int			len;
 	t_ast_node	*root;
 
 	(void) argc;
@@ -70,4 +70,3 @@ int	main(int argc, char *argv[], char *envp[])
 	free_array(envp_copy, len);
 	return (0);
 }
-

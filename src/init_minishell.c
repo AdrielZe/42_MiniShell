@@ -6,13 +6,14 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:36:49 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/19 19:22:08 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/20 20:59:49 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/main.h"
 
-static void	exit_if_typed_exit(char *input, t_tokens **token_list, char **envp_copy)
+static void	exit_if_typed_exit(char *input,
+			t_tokens **token_list, char **envp_copy)
 {
 	if (ft_strcmp("exit", input) == 0)
 	{
@@ -49,10 +50,6 @@ void	init_shell(char ***token, t_tokens **token_list, char
 		exit_if_typed_exit(input, token_list, envp);
 		*token = tokenize(input);
 		classify_token(*token, token_list);
-		print_list(*token_list);
-		// if (ft_strcmp((*token_list)->value, "echo") == 0)
-		// 	echo(*token_list);
-		print_list(*token_list);
 		*root = build_ast(*token_list);
 		parse_commands(*root, envp);
 		if (input)

@@ -6,13 +6,13 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:18:39 by asilveir          #+#    #+#             */
-/*   Updated: 2024/12/04 18:24:44 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/20 21:09:31 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strncpy(char *dest, char *src, unsigned int n)
+char	*ft_strncpy(char *dest, const char *src, unsigned int n)
 {
 	unsigned int	i;
 

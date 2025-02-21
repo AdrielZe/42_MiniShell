@@ -2,10 +2,14 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   classify_token.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+      
+	+#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2025/01/15 12:36:14 by victda-s          #+#    #+#             */
 /*   Updated: 2025/01/24 13:58:31 by marvin           ###   ########.fr       */
 /*   Updated: 2025/01/24 13:58:31 by marvin           ###   ########.fr       */
@@ -61,7 +65,6 @@ void	clear_token_list(t_tokens **token_list)
 
 void	create_tokens(char *token_value, t_tokens **token_list)
 {
-	printf("token_value: %s\n", token_value);
 	if (ft_strcmp(token_value, ">>") == 0)
 		append_token(token_list, TOKEN_APPEND, token_value);
 	else if (ft_strcmp(token_value, "<<") == 0)

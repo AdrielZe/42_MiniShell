@@ -21,7 +21,7 @@ typedef struct s_delim
 {
 	char			*delimiter;
 	struct s_delim	*next;
-} t_delim;
+}	t_delim;
 
 typedef enum e_node_type
 {
@@ -44,7 +44,7 @@ typedef struct s_ast_node
 	int					outfile;
 	t_node_type			outfile_type;
 	int					infile;
-	int				env_var;
+	int					env_var;
 }	t_ast_node;
 
 t_ast_node	*create_node(t_node_type type, char *value);
@@ -52,7 +52,7 @@ t_ast_node	*build_ast(struct s_tokens *tokens);
 int			search_for_path_index(char **envp);
 void		parse_commands(t_ast_node *node, char **envp);
 void		create_pipe_node(t_ast_node	**root, t_ast_node **current);
-char **split_with_quotes(const char *s);
+char		**split_with_quotes(const char *s);
 void		create_command_node(t_ast_node **root,
 				t_ast_node **current, struct s_tokens *tokens);
 void		create_envp_node(t_ast_node **root,
@@ -71,6 +71,7 @@ void		skip_quotes(char *quote_char, const char **s);
 void	count_word_len_split(const char **s, int *len);
 void	find_string_end(const char **s, char *quote_char, int *in_quotes, const char **start);
 int	is_space(char c);
+int	get_word_length(const char **s, int *len, int *in_quotes, char *quote_char);
 void		exit_if_invalid_path(char **cmd);
 void		free_paths(char **paths);
 char		*search_valid_path(char *cmd, char **envp);

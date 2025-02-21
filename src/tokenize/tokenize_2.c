@@ -6,12 +6,12 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:59:58 by victda-s          #+#    #+#             */
-/*   Updated: 2025/02/20 16:41:20 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/20 20:49:49 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/tokenize.h"
 #include "../../headers/parsing.h"
+#include "../../headers/tokenize.h"
 
 void	skip_spaces_and_alloc_elements(const char **s, char ***array, int *i)
 {
