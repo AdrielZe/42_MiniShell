@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_quotes_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:29:27 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/20 21:40:15 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/21 17:40:18 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ int	get_word_length(const char **s, int *len, int *in_quotes, char *quote_char)
 		*in_quotes = 1;
 		while (**s && **s != *quote_char)
 		{
-		(*s)++;
-		(*len)++;
+			(*s)++;
+			(*len)++;
 		}
 		if (**s == *quote_char)
-		(*s)++;
+			(*s)++;
 	}
 	else
 		count_word_len_split(s, len);
