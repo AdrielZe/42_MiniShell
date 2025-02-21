@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 21:49:18 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/20 21:05:06 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/21 13:47:41 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 void	handle_sigint(int sig)
 {
 	write(1, "\n", 1);
-	write(1, "Digite algo> ", 13);
+	write(1, "> ", 13);
 }
 
 void	handle_ctrl_d(void)

@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:36:49 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/20 20:59:49 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/21 13:47:20 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	init_shell(char ***token, t_tokens **token_list, char
 
 	while (1)
 	{
-		input = readline("Digite algo> ");
+		input = readline("> ");
 		if (input == NULL)
 			handle_ctrl_d();
 		if (!input || ft_strlen(input) == 0)

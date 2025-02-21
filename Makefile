@@ -1,5 +1,5 @@
 # Nome do executável
-NAME = program
+NAME = minishell
 
 # Compilador e flags
 VALGRIND = valgrind --leak-check=full --show-leak-kinds=all
