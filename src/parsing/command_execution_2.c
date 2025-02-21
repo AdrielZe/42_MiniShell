@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/20 16:50:13 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:30:49 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	handle_node_types(t_ast_node *node, char **envp, t_delim **delimiters)
 	}
 	else if (node->type == NODE_COMMAND)
 	{
-		node->value = process_env_var(node->value);
+		//node->value = process_env_var(node->value);
 		execute_command(node->value, envp, node);
 	}
 }

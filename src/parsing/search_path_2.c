@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/20 21:30:49 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:29:10 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 	tokens = split_with_quotes(cmd);
 	if (!tokens || !tokens[0])
 		return (perror("Comando vazio\n"));
+	printf("tokens[0]: %s\n", tokens[0]);
 	path = search_valid_path(tokens[0], envp);
 	pid = fork();
 	if (pid < 0)
