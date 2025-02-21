@@ -12,18 +12,7 @@
 
 #include "../headers/main.h"
 
-void	exit_if_invalid_path(char **cmd)
-{
-	if (cmd && cmd[0])
-	{
-		ft_putstr_fd("hereeee ", 2);
-		ft_putstr_fd(cmd[0], 2);
-		ft_putstr_fd("\n", 2);
-	}
-	free_cmd(cmd);
-}
-
-void	free_paths(char **paths)
+static void	free_paths(char **paths)
 {
 	int	i;
 
@@ -34,6 +23,20 @@ void	free_paths(char **paths)
 		i++;
 	}
 	free(paths);
+}
+
+static int	search_for_path_index(char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp && envp[i])
+	{
+		if (ft_strnstr(envp[i], "PATH", 4))
+			break ;
+		i++;
+	}
+	return (i);
 }
 
 char	*search_valid_path(char *cmd, char **envp)
@@ -63,34 +66,4 @@ char	*search_valid_path(char *cmd, char **envp)
 	}
 	free_paths(paths);
 	return (NULL);
-}
-
-int	search_for_path_index(char **envp)
-{
-	int	i;
-
-	i = 0;
-	while (envp && envp[i])
-	{
-		if (ft_strnstr(envp[i], "PATH", 4))
-			break ;
-		i++;
-	}
-	return (i);
-}
-
-void	free_cmd(char **cmd)
-{
-	int	i;
-
-	i = 0;
-	if (cmd)
-	{
-		while (cmd[i])
-		{
-			free(cmd[i]);
-			i++;
-		}
-		free(cmd);
-	}
 }

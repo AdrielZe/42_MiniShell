@@ -25,7 +25,7 @@ int	array_len(char **array)
 	return (i);
 }
 
-char	**copy_envp(char *envp[])
+static char	**copy_envp(char *envp[])
 {
 	int		i;
 	char	**envp_copy;

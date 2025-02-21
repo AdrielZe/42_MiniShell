@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/20 20:49:06 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/20 21:30:49 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	valid_outfile_and_path(char *cmd, t_ast_node *node, char *path)
 	}
 }
 
-char	*if_env_var(t_ast_node *node, char **tokens)
+static char	*if_env_var(t_ast_node *node, char **tokens)
 {
 	char	*cmd;
 	char	*expanded;

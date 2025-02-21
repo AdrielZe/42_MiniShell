@@ -47,36 +47,47 @@ typedef struct s_ast_node
 	int					env_var;
 }	t_ast_node;
 
-t_ast_node	*create_node(t_node_type type, char *value);
-t_ast_node	*build_ast(struct s_tokens *tokens);
-int			search_for_path_index(char **envp);
-void		parse_commands(t_ast_node *node, char **envp);
+//ast_tokens.c
+void		create_heredoc_node(t_ast_node	**root, t_ast_node **current);
 void		create_pipe_node(t_ast_node	**root, t_ast_node **current);
-char		**split_with_quotes(const char *s);
 void		create_command_node(t_ast_node **root,
 				t_ast_node **current, struct s_tokens *tokens);
 void		create_envp_node(t_ast_node **root,
 				t_ast_node **current, struct s_tokens *tokens);
-void		create_heredoc_node(t_ast_node	**root, t_ast_node **current);
+
+//build_ast.c
+t_ast_node	*create_node(t_node_type type, char *value);
+t_ast_node	*build_ast(struct s_tokens *tokens);
+
+//command_execution_2.c
+void	handle_node_types(t_ast_node *node, char **envp, t_delim **delimiters);
+
+//command_execution.c
+void		parse_commands(t_ast_node *node, char **envp);
+
+//search_path_2.c
+void		execute_command(char *argv, char **envp, t_ast_node *node);
+
+//search_path.c
+char		*search_valid_path(char *cmd, char **envp);
+
+//split_quotes_2.c
+void		skip_quotes(char *quote_char, const char **s);
+
+
+
+char		**split_with_quotes(const char *s);
 void		handle_heredoc(t_ast_node *node, char **envp);
 void		read_heredoc(int *pipefd, t_delim *delimiter);
-void	handle_node_types(t_ast_node *node, char **envp, t_delim **delimiters);
 void	handle_nodes_to_execute_command(t_ast_node *current, int pipe_found, t_ast_node *node, char **envp);
 t_delim	*create_delim_list(char **delims);
 t_delim *get_all_delimiters(t_ast_node *node);
 void		check_all_commands(t_ast_node *node, char **envp);
-char		*if_env_var(t_ast_node *node, char **tokens);
 void		free_delimiters(t_delim *head);
-void		skip_quotes(char *quote_char, const char **s);
 void	count_word_len_split(const char **s, int *len);
 void	find_string_end(const char **s, char *quote_char, int *in_quotes, const char **start);
 int	is_space(char c);
 int	get_word_length(const char **s, int *len, int *in_quotes, char *quote_char);
-void		exit_if_invalid_path(char **cmd);
-void		free_paths(char **paths);
-char		*search_valid_path(char *cmd, char **envp);
-void		free_cmd(char **cmd);
-void		execute_command(char *argv, char **envp, t_ast_node *node);
 int			open_stdin(char *file);
 int			open_append(char *file);
 int			open_stdout(char *file);

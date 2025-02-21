@@ -12,7 +12,7 @@
 
 #include "../headers/main.h"
 
-void	free_ast(t_ast_node *node)
+static void	free_ast(t_ast_node *node)
 {
 	if (!node)
 		return ;
