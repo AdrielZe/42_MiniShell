@@ -65,12 +65,22 @@ void		parse_commands(t_ast_node *node, char **envp);
 //src/command_execution_2.c
 void		handle_node_types(t_ast_node *node,
 				char **envp, t_delim **delimiters);
+int			is_directory(char *path);
+int			is_file(const char *path);
+
+//src/command_execution_3.c
+void		handle_command_node(t_ast_node *node, char **envp);
+void		when_only_env_var(t_ast_node *node, char **envp, char *old_string);
+void		check_and_execute_if_is_cmd(t_ast_node *node, char **envp);
+void		execute_regular_cmd(t_ast_node *node, char **envp);
+int	verify_if_is_env_var(t_ast_node *node);
 
 //src/search_path_1.c
 char		*search_valid_path(char *cmd, char **envp);
 
 //src/search_path_2.c
-void		execute_command(char *argv, char **envp, t_ast_node *node, int is_env_var);
+void		execute_command(char *argv, char **envp,
+				t_ast_node *node, int is_env_var);
 
 //src/split_quotes_1.c
 char		**split_with_quotes(const char *s);

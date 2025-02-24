@@ -28,10 +28,13 @@ static void	left_process(int *pipe, t_ast_node *node,
 		}
 		current = current->left;
 	}
-	if (dup2(pipe[1], STDOUT_FILENO) == -1)
+	if (verify_if_is_env_var(node->left) != 1)
 	{
-		perror("dup2 left");
-		exit(1);
+		if (dup2(pipe[1], STDOUT_FILENO) == -1)
+		{
+			perror("dup2 left");
+			exit(1);
+		}
 	}
 	close(pipe[0]);
 	close(pipe[1]);
