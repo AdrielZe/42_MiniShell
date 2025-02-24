@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 19:35:00 by victda-s          #+#    #+#             */
-/*   Updated: 2025/02/20 21:51:27 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:47:56 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	open_stdin(char *file)
 	free(file);
 	if (fd == -1)
 	{
-		perror("Erro ao abrir o arquivo");
+		perror("Error opening file");
 		return (-1);
 	}
 	return (fd);

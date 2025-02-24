@@ -73,7 +73,7 @@ void		handle_command_node(t_ast_node *node, char **envp);
 void		when_only_env_var(t_ast_node *node, char **envp, char *old_string);
 void		check_and_execute_if_is_cmd(t_ast_node *node, char **envp);
 void		execute_regular_cmd(t_ast_node *node, char **envp);
-int	verify_if_is_env_var(t_ast_node *node);
+int			verify_if_is_env_var(t_ast_node *node);
 
 //src/search_path_1.c
 char		*search_valid_path(char *cmd, char **envp);
