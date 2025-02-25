@@ -56,7 +56,7 @@ t_ast_node	*create_node(t_node_type type, char *value)
 
 static int	redirection_if(t_tokens *tokens, t_ast_node *node)
 {
-	if (!tokens->next)
+	if (!tokens->next && node->type != NODE_WORD)
 	{
 		ft_putstr_fd("Erro de sintaxe!\n", STDERR_FILENO);
 		return (0);
@@ -94,8 +94,17 @@ t_ast_node	*build_ast(t_tokens *tokens)
 			create_pipe_node(&root, &current);
 		else if (tokens->type == TOKEN_HEREDOC)
 			create_heredoc_node(&root, &current);
-		else if (tokens->type == TOKEN_COMMAND)
-			create_command_node(&root, &current, tokens);
+		else if (tokens->type == TOKEN_COMMAND || tokens->type == TOKEN_WORD)
+		{
+			if (tokens->type == TOKEN_WORD)
+			{
+				if (tokens->value)
+					tokens->value = extract_word(&tokens->value);
+				create_command_node(&root, &current, tokens);
+			}
+			else 
+				create_command_node(&root, &current, tokens);
+		}
 		else if (tokens->type == TOKEN_ENV_VAR)
 			create_envp_node(&root, &current, tokens);
 		else if (redirection_if(tokens, current))

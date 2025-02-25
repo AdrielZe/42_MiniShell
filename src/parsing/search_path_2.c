@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/24 16:11:17 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/25 00:21:44 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	execute_command(char *cmd, char **envp,
 	char	*path;
 	pid_t	pid;
 
+	
 	tokens = split_with_quotes(cmd);
 	if (!tokens || !tokens[0])
 		return (perror("Comando vazio\n"));

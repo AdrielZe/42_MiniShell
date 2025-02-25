@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:29:27 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/24 14:38:09 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/24 23:57:24 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void	skip_quotes(char *quote_char, const char **s)
+void	skip_quotes(char *quote_char, char **s)
 {
 	*quote_char = **s;
 	(*s)++;
@@ -25,7 +25,7 @@ void	skip_quotes(char *quote_char, const char **s)
 		(*s)++;
 }
 
-static void	count_unquoted_word_length(const char **s, int *len)
+static void	count_unquoted_word_length(char **s, int *len)
 {
 	while (**s && !is_space(**s) && **s != '"' && **s != '\'')
 	{
@@ -34,7 +34,7 @@ static void	count_unquoted_word_length(const char **s, int *len)
 	}
 }
 
-static void	count_word_len_split(const char **s, int *len)
+static void	count_word_len_split(char **s, int *len)
 {
 	char	quote_char;
 
@@ -48,7 +48,7 @@ static void	count_word_len_split(const char **s, int *len)
 		count_unquoted_word_length(s, len);
 }
 
-int	get_word_length(const char **s, int *len, int *in_quotes, char *quote_char)
+int	get_word_length(char **s, int *len, int *in_quotes, char *quote_char)
 {
 	*len = 0;
 	*in_quotes = 0;

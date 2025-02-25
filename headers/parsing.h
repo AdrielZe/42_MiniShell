@@ -83,12 +83,13 @@ void		execute_command(char *argv, char **envp,
 				t_ast_node *node, int is_env_var);
 
 //src/split_quotes_1.c
-char		**split_with_quotes(const char *s);
+char		**split_with_quotes(char *s);
+char		*extract_word(char **s);
 int			is_space(char c);
 
 //src/split_quotes_2.c
-void		skip_quotes(char *quote_char, const char **s);
-int			get_word_length(const char **s, int *len,
+void		skip_quotes(char *quote_char, char **s);
+int			get_word_length(char **s, int *len,
 				int *in_quotes, char *quote_char);
 
 //src/heredoc/heredoc_1.c

@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/24 16:54:59 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/25 00:00:21 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,19 @@ void	handle_node_types(t_ast_node *node, char **envp, t_delim **delimiters)
 {
 	char	old_char;
 	char	*old_string;
-
+	printf("handlez\n");
 	if (node->type == NODE_HEREDOC)
 	{
 		*delimiters = get_all_delimiters(node);
 		handle_heredoc(node, envp);
+	}
+	else if (node->type == NODE_WORD)
+	{
+		printf("oi\n");
+		if (!node->value || node->value[0] == '\0')
+			return ;
+		node->value = extract_word(&node->value);
+		printf("NODE VALUE: %s\n", node->value);
 	}
 	else if (node->type == NODE_COMMAND)
 	{
