@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:49:40 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/25 00:01:29 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:58:29 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,20 @@ void	print_array(char **array)
 void	process_words(const char **s, char ***array, int *i)
 {
 	int		is_string;
-	static char *old_string;
+	static char *old_string = NULL;
 	int		len;
 	char	*new_word;
 
 	is_string = 0;
-	if (!old_string)
-		old_string = NULL;
 	while (**s)
 	{
-		if (!old_string)
-			old_string = ft_strdup(*s);
-		printf("Old string: %s\n", old_string);
 		skip_spaces_and_alloc_elements(s, array, i);
 		if (*s == NULL)
 			break ;
 		get_new_word(&new_word, s, array, i);
 		len = ft_strlen(new_word);
+		if (!old_string)
+			old_string = ft_strdup(new_word);
 		if ((new_word[0] == '"' || new_word[0] == '\'')
 			&& new_word[len - 1] == new_word[0] && len > 1 && (old_string != NULL && old_string[0] != '"'))
 		{
@@ -71,6 +68,7 @@ void	process_words(const char **s, char ***array, int *i)
 		{
 			merge_last_token(array, *i, new_word);
 			is_string = 0;
+			old_string = NULL;
 		}
 		else
 		{

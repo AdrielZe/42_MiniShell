@@ -54,6 +54,9 @@ void		create_command_node(t_ast_node **root,
 				t_ast_node **current, struct s_tokens *tokens);
 void		create_envp_node(t_ast_node **root,
 				t_ast_node **current, struct s_tokens *tokens);
+void		create_word_node(t_ast_node **root,
+				t_ast_node **current, struct s_tokens *tokens);
+
 
 //src/build_ast.c
 t_ast_node	*create_node(t_node_type type, char *value);

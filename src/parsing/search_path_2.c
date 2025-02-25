@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/25 00:35:55 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:50:18 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	execute_command(char *cmd, char **envp,
 
 	if (node->type == NODE_COMMAND)
 	{
-		printf("commando\n");
 		tokens = split_with_quotes(cmd);
 		if (!tokens || !tokens[0])
 			return (perror("Comando vazio\n"));
@@ -79,14 +78,7 @@ void	execute_command(char *cmd, char **envp,
 	} 
 	else 
 	{
-		printf("entrou no else\n");
 		tokens = split_with_quotes(cmd);
-		int i = 0;
-		while (tokens[i])
-		{
-			printf("Token[%d]: %s\n", i, tokens[i]);
-			i++;
-		}
 		if (!tokens || !tokens[0])
 			return (perror("Comando vazio\n"));
 		path = search_valid_path(tokens[0], envp);

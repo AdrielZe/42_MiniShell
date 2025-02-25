@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:29:27 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/24 23:59:04 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:42:49 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,5 @@ char	**split_with_quotes(char *s)
 		result[i++] = extract_word(&s);
 	}
 	result[i] = NULL;
-	printf("Result: %s\n", result[0]);
 	return (result);
 }
