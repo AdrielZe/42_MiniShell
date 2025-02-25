@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/25 00:00:21 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/25 00:41:12 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,22 @@ void	handle_node_types(t_ast_node *node, char **envp, t_delim **delimiters)
 	}
 	else if (node->type == NODE_WORD)
 	{
-		printf("oi\n");
+		printf("EM NODE WORD\n");
+		old_char = node->value[0];
 		if (!node->value || node->value[0] == '\0')
 			return ;
-		node->value = extract_word(&node->value);
-		printf("NODE VALUE: %s\n", node->value);
+		old_string = ft_strdup(node->value);
+		node->value = process_env_var(node->value);
+		if (old_char == '$')
+			when_only_env_var(node, envp, old_string);
+		else if (ft_strcmp(old_string, node->value) != 0)
+			check_and_execute_if_is_cmd(node, envp);
+		else
+		{	
+			printf("else\n");
+			execute_regular_cmd(node, envp);
+			free(old_string);
+		}
 	}
 	else if (node->type == NODE_COMMAND)
 	{

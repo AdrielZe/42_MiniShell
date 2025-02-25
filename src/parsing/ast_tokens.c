@@ -49,6 +49,21 @@ void	create_command_node(t_ast_node **root,
 	*current = command_node;
 }
 
+void	create_word_node(t_ast_node **root,
+				t_ast_node **current, t_tokens *tokens)
+{
+	t_ast_node	*word_node;
+
+	word_node = create_node(NODE_WORD, tokens->value);
+	word_node->infile = 0;
+	word_node->outfile = 0;
+	if (!*root)
+		*root = word_node;
+	else if (*current)
+		(*current)->right = word_node;
+	*current = word_node;
+}
+
 void	create_envp_node(t_ast_node **root,
 				t_ast_node **current, t_tokens *tokens)
 {

@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/24 18:58:34 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/25 00:55:01 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,21 +70,40 @@ void	check_and_execute_if_is_cmd(t_ast_node *node, char **envp)
 
 void	execute_regular_cmd(t_ast_node *node, char **envp)
 {
+	char	*command_to_execute;
+
+	if (node->type == NODE_COMMAND)
+		command_to_execute = ft_split(node->value, ' ')[0];
+	else
+		command_to_execute = ft_strdup(node->value);
 	if (ft_strchr(node->value, '$') != NULL)
-		execute_command(ft_split(node->value, ' ')[0], envp, node, 1);
+	{
+		if (node->type == NODE_COMMAND)
+			execute_command(ft_split(node->value, ' ')[0], envp, node, 1);
+		else
+			execute_command(node->value, envp, node, 1);
+	}
 	else
 	{
+		printf("elssssssssssse\n");
 		if (ft_strchr(node->value, '/') != NULL)
+		{
+			printf("NODE VALUE no if: %s\n", node->value);
 			printf("zsh: %s: No such file or directory\n", node->value);
-		else if (search_valid_path(ft_split(node->value, ' ')[0], envp) == NULL)
+		}
+		else if (search_valid_path(command_to_execute, envp) == NULL)
 		{
 
+			printf("NODE VALUE no search: %s\n", node->value);
 			printf("minishell: %s: command not found\n",
-				ft_split(node->value, ' ')[0]);
+				node->value);
 			return ;
 		}
 		else 
+		{	
+			printf("no ultimo else\n");
 			execute_command(node->value, envp, node, 0);
+		}
 	}
 }
 

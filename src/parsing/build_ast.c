@@ -98,9 +98,10 @@ t_ast_node	*build_ast(t_tokens *tokens)
 		{
 			if (tokens->type == TOKEN_WORD)
 			{
+				printf("aquitoken word\n");
 				if (tokens->value)
 					tokens->value = extract_word(&tokens->value);
-				create_command_node(&root, &current, tokens);
+				create_word_node(&root, &current, tokens);
 			}
 			else 
 				create_command_node(&root, &current, tokens);
