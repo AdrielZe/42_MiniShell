@@ -6,46 +6,49 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/25 15:34:22 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:49:03 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/main.h"
 #include <sys/stat.h>
 
-void	handle_command_node(t_ast_node *node, char **envp)
+void	handle_word_node(t_ast_node *node, char **envp)
 {
-	char	old_char;
+	int	is_env_var;
 	char	*old_string;
 
+	is_env_var = 0;
 	if (!node->value || node->value[0] == '\0')
 		return ;
-	old_char = node->value[0];
+	if (ft_strchr(node->value, '$') != NULL)
+		is_env_var = 1;
 	old_string = ft_strdup(node->value);
 	node->value = process_env_var(node->value);
+	if (is_env_var == 1)
+		when_only_env_var(node, envp, old_string);
+	else if (ft_strcmp(old_string, node->value) != 0)
+		check_and_execute_if_is_cmd(node, envp);
+	else
+	{	
+		printf("checking\n");
+		execute_regular_cmd(node, envp);
+		free(old_string);
+	}
 }
 
 void	when_only_env_var(t_ast_node *node, char **envp, char *old_string)
 {
-	if (is_directory(node->value))
-	{
-		printf("minishell: %s: Is a directory\n", node->value);
-		return ;
-	}
+	char 	**arr;
+	char	**args_arr;
+	int	arr_len;
+	int i;
+	int j;
+
+	check_if_is_directory(node->value);
 	if (!is_file(node->value) && !search_valid_path(node->value, envp))
 	{
-		if (ft_strcmp(old_string, node->value) != 0)
-		{
-			if (ft_strchr(node->value, '/') != NULL)
-				printf("zsh: %s: No such file or directory\n", node->value);
-			else
-				execute_command(node->value, envp, node, 1);
-		}
-		else
-		{
-			printf("returning void\n");
-			return ;
-		}
+		handle_node_value(node, envp, old_string);
 		return ;
 	}
 	execute_command(node->value, envp, node, 1);
