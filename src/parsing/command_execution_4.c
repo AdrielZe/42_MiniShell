@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/25 19:45:26 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/25 20:41:59 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	handle_node_value(t_ast_node *node, char **envp, char *old_string)
 	char	*cmd;
 	char	*temp;
 	char	**arr;
+	char	**arr_not_envp;
 	int i = 0;
 
 	if (ft_strcmp(old_string, node->value) != 0)
@@ -107,10 +108,28 @@ void	handle_node_value(t_ast_node *node, char **envp, char *old_string)
 	}
 	else
 	{
-		printf("desenvolvendo\n");
-		// if(search_valid_path(ft_split(node->value, ' ')[0], envp))
-		// {
-			
-		// }
+		int j = 0;
+		char *cmds;
+		char *temp;
+
+		cmds = "";
+		arr_not_envp = ft_split(node->value, ' ');
+		while (arr_not_envp[j])
+		{
+				arr = ft_split(node->value, ' ');
+				while (arr[i])
+				{
+					if (ft_strchr(arr[i], '$') == NULL)
+					{
+						cmds = ft_strjoin
+						node->value = ft_strdup(arr[i]);
+						check_if_is_cmd_or_dir(node, old_string, envp);
+						return ;
+					}
+					i++;
+				}
+				j++;
+		}
+				check_if_is_cmd_or_dir(node, old_string, envp);
 	}
 }
