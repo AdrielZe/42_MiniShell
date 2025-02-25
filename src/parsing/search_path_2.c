@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_path_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/21 20:22:47 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:03:23 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 	tokens = split_with_quotes(cmd);
 	if (!tokens || !tokens[0])
 		return (perror("Comando vazio\n"));
-	path = search_valid_path(tokens[0], envp);
+	// path = search_valid_path(tokens[0], envp);
 	pid = fork();
 	if (pid < 0)
 		return ;

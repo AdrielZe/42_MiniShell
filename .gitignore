@@ -21,3 +21,7 @@ print_ast.c
 print_ast.txt
 utils
 old_tree.txt
+
+# Built-ins exec
+echo
+pwd

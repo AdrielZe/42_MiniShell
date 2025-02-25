@@ -3,18 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:41:33 by victda-s          #+#    #+#             */
-/*   Updated: 2025/02/21 17:44:50 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/24 23:32:26 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include "../libft/libft.h"
 
-int	main(int argc, char *argv[])
+int	main(int argc, char *argv[], char *envp[])
 {
-	if(argc <= 1)
+	int	i;
+	int new_line;
+
+	i = 1;
+	new_line = 1;
+	if(!argv[1])
+		return (0);
+	if(ft_strnstr(argv[1], "-n", 2))
+	{
+		new_line = 0;
+		i++;
+	}
+	while(argv[i])
+	{
+		printf("%s", argv[i]);
+		if(argv[i+1])
+			printf(" ");
+		i++;
+	}
+	printf("   ---by VICTDA-S");
+	if(new_line)
 		printf("\n");
 	return (0);
 }
