@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/24 17:29:26 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:58:34 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 			execute_command(node->value, envp, node, 0);
 	}
 }
+
 int	verify_if_is_env_var(t_ast_node *node)
 {
 	char	*old_string;

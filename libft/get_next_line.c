@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 14:17:43 by asilveir          #+#    #+#             */
-/*   Updated: 2024/12/03 18:46:34 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:58:11 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,20 +98,3 @@ char	*get_next_line(int fd)
 	stash = string_to_add(stash);
 	return (line);
 }
-
-// int	main()
-// {
-// 	int	fd;
-// 	char	*line;
-
-// 	fd = open("teste.txt", O_RDONLY);
-// 	while(1)
-// 	{
-// 		line = get_next_line(fd);
-// 		if (!line)
-// 			break;
-// 		printf("%s", line);
-// 		free(line);
-// 	}
-// 	return (0);
-// }

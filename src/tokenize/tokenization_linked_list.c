@@ -45,6 +45,8 @@ void	print_list(t_tokens *token_list)
 	t_tokens	*current;
 
 	current = token_list;
+	if (!current)
+		printf("Token list is empty\n");
 	while (current)
 	{
 		printf("[%u -", current->type);

@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:49:40 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/20 22:16:02 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/24 21:32:09 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ void	process_words(const char **s, char ***array, int *i)
 			is_string = 0;
 		}
 		else
+		{
+			printf("In alloc new word\n");
 			alloc_new_word_in_array(array, i, new_word);
+		}
 	}
 }
