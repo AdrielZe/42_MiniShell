@@ -6,12 +6,20 @@
 /*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/24 16:03:23 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/25 11:00:37 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/main.h"
+int	cd(char *argv[]);
 
+static int if_cd(char *cmd, char *tokens[])
+{
+	if(ft_strcmp(tokens[0], "cd") == 0)
+		if(!cd(tokens))
+			return (1);
+		return (0);
+}
 static void	valid_outfile_and_path(char *cmd, t_ast_node *node, char *path)
 {
 	if (node->outfile)
@@ -62,6 +70,8 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 	if (!tokens || !tokens[0])
 		return (perror("Comando vazio\n"));
 	// path = search_valid_path(tokens[0], envp);
+	if(if_cd(cmd, tokens))
+		return ;
 	pid = fork();
 	if (pid < 0)
 		return ;

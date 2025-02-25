@@ -13,10 +13,11 @@ LIBS = -lreadline
 
 # Pega todos os .c dentro de src/
 SRCS = $(shell find $(SRC_DIR) -name "*.c")
+SRCS += $(BUILT_INS)/cd.c #Adiciona um arquivo avulço a srcs
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
 # Pega todos os .c dentro de built-ins/
-SRC_BUILTINS = $(shell find $(BUILT_INS) -name "*.c")
+SRC_BUILTINS = $(shell find $(BUILT_INS) -name "*.c" ! -name "cd.c")
 BUILT_EXECUTABLES = $(patsubst $(BUILT_INS)/%.c, $(BUILT_INS)/%, $(SRC_BUILTINS))
 
 all: $(LIBFT) $(NAME) built
