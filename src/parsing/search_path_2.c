@@ -6,7 +6,7 @@
 /*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/25 11:00:37 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/25 11:32:56 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,12 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 	char	**tokens;
 	char	*path;
 	pid_t	pid;
-	char	**built;
+	char	*built[1];
 
-	built = ft_split("PATH=built-ins", ' ');
+	built[0] = "PATH=built-ins";
 	tokens = split_with_quotes(cmd);
 	if (!tokens || !tokens[0])
 		return (perror("Comando vazio\n"));
-	// path = search_valid_path(tokens[0], envp);
 	if(if_cd(cmd, tokens))
 		return ;
 	pid = fork();
