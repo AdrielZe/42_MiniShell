@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/25 20:41:59 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/25 20:57:32 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	handle_node_value(t_ast_node *node, char **envp, char *old_string)
 		char *cmds;
 		char *temp;
 
-		cmds = "";
+		temp = "";
 		arr_not_envp = ft_split(node->value, ' ');
 		while (arr_not_envp[j])
 		{
@@ -121,15 +121,19 @@ void	handle_node_value(t_ast_node *node, char **envp, char *old_string)
 				{
 					if (ft_strchr(arr[i], '$') == NULL)
 					{
-						cmds = ft_strjoin
-						node->value = ft_strdup(arr[i]);
-						check_if_is_cmd_or_dir(node, old_string, envp);
-						return ;
+						temp = ft_strjoin(temp, " ");
+						temp = ft_strjoin(temp, arr[i]);
+
+						node->value = ft_strdup(temp);
+						printf("CMD: %s\n", temp);
+						//check_if_is_cmd_or_dir(node, old_string, envp);
+						//return ;
 					}
 					i++;
 				}
 				j++;
 		}
 				check_if_is_cmd_or_dir(node, old_string, envp);
+				return ;
 	}
 }
