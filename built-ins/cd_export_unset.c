@@ -6,7 +6,7 @@
 /*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 00:05:03 by victda-s          #+#    #+#             */
-/*   Updated: 2025/02/26 18:27:28 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:51:13 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "libft.h"
+
+extern char	**environ;
 
 int	cd(char *argv[])
 {
