@@ -84,6 +84,10 @@ void		check_if_is_cmd_or_dir(t_ast_node *node, char *old_string, char **envp);
 void		check_if_is_directory(char *node_value);
 void		handle_node_value(t_ast_node *node, char **envp, char *old_string);
 
+//src/command_execution_5.c
+int		found_env_var(t_ast_node *node, char *old_string);
+void		execute_valid_cmd(t_ast_node *node, char **envp, char *old_string, char *cmd);
+
 //src/search_path_1.c
 char		*search_valid_path(char *cmd, char **envp);
 

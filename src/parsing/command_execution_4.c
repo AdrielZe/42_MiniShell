@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/25 20:57:32 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:50:53 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ void	handle_node_value(t_ast_node *node, char **envp, char *old_string)
 	char	**arr_not_envp;
 	int i = 0;
 
-	if (ft_strcmp(old_string, node->value) != 0)
+
+	if (found_env_var(node, old_string))
 	{
 		if (node->type == NODE_COMMAND)
 			cmd = ft_split(node->value, ' ')[0];
@@ -78,10 +79,7 @@ void	handle_node_value(t_ast_node *node, char **envp, char *old_string)
 		env_processed = ft_split(env_result, ' ')[0];
 		if (search_valid_path(cmd, envp) && node->type == NODE_COMMAND)
 		{
-			printf("entrou no if\n");
-			temp = ft_strjoin(cmd, " ");
-			node->value = ft_strjoin(temp, env_processed);
-			check_if_is_cmd_or_dir(node, old_string, envp);
+			execute_valid_cmd(node, envp, old_string, cmd);
 			return ;
 		}
 		else if (!search_valid_path(cmd, envp) && node->type == NODE_COMMAND)
@@ -102,7 +100,6 @@ void	handle_node_value(t_ast_node *node, char **envp, char *old_string)
 			check_if_is_cmd_or_dir(node, old_string, envp);
 			return ;
 		}
-		printf("nao entrou no if\n");
 		node->value = env_processed;
 		check_if_is_cmd_or_dir(node, old_string, envp);
 	}
@@ -124,15 +121,21 @@ void	handle_node_value(t_ast_node *node, char **envp, char *old_string)
 						temp = ft_strjoin(temp, " ");
 						temp = ft_strjoin(temp, arr[i]);
 
-						node->value = ft_strdup(temp);
-						printf("CMD: %s\n", temp);
-						//check_if_is_cmd_or_dir(node, old_string, envp);
-						//return ;
+
+						// check_if_is_cmd_or_dir(node, old_string, envp);
+						// return ;
 					}
 					i++;
 				}
 				j++;
 		}
+				node->value = ft_strdup(temp);
+				if (!search_valid_path(ft_split(node->value, ' ')[0], envp))
+				{
+					node->value = ft_split(node->value, ' ')[0];
+					check_if_is_cmd_or_dir(node, old_string, envp);
+					return ;
+				}
 				check_if_is_cmd_or_dir(node, old_string, envp);
 				return ;
 	}
