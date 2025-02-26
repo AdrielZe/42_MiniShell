@@ -6,19 +6,23 @@
 /*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/25 11:32:56 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:17:54 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/main.h"
 int	cd(char *argv[]);
+int	export(char *argv[]);
 
 static int if_cd(char *cmd, char *tokens[])
 {
 	if(ft_strcmp(tokens[0], "cd") == 0)
-		if(!cd(tokens))
+		if(cd(tokens))
 			return (1);
-		return (0);
+	if(ft_strcmp(tokens[0], "export") == 0)
+		if(export(tokens))
+			return (1);
+	return (0);
 }
 static void	valid_outfile_and_path(char *cmd, t_ast_node *node, char *path)
 {

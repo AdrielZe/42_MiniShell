@@ -6,7 +6,7 @@
 /*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:41:33 by victda-s          #+#    #+#             */
-/*   Updated: 2025/02/24 23:32:26 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/26 13:53:16 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,21 @@ int	main(int argc, char *argv[], char *envp[])
 	printf("   ---by VICTDA-S");
 	if(new_line)
 		printf("\n");
+	return (0);
+}
+int	export(char *argv[])
+{
+	char	**env;
+	if (argv[2]|| !ft_strchr(argv[1], '=')) {
+		printf("Uso: %s NOME=VALOR\n", argv[0]);
+		return (1);
+	}
+	env = ft_split(argv[1], '=');
+	if (setenv(env[0], env[1], 1) != 0)
+		perror("setenv");
+	printf("%s=%s\n", env[0], env[1]);
+	free(env[0]);
+	free(env[1]);
+	free(env);
 	return (0);
 }

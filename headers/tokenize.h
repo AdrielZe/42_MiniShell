@@ -74,7 +74,4 @@ void		alloc_pipe(const char **s, char ***array, int *i);
 void		alloc_outfile(const char **s, char ***array, int *i);
 void		alloc_infile(const char **s, char ***array, int *i);
 
-//src/echo/echo.c
-void		echo(t_tokens *tokens);
-
 #endif
