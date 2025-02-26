@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/25 18:49:03 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:22:18 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 void	handle_word_node(t_ast_node *node, char **envp)
 {
-	int	is_env_var;
 	char	*old_string;
+	int		is_env_var;
 
 	is_env_var = 0;
 	if (!node->value || node->value[0] == '\0')
@@ -39,19 +39,13 @@ void	handle_word_node(t_ast_node *node, char **envp)
 
 void	when_only_env_var(t_ast_node *node, char **envp, char *old_string)
 {
-	char 	**arr;
-	char	**args_arr;
-	int	arr_len;
-	int i;
-	int j;
-
 	check_if_is_directory(node->value);
 	if (!is_file(node->value) && !search_valid_path(node->value, envp))
 	{
 		handle_node_value(node, envp, old_string);
 		return ;
 	}
-	execute_command(node->value, envp, node, 1);
+	execute_command(node->value, envp, node);
 }
 
 void	check_and_execute_if_is_cmd(t_ast_node *node, char **envp)
@@ -71,7 +65,7 @@ void	check_and_execute_if_is_cmd(t_ast_node *node, char **envp)
 		return ;
 	}
 	else
-		execute_command(node->value, envp, node, 0);
+		execute_command(node->value, envp, node);
 }
 
 void	execute_regular_cmd(t_ast_node *node, char **envp)
@@ -79,17 +73,15 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 	char	*command_to_execute;
 
 	if (node->type == NODE_COMMAND)
-	{
 		command_to_execute = ft_split(node->value, ' ')[0];
-	}
 	else
 		command_to_execute = ft_strdup(node->value);
 	if (ft_strchr(node->value, '$') != NULL)
 	{
 		if (node->type == NODE_COMMAND)
-			execute_command(ft_split(node->value, ' ')[0], envp, node, 1);
+			execute_command(ft_split(node->value, ' ')[0], envp, node);
 		else
-			execute_command(node->value, envp, node, 1);
+			execute_command(node->value, envp, node);
 	}
 	else
 	{
@@ -97,22 +89,18 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 			printf("zsh: %s: No such file or directory\n", node->value);
 		else if (search_valid_path(command_to_execute, envp) == NULL)
 		{
-			printf("Ultimo else\n");
-			printf("minishell: %s: command not found\n",
-				command_to_execute);
+			printf("minishell: %s: command not found\n", command_to_execute);
 			return ;
 		}
-		else 
-		{	
-			execute_command(node->value, envp, node, 0);
-		}
+		else
+			execute_command(node->value, envp, node);
 	}
 }
 
 int	verify_if_is_env_var(t_ast_node *node)
 {
 	char	*old_string;
-	
+
 	if (!node->value || node->value[0] == '\0')
 		return (0);
 	old_string = ft_strdup(node->value);

@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 23:51:32 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/20 21:47:58 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:47:32 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,33 +23,6 @@ void	free_delimiters(t_delim *head)
 		free(tmp->delimiter);
 		free(tmp);
 	}
-}
-
-static t_delim	*create_delim_list(char **delims)
-{
-	t_delim	*head;
-	t_delim	*new;
-	t_delim	*last;
-	int		i;
-
-	i = 0;
-	head = NULL;
-	last = NULL;
-	while (delims[i])
-	{
-		new = malloc(sizeof(t_delim));
-		if (!new)
-			return (NULL);
-		new->delimiter = strdup(delims[i]);
-		new->next = NULL;
-		if (!head)
-			head = new;
-		else
-			last->next = new;
-		last = new;
-		i++;
-	}
-	return (head);
 }
 
 t_delim	*get_all_delimiters(t_ast_node *node)

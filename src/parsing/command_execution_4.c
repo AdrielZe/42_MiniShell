@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/26 15:50:53 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:27:03 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,94 +49,35 @@ void	check_if_is_directory(char *node_value)
 	}
 }
 
-void	check_if_is_cmd_or_dir(t_ast_node *node, char *old_string, char **envp)
+void	check_if_is_cmd_or_dir(t_ast_node *node, char **envp)
 {
 	if (ft_strchr(node->value, '/') != NULL)
 	{
 		printf("zsh: %s: No such file or directory\n", node->value);
 	}
 	else
-		execute_command(node->value, envp, node, 1);
+		execute_command(node->value, envp, node);
 }
+
 void	handle_node_value(t_ast_node *node, char **envp, char *old_string)
 {
-	char	*env_result;
-	char	*env_processed;
 	char	*cmd;
-	char	*temp;
 	char	**arr;
-	char	**arr_not_envp;
-	int i = 0;
 
-
+	arr = malloc(0);
+	cmd = NULL;
 	if (found_env_var(node, old_string))
 	{
+
 		if (node->type == NODE_COMMAND)
 			cmd = ft_split(node->value, ' ')[0];
 		else if (node->type == NODE_WORD)
 			cmd = node->value;
-		env_result = ft_strchr(node->value, '/');
-		env_processed = ft_split(env_result, ' ')[0];
-		if (search_valid_path(cmd, envp) && node->type == NODE_COMMAND)
-		{
-			execute_valid_cmd(node, envp, old_string, cmd);
-			return ;
-		}
-		else if (!search_valid_path(cmd, envp) && node->type == NODE_COMMAND)
-		{
-			arr = ft_split(node->value, ' ');
-			while (arr[i])
-			{
-				if (ft_strchr(arr[i], '$') == NULL)
-				{
-					node->value = ft_strdup(arr[i]);
-					check_if_is_cmd_or_dir(node, old_string, envp);
-				}
-				return ;
-			}
-		}
-		else if (node->type == NODE_WORD)
-		{
-			check_if_is_cmd_or_dir(node, old_string, envp);
-			return ;
-		}
-		node->value = env_processed;
-		check_if_is_cmd_or_dir(node, old_string, envp);
+		handle_found_env_var(node, envp, old_string);
+		return ;
 	}
 	else
 	{
-		int j = 0;
-		char *cmds;
-		char *temp;
-
-		temp = "";
-		arr_not_envp = ft_split(node->value, ' ');
-		while (arr_not_envp[j])
-		{
-				arr = ft_split(node->value, ' ');
-				while (arr[i])
-				{
-					if (ft_strchr(arr[i], '$') == NULL)
-					{
-						temp = ft_strjoin(temp, " ");
-						temp = ft_strjoin(temp, arr[i]);
-
-
-						// check_if_is_cmd_or_dir(node, old_string, envp);
-						// return ;
-					}
-					i++;
-				}
-				j++;
-		}
-				node->value = ft_strdup(temp);
-				if (!search_valid_path(ft_split(node->value, ' ')[0], envp))
-				{
-					node->value = ft_split(node->value, ' ')[0];
-					check_if_is_cmd_or_dir(node, old_string, envp);
-					return ;
-				}
-				check_if_is_cmd_or_dir(node, old_string, envp);
-				return ;
+		handle_not_found_env_var(node, envp, arr);
 	}
 }

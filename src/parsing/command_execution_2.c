@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/25 18:08:24 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:12:05 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ int	is_file(const char *path)
 
 void	handle_node_types(t_ast_node *node, char **envp, t_delim **delimiters)
 {
-	char	*old_string;
-	int is_env_var;
+	int	is_env_var;
 
 	is_env_var = 0;
 	if (node->type == NODE_HEREDOC)

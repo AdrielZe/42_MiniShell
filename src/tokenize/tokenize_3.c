@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:49:40 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/25 14:58:29 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:47:01 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	process_words(const char **s, char ***array, int *i)
 			is_string = 1;
 			old_string = NULL;
 		}
-		if (should_merge_token(*array, *i, is_string, new_word) == 1)
+		if (should_merge_token(*array, *i, is_string) == 1)
 		{
 			merge_last_token(array, *i, new_word);
 			is_string = 0;

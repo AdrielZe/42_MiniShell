@@ -80,20 +80,24 @@ int	verify_if_is_env_var(t_ast_node *node);
 
 //src/command_execution_4.c
 void		handle_command_node(t_ast_node *node, char **envp);
-void		check_if_is_cmd_or_dir(t_ast_node *node, char *old_string, char **envp);
+void		check_if_is_cmd_or_dir(t_ast_node *node, char **envp);
 void		check_if_is_directory(char *node_value);
 void		handle_node_value(t_ast_node *node, char **envp, char *old_string);
 
 //src/command_execution_5.c
 int		found_env_var(t_ast_node *node, char *old_string);
-void		execute_valid_cmd(t_ast_node *node, char **envp, char *old_string, char *cmd);
+void		execute_valid_cmd(t_ast_node *node, char **envp, char *cmd);
+void		handle_found_env_var(t_ast_node *node, char **envp, char *cmd);
 
+//src/command_execution_6.c
+void		search_for_cmd_in_array(t_ast_node *node, char **temp, char ***arr_not_envp, char **arr);
+void		handle_not_found_env_var(t_ast_node *node, char **evnp, char **arr);
 //src/search_path_1.c
 char		*search_valid_path(char *cmd, char **envp);
 
 //src/search_path_2.c
 void		execute_command(char *argv, char **envp,
-				t_ast_node *node, int is_env_var);
+				t_ast_node *node);
 
 //src/split_quotes_1.c
 char		**split_with_quotes(char *s);

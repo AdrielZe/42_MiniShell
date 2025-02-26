@@ -12,21 +12,6 @@
 
 #include "../headers/main.h"
 
-static void	free_ast(t_ast_node *node)
-{
-	if (!node)
-		return ;
-	free_ast(node->left);
-	free_ast(node->right);
-	if (node->value)
-		free(node->value);
-	if (node->outfile)
-		close(node->outfile);
-	if (node->infile)
-		close(node->infile);
-	free(node);
-}
-
 t_ast_node	*create_node(t_node_type type, char *value)
 {
 	t_ast_node	*node;
@@ -81,6 +66,19 @@ static int	redirection_if(t_tokens *tokens, t_ast_node *node)
 	return (0);
 }
 
+// static void	handle_cmd_or_word_token(t_tokens *tokens, t_ast_node *root, t_ast_node *current)
+// {
+// 	if (tokens->type == TOKEN_WORD)
+// 	{
+// 	printf("Oi");
+// 		if (tokens->value)
+// 			tokens->value = extract_word(&tokens->value);
+// 		create_word_node(&root, &current, tokens);
+// 	}
+// 	else
+// 		create_command_node(&root, &current, tokens);
+// }
+
 t_ast_node	*build_ast(t_tokens *tokens)
 {
 	t_ast_node	*root;
@@ -96,14 +94,15 @@ t_ast_node	*build_ast(t_tokens *tokens)
 			create_heredoc_node(&root, &current);
 		else if (tokens->type == TOKEN_COMMAND || tokens->type == TOKEN_WORD)
 		{
-			if (tokens->type == TOKEN_WORD)
-			{
-				if (tokens->value)
-					tokens->value = extract_word(&tokens->value);
-				create_word_node(&root, &current, tokens);
-			}
-			else 
-				create_command_node(&root, &current, tokens);
+				if (tokens->type == TOKEN_WORD)
+	{
+	printf("Oi");
+		if (tokens->value)
+			tokens->value = extract_word(&tokens->value);
+		create_word_node(&root, &current, tokens);
+	}
+	else
+		create_command_node(&root, &current, tokens);
 		}
 		else if (tokens->type == TOKEN_ENV_VAR)
 			create_envp_node(&root, &current, tokens);

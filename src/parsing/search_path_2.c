@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/25 12:50:18 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:08:04 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,32 +26,8 @@ static void	valid_outfile_and_path(char *cmd, t_ast_node *node, char *path)
 	}
 }
 
-static char	*if_env_var(t_ast_node *node, char **tokens)
-{
-	char	*cmd;
-	char	*expanded;
-	int		i;
-
-	i = 0;
-	cmd = process_env_var(tokens[0]);
-	if (node->type == NODE_ENV_VAR)
-	{
-		while (tokens[i])
-		{
-			if (ft_strchr(tokens[i], '$') != NULL)
-			{
-				expanded = process_env_var(tokens[i]);
-				break ;
-			}
-			i++;
-		}
-		return (expanded);
-	}
-	return (cmd);
-}
-
 void	execute_command(char *cmd, char **envp,
-			t_ast_node *node, int is_env_var)
+			t_ast_node *node)
 {
 	char	**tokens;
 	char	*path;
@@ -75,8 +51,8 @@ void	execute_command(char *cmd, char **envp,
 			exit(0);
 		}
 		waitpid (pid, NULL, 0);
-	} 
-	else 
+	}
+	else
 	{
 		tokens = split_with_quotes(cmd);
 		if (!tokens || !tokens[0])

@@ -16,7 +16,6 @@ static void	left_process(int *pipe, t_ast_node *node,
 		t_delim *delimiters, char **envp)
 {
 	t_ast_node	*current;
-	t_delim		*delim_current;
 
 	current = node;
 	while (current)
@@ -95,6 +94,7 @@ void	parse_commands(t_ast_node *node, char **envp)
 
 	if (!node)
 		return ;
+
 	if (node->type == NODE_PIPE)
 	{
 		delimiters = get_all_delimiters(node);
