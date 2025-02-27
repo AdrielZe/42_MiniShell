@@ -1,12 +1,7 @@
 NAME = minishell
 
 CC = cc
-<<<<<<< HEAD
-gdb = -g -O0 -fno-inline
-CFLAGS = -g3 -Wall -Wextra -Werror
-=======
 CFLAGS = -g3 # -Wall -Wextra -Werror (adicione se precisar)
->>>>>>> origin/builtins
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a

@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/26 23:11:20 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/26 23:29:56 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,30 @@ static void	execute_node_command(t_ast_node *node, char *cmd, char **envp)
 		exit (0);
 	}
 	waitpid(pid, NULL, 0);
+}
+
+static char    *if_env_var(t_ast_node *node, char **tokens)
+{
+    char    *cmd;
+    char    *expanded;
+    int        i;
+
+    i = 0;
+    cmd = process_env_var(tokens[0]);
+    if (node->type == NODE_ENV_VAR)
+    {
+        while (tokens[i])
+        {
+            if (ft_strchr(tokens[i], '$') != NULL)
+            {
+                expanded = process_env_var(tokens[i]);
+                break ;
+            }
+            i++;
+        }
+        return (expanded);
+    }
+    return (cmd);
 }
 
 static void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
