@@ -6,12 +6,24 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/26 19:02:32 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/26 23:11:20 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/main.h"
+int	cd(char *argv[]);
+int	export(char *argv[], char **envp);
 
+static int if_cd(char *cmd, char *tokens[], char **envp)
+{
+	if(ft_strcmp(tokens[0], "cd") == 0)
+		if(cd(tokens))
+			return (1);
+	if(ft_strcmp(tokens[0], "export") == 0)
+		if(export(tokens, envp))
+			return (1);
+	return (0);
+}
 static void	valid_outfile_and_path(char *cmd, t_ast_node *node, char *path)
 {
 	if (node->outfile)
@@ -54,15 +66,21 @@ static void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
 	char	**tokens;
 	char	*path;
 	pid_t	pid;
+	char	*built[1];
 
+	built[0] = "PATH=built-ins";
 	tokens = split_with_quotes(cmd);
 	if (!tokens || !tokens[0])
 		return (perror("Comando vazio\n"));
-	path = search_valid_path(tokens[0], envp);
+	if(if_cd(cmd, tokens, envp))
+		return ;
 	pid = fork();
 	if (pid < 0)
 		return ;
-	path = search_valid_path(ft_split(cmd, ' ')[0], envp);
+	cmd = if_env_var(node, tokens);
+	path = search_valid_path(ft_split(cmd, ' ')[0], built);
+	if(!path)
+		path = search_valid_path(ft_split(cmd, ' ')[0], envp);
 	if (pid == 0)
 	{
 		valid_outfile_and_path(cmd, node, path);

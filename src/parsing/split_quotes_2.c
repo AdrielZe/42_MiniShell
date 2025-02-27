@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:29:27 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/24 23:57:24 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/26 23:11:28 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ int	get_word_length(char **s, int *len, int *in_quotes, char *quote_char)
 		*in_quotes = 1;
 		while (**s && **s != *quote_char)
 		{
-		(*s)++;
-		(*len)++;
+			(*s)++;
+			(*len)++;
 		}
 		if (**s == *quote_char)
-		(*s)++;
+			(*s)++;
 	}
 	else
 		count_word_len_split(s, len);

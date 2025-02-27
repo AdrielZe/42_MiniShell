@@ -1,42 +1,50 @@
-# Nome do executável
 NAME = minishell
 
-# Compilador e flags
-VALGRIND = valgrind --leak-check=full --show-leak-kinds=all
 CC = cc
+<<<<<<< HEAD
 gdb = -g -O0 -fno-inline
 CFLAGS = -g3 -Wall -Wextra -Werror
+=======
+CFLAGS = -g3 # -Wall -Wextra -Werror (adicione se precisar)
+>>>>>>> origin/builtins
 
-# Diretórios
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
-INCLUDES = -I$(LIBFT_DIR) -Isrc/tokenize
+INCLUDES = -I$(LIBFT_DIR)
 SRC_DIR = src
 OBJ_DIR = obj
-
-# Procurar todos os arquivos .c no diretório src e subpastas
-SRCS = $(shell find $(SRC_DIR) -name "*.c")
-OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
+BUILT_INS = built-ins
 LIBS = -lreadline
 
-all: $(LIBFT) $(NAME)
+# Pega todos os .c dentro de src/
+SRCS = $(shell find $(SRC_DIR) -name "*.c")
+SRCS += $(BUILT_INS)/cd_export_unset.c #Adiciona um arquivo avulço a srcs
+OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
-debug: GDB += -g
-debug: re
+# Pega todos os .c dentro de built-ins/
+SRC_BUILTINS = $(shell find $(BUILT_INS) -name "*.c" ! -name "cd_export_unset.c")
+BUILT_EXECUTABLES = $(patsubst $(BUILT_INS)/%.c, $(BUILT_INS)/%, $(SRC_BUILTINS))
 
-$(NAME): $(OBJS)
+all: $(LIBFT) $(NAME) built
+
+# Regra para compilar minishell
+$(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LIBS) $(INCLUDES) -o $(NAME)
 
+# Compilação dos objetos do minishell
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
+# Regra para compilar a libft
 $(LIBFT):
+	$(MAKE) -C $(LIBFT_DIR) fclean
 	$(MAKE) -C $(LIBFT_DIR)
 
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
 	rm -rf $(OBJ_DIR)
+	rm -f $(BUILT_EXECUTABLES)
 
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
@@ -44,11 +52,10 @@ fclean: clean
 
 re: fclean all
 
-v: all
-	@valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --trace-children-skip='/bin/,/sbin/' --keep-debuginfo=yes \
-	--suppressions=readline.supp --track-fds=yes ./$(NAME)
+# Compilação de cada built-in separadamente
+built: $(BUILT_EXECUTABLES)
 
-valgrind: $(NAME) 
-	$(VALGRIND) ./$(NAME)
+$(BUILT_INS)/%: $(BUILT_INS)/%.c $(LIBFT)
+	$(CC) $< $(INCLUDES) $(LIBFT) -o $@
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re built

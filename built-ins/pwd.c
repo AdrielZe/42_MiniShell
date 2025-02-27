@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sig_int.c                                          :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/16 21:49:18 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/26 23:11:37 by asilveir         ###   ########.fr       */
+/*   Created: 2025/02/24 18:43:50 by victda-s          #+#    #+#             */
+/*   Updated: 2025/02/24 23:31:05 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/main.h"
-#include <signal.h>
+#include <unistd.h>
 #include <stdio.h>
-#include <stdlib.h>
-
-void	handle_sigint(int sig)
+int	main(int argc, char *argv[])
 {
-	(void)sig;
-	write(1, "\n", 1);
-	write(1, "> ", 2);
-}
+	char	pwd[256];
 
-void	handle_ctrl_d(void)
-{
-	write(1, "Exiting minishell\n", 19);
-	exit(0);
+	if(getcwd(pwd, sizeof(pwd)))
+		printf("%s   ---by VICTDA-S\n", pwd);
+	else
+		perror("error pwd");
+	return (0);
 }
