@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/26 21:48:20 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:52:32 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@ void	handle_command_node(t_ast_node *node, char **envp)
 {
 	char	*old_string;
 	int		is_env_var;
+	char	**split_result;
 
 	is_env_var = 0;
 	if (!node->value || node->value[0] == '\0')
 		return ;
-	if (ft_strchr(ft_split(node->value, ' ')[0], '$') != NULL)
+	split_result = ft_split(node->value , ' ');
+	if (split_result && ft_strchr(split_result[0], '$') != NULL)
 		is_env_var = 1;
 	old_string = ft_strdup(node->value);
 	node->value = process_env_var(node->value);
@@ -36,6 +38,8 @@ void	handle_command_node(t_ast_node *node, char **envp)
 		execute_regular_cmd(node, envp);
 		free(old_string);
 	}
+	if (split_result)
+		free_split(split_result);
 }
 
 void	check_if_is_directory(char *node_value)
