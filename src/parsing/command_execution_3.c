@@ -3,16 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   command_execution_3.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/27 00:39:38 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:38:13 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/main.h"
 #include <sys/stat.h>
 
+void	free_split(char **split) //Colocar essa função em outro arquivo quando for norminettar
+{
+	int	i;
+
+	i = 0;
+	while (split[i] != NULL)
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+}
 void	handle_word_node(t_ast_node *node, char **envp)
 {
 	char	*old_string;
@@ -73,15 +85,19 @@ void	check_and_execute_if_is_cmd(t_ast_node *node, char **envp)
 void	execute_regular_cmd(t_ast_node *node, char **envp)
 {
 	char	*command_to_execute;
+	char	**split_values;
 
 	if (node->type == NODE_COMMAND)
-		command_to_execute = ft_split(node->value, ' ')[0];
+	{
+		split_values = ft_split(node->value, ' ');
+		command_to_execute = split_values[0];
+	}
 	else
 		command_to_execute = ft_strdup(node->value);
 	if (ft_strchr(node->value, '$') != NULL)
 	{
 		if (node->type == NODE_COMMAND)
-			execute_command(ft_split(node->value, ' ')[0], envp, node);
+			execute_command(split_values[0], envp, node);
 		else
 			execute_command(node->value, envp, node);
 	}
@@ -92,11 +108,16 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 		else if (search_valid_path(command_to_execute, envp) == NULL)
 		{
 			printf("minishell: %s: command not found\n", command_to_execute);
+			if (node->type == NODE_COMMAND)
+				free_split(split_values);
 			return ;
 		}
 		else
 			execute_command(node->value, envp, node);
 	}
+
+	if (node->type == NODE_COMMAND)
+		free_split(split_values);
 }
 
 int	verify_if_is_env_var(t_ast_node *node)

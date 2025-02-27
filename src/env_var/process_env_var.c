@@ -18,7 +18,6 @@ static char	*replace_substring(char *string, char *replace_string, int index)
 	char	*env_value;
 	char	*new_string;
 	int		new_length;
-	t_shell	*shell = get_gc_shell();
 
 	string_rest = ft_substr(string, index + ft_strlen(replace_string) + 1,
 			ft_strlen(string) - index);

@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:49:40 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/26 19:45:35 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:41:25 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void	process_words(const char **s, char ***array, int *i)
 			break ;
 		get_new_word(&new_word, s, array, i);
 		len = ft_strlen(new_word);
+		if (old_string)
+			free(old_string);
 		if (!old_string)
 			old_string = ft_strdup(new_word);
 		check_if_is_string(new_word, &old_string, &is_string, len);
@@ -76,9 +78,13 @@ void	process_words(const char **s, char ***array, int *i)
 		{
 			merge_last_token(array, *i, new_word);
 			is_string = 0;
+			free(old_string);
 			old_string = NULL;
 		}
 		else
+		{
+			free(old_string);
 			alloc_new_word_in_array(array, i, new_word, &old_string);
+		}
 	}
 }
