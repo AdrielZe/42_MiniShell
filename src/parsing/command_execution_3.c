@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/26 17:22:18 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/26 21:59:07 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ void	handle_word_node(t_ast_node *node, char **envp)
 	old_string = ft_strdup(node->value);
 	node->value = process_env_var(node->value);
 	if (is_env_var == 1)
+	{
 		when_only_env_var(node, envp, old_string);
+	}
 	else if (ft_strcmp(old_string, node->value) != 0)
 		check_and_execute_if_is_cmd(node, envp);
 	else

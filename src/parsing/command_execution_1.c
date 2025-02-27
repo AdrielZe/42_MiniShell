@@ -94,7 +94,6 @@ void	parse_commands(t_ast_node *node, char **envp)
 
 	if (!node)
 		return ;
-
 	if (node->type == NODE_PIPE)
 	{
 		delimiters = get_all_delimiters(node);

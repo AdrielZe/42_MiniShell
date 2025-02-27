@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:17:45 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/26 17:11:21 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/26 21:58:48 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	handle_not_found_env_var(t_ast_node *node, char **envp, char **arr)
 	char	**arr_not_envp;
 
 	search_for_cmd_in_array(node, &temp, &arr_not_envp, arr);
+	if (ft_strcmp(temp, "") == 0 || temp == NULL)
+		return ;
 	node->value = ft_strdup(temp);
 	if (!search_valid_path(ft_split(node->value, ' ')[0], envp))
 	{

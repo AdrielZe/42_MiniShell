@@ -33,7 +33,7 @@ void	init_shell(char ***token, struct s_tokens **token_list,
 			char **envp, struct s_ast_node **root);
 
 //src/signals/sig_int.c
-void	handle_sigint();
+void	handle_sigint(void);
 void	handle_ctrl_d(void);
 
 //src/env_var/process_env_var.c

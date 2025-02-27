@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/26 17:27:03 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/26 21:48:20 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,17 @@ void	handle_command_node(t_ast_node *node, char **envp)
 	is_env_var = 0;
 	if (!node->value || node->value[0] == '\0')
 		return ;
-	if (ft_strchr(node->value, '$') != NULL)
+	if (ft_strchr(ft_split(node->value, ' ')[0], '$') != NULL)
 		is_env_var = 1;
 	old_string = ft_strdup(node->value);
 	node->value = process_env_var(node->value);
 	if (is_env_var == 1)
 	{
-		printf("aquiiiii\n");
+		printf("is only en var\n");
 		when_only_env_var(node, envp, old_string);
 	}
 	else if (ft_strcmp(old_string, node->value) != 0)
-	{
 		check_and_execute_if_is_cmd(node, envp);
-	}
 	else
 	{	
 		execute_regular_cmd(node, envp);
@@ -68,9 +66,10 @@ void	handle_node_value(t_ast_node *node, char **envp, char *old_string)
 	cmd = NULL;
 	if (found_env_var(node, old_string))
 	{
-
 		if (node->type == NODE_COMMAND)
+		{
 			cmd = ft_split(node->value, ' ')[0];
+		}
 		else if (node->type == NODE_WORD)
 			cmd = node->value;
 		handle_found_env_var(node, envp, old_string);

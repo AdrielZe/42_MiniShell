@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:59:58 by victda-s          #+#    #+#             */
-/*   Updated: 2025/02/26 16:46:44 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:46:22 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,20 @@ void	skip_spaces_and_alloc_elements(const char **s, char ***array, int *i)
 	alloc_infile(s, array, i);
 }
 
-void	alloc_new_word_in_array(char ***array, int *i, char *new_word)
+void	alloc_new_word_in_array(char ***array,
+				int *i, char *new_word, char **old_string)
 {
 	(*array)[*i] = new_word;
 	(*i)++;
+	*old_string = NULL;
 }
 
 int	should_merge_token(char **array, int i, int is_string)
 {
 	if ((i > 0 && array && array[i - 1] && array[i - 1][0] != '|'
-		&& array[i - 1][0] != '<' && array[i - 1][0] != '>') || (is_string == 1))
-			return (1);
+		&& array[i - 1][0] != '<'
+		&& array[i - 1][0] != '>') || (is_string == 1))
+		return (1);
 	return (0);
 }
 
@@ -56,11 +59,9 @@ void	merge_last_token(char ***array, int i, char *new_word)
 		return ;
 	if ((*array)[i - 1])
 	{
-		free((*array)[i - 1]); 
-		(*array)[i - 1] = NULL; 
+		free((*array)[i - 1]);
+		(*array)[i - 1] = NULL;
 	}
 	(*array)[i - 1] = joined;
 	free(new_word);
 }
-
-

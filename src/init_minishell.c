@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:36:49 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/26 17:26:27 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:03:09 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	init_shell(char ***token, t_tokens **token_list, char
 		*token = tokenize(input);
 		classify_token(*token, token_list);
 		print_list(*token_list);
-		*root = build_ast(*token_list); //Aqui o segfault das strings
+		*root = build_ast(*token_list);
 		parse_commands(*root, envp);
 		if (input)
 			add_history(input);

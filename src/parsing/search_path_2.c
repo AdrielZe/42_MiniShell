@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/26 17:08:04 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:02:32 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,49 +26,58 @@ static void	valid_outfile_and_path(char *cmd, t_ast_node *node, char *path)
 	}
 }
 
-void	execute_command(char *cmd, char **envp,
-			t_ast_node *node)
+static void	execute_node_command(t_ast_node *node, char *cmd, char **envp)
 {
 	char	**tokens;
 	char	*path;
 	pid_t	pid;
 
+	tokens = split_with_quotes(cmd);
+	if (!tokens || !tokens[0])
+		return (perror("Comando vazio\n"));
+	pid = fork();
+	if (pid < 0)
+		return ;
+	path = search_valid_path(ft_split(cmd, ' ')[0], envp);
+	if (pid == 0)
+	{
+		valid_outfile_and_path(cmd, node, path);
+		if (execve(path, tokens, envp) == -1)
+			exit (127);
+		exit (0);
+	}
+	waitpid(pid, NULL, 0);
+}
+
+static void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
+{
+	char	**tokens;
+	char	*path;
+	pid_t	pid;
+
+	tokens = split_with_quotes(cmd);
+	if (!tokens || !tokens[0])
+		return (perror("Comando vazio\n"));
+	path = search_valid_path(tokens[0], envp);
+	pid = fork();
+	if (pid < 0)
+		return ;
+	path = search_valid_path(ft_split(cmd, ' ')[0], envp);
+	if (pid == 0)
+	{
+		valid_outfile_and_path(cmd, node, path);
+		if (execve(path, tokens, envp) == -1)
+			exit(127);
+		exit(0);
+	}
+	waitpid (pid, NULL, 0);
+}
+
+void	execute_command(char *cmd, char **envp,
+			t_ast_node *node)
+{
 	if (node->type == NODE_COMMAND)
-	{
-		tokens = split_with_quotes(cmd);
-		if (!tokens || !tokens[0])
-			return (perror("Comando vazio\n"));
-		path = search_valid_path(tokens[0], envp);
-		pid = fork();
-		if (pid < 0)
-			return ;
-		path = search_valid_path(ft_split(cmd, ' ')[0], envp);
-		if (pid == 0)
-		{
-			valid_outfile_and_path(cmd, node, path);
-			if (execve(path, tokens, envp) == -1)
-				exit(127);
-			exit(0);
-		}
-		waitpid (pid, NULL, 0);
-	}
-	else
-	{
-		tokens = split_with_quotes(cmd);
-		if (!tokens || !tokens[0])
-			return (perror("Comando vazio\n"));
-		path = search_valid_path(tokens[0], envp);
-		pid = fork();
-		if (pid < 0)
-			return ;
-		path = search_valid_path(ft_split(cmd, ' ')[0], envp);
-		if (pid == 0)
-		{
-			valid_outfile_and_path(cmd, node, path);
-			if (execve(path, tokens, envp) == -1)
-				exit(127);
-			exit(0);
-		}
-		waitpid (pid, NULL, 0);
-	}
+		execute_node_command(node, cmd, envp);
+	else if (node->type == TOKEN_WORD)
+		execute_word_node(node, cmd, envp);
 }

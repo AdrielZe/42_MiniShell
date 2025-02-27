@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 21:49:18 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/26 16:47:58 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:03:44 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void	handle_sigint()
+void	handle_sigint(void)
 {
 	write(1, "\n", 1);
 	write(1, "> ", 2);

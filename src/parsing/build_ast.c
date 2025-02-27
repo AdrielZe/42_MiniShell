@@ -66,11 +66,11 @@ static int	redirection_if(t_tokens *tokens, t_ast_node *node)
 	return (0);
 }
 
-static void	handle_cmd_or_word_token(t_tokens *tokens, t_ast_node **root, t_ast_node **current)
+static void	handle_cmd_or_word_token(t_tokens *tokens,
+				t_ast_node **root, t_ast_node **current)
 {
 	if (tokens->type == TOKEN_WORD)
 	{
-	printf("Oi");
 		if (tokens->value)
 			tokens->value = extract_word(&tokens->value);
 		create_word_node(root, current, tokens);

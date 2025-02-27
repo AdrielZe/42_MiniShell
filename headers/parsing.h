@@ -57,7 +57,6 @@ void		create_envp_node(t_ast_node **root,
 void		create_word_node(t_ast_node **root,
 				t_ast_node **current, struct s_tokens *tokens);
 
-
 //src/build_ast.c
 t_ast_node	*create_node(t_node_type type, char *value);
 t_ast_node	*build_ast(struct s_tokens *tokens);
@@ -76,7 +75,7 @@ void		handle_word_node(t_ast_node *node, char **envp);
 void		when_only_env_var(t_ast_node *node, char **envp, char *old_string);
 void		check_and_execute_if_is_cmd(t_ast_node *node, char **envp);
 void		execute_regular_cmd(t_ast_node *node, char **envp);
-int	verify_if_is_env_var(t_ast_node *node);
+int			verify_if_is_env_var(t_ast_node *node);
 
 //src/command_execution_4.c
 void		handle_command_node(t_ast_node *node, char **envp);
@@ -85,12 +84,13 @@ void		check_if_is_directory(char *node_value);
 void		handle_node_value(t_ast_node *node, char **envp, char *old_string);
 
 //src/command_execution_5.c
-int		found_env_var(t_ast_node *node, char *old_string);
+int			found_env_var(t_ast_node *node, char *old_string);
 void		execute_valid_cmd(t_ast_node *node, char **envp, char *cmd);
 void		handle_found_env_var(t_ast_node *node, char **envp, char *cmd);
 
 //src/command_execution_6.c
-void		search_for_cmd_in_array(t_ast_node *node, char **temp, char ***arr_not_envp, char **arr);
+void		search_for_cmd_in_array(t_ast_node *node, char **temp,
+				char ***arr_not_envp, char **arr);
 void		handle_not_found_env_var(t_ast_node *node, char **evnp, char **arr);
 //src/search_path_1.c
 char		*search_valid_path(char *cmd, char **envp);

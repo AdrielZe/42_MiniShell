@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:49:40 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/26 16:47:01 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:45:35 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,14 @@ static void	get_new_word(char **new_word, const char **s, char ***array, int *i)
 
 void	print_array(char **array)
 {
-	int j = 0;
+	int	j;
 
+	j = 0;
 	printf("Array atual:\n");
 	if (!array)
 	{
 		printf("Array é NULL\n");
-		return;
+		return ;
 	}
 	while (array[j])
 	{
@@ -41,12 +42,24 @@ void	print_array(char **array)
 	printf("\n");
 }
 
+void	check_if_is_string(char *new_word,
+			char **old_string, int *is_string, int len)
+{
+	if ((new_word[0] == '"' || new_word[0] == '\'')
+		&& new_word[len - 1] == new_word[0] && len > 1
+		&& (*old_string != NULL && *old_string[0] != '"'))
+	{
+		*is_string = 1;
+		*old_string = NULL;
+	}
+}
+
 void	process_words(const char **s, char ***array, int *i)
 {
-	int		is_string;
-	static char *old_string = NULL;
-	int		len;
-	char	*new_word;
+	static char	*old_string = NULL;
+	char		*new_word;
+	int			is_string;
+	int			len;
 
 	is_string = 0;
 	while (**s)
@@ -58,12 +71,7 @@ void	process_words(const char **s, char ***array, int *i)
 		len = ft_strlen(new_word);
 		if (!old_string)
 			old_string = ft_strdup(new_word);
-		if ((new_word[0] == '"' || new_word[0] == '\'')
-			&& new_word[len - 1] == new_word[0] && len > 1 && (old_string != NULL && old_string[0] != '"'))
-		{
-			is_string = 1;
-			old_string = NULL;
-		}
+		check_if_is_string(new_word, &old_string, &is_string, len);
 		if (should_merge_token(*array, *i, is_string) == 1)
 		{
 			merge_last_token(array, *i, new_word);
@@ -71,9 +79,6 @@ void	process_words(const char **s, char ***array, int *i)
 			old_string = NULL;
 		}
 		else
-		{
-			alloc_new_word_in_array(array, i, new_word);
-			old_string = NULL;
-		}
+			alloc_new_word_in_array(array, i, new_word, &old_string);
 	}
 }

@@ -59,7 +59,8 @@ char		**tokenize(const char *s);
 //src/tokenize/tokenize_2.c
 void		skip_spaces_and_alloc_elements(const char **s,
 				char ***array, int *i);
-void		alloc_new_word_in_array(char ***array, int *i, char *new_word);
+void		alloc_new_word_in_array(char ***array, int *i,
+				char *new_word, char **old_string);
 int			should_merge_token(char **array, int i,
 				int is_string);
 void		merge_last_token(char ***array, int i, char *new_word);
