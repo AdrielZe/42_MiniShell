@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   search_path_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/26 14:17:54 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/26 21:00:25 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/main.h"
 int	cd(char *argv[]);
-int	export(char *argv[]);
+int	export(char *argv[], char **envp);
 
-static int if_cd(char *cmd, char *tokens[])
+static int if_cd(char *cmd, char *tokens[], char **envp)
 {
 	if(ft_strcmp(tokens[0], "cd") == 0)
 		if(cd(tokens))
 			return (1);
 	if(ft_strcmp(tokens[0], "export") == 0)
-		if(export(tokens))
+		if(export(tokens, envp))
 			return (1);
 	return (0);
 }
@@ -73,7 +73,7 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 	tokens = split_with_quotes(cmd);
 	if (!tokens || !tokens[0])
 		return (perror("Comando vazio\n"));
-	if(if_cd(cmd, tokens))
+	if(if_cd(cmd, tokens, envp))
 		return ;
 	pid = fork();
 	if (pid < 0)
