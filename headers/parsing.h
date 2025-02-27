@@ -92,6 +92,8 @@ void		handle_found_env_var(t_ast_node *node, char **envp, char *cmd);
 void		search_for_cmd_in_array(t_ast_node *node, char **temp,
 				char ***arr_not_envp, char **arr);
 void		handle_not_found_env_var(t_ast_node *node, char **evnp, char **arr);
+int		is_only_spaces(char *str) ;
+
 //src/search_path_1.c
 char		*search_valid_path(char *cmd, char **envp);
 

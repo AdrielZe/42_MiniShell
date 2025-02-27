@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:17:45 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/26 21:58:48 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/26 22:46:24 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,17 @@ void	handle_not_found_env_var(t_ast_node *node, char **envp, char **arr)
 	}
 	check_if_is_cmd_or_dir(node, envp);
 	return ;
+}
+
+int	is_only_spaces(char *str)
+{
+	if (!str)
+		return (1);
+	while (*str)
+	{
+		if (*str != ' ')
+			return (1);
+		str++;
+	}
+	return (0);
 }

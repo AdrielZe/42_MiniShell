@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 23:51:32 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/26 16:47:32 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/26 22:37:56 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@ t_delim	*get_all_delimiters(t_ast_node *node)
 	t_delim	*new;
 
 	head = NULL;
+	if (!node || !node->right || !node->right->value
+		|| ft_strcmp(node->right->value, " ") == 0)
+	{
+		printf("✘ minishell: syntax error near unexpected token `newline'\n");
+		return (NULL);
+	}
 	while (node && node->type == NODE_HEREDOC)
 	{
 		new = malloc(sizeof(t_delim));
