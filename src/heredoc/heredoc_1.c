@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:41:35 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/26 22:06:29 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/26 23:02:43 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ void	read_heredoc(int *pipefd, t_delim *delimiters)
 		{
 			input = readline("heredoc> ");
 			if (!input)
-				break ;
+			{
+				close_heredoc_prompt();
+				return ;
+			}
 			if (!ft_strcmp(input, current->delimiter))
 			{
 				free(input);

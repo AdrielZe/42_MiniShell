@@ -92,7 +92,7 @@ void		handle_found_env_var(t_ast_node *node, char **envp, char *cmd);
 void		search_for_cmd_in_array(t_ast_node *node, char **temp,
 				char ***arr_not_envp, char **arr);
 void		handle_not_found_env_var(t_ast_node *node, char **evnp, char **arr);
-int		is_only_spaces(char *str) ;
+int			is_only_spaces(char *str);
 
 //src/search_path_1.c
 char		*search_valid_path(char *cmd, char **envp);
@@ -123,6 +123,7 @@ void		check_all_commands(t_ast_node *node, char **envp);
 //src/heredoc/heredoc_3.c
 void		handle_nodes_to_execute_command(t_ast_node *current,
 				int pipe_found, t_ast_node *node, char **envp);
+void		close_heredoc_prompt(void);
 
 //src/redirection/open_file.c
 int			open_stdin(char *file);
