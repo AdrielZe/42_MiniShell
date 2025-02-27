@@ -56,6 +56,8 @@ int	main(int argc, char *argv[], char *envp[])
 	char		**envp_copy;
 	int			len;
 	t_ast_node	*root;
+	t_shell	shell;
+	set_gc_shell(&shell);
 
 	(void) argc;
 	(void) argv;

@@ -18,6 +18,7 @@ static char	*replace_substring(char *string, char *replace_string, int index)
 	char	*env_value;
 	char	*new_string;
 	int		new_length;
+	t_shell	*shell = get_gc_shell();
 
 	string_rest = ft_substr(string, index + ft_strlen(replace_string) + 1,
 			ft_strlen(string) - index);
@@ -32,7 +33,7 @@ static char	*replace_substring(char *string, char *replace_string, int index)
 	new_length = index + ft_strlen(env_value) + ft_strlen(string_rest) + 1;
 	new_string = malloc(new_length);
 	if (!new_string)
-		return (free(string_rest), (string));
+		return  (string);
 	ft_strlcpy(new_string, string, index + 1);
 	ft_strlcat(new_string, env_value, new_length);
 	ft_strlcat(new_string, string_rest, new_length);

@@ -25,6 +25,23 @@
 struct	s_tokens;
 struct	s_ast_node;
 
+typedef struct s_garbage
+{
+    void                *ptr;
+    struct s_garbage    *next;
+}   t_garbage;
+
+typedef struct s_shell
+{
+    t_garbage   *gc;   // Ponteiro para o Garbage Collector
+    char        **env; // Variáveis de ambiente
+}   t_shell;
+
+//GC
+void    *gc_malloc(size_t size, t_shell *shell);
+void    gc_free(t_shell *shell);
+
+
 //src/main.c
 int		array_len(char **array);
 
