@@ -17,6 +17,8 @@ static void	free_paths(char **paths)
 	int	i;
 
 	i = 0;
+	if (!paths)
+		return ;
 	while (paths[i])
 	{
 		free(paths[i]);
@@ -53,14 +55,17 @@ char	*search_valid_path(char *cmd, char **envp)
 	i = search_for_path_index(envp);
 	paths = ft_split(envp[i] + 5, ':');
 	if (!paths)
-		free_paths(paths);
+		return (NULL);
 	while (paths && paths[j])
 	{
 		current_path = ft_strjoin(paths[j], "/");
 		current_path_and_command = ft_strjoin(current_path, cmd);
 		free(current_path);
 		if (access(current_path_and_command, F_OK | X_OK) == 0)
+		{
+			free_paths(paths);
 			return (current_path_and_command);
+		}
 		free(current_path_and_command);
 		j++;
 	}

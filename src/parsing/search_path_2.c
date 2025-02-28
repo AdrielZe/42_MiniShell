@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_path_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/27 00:40:52 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/27 23:11:50 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static void	execute_node_command(t_ast_node *node, char *cmd, char **envp)
 	char	*path;
 	pid_t	pid;
 	char	*built[1];
+	char	**path_split;
 
 	built[0] = "PATH=built-ins";
 	tokens = split_with_quotes(cmd);
@@ -81,7 +82,11 @@ static void	execute_node_command(t_ast_node *node, char *cmd, char **envp)
 		return ;
 	path = search_valid_path(ft_split(cmd, ' ')[0], built);
 	if(!path)
-		path = search_valid_path(ft_split(cmd, ' ')[0], envp);
+	{
+		path_split = ft_split(cmd, ' ');
+		path = search_valid_path(path_split[0], envp);
+		free_array(path_split, array_len(path_split));
+	}
 	pid = fork();
 	if (pid < 0)
 		return ;
@@ -92,6 +97,7 @@ static void	execute_node_command(t_ast_node *node, char *cmd, char **envp)
 			exit (127);
 		exit (0);
 	}
+	free(path);
 	waitpid(pid, NULL, 0);
 }
 

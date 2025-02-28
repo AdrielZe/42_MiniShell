@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/27 17:52:32 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/27 22:41:13 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,13 @@ void	handle_command_node(t_ast_node *node, char **envp)
 	{
 		printf("is only en var\n");
 		when_only_env_var(node, envp, old_string);
+		free(old_string);
 	}
 	else if (ft_strcmp(old_string, node->value) != 0)
+	{
 		check_and_execute_if_is_cmd(node, envp);
+		free(old_string);
+	}
 	else
 	{	
 		execute_regular_cmd(node, envp);
@@ -66,7 +70,6 @@ void	handle_node_value(t_ast_node *node, char **envp, char *old_string)
 	char	*cmd;
 	char	**arr;
 
-	arr = malloc(0);
 	cmd = NULL;
 	if (found_env_var(node, old_string))
 	{
@@ -80,7 +83,5 @@ void	handle_node_value(t_ast_node *node, char **envp, char *old_string)
 		return ;
 	}
 	else
-	{
 		handle_not_found_env_var(node, envp, arr);
-	}
 }
