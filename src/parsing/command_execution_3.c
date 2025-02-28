@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/27 17:55:51 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/28 01:36:41 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,10 @@ void	check_and_execute_if_is_cmd(t_ast_node *node, char **envp)
 void	execute_regular_cmd(t_ast_node *node, char **envp)
 {
 	char	*command_to_execute;
+	char	*search_result;
 	char	**split_values;
 
+	search_result = NULL;
 	if (node->type == NODE_COMMAND)
 	{
 		split_values = ft_split(node->value, ' ');
@@ -95,10 +97,11 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 	}
 	else
 		command_to_execute = ft_strdup(node->value);
+	search_result = search_valid_path(command_to_execute, envp);
 	if (ft_strchr(node->value, '$') != NULL)
 	{
 		if (node->type == NODE_COMMAND)
-			execute_command(split_values[0], envp, node);
+			execute_command(command_to_execute, envp, node);
 		else
 			execute_command(node->value, envp, node);
 	}
@@ -106,7 +109,7 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 	{
 		if (ft_strchr(node->value, '/') != NULL)
 			printf("zsh: %s: No such file or directory\n", node->value);
-		else if (search_valid_path(command_to_execute, envp) == NULL)
+		else if (!search_result)
 		{
 			printf("minishell: %s: command not found\n", command_to_execute);
 			if (node->type == NODE_COMMAND)
@@ -114,11 +117,13 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 			return ;
 		}
 		else
+		{
 			execute_command(node->value, envp, node);
+		}
 	}
-
 	if (node->type == NODE_COMMAND)
 		free_split(split_values);
+	free(search_result);
 }
 
 int	verify_if_is_env_var(t_ast_node *node)

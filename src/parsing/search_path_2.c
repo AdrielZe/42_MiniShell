@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/27 23:11:50 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/27 23:55:21 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,19 +73,22 @@ static void	execute_node_command(t_ast_node *node, char *cmd, char **envp)
 	char	*path;
 	pid_t	pid;
 	char	*built[1];
-	char	**path_split;
+	char	**path_split_envp;
+	char	**path_split_built;
 
 	built[0] = "PATH=built-ins";
 	tokens = split_with_quotes(cmd);
 	cmd = if_env_var(node, tokens);
 	if(if_cd(cmd, tokens, envp, node))
 		return ;
-	path = search_valid_path(ft_split(cmd, ' ')[0], built);
+	path_split_built = ft_split(cmd, ' ');
+	path = search_valid_path(path_split_built[0], built);
+	free_array(path_split_built, array_len(path_split_built));
 	if(!path)
 	{
-		path_split = ft_split(cmd, ' ');
-		path = search_valid_path(path_split[0], envp);
-		free_array(path_split, array_len(path_split));
+		path_split_envp = ft_split(cmd, ' ');
+		path = search_valid_path(path_split_envp[0], envp);
+		free_array(path_split_envp, array_len(path_split_envp));
 	}
 	pid = fork();
 	if (pid < 0)
@@ -98,6 +101,7 @@ static void	execute_node_command(t_ast_node *node, char *cmd, char **envp)
 		exit (0);
 	}
 	free(path);
+	free_array(tokens, array_len(tokens));
 	waitpid(pid, NULL, 0);
 }
 

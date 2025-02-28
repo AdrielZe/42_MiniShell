@@ -63,6 +63,7 @@ int	main(int argc, char *argv[], char *envp[])
 	signal(SIGQUIT, SIG_IGN);
 	envp_copy = copy_envp(envp);
 	token_list = NULL;
+	root = NULL;
 	init_shell(&token, &token_list, envp_copy, &root);
 	clear_token_list(&token_list);
 	write_history(".my_history");

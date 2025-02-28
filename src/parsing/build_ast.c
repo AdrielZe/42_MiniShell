@@ -15,13 +15,16 @@
 void	free_ast(t_ast_node *node)
 {
 	if (!node)
-		return;
-	free_ast(node->left);
-	free_ast(node->right);
-	if (node->value)
-		free(node->value);  // Libera a string duplicada
-	free(node);  // Libera o próprio nó
+		return ;
+	if (node->left)
+		free_ast(node->left);
+	if (node->right)
+		free_ast(node->right);
+	if (node->value) // Verifica se value não é NULL antes de liberar
+		free(node->value);
+	free(node);
 }
+
 
 t_ast_node	*create_node(t_node_type type, char *value)
 {
@@ -29,10 +32,7 @@ t_ast_node	*create_node(t_node_type type, char *value)
 
 	node = malloc(sizeof(t_ast_node));
 	if (!node)
-	{
-		perror("malloc failed");
-		exit(EXIT_FAILURE);
-	}
+		return (NULL);
 	node->type = type;
 	if (value)
 	{
@@ -44,7 +44,10 @@ t_ast_node	*create_node(t_node_type type, char *value)
 		}
 	}
 	else
+	{
+		free(node->value);
 		node->value = NULL;
+	}
 	node->left = NULL;
 	node->right = NULL;
 	return (node);
