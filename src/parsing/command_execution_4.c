@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/27 22:41:13 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/28 15:22:53 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	handle_node_value(t_ast_node *node, char **envp, char *old_string)
 	cmd = NULL;
 	if (found_env_var(node, old_string))
 	{
+
 		if (node->type == NODE_COMMAND)
 		{
 			cmd = ft_split(node->value, ' ')[0];

@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:27:34 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/27 23:55:21 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/28 16:26:37 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,14 +110,19 @@ static void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
 	char	**tokens;
 	char	*path;
 	pid_t	pid;
+	char	**cmd_to_split;
 	char	*built[1];
 
 	built[0] = "PATH=built-ins";
 	tokens = split_with_quotes(cmd);
 	cmd = if_env_var(node, tokens);
-	path = search_valid_path(ft_split(cmd, ' ')[0], built);
+	cmd_to_split = ft_split(cmd, ' ');
+	if (!cmd_to_split)
+		return ;
+	path = search_valid_path(cmd_to_split[0], built);
 	if(!path)
-		path = search_valid_path(ft_split(cmd, ' ')[0], envp);
+		path = search_valid_path(cmd_to_split[0], envp);
+	free_array(cmd_to_split, array_len(cmd_to_split));
 	if(if_cd(cmd, tokens, envp, node))
 		return ;
 	pid = fork();
@@ -130,6 +135,8 @@ static void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
 			exit(127);
 		exit(0);
 	}
+	free(path);
+	free_array(tokens, array_len(tokens));
 	waitpid (pid, NULL, 0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:17:45 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/27 22:13:25 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/28 17:51:31 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	search_for_cmd_in_array(t_ast_node *node,
 			{
 				old_temp = *temp;
 				*temp = ft_strjoin(*temp, " ");
-				free(old_temp);
+				//free(old_temp);
 				old_temp = *temp;
 				*temp = ft_strjoin(*temp, local_arr[i]);
 				free(old_temp);
@@ -53,18 +53,28 @@ void	handle_not_found_env_var(t_ast_node *node, char **envp, char **arr)
 {
 	char	*temp;
 	char	**arr_not_envp;
+	char	**value_to_search;
+	char	*valid_path;
 
 	search_for_cmd_in_array(node, &temp, &arr_not_envp, arr);
 	free_array(arr_not_envp, array_len(arr_not_envp));
+
 	if (ft_strcmp(temp, "") == 0 || temp == NULL)
 		return ;
 	node->value = ft_strdup(temp);
-	if (!search_valid_path(ft_split(node->value, ' ')[0], envp))
+	free(temp);
+	value_to_search = ft_split(node->value, ' ');
+	valid_path = search_valid_path(value_to_search[0], envp);
+	if (!valid_path)
 	{
-		node->value = ft_split(node->value, ' ')[0];
+		node->value = value_to_search[0];
+		free_array(value_to_search, array_len(value_to_search));
+		
 		check_and_execute_if_is_cmd(node, envp);
 		return ;
 	}
+	free(valid_path);
+	free_array(value_to_search, array_len(value_to_search));
 	check_if_is_cmd_or_dir(node, envp);
 	return ;
 }

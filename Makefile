@@ -54,7 +54,7 @@ $(BUILT_INS)/%: $(BUILT_INS)/%.c $(LIBFT)
 	$(CC) $< $(INCLUDES) $(LIBFT) -o $@
 
 v: all
-	valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --trace-children-skip='/bin/,/sbin/' --keep-debuginfo=yes \
+	valgrind --leak-check=full --show-leak-kinds=all --keep-debuginfo=yes \
 	--suppressions=/nfs/homes/asilveir/MiniShell/readline.supp --track-fds=yes ./$(NAME)
 
 .PHONY: all clean fclean re built

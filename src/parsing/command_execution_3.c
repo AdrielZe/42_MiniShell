@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/28 01:36:41 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/28 17:44:00 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,24 @@ void	handle_word_node(t_ast_node *node, char **envp)
 {
 	char	*old_string;
 	int		is_env_var;
-
+	
 	is_env_var = 0;
 	if (!node->value || node->value[0] == '\0')
 		return ;
 	if (ft_strchr(node->value, '$') != NULL)
-		is_env_var = 1;
+	is_env_var = 1;
 	old_string = ft_strdup(node->value);
 	node->value = process_env_var(node->value);
 	if (is_env_var == 1)
 	{
 		when_only_env_var(node, envp, old_string);
+		free(old_string);
 	}
 	else if (ft_strcmp(old_string, node->value) != 0)
 		check_and_execute_if_is_cmd(node, envp);
 	else
 	{	
+		
 		printf("checking\n");
 		execute_regular_cmd(node, envp);
 		free(old_string);
@@ -55,6 +57,7 @@ void	handle_word_node(t_ast_node *node, char **envp)
 void	when_only_env_var(t_ast_node *node, char **envp, char *old_string)
 {
 	check_if_is_directory(node->value);
+	
 	if (!is_file(node->value) && !search_valid_path(node->value, envp))
 	{
 		handle_node_value(node, envp, old_string);

@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/26 17:12:05 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/28 15:20:13 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ void	handle_node_types(t_ast_node *node, char **envp, t_delim **delimiters)
 		handle_heredoc(node, envp);
 	}
 	else if (node->type == NODE_WORD)
+	{
+		printf("aaaaaaaaaa\n");
 		handle_word_node(node, envp);
+	}
 	else if (node->type == NODE_COMMAND)
 		handle_command_node(node, envp);
 }
