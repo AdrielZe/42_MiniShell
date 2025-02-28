@@ -68,5 +68,6 @@ int	main(int argc, char *argv[], char *envp[])
 	write_history(".my_history");
 	len = array_len(envp_copy);
 	free_array(envp_copy, len);
+	clear_history();
 	return (0);
 }

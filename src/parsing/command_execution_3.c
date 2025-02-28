@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/27 17:38:13 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:55:51 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	free_split(char **split) //Colocar essa função em outro arquivo quando fo
 	}
 	free(split);
 }
+
 void	handle_word_node(t_ast_node *node, char **envp)
 {
 	char	*old_string;

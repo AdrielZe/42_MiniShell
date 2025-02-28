@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_execution_6.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:17:45 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/27 00:39:51 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/02/27 22:05:07 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,16 @@ void	search_for_cmd_in_array(t_ast_node *node,
 {
 	int		j;
 	int		i;
+	char	**local_arr;
 
 	i = 0;
 	j = 0;
 	*temp = "";
 	*arr_not_envp = ft_split(node->value, ' ');
-	while (arr_not_envp[j])
+	if (!*arr_not_envp)
+		return ;
+
+	while ((*arr_not_envp)[j])
 	{
 		arr = ft_split(node->value, ' ');
 		while (arr[i])

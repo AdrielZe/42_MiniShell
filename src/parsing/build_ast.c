@@ -12,6 +12,17 @@
 
 #include "../headers/main.h"
 
+void	free_ast(t_ast_node *node)
+{
+	if (!node)
+		return;
+	free_ast(node->left);
+	free_ast(node->right);
+	if (node->value)
+		free(node->value);  // Libera a string duplicada
+	free(node);  // Libera o próprio nó
+}
+
 t_ast_node	*create_node(t_node_type type, char *value)
 {
 	t_ast_node	*node;

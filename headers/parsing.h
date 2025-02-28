@@ -75,6 +75,7 @@ void		handle_word_node(t_ast_node *node, char **envp);
 void		when_only_env_var(t_ast_node *node, char **envp, char *old_string);
 void		check_and_execute_if_is_cmd(t_ast_node *node, char **envp);
 void		execute_regular_cmd(t_ast_node *node, char **envp);
+void		free_split(char **split);
 int			verify_if_is_env_var(t_ast_node *node);
 
 //src/command_execution_4.c

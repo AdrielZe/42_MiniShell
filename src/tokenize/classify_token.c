@@ -57,6 +57,7 @@ void	clear_token_list(t_tokens **token_list)
 	while (current)
 	{
 		next = current->next;
+		free(current->value);
 		free(current);
 		current = next;
 	}

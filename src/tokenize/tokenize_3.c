@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:49:40 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/27 17:42:31 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/27 21:22:26 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static void	get_new_word(char **new_word, const char **s, char ***array, int *i)
 {
 	*new_word = process_quotes(s);
-	if (!new_word)
+	if (!*new_word)
 	{
 		free_array(*array, *i);
 		exit(0);

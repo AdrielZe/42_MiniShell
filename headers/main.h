@@ -34,9 +34,10 @@ void	init_shell(char ***token, struct s_tokens **token_list,
 
 //src/signals/sig_int.c
 void	handle_sigint(int sig);
-void	handle_ctrl_d(void);
+void	handle_ctrl_d(char **envp_copy, struct s_tokens **token_list, struct s_ast_node *root);
 
 //src/env_var/process_env_var.c
 char	*process_env_var(char *input);
+void	free_ast(struct s_ast_node *node);
 
 #endif

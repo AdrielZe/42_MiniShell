@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:36:49 by asilveir          #+#    #+#             */
-/*   Updated: 2025/02/26 19:03:09 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/02/27 21:25:18 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,14 @@ static void	exit_if_typed_exit(char *input,
 	}
 }
 
-static void	free_token(char ***token)
+void	free_token(char ***token)
 {
-	if (*token)
-		free(*token);
-	*token = NULL;
+    if (!*token)
+        return;
+    for (int i = 0; (*token)[i]; i++)
+        free((*token)[i]); // Libera cada string no array
+    free(*token); // Libera o array
+    *token = NULL;
 }
 
 void	init_shell(char ***token, t_tokens **token_list, char
@@ -41,7 +44,7 @@ void	init_shell(char ***token, t_tokens **token_list, char
 	{
 		input = readline("> ");
 		if (input == NULL)
-			handle_ctrl_d();
+			handle_ctrl_d(envp, token_list, *root);
 		if (!input || ft_strlen(input) == 0)
 		{
 			free(input);
@@ -55,6 +58,7 @@ void	init_shell(char ***token, t_tokens **token_list, char
 		parse_commands(*root, envp);
 		if (input)
 			add_history(input);
+		free(input);
 		input = NULL;
 		free_token(token);
 	}
