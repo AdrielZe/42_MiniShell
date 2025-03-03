@@ -56,8 +56,14 @@ void	init_shell(char ***token, t_tokens **token_list, char
 		free_array(*token, array_len(*token));
 		print_list(*token_list);
 		*root = build_ast(*token_list);
-			clear_token_list(token_list);
+	
+		clear_token_list(token_list);
 		parse_commands(*root, envp);
+		if (*root)
+		{
+			free_ast(*root);
+			*root = NULL;  // Evita que o root fique com dados inválidos
+		}
 		if (input)
 			add_history(input);
 		free(input);
