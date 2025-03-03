@@ -35,23 +35,16 @@ void	handle_word_node(t_ast_node *node, char **envp)
 	if (!node->value || node->value[0] == '\0')
 		return ;
 	if (ft_strchr(node->value, '$') != NULL)
-	is_env_var = 1;
+		is_env_var = 1;
 	old_string = ft_strdup(node->value);
 	node->value = process_env_var(node->value);
 	if (is_env_var == 1)
-	{
 		when_only_env_var(node, envp, old_string);
-		free(old_string);
-	}
 	else if (ft_strcmp(old_string, node->value) != 0)
 		check_and_execute_if_is_cmd(node, envp);
 	else
-	{	
-		
-		printf("checking\n");
 		execute_regular_cmd(node, envp);
-		free(old_string);
-	}
+	free(old_string);
 }
 
 void	when_only_env_var(t_ast_node *node, char **envp, char *old_string)
@@ -115,13 +108,19 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 		else if (!search_result)
 		{
 			printf("minishell: %s: command not found\n", command_to_execute);
+			if (command_to_execute)
+				free(command_to_execute);
 			if (node->type == NODE_COMMAND)
-				free_split(split_values);
+			{
+				if (split_values)
+					free(split_values);
+			}
 			return ;
 		}
 		else
 		{
 			execute_command(node->value, envp, node);
+		
 		}
 	}
 	if (node->type == NODE_COMMAND)

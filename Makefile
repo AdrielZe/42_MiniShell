@@ -55,6 +55,6 @@ $(BUILT_INS)/%: $(BUILT_INS)/%.c $(LIBFT)
 
 v: all
 	valgrind --leak-check=full --show-leak-kinds=all --keep-debuginfo=yes \
-	--suppressions=/nfs/homes/asilveir/MiniShell/readline.supp --track-fds=yes ./$(NAME)
+	--suppressions=readline.supp --track-fds=yes ./$(NAME)
 
 .PHONY: all clean fclean re built

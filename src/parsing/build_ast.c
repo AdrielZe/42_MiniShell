@@ -16,11 +16,9 @@ void	free_ast(t_ast_node *node)
 {
 	if (!node)
 		return ;
-	if (node->left)
-		free_ast(node->left);
-	if (node->right)
-		free_ast(node->right);
-	if (node->value) // Verifica se value não é NULL antes de liberar
+	free_ast(node->left);
+	free_ast(node->right);
+	if (node->value)
 		free(node->value);
 	free(node);
 }
@@ -83,10 +81,18 @@ static int	redirection_if(t_tokens *tokens, t_ast_node *node)
 static void	handle_cmd_or_word_token(t_tokens *tokens,
 				t_ast_node **root, t_ast_node **current)
 {
+	char *token_value;
+
 	if (tokens->type == TOKEN_WORD)
 	{
 		if (tokens->value)
-			tokens->value = extract_word(&tokens->value);
+		{
+			token_value = extract_word(&tokens->value);
+			if (token_value)
+			{
+				tokens->value = token_value;
+			}
+		}
 		create_word_node(root, current, tokens);
 	}
 	else
