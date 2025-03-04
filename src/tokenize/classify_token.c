@@ -85,8 +85,6 @@ static void	create_tokens(char *token_value, t_tokens **token_list)
 		return ;
 	else if (is_only_spaces(token_value) != 0)
 		append_token(token_list, TOKEN_COMMAND, token_value);
-	else 
-		return ;
 }
 
 void	classify_token(char **tokens, t_tokens **token_list)

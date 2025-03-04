@@ -12,14 +12,21 @@
 
 #include "../headers/main.h"
 #include <signal.h>
+#include <termios.h>
+#include <unistd.h>
 #include <stdio.h>
-#include <stdlib.h>
 
-void	handle_sigint(int sig)
+void handle_sigint(int sig)
 {
-	(void)sig;
-	write(1, "\n", 1);
-	write(1, "> ", 2);
+    (void)sig;
+
+    // Limpa a linha e não coloca nada
+    rl_replace_line("", 0);
+    rl_on_new_line();  // Mover o cursor para uma nova linha
+    rl_redisplay();    // Atualiza a tela
+
+    // Exibe o prompt
+    write(1, "\n> ", 3);  // Exibe o prompt novamente
 }
 
 void	handle_ctrl_d(char **envp_copy, t_tokens **token_list, t_ast_node *root)
