@@ -75,6 +75,7 @@ void	execute_command_with_heredoc(int *pipefd,
 	t_ast_node	*current;
 	int			pipe_found;
 
+	printf("Oiiii???????\n");
 	current = node;
 	pipe_found = 0;
 	waitpid(pid, NULL, 0);
@@ -104,12 +105,8 @@ void	handle_heredoc(t_ast_node *node, char **envp)
 	open_heredoc_pipe(pipefd, &pid);
 	if (pid == 0)
 	{
-		delim_list = get_all_delimiters(node);  // Obtém a lista de delimitadores
-		if (delim_list)
-		{
-			read_heredoc(pipefd, delim_list);  // Usa a lista de delimitadores para ler o heredoc
-			free_delimiters(delim_list);  // Libera a memória da lista de delimitadores após o uso
-		}
+		delim_list = get_all_delimiters(node);
+		read_heredoc(pipefd, delim_list);
 	}
 	execute_command_with_heredoc(pipefd, pid, node, envp);
 }
