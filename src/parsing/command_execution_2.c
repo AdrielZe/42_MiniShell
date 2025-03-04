@@ -40,6 +40,8 @@ void	handle_node_types(t_ast_node *node, char **envp, t_delim **delimiters)
 	{
 		*delimiters = get_all_delimiters(node);
 		handle_heredoc(node, envp);
+		free_delimiters(*delimiters);
+
 	}
 	else if (node->type == NODE_WORD)
 	{
@@ -47,5 +49,5 @@ void	handle_node_types(t_ast_node *node, char **envp, t_delim **delimiters)
 		handle_word_node(node, envp);
 	}
 	else if (node->type == NODE_COMMAND)
-		handle_command_node(node, envp);
+		handle_command_node(node, envp);	
 }

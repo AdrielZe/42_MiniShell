@@ -31,6 +31,8 @@ t_ast_node	*create_node(t_node_type type, char *value)
 	node = malloc(sizeof(t_ast_node));
 	if (!node)
 		return (NULL);
+	node->outfile = -1; // Invalid FD
+	node->infile = -1;  // Invalid FD
 	node->type = type;
 	if (value)
 	{

@@ -30,8 +30,8 @@ void	free_token(char ***token)
     if (!*token)
         return;
     for (int i = 0; (*token)[i]; i++)
-        free((*token)[i]); // Libera cada string no array
-    free(*token); // Libera o array
+        free((*token)[i]);
+    free(*token);
     *token = NULL;
 }
 
@@ -62,7 +62,7 @@ void	init_shell(char ***token, t_tokens **token_list, char
 		if (*root)
 		{
 			free_ast(*root);
-			*root = NULL;  // Evita que o root fique com dados inválidos
+			*root = NULL;
 		}
 		if (input)
 			add_history(input);
