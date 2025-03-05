@@ -94,8 +94,9 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 		{
 			if (node->type == NODE_COMMAND)
 				free_split(split_values);
+			else
+				free(command_to_execute);
 			free(search_result);
-			free(command_to_execute);
 			return ;
 		}	
 		else
