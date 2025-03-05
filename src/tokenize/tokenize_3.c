@@ -56,12 +56,13 @@ void	check_if_is_string(char *new_word,
 
 void	process_words(const char **s, char ***array, int *i)
 {
-	static char	*old_string = NULL;
-	char		*new_word;
-	int			is_string;
-	int			len;
+	char	*old_string;
+	char	*new_word;
+	int		is_string;
+	int		len;
 
 	is_string = 0;
+	old_string = NULL;
 	while (**s)
 	{
 		skip_spaces_and_alloc_elements(s, array, i);
@@ -69,22 +70,15 @@ void	process_words(const char **s, char ***array, int *i)
 			break ;
 		get_new_word(&new_word, s, array, i);
 		len = ft_strlen(new_word);
-		if (old_string)
-			free(old_string);
-		if (!old_string)
-			old_string = ft_strdup(new_word);
 		check_if_is_string(new_word, &old_string, &is_string, len);
 		if (should_merge_token(*array, *i, is_string) == 1)
 		{
 			merge_last_token(array, *i, new_word);
 			is_string = 0;
-			free(old_string);
 			old_string = NULL;
 		}
 		else
-		{
-			free(old_string);
 			alloc_new_word_in_array(array, i, new_word, &old_string);
-		}
+		free(old_string);
 	}
 }

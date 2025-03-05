@@ -57,8 +57,6 @@ void	clear_token_list(t_tokens **token_list)
 	while (current)
 	{
 		next = current->next;
-        printf("Freeing token value: %s\n", current->value);  // Verifique se está sendo liberado
-
 		free(current->value);
 		free(current);
 		current = next;
