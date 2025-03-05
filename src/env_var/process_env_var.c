@@ -32,7 +32,7 @@ static char	*replace_substring(char *string, char *replace_string, int index)
 	new_length = index + ft_strlen(env_value) + ft_strlen(string_rest) + 1;
 	new_string = malloc(new_length);
 	if (!new_string)
-		return  (string);
+		return (string);
 	ft_strlcpy(new_string, string, index + 1);
 	ft_strlcat(new_string, env_value, new_length);
 	ft_strlcat(new_string, string_rest, new_length);

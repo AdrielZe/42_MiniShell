@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:03:29 by asilveir          #+#    #+#             */
-/*   Updated: 2025/03/05 17:17:01 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/03/05 17:50:23 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,12 @@ void	display_input_line(char **input)
 		close_heredoc_prompt();
 		return ;
 	}
+}
+
+int	node_exists(t_ast_node *node)
+{
+	if (!node || !node->right || !node->right->value
+		|| ft_strcmp(node->right->value, " ") == 0)
+		return (1);
+	return (0);
 }

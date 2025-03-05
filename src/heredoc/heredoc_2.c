@@ -29,8 +29,7 @@ t_delim	*get_all_delimiters(t_ast_node *node)
 	char	**delim;
 
 	head = NULL;
-	if (!node || !node->right || !node->right->value
-		|| ft_strcmp(node->right->value, " ") == 0)
+	if (node_exists(node) == 1)
 	{
 		printf("✘ minishell: syntax error near unexpected token `newline'\n");
 		return (NULL);

@@ -12,7 +12,7 @@
 
 #include "../headers/main.h"
 
-static void	exit_if_typed_exit(char *input,
+void	exit_if_typed_exit(char *input,
 			t_tokens **token_list, char **envp_copy)
 {
 	if (ft_strcmp("exit", input) == 0)
@@ -27,12 +27,18 @@ static void	exit_if_typed_exit(char *input,
 
 void	free_token(char ***token)
 {
-    if (!*token)
-        return;
-    for (int i = 0; (*token)[i]; i++)
-        free((*token)[i]);
-    free(*token);
-    *token = NULL;
+	int	i;
+
+	if (!*token)
+		return ;
+	i = 0;
+	while ((*token)[i])
+	{
+		free((*token)[i]);
+		i++;
+	}
+	free(*token);
+	*token = NULL;
 }
 
 void	init_shell(char ***token, t_tokens **token_list, char
@@ -42,19 +48,13 @@ void	init_shell(char ***token, t_tokens **token_list, char
 
 	while (1)
 	{
-		input = readline("> ");
-		if (input == NULL)
-			handle_ctrl_d(envp, token_list, *root);
+		manage_rl_input(&input, envp, token_list, *root);
 		if (!input || ft_strlen(input) == 0)
 		{
 			free(input);
 			continue ;
 		}
-		exit_if_typed_exit(input, token_list, envp);
-		*token = tokenize(input);
-		classify_token(*token, token_list);
-		free_array(*token, array_len(*token));
-		print_list(*token_list);
+		setup_tokens_and_build_ast(input, token_list, envp, token);
 		*root = build_ast(*token_list);
 		clear_token_list(token_list);
 		parse_commands(*root, envp);

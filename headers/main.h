@@ -39,5 +39,8 @@ void	handle_ctrl_d(char **envp_copy, struct s_tokens **token_list, struct s_ast_
 //src/env_var/process_env_var.c
 char	*process_env_var(char *input);
 void	free_ast(struct s_ast_node *node);
+void	exit_if_typed_exit(char *input, struct s_tokens **token_list, char **envp_copy);
+void	setup_tokens_and_build_ast(char *input, struct s_tokens **token_list, char **envp, char ***token);
+void	manage_rl_input(char **input, char **envp, struct s_tokens **token_list, struct s_ast_node *root);
 
 #endif

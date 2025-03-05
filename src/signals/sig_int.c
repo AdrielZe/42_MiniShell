@@ -16,23 +16,19 @@
 #include <unistd.h>
 #include <stdio.h>
 
-void handle_sigint(int sig)
+void	handle_sigint(int sig)
 {
-    (void)sig;
-
-    // Limpa a linha e não coloca nada
-    rl_replace_line("", 0);
-    rl_on_new_line();  // Mover o cursor para uma nova linha
-    rl_redisplay();    // Atualiza a tela
-
-    // Exibe o prompt
-    write(1, "\n> ", 3);  // Exibe o prompt novamente
+	(void)sig;
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+	write(1, "\n> ", 3);
 }
 
 void	handle_ctrl_d(char **envp_copy, t_tokens **token_list, t_ast_node *root)
 {
 	write(1, "Exiting minishell\n", 19);
-		free_ast(root);
+	free_ast(root);
 	clear_token_list(token_list);
 	free_array(envp_copy, array_len(envp_copy));
 	rl_clear_history();

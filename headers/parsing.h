@@ -146,5 +146,6 @@ void	setup_tokens_and_commands(t_ast_node *node, char ***tokens, char **cmd, cha
 void	open_pid(int *pid);
 void	close_pipefd(int *pipefd);
 void	write_and_free_input(int *pipefd, char *input);
+int	node_exists(t_ast_node *node);
 
 #endif
