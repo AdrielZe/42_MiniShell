@@ -90,9 +90,7 @@ static void	handle_cmd_or_word_token(t_tokens *tokens,
 		{
 			token_value = extract_word(&tokens->value);
 			if (token_value)
-			{
 				tokens->value = token_value;
-			}
 		}
 		create_word_node(root, current, tokens);
 	}

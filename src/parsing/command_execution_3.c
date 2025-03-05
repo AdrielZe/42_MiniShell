@@ -70,7 +70,7 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 	char	*command_to_execute;
 	char	*search_result;
 	char	**split_values;
-
+	
 	if (node->type == NODE_COMMAND)
 		get_cmd_to_execute(node, &split_values, &command_to_execute);
 	else
