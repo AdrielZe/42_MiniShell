@@ -21,27 +21,18 @@ void	handle_command_node(t_ast_node *node, char **envp)
 	is_env_var = 0;
 	if (!node->value || node->value[0] == '\0')
 		return ;
-	split_result = ft_split(node->value , ' ');
+	split_result = ft_split(node->value, ' ');
 	if (split_result && ft_strchr(split_result[0], '$') != NULL)
 		is_env_var = 1;
 	old_string = ft_strdup(node->value);
 	node->value = process_env_var(node->value);
 	if (is_env_var == 1)
-	{
-		printf("is only en var\n");
 		when_only_env_var(node, envp, old_string);
-		free(old_string);
-	}
 	else if (ft_strcmp(old_string, node->value) != 0)
-	{
 		check_and_execute_if_is_cmd(node, envp);
-		free(old_string);
-	}
 	else
-	{	
 		execute_regular_cmd(node, envp);
-		free(old_string);
-	}
+	free(old_string);
 	if (split_result)
 		free_split(split_result);
 }
@@ -73,7 +64,6 @@ void	handle_node_value(t_ast_node *node, char **envp, char *old_string)
 	cmd = NULL;
 	if (found_env_var(node, old_string))
 	{
-
 		if (node->type == NODE_COMMAND)
 		{
 			cmd = ft_split(node->value, ' ')[0];

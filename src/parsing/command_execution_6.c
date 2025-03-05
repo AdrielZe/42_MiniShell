@@ -12,6 +12,19 @@
 
 #include "../headers/main.h"
 
+void	free_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i] != NULL)
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+}
+
 void	search_for_cmd_in_array(t_ast_node *node,
 				char **temp, char ***arr_not_envp, char **arr)
 {

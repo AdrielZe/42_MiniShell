@@ -13,24 +13,11 @@
 #include "../headers/main.h"
 #include <sys/stat.h>
 
-void	free_split(char **split) //Colocar essa função em outro arquivo quando for norminettar
-{
-	int	i;
-
-	i = 0;
-	while (split[i] != NULL)
-	{
-		free(split[i]);
-		i++;
-	}
-	free(split);
-}
-
 void	handle_word_node(t_ast_node *node, char **envp)
 {
 	char	*old_string;
 	int		is_env_var;
-	
+
 	is_env_var = 0;
 	if (!node->value || node->value[0] == '\0')
 		return ;
@@ -50,7 +37,6 @@ void	handle_word_node(t_ast_node *node, char **envp)
 void	when_only_env_var(t_ast_node *node, char **envp, char *old_string)
 {
 	check_if_is_directory(node->value);
-	
 	if (!is_file(node->value) && !search_valid_path(node->value, envp))
 	{
 		handle_node_value(node, envp, old_string);
@@ -87,45 +73,25 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 
 	search_result = NULL;
 	if (node->type == NODE_COMMAND)
-	{
-		split_values = ft_split(node->value, ' ');
-		command_to_execute = split_values[0];
-	}
+		get_cmd_to_execute(node, &split_values, &command_to_execute);
 	else
 		command_to_execute = ft_strdup(node->value);
 	search_result = search_valid_path(command_to_execute, envp);
 	if (ft_strchr(node->value, '$') != NULL)
-	{
-		if (node->type == NODE_COMMAND)
-			execute_command(command_to_execute, envp, node);
-		else
-			execute_command(node->value, envp, node);
-	}
+		execute_cmd_or_word(node, command_to_execute, envp);
 	else
 	{
 		if (ft_strchr(node->value, '/') != NULL)
-			printf("zsh: %s: No such file or directory\n", node->value);
+			printf("zsh: %s: No such file or directory\n", node->value); //Alterar essa linha. (conflito com cd)
 		else if (!search_result)
 		{
-			printf("minishell: %s: command not found\n", command_to_execute);
-			if (command_to_execute)
-				free(command_to_execute);
-			if (node->type == NODE_COMMAND)
-			{
-				if (split_values)
-					free(split_values);
-			}
+			print_not_found_msg_and_free(command_to_execute, node, split_values);
 			return ;
 		}
 		else
-		{
 			execute_command(node->value, envp, node);
-		
-		}
 	}
-	if (node->type == NODE_COMMAND)
-		free_split(split_values);
-	free(search_result);
+	free_resources(node, split_values, search_result);
 }
 
 int	verify_if_is_env_var(t_ast_node *node)

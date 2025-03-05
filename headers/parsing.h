@@ -132,4 +132,11 @@ int			open_stdout(char *file);
 int			open_append(char *file);
 int			check_outfile(t_ast_node *node, int fd);
 
+//src/parsing/command_direction.c
+void	execute_cmd_or_word(t_ast_node *node, char *command_to_execute, char **envp);
+void	print_not_found_msg_and_free(char *command_to_execute, t_ast_node *node, char **split_values);
+void	get_cmd_to_execute(t_ast_node *node, char ***split_values, char **command_to_execute);
+void	free_resources(t_ast_node *node, char **split_values, char *search_result);
+
+
 #endif
