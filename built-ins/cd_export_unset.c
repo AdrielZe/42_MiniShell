@@ -45,15 +45,15 @@ static void	sort(char **arr)
 }
 int	cd(char *argv[])
 {
-	if(argv[2])
+	if(argv[1] && argv[2])
 	{
 		printf("cd: muitos argumentos\n");
 		return (0);
 	}
 	else if(!argv[1])
 	{
-		if(chdir(getenv("HOME")))
-			return (0);
+		if(chdir(getenv("HOME")) >= 0)
+			return (1);
 	}
 	else if(chdir(argv[1]) >= 0)
 	{
@@ -77,7 +77,7 @@ int	export(char *argv[], char **envp)
 			printf("declare -x %s\n", *envp++);
 		return (1);
 	}
-	if (!argv[2]|| !ft_strchr(argv[1], '=')) {
+	if (!argv[1]|| !ft_strchr(argv[1], '=')) {
 		printf("Uso: %s NOME=VALOR\n", argv[0]);
 		return (1);
 	}
@@ -87,5 +87,23 @@ int	export(char *argv[], char **envp)
 	free(env[0]);
 	free(env[1]);
 	free(env);
+	return (1);
+}
+
+int	unset(char *argv[])
+{
+	int	i;
+
+	i = 1;
+	if(!argv[i])
+	{
+		printf("Uso: %s NOME_VARIAVEL\n", argv[0]);
+		return (1);
+	}
+	while(argv[i])
+	{
+		unsetenv(argv[i]);
+		i++;
+	}
 	return (1);
 }

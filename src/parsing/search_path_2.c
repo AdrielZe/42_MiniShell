@@ -12,31 +12,6 @@
 
 #include "../headers/main.h"
 
-int	cd(char *argv[]);
-
-int	export(char *argv[], char **envp);
-
-static int	if_cd(char *cmd, char *tokens[], char **envp, t_ast_node *node)
-{
-	if (!tokens || !tokens[0])
-		perror("Comando vazio\n");
-	else if (ft_strcmp(tokens[0], "cd") == 0)
-	{
-		if (cd(tokens))
-			return (1);
-	}
-	else if (ft_strcmp(tokens[0], "export") == 0)
-	{
-		if (export(tokens, envp))
-			return (1);
-	}
-	if (node->outfile)
-		close(node->outfile);
-	if (node->infile)
-		close(node->infile);
-	return (0);
-}
-
 static void	valid_outfile_and_path(char *cmd, t_ast_node *node, char *path)
 {
 	if (!path)
@@ -84,8 +59,6 @@ void	execute_node_command(t_ast_node *node, char *cmd, char **envp)
 	built[0] = "PATH=built-ins";
 	tokens = split_with_quotes(cmd);
 	cmd = if_env_var(node, tokens);
-	if (if_cd(cmd, tokens, envp, node))
-		return ;
 	path_split_built = ft_split(cmd, ' ');
 	path = search_valid_path(path_split_built[0], built);
 	free_array(path_split_built, array_len(path_split_built));
@@ -124,8 +97,6 @@ void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
 	if (!path)
 		path = search_valid_path(cmd_to_split[0], envp);
 	free_array(cmd_to_split, array_len(cmd_to_split));
-	if (if_cd(cmd, tokens, envp, node))
-		return ;
 	open_pid(&pid);
 	if (pid == 0)
 	{

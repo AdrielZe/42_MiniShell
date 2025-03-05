@@ -12,6 +12,38 @@
 
 #include "../headers/main.h"
 
+int	cd(char *argv[]);
+int	export(char *argv[], char **envp);
+int	unset(char *argv[]);
+
+static int	if_cd(char *cmd, char **envp, t_ast_node *node)
+{
+	char	**split_cmd;
+
+	split_cmd = split_with_quotes(cmd);
+	if (!split_cmd)
+		perror("Comando vazio\n");
+	else if (ft_strcmp(split_cmd[0], "cd") == 0)
+	{
+		if (cd(split_cmd))
+			return (1);
+	}
+	else if (ft_strcmp(split_cmd[0], "export") == 0)
+	{
+		if (export(split_cmd, envp))
+			return (1);
+	}
+	else if (ft_strcmp(split_cmd[0], "unset") == 0)
+	{
+		if (unset(split_cmd))
+			return (1);
+	}
+	if (node->outfile)
+		close(node->outfile);
+	if (node->infile)
+		close(node->infile);
+	return (0);
+}
 void	handle_command_node(t_ast_node *node, char **envp)
 {
 	char	*old_string;
@@ -31,7 +63,13 @@ void	handle_command_node(t_ast_node *node, char **envp)
 	else if (ft_strcmp(old_string, node->value) != 0)
 		check_and_execute_if_is_cmd(node, envp);
 	else
+	{
+		// printf("cmddddddddddddd: %s\n", node->value);
+		// printf("%s\n", node->value);
+		if(if_cd(node->value, envp, node))
+			return ;
 		execute_regular_cmd(node, envp);
+	}
 	free(old_string);
 	if (split_result)
 		free_split(split_result);
