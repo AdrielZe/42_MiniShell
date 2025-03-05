@@ -94,25 +94,22 @@ void	parse_commands(t_ast_node *node, char **envp)
 
 	if (!node)
 		return ;
-	delimiters = NULL;  // Initialize to NULL
+	delimiters = NULL;
 	if (node->type == NODE_PIPE)
 	{
 		delimiters = get_all_delimiters(node);
 		open_left_pipe(pipefd, &pid_left);
 		if (pid_left == 0)
-			left_process(pipefd, node, delimiters, envp);  // Child exits, no need to free here
+			left_process(pipefd, node, delimiters, envp);
 		waitpid(pid_left, NULL, 0);
 		open_right_pipe(&pid_right);
 		if (pid_right == 0)
-			right_process(pipefd, node, envp);  // Child exits
-		close(pipefd[0]);
-		close(pipefd[1]);
+			right_process(pipefd, node, envp);
+		close_pipefd(pipefd);
 		waitpid(pid_left, NULL, 0);
 		waitpid(pid_right, NULL, 0);
-		free_delimiters(delimiters);  // Free in parent process
+		free_delimiters(delimiters);
 	}
 	else
-	{
 		handle_node_types(node, envp, &delimiters);
-	}
 }

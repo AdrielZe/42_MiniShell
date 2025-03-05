@@ -15,16 +15,12 @@
 void	free_delimiters(t_delim *head)
 {
 	if (!head)
-		return ;  // Caso a lista de delimitadores esteja vazia
-
-	free_delimiters(head->next);  // Chamada recursiva para liberar o próximo delimitador
-
-	// Libera os recursos do delimitador atual
+		return ;
+	free_delimiters(head->next);
 	printf("Freeing delimiter: %s\n", head->delimiter);
-	free(head->delimiter);  // Libera a string do delimitador
-	free(head);  // Libera o nó da lista
+	free(head->delimiter);
+	free(head);
 }
-
 
 t_delim	*get_all_delimiters(t_ast_node *node)
 {
@@ -49,7 +45,6 @@ t_delim	*get_all_delimiters(t_ast_node *node)
 			return (NULL);
 		new->delimiter = ft_strdup(delim[0]);
 		free_array(delim, array_len(delim));
-		
 		new->next = head;
 		head = new;
 		node = node->left;

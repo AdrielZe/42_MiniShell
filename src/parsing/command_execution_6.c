@@ -47,14 +47,7 @@ void	search_for_cmd_in_array(t_ast_node *node,
 		while (local_arr[i])
 		{
 			if (ft_strchr(local_arr[i], '$') == NULL)
-			{
-				old_temp = *temp;
-				*temp = ft_strjoin(*temp, " ");
-				//free(old_temp);
-				old_temp = *temp;
-				*temp = ft_strjoin(*temp, local_arr[i]);
-				free(old_temp);
-			}
+				get_cmds_to_execute(&old_temp, temp, local_arr, i);
 			i++;
 		}
 		free_array(local_arr, array_len(local_arr));
@@ -71,7 +64,6 @@ void	handle_not_found_env_var(t_ast_node *node, char **envp, char **arr)
 
 	search_for_cmd_in_array(node, &temp, &arr_not_envp, arr);
 	free_array(arr_not_envp, array_len(arr_not_envp));
-
 	if (ft_strcmp(temp, "") == 0 || temp == NULL)
 		return ;
 	node->value = ft_strdup(temp);
@@ -82,7 +74,6 @@ void	handle_not_found_env_var(t_ast_node *node, char **envp, char **arr)
 	{
 		node->value = value_to_search[0];
 		free_array(value_to_search, array_len(value_to_search));
-		
 		check_and_execute_if_is_cmd(node, envp);
 		return ;
 	}
@@ -103,4 +94,10 @@ int	is_only_spaces(char *str)
 		str++;
 	}
 	return (0);
+}
+
+void	close_pipefd(int *pipefd)
+{
+	close(pipefd[0]);
+	close(pipefd[1]);
 }

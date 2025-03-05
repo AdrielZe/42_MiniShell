@@ -46,25 +46,17 @@ void	read_heredoc(int *pipefd, t_delim *delimiters)
 	{
 		while (1)
 		{
-			input = readline("heredoc> ");
-			if (!input)
-			{
-				close_heredoc_prompt();
-				return ;
-			}
+			display_input_line(&input);
 			if (!ft_strcmp(input, current->delimiter))
 			{
 				free(input);
 				current = current->next;
 				break ;
 			}
-			write(pipefd[1], input, ft_strlen(input));
-			write(pipefd[1], "\n", 1);
-			free(input);
+			write_and_free_input(pipefd, input);
 		}
 	}
-	close(pipefd[0]);
-	close(pipefd[1]);
+	close_pipefd(pipefd);
 	free_delimiters(delimiters);
 	exit(0);
 }
@@ -75,7 +67,6 @@ void	execute_command_with_heredoc(int *pipefd,
 	t_ast_node	*current;
 	int			pipe_found;
 
-	printf("Oiiii???????\n");
 	current = node;
 	pipe_found = 0;
 	waitpid(pid, NULL, 0);
@@ -95,7 +86,6 @@ void	execute_command_with_heredoc(int *pipefd,
 	waitpid(pid, NULL, 0);
 }
 
-
 void	handle_heredoc(t_ast_node *node, char **envp)
 {
 	t_delim	*delim_list;
@@ -110,5 +100,3 @@ void	handle_heredoc(t_ast_node *node, char **envp)
 	}
 	execute_command_with_heredoc(pipefd, pid, node, envp);
 }
-
-

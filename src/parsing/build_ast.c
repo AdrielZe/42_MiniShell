@@ -23,7 +23,6 @@ void	free_ast(t_ast_node *node)
 	free(node);
 }
 
-
 t_ast_node	*create_node(t_node_type type, char *value)
 {
 	t_ast_node	*node;
@@ -31,8 +30,8 @@ t_ast_node	*create_node(t_node_type type, char *value)
 	node = malloc(sizeof(t_ast_node));
 	if (!node)
 		return (NULL);
-	node->outfile = -1; // Invalid FD
-	node->infile = -1;  // Invalid FD
+	node->outfile = -1;
+	node->infile = -1;
 	node->type = type;
 	if (value)
 	{
@@ -83,7 +82,7 @@ static int	redirection_if(t_tokens *tokens, t_ast_node *node)
 static void	handle_cmd_or_word_token(t_tokens *tokens,
 				t_ast_node **root, t_ast_node **current)
 {
-	char *token_value;
+	char	*token_value;
 
 	if (tokens->type == TOKEN_WORD)
 	{
