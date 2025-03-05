@@ -71,7 +71,6 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 	char	*search_result;
 	char	**split_values;
 
-	search_result = NULL;
 	if (node->type == NODE_COMMAND)
 		get_cmd_to_execute(node, &split_values, &command_to_execute);
 	else
@@ -82,10 +81,11 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 	else
 	{
 		if (ft_strchr(node->value, '/') != NULL)
-			printf("zsh: %s: No such file or directory\n", node->value); //Alterar essa linha. (conflito com cd)
+			printf("zsh: %s: No such file or directory\n", node->value);
 		else if (!search_result)
 		{
-			print_not_found_msg_and_free(command_to_execute, node, split_values);
+			print_not_found_msg_and_free(command_to_execute,
+				node, split_values);
 			return ;
 		}
 		else
