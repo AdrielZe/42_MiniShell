@@ -147,5 +147,4 @@ void	open_pid(int *pid);
 void	close_pipefd(int *pipefd);
 void	write_and_free_input(int *pipefd, char *input);
 int	node_exists(t_ast_node *node);
-
 #endif

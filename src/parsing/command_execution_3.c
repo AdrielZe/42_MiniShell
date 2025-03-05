@@ -47,22 +47,30 @@ void	when_only_env_var(t_ast_node *node, char **envp, char *old_string)
 
 void	check_and_execute_if_is_cmd(t_ast_node *node, char **envp)
 {
-	if (ft_split(node->value, ' ')[0])
+	char	**cmd;
+
+	cmd = ft_split(node->value, ' ');
+	if (!cmd)
+		return ;
+	if (cmd[0])
 	{
-		if (search_valid_path(ft_split(node->value, ' ')[0], envp) == NULL)
+		if (search_valid_path(cmd[0], envp) == NULL)
 		{
 			printf("minishell: %s: command not found\n",
-				ft_split(node->value, ' ')[0]);
+				cmd[0]);
+			free_array(cmd, array_len(cmd));
 			return ;
 		}
 	}
 	if (is_directory(node->value))
 	{
 		printf("minishell: %s: Is a directory\n", node->value);
+		free_array(cmd, array_len(cmd));
 		return ;
 	}
 	else
 		execute_command(node->value, envp, node);
+	free_array(cmd, array_len(cmd));
 }
 
 void	execute_regular_cmd(t_ast_node *node, char **envp)
@@ -70,7 +78,7 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 	char	*command_to_execute;
 	char	*search_result;
 	char	**split_values;
-	
+
 	if (node->type == NODE_COMMAND)
 		get_cmd_to_execute(node, &split_values, &command_to_execute);
 	else
@@ -84,12 +92,14 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 			printf("zsh: %s: No such file or directory\n", node->value);
 		else if (!search_result)
 		{
-			print_not_found_msg_and_free(command_to_execute,
-				node, split_values);
+			if (node->type == NODE_COMMAND)
+				free_split(split_values);
+			free(search_result);
+			free(command_to_execute);
 			return ;
-		}
+		}	
 		else
-			execute_command(node->value, envp, node);
+			execute_command(node->value, envp, node);	
 	}
 	free_resources(node, split_values, search_result);
 }
