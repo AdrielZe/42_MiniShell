@@ -133,18 +133,24 @@ int			open_append(char *file);
 int			check_outfile(t_ast_node *node, int fd);
 
 //src/parsing/command_direction.c
-void	execute_cmd_or_word(t_ast_node *node, char *command_to_execute, char **envp);
-void	print_not_found_msg_and_free(char *command_to_execute, t_ast_node *node, char **split_values);
-void	get_cmd_to_execute(t_ast_node *node, char ***split_values, char **command_to_execute);
-void	free_resources(t_ast_node *node, char **split_values, char *search_result);
-void	get_cmds_to_execute(char **old_temp, char **temp, char **local_arr, int i);
+void		execute_cmd_or_word(t_ast_node *node,
+				char *command_to_execute, char **envp);
+void		print_not_found_msg_and_free(char *command_to_execute,
+				t_ast_node *node, char **split_values);
+void		get_cmd_to_execute(t_ast_node *node,
+				char ***split_values, char **command_to_execute);
+void		free_resources(t_ast_node *node,
+				char **split_values, char *search_result);
+void		get_cmds_to_execute(char **old_temp,
+				char **temp, char **local_arr, int i);
 
-char	*if_env_var(t_ast_node *node, char **tokens);
-void	execute_word_node(t_ast_node *node, char *cmd, char **envp);
-void	execute_node_command(t_ast_node *node, char *cmd, char **envp);
-void	setup_tokens_and_commands(t_ast_node *node, char ***tokens, char **cmd, char ***cmd_to_split);
-void	open_pid(int *pid);
-void	close_pipefd(int *pipefd);
-void	write_and_free_input(int *pipefd, char *input);
-int	node_exists(t_ast_node *node);
+void		execute_word_node(t_ast_node *node, char *cmd, char **envp);
+void		execute_node_command(t_ast_node *node, char *cmd, char **envp);
+void		setup_tokens_and_commands(t_ast_node *node,
+				char ***tokens, char **cmd, char ***cmd_to_split);
+void		close_pipefd(int *pipefd);
+void		open_pid(int *pid);
+void		write_and_free_input(int *pipefd, char *input);
+char		*if_env_var(t_ast_node *node, char **tokens);
+int			node_exists(t_ast_node *node);
 #endif
