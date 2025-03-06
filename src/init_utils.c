@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:52:02 by asilveir          #+#    #+#             */
-/*   Updated: 2025/03/05 18:10:13 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/03/05 21:20:21 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,4 @@ void	setup_tokens_and_build_ast(char *input,
 	*token = tokenize(input);
 	classify_token(*token, token_list);
 	free_array(*token, array_len(*token));
-	print_list(*token_list);
 }

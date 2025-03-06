@@ -59,20 +59,23 @@ void	check_if_is_cmd_or_dir(t_ast_node *node, char **envp)
 void	handle_node_value(t_ast_node *node, char **envp, char *old_string)
 {
 	char	*cmd;
+	char	**split_cmd;
 	char	**arr;
 
-	cmd = NULL;
+	split_cmd = ft_split(node->value, ' ');
 	if (found_env_var(node, old_string))
 	{
 		if (node->type == NODE_COMMAND)
-		{
-			cmd = ft_split(node->value, ' ')[0];
-		}
+			cmd = split_cmd[0];
 		else if (node->type == NODE_WORD)
 			cmd = node->value;
 		handle_found_env_var(node, envp, old_string);
+		free_array(split_cmd, array_len(split_cmd));
 		return ;
 	}
 	else
+	{
 		handle_not_found_env_var(node, envp, arr);
+		free_array(split_cmd, array_len(split_cmd));
+	}
 }

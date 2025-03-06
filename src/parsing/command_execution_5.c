@@ -43,34 +43,42 @@ void	execute_invalid_cmd(t_ast_node *node, char **envp)
 		{
 			node->value = ft_strdup(arr[i]);
 			check_if_is_cmd_or_dir(node, envp);
+			free_array(arr, array_len(arr));
 			return ;
 		}
 		i++;
 	}
+	free_array(arr, array_len(arr));
 }
 
 void	handle_found_env_var(t_ast_node *node, char **envp, char *cmd)
 {
 	char	*env_result;
-	char	*env_processed;
+	char	**env_processed;
 
 	env_result = ft_strchr(node->value, '/');
-	env_processed = ft_split(env_result, ' ')[0];
+	env_processed = ft_split(env_result, ' ');
 	if (search_valid_path(cmd, envp) && node->type == NODE_COMMAND)
 	{
 		execute_valid_cmd(node, envp, cmd);
+		free(env_result);
+		free_array(env_processed, array_len(env_processed));
 		return ;
 	}
 	else if (!search_valid_path(cmd, envp) && node->type == NODE_COMMAND)
 	{
 		execute_invalid_cmd(node, envp);
+		free_array(env_processed, array_len(env_processed));
+		free(env_result);
 		return ;
 	}
 	else if (node->type == NODE_WORD)
 	{
 		check_if_is_cmd_or_dir(node, envp);
+		free_array(env_processed, array_len(env_processed));
+		//free(env_result);
 		return ;
 	}
-	node->value = env_processed;
+	node->value = env_processed[0];
 	check_if_is_cmd_or_dir(node, envp);
 }

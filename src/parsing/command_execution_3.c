@@ -92,6 +92,7 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 			printf("zsh: %s: No such file or directory\n", node->value);
 		else if (!search_result)
 		{
+			printf("minishell: %s: command not found\n", command_to_execute);
 			if (node->type == NODE_COMMAND)
 				free_split(split_values);
 			else

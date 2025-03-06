@@ -16,10 +16,11 @@ void	free_ast(t_ast_node *node)
 {
 	if (!node)
 		return ;
-	free_ast(node->left);
-	free_ast(node->right);
-	if (node->value)
-		free(node->value);
+	if (node->left)
+		free_ast(node->left);
+	if (node->right)
+		free_ast(node->right);
+	free(node->value);
 	free(node);
 }
 

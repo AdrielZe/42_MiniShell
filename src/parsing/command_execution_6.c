@@ -41,8 +41,8 @@ void search_for_cmd_in_array(t_ast_node *node, char **temp, char ***arr_not_envp
 		local_arr = ft_split(node->value, ' ');
 		if (!local_arr)
 		{
-		free_array(*arr_not_envp, array_len(*arr_not_envp));
-		return;
+			free_array(*arr_not_envp, array_len(*arr_not_envp));
+			return;
 		}
 		while (local_arr[i])
 		{
@@ -66,22 +66,21 @@ void handle_not_found_env_var(t_ast_node *node, char **envp, char **arr)
 
 	search_for_cmd_in_array(node, &temp, &arr_not_envp, arr);
 	if (temp == NULL || ft_strcmp(temp, "") == 0)
-	{
-		if (temp)
-			free(temp);
 		return;
-	}
 	old_value = node->value;
 	node->value = ft_strdup(temp);
-	free(old_value);
-	free(temp);
+	if (old_value)
+		free(old_value);
+	if (temp)
+		free(temp);
 	value_to_search = ft_split(node->value, ' ');
 	valid_path = search_valid_path(value_to_search[0], envp);
 	if (!valid_path)
 	{
 		old_value = node->value;
 		node->value = ft_strdup(value_to_search[0]);
-		free(old_value);
+		if (old_value)
+			free(old_value);
 		free_array(value_to_search, array_len(value_to_search));
 		check_and_execute_if_is_cmd(node, envp);
 		return ;

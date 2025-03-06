@@ -47,9 +47,8 @@ void	read_heredoc(int *pipefd, t_delim *delimiters)
 		while (1)
 		{
 			display_input_line(&input);
-			if (!ft_strcmp(input, current->delimiter))
+			if (ft_strcmp(input, current->delimiter) == 0)
 			{
-				free(input);
 				current = current->next;
 				break ;
 			}
@@ -98,5 +97,7 @@ void	handle_heredoc(t_ast_node *node, char **envp)
 		delim_list = get_all_delimiters(node);
 		read_heredoc(pipefd, delim_list);
 	}
+	close(pipefd[0]);
+	close(pipefd[1]);
 	execute_command_with_heredoc(pipefd, pid, node, envp);
 }

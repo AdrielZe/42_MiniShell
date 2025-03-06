@@ -47,7 +47,6 @@ void	close_heredoc_prompt(void)
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd("warning: ", 2);
 	ft_putstr_fd("here-document at line ", 2);
-	ft_putstr_fd(ft_itoa(__LINE__), 2);
 	ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
 	ft_putendl_fd("')", 2);
 }

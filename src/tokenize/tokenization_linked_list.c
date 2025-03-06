@@ -26,7 +26,6 @@ void	append_token(t_tokens **token_list, t_token_type type, char *value)
 	if (!new_node->value)
 	{
 		perror("strdup");
-		free(new_node);
 		exit(EXIT_FAILURE);
 	}
 	new_node->next = NULL;

@@ -46,6 +46,7 @@ void	init_shell(char ***token, t_tokens **token_list, char
 {
 	char	*input;
 
+	*token = NULL;
 	while (1)
 	{
 		manage_rl_input(&input, envp, token_list, *root);
@@ -54,13 +55,13 @@ void	init_shell(char ***token, t_tokens **token_list, char
 			free(input);
 			continue ;
 		}
-		setup_tokens_and_build_ast(input, token_list, envp, token);
+		setup_tokens_and_build_ast(input, token_list, envp, token); //Tokens sao liberados aqui
 		*root = build_ast(*token_list);
-		clear_token_list(token_list);
+		clear_token_list(token_list); //Ok
 		parse_commands(*root, envp);
 		if (*root)
 		{
-			free_ast(*root);
+			free_ast(*root); //Ok
 			*root = NULL;
 		}
 		if (input)
