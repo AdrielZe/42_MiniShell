@@ -36,9 +36,7 @@ void	alloc_new_word_in_array(char ***array,
 
 int	should_merge_token(char **array, int i, int is_string)
 {
-	if ((i > 0 && array && array[i - 1] && array[i - 1][0] != '|'
-		&& array[i - 1][0] != '<'
-		&& array[i - 1][0] != '>') || (is_string == 1))
+	if ((is_string == 1))
 		return (1);
 	return (0);
 }
