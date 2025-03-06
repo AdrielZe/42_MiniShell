@@ -26,8 +26,9 @@ static char	*replace_substring(char *string, char *replace_string, int index)
 	env_value = getenv(replace_string);
 	if (!env_value)
 	{
-		free(string_rest);
-		return (string);
+		// free(string_rest);
+		env_value = "";
+		// return (string);
 	}
 	new_length = index + ft_strlen(env_value) + ft_strlen(string_rest) + 1;
 	new_string = malloc(new_length);
