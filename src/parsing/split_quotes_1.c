@@ -74,6 +74,8 @@ char	**split_with_quotes(char *s)
 	int		i;
 	int		words;
 
+	if (!s)
+		return (NULL);
 	i = 0;
 	words = count_words(s);
 	result = (char **)malloc((words + 1) * sizeof(char *));

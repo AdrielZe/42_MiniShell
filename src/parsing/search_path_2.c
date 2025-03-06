@@ -29,6 +29,8 @@ char	*if_env_var(t_ast_node *node, char **tokens)
 	int		i;
 
 	i = 0;
+	if (!tokens || !tokens[0])
+		return (NULL);
 	cmd = process_env_var(tokens[0]);
 	if (node->type == NODE_ENV_VAR)
 	{
@@ -59,11 +61,14 @@ void	execute_node_command(t_ast_node *node, char *cmd, char **envp)
 	built[0] = "PATH=built-ins";
 	tokens = split_with_quotes(cmd);
 	cmd = if_env_var(node, tokens);
+	if (!cmd)
+		return ;
 	path_split_built = ft_split(cmd, ' ');
 	path = search_valid_path(path_split_built[0], built);
 	free_array(path_split_built, array_len(path_split_built));
 	if (!path)
 	{
+
 		path_split_envp = ft_split(cmd, ' ');
 		path = search_valid_path(path_split_envp[0], envp);
 		free_array(path_split_envp, array_len(path_split_envp));
