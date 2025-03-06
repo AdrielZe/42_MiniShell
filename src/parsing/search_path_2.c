@@ -55,6 +55,7 @@ void	execute_node_command(t_ast_node *node, char *cmd, char **envp)
 	char	*built[1];
 	char	**path_split_envp;
 	char	**path_split_built;
+	int		status;
 
 	built[0] = "PATH=built-ins";
 	tokens = split_with_quotes(cmd);
@@ -80,7 +81,8 @@ void	execute_node_command(t_ast_node *node, char *cmd, char **envp)
 	}
 	free(path);
 	free_array(tokens, array_len(tokens));
-	waitpid(pid, NULL, 0);
+	waitpid (pid, &status, 0);
+	setenv("EXITCODEMINISHELL", ft_itoa(WEXITSTATUS(status)), 1);
 }
 
 void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
@@ -90,6 +92,7 @@ void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
 	pid_t	pid;
 	char	**cmd_to_split;
 	char	*built[1];
+	int		status;
 
 	built[0] = "PATH=built-ins";
 	setup_tokens_and_commands(node, &tokens, &cmd, &cmd_to_split);
@@ -107,5 +110,6 @@ void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
 	}
 	free(path);
 	free_array(tokens, array_len(tokens));
-	waitpid (pid, NULL, 0);
+	waitpid (pid, &status, 0);
+	setenv("EXITCODEMINISHELL", ft_itoa(WEXITSTATUS(status)), 1);
 }
