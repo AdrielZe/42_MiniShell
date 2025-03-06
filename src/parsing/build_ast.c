@@ -116,6 +116,8 @@ t_ast_node	*build_ast(t_tokens *tokens)
 			handle_cmd_or_word_token(tokens, &root, &current);
 		else if (tokens->type == TOKEN_ENV_VAR)
 			create_envp_node(&root, &current, tokens);
+		else if (tokens->type == TOKEN_SIMPLE_QUOTE)
+			create_simple_quote_node(&root, &current, tokens);
 		else if (redirection_if(tokens, current))
 		{
 			if (current && current->infile == -1)

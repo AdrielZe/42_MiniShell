@@ -17,7 +17,7 @@ void	create_simple_quote_node(t_ast_node **root,
 {
 	t_ast_node	*simple_quote;
 
-	simple_quote = create_node(NODE_WORD, tokens->value);
+	simple_quote = create_node(NODE_SIMPLE_QUOTE, tokens->value);
 	simple_quote->infile = 0;
 	simple_quote->outfile = 0;
 	if (!*root)

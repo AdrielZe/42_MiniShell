@@ -12,7 +12,7 @@
 
 #include "../headers/main.h"
 
-static void	valid_outfile_and_path(char *cmd, t_ast_node *node, char *path)
+void	valid_outfile_and_path(char *cmd, t_ast_node *node, char *path)
 {
 	if (!path)
 	{
@@ -60,9 +60,12 @@ void	execute_node_command(t_ast_node *node, char *cmd, char **envp)
 	printf("oiaoai\n");
 	built[0] = "PATH=built-ins";
 	tokens = split_with_quotes(cmd);
-	cmd = if_env_var(node, tokens);
-	if (!cmd)
-		return ;
+	if (node->type != NODE_SIMPLE_QUOTE)
+	{
+		cmd = if_env_var(node, tokens);
+		if (!cmd)
+			return ;
+	}
 	path_split_built = ft_split(cmd, ' ');
 	path = search_valid_path(path_split_built[0], built);
 	free_array(path_split_built, array_len(path_split_built));

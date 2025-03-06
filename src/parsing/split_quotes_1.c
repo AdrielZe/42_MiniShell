@@ -68,6 +68,21 @@ char	*extract_word(char **s)
 	return (word);
 }
 
+void	free_split_result(char **result, int count)
+{
+	int	i;
+
+	if (!result)
+		return;
+	i = 0;
+	while (i < count)
+	{
+		free(result[i]);
+		i++;
+	}
+	free(result);
+}
+
 char	**split_with_quotes(char *s)
 {
 	char	**result;
@@ -87,7 +102,13 @@ char	**split_with_quotes(char *s)
 			s++;
 		if (*s == '\0')
 			break ;
-		result[i++] = extract_word(&s);
+		result[i] = extract_word(&s);
+		if (!result[i]) // Falha na alocação
+		{
+			free_split_result(result, i);
+			return (NULL);
+		}
+		i++;
 	}
 	result[i] = NULL;
 	return (result);

@@ -79,12 +79,9 @@ static void	create_tokens(char *token_value, t_tokens **token_list)
 	else if (ft_strlen(token_value) > 1 && (token_value[0] == '"'
 			&& token_value[ft_strlen(token_value) - 1] == '"'))
 		append_token(token_list, TOKEN_WORD, token_value);
-	// else if (ft_strlen(token_value) > 1 && (token_value[0] == '\''
-	// 		&& token_value[ft_strlen(token_value) - 1] == '\''))
-	// {
-	// 	printf("achou\n");
-	// 	append_token(token_list, TOKEN_SIMPLE_QUOTE, token_value);
-	// }
+	else if (ft_strlen(token_value) > 1 && (token_value[0] == '\''
+			&& token_value[ft_strlen(token_value) - 1] == '\''))
+		append_token(token_list, TOKEN_SIMPLE_QUOTE, token_value);
 	else if (ft_strcmp(token_value, "") == 0)
 		return ;
 	else if (is_only_spaces(token_value) != 0)

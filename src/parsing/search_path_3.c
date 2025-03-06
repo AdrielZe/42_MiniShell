@@ -23,14 +23,23 @@ void	execute_command(char *cmd, char **envp,
 		execute_node_command(node, cmd, envp);
 	else if (node->type == TOKEN_WORD)
 		execute_word_node(node, cmd, envp);
+	else if (node->type == NODE_SIMPLE_QUOTE)
+		execute_simple_quote_node(node, cmd, envp);
 }
 
 void	setup_tokens_and_commands(t_ast_node *node, char ***tokens,
 		char **cmd, char ***cmd_to_split)
 {
 	*tokens = split_with_quotes(*cmd);
-	*cmd = if_env_var(node, *tokens);
-	*cmd_to_split = ft_split(*cmd, ' ');
+	if (node->type != NODE_SIMPLE_QUOTE)
+	{
+		*cmd = if_env_var(node, *tokens);
+		*cmd_to_split = ft_split(*cmd, ' ');
+	} else
+	{
+		*cmd = node->value;
+		*cmd_to_split = ft_split(*cmd, ' ');
+	}
 	if (!*cmd_to_split)
 		return ;
 }
