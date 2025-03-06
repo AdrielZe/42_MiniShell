@@ -64,6 +64,21 @@ void	create_word_node(t_ast_node **root,
 	*current = word_node;
 }
 
+// void	create_simple_quote_node(t_ast_node **root,
+// 	t_ast_node **current, t_tokens *tokens)
+// {
+// 	t_ast_node	*simple_quote;
+
+// 	simple_quote = create_node(NODE_WORD, tokens->value);
+// 	simple_quote->infile = 0;
+// 	simple_quote->outfile = 0;
+// 	if (!*root)
+// 		*root = simple_quote;
+// 	else if (*current)
+// 		(*current)->right = simple_quote;
+// 	*current = simple_quote;
+// }
+
 void	create_envp_node(t_ast_node **root,
 				t_ast_node **current, t_tokens *tokens)
 {

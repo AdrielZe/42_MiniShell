@@ -55,7 +55,7 @@ void	execute_node_command(t_ast_node *node, char *cmd, char **envp)
 	char	*built[1];
 	char	**path_split_envp;
 	char	**path_split_built;
-
+	printf("oiaoai\n");
 	built[0] = "PATH=built-ins";
 	tokens = split_with_quotes(cmd);
 	cmd = if_env_var(node, tokens);

@@ -26,6 +26,7 @@ typedef struct s_delim
 typedef enum e_node_type
 {
 	NODE_WORD,
+	NODE_SIMPLE_QUOTE,
 	NODE_PIPE,
 	NODE_REDIRECT_IN,
 	NODE_REDIRECT_OUT,

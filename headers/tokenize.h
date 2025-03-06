@@ -21,6 +21,7 @@
 typedef enum e_token_typeh
 {
 	TOKEN_WORD,
+	TOKEN_SIMPLE_QUOTE,
 	TOKEN_PIPE,
 	TOKEN_REDIRECT_IN,
 	TOKEN_REDIRECT_OUT,
