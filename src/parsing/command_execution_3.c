@@ -17,6 +17,7 @@ void	handle_word_node(t_ast_node *node, char **envp)
 {
 	char	*old_string;
 	int		is_env_var;
+	char *unquoted_cmd;
 
 	is_env_var = 0;
 	if (!node->value || node->value[0] == '\0')

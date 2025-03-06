@@ -35,6 +35,8 @@ void execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 		path = search_valid_path(cmd, envp);
 	if (!path)
 	{
+		printf("minishell: %s: command not found\n",
+		cmd);
 		free(cmd);
 		free_array(tokens, array_len(tokens));
 		return;
@@ -45,7 +47,7 @@ void execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 		valid_outfile_and_path(cmd, node, path);
 		free(cmd);
 		if (execve(path, tokens, envp) == -1)
-		exit(127);
+			exit(127);
 		exit(0);
 	}
 	free(path);

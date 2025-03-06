@@ -42,16 +42,31 @@ void	print_array(char **array)
 	printf("\n");
 }
 
-void	check_if_is_string(char *new_word,
-			char **old_string, int *is_string, int len)
+void check_if_is_string(char *new_word, char **old_string, int *is_string, int len)
 {
-	if ((new_word[0] == '"' || new_word[0] == '\'')
-		&& new_word[len - 1] == new_word[0] && len > 1
-		&& (*old_string != NULL && *old_string[0] != '"'))
-	{
-		*is_string = 1;
-		*old_string = NULL;
-	}
+    char quote_type = 0; // ' or " if in a quoted string, 0 otherwise
+
+    // Check if we’re already in a quoted string
+    if (*is_string && *old_string)
+        quote_type = (*old_string)[0]; // Continue with the same quote type
+
+    // Start of a new quoted string
+    if (!*is_string && (new_word[0] == '"' || new_word[0] == '\''))
+    {
+        quote_type = new_word[0];
+        *is_string = 1;
+    }
+
+    // Check if this token ends the quoted string
+    if (*is_string && len > 1 && new_word[len - 1] == quote_type)
+    {
+        *is_string = 0; // String is complete
+    }
+
+    // Update old_string for tracking
+    if (*old_string)
+        free(*old_string); // Free previous old_string to avoid leaks
+    *old_string = ft_strdup(new_word); // Store current token for context
 }
 
 void	process_words(const char **s, char ***array, int *i)
@@ -78,7 +93,11 @@ void	process_words(const char **s, char ***array, int *i)
 			old_string = NULL;
 		}
 		else
+		{
+			printf("alloc in array\n");
+					printf("NEW WORD: %s\n", new_word);
 			alloc_new_word_in_array(array, i, new_word, &old_string);
+		}
 		free(old_string);
 	}
 }
