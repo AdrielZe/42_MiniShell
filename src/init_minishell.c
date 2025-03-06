@@ -57,6 +57,7 @@ void	init_shell(char ***token, t_tokens **token_list, char
 		}
 		setup_tokens_and_build_ast(input, token_list, envp, token);
 		*root = build_ast(*token_list);
+		print_list(*token_list);
 		clear_token_list(token_list);
 		parse_commands(*root, envp);
 		if (*root)

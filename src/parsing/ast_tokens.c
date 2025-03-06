@@ -63,33 +63,3 @@ void	create_word_node(t_ast_node **root,
 		(*current)->right = word_node;
 	*current = word_node;
 }
-
-// void	create_simple_quote_node(t_ast_node **root,
-// 	t_ast_node **current, t_tokens *tokens)
-// {
-// 	t_ast_node	*simple_quote;
-
-// 	simple_quote = create_node(NODE_WORD, tokens->value);
-// 	simple_quote->infile = 0;
-// 	simple_quote->outfile = 0;
-// 	if (!*root)
-// 		*root = simple_quote;
-// 	else if (*current)
-// 		(*current)->right = simple_quote;
-// 	*current = simple_quote;
-// }
-
-void	create_envp_node(t_ast_node **root,
-				t_ast_node **current, t_tokens *tokens)
-{
-	t_ast_node	*env_var_node;
-
-	env_var_node = create_node(NODE_ENV_VAR, tokens->value);
-	env_var_node->infile = 0;
-	env_var_node->outfile = 0;
-	if (!*root)
-		*root = env_var_node;
-	else if (*current)
-		(*current)->right = env_var_node;
-	*current = env_var_node;
-}

@@ -154,4 +154,8 @@ void		open_pid(int *pid);
 void		write_and_free_input(int *pipefd, char *input);
 char		*if_env_var(t_ast_node *node, char **tokens);
 int			node_exists(t_ast_node *node);
+
+void	create_simple_quote_node(t_ast_node **root,
+	t_ast_node **current, struct s_tokens *tokens);
+
 #endif
