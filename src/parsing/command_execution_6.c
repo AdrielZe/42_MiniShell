@@ -25,30 +25,33 @@ void	free_split(char **split)
 	free(split);
 }
 
-void search_for_cmd_in_array(t_ast_node *node, char **temp, char ***arr_not_envp, char **arr)
+void	search_for_cmd_in_array(t_ast_node *node,
+		char **temp, char ***arr_not_envp, char **arr)
 {
-	int j = 0;
-	int i = 0;
-	char **local_arr;
-	char *old_temp;
+	char	**local_arr;
+	char	*old_temp;
+	int		j;
+	int		i;
 
+	i = 0;
+	j = 0;
 	*temp = "";
 	*arr_not_envp = ft_split(node->value, ' ');
 	if (!*arr_not_envp)
-		return;
+		return ;
 	while ((*arr_not_envp)[j])
 	{
 		local_arr = ft_split(node->value, ' ');
 		if (!local_arr)
 		{
 			free_array(*arr_not_envp, array_len(*arr_not_envp));
-			return;
+			return ;
 		}
 		while (local_arr[i])
 		{
-		if (ft_strchr(local_arr[i], '$') == NULL)
-			get_cmds_to_execute(&old_temp, temp, local_arr, i);
-		i++;
+			if (ft_strchr(local_arr[i], '$') == NULL)
+				get_cmds_to_execute(&old_temp, temp, local_arr, i);
+			i++;
 		}
 		j++;
 		free_array(local_arr, array_len(local_arr));
@@ -56,17 +59,17 @@ void search_for_cmd_in_array(t_ast_node *node, char **temp, char ***arr_not_envp
 	free_array(*arr_not_envp, array_len(*arr_not_envp));
 }
 
-void handle_not_found_env_var(t_ast_node *node, char **envp, char **arr)
+void	handle_not_found_env_var(t_ast_node *node, char **envp, char **arr)
 {
-	char *temp;
-	char **arr_not_envp;
-	char **value_to_search;
-	char *valid_path;
-	char *old_value;
+	char	*temp;
+	char	**arr_not_envp;
+	char	**value_to_search;
+	char	*valid_path;
+	char	*old_value;
 
 	search_for_cmd_in_array(node, &temp, &arr_not_envp, arr);
 	if (temp == NULL || ft_strcmp(temp, "") == 0)
-		return;
+		return ;
 	old_value = node->value;
 	node->value = ft_strdup(temp);
 	if (old_value)

@@ -101,7 +101,7 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 			return ;
 		}	
 		else
-			execute_command(node->value, envp, node);	
+			execute_command(node->value, envp, node);
 	}
 	free_resources(node, split_values, search_result);
 }

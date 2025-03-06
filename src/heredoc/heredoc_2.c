@@ -12,18 +12,18 @@
 
 #include "../headers/main.h"
 
-void free_delimiters(t_delim *head)
+void	free_delimiters(t_delim *head)
 {
-    t_delim *tmp;
+	t_delim	*tmp;
 
-    while (head)
-    {
-        tmp = head->next;
-        if (head->delimiter)  // Verifique se o campo delimiter foi alocado
-            free(head->delimiter);
-        free(head);  // Libere o nó da lista
-        head = tmp;
-    }
+	while (head)
+	{
+		tmp = head->next;
+		if (head->delimiter)
+			free(head->delimiter);
+		free(head);
+		head = tmp;
+	}
 }
 
 t_delim	*get_all_delimiters(t_ast_node *node)

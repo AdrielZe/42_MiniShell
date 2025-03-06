@@ -76,7 +76,6 @@ void	handle_found_env_var(t_ast_node *node, char **envp, char *cmd)
 	{
 		check_if_is_cmd_or_dir(node, envp);
 		free_array(env_processed, array_len(env_processed));
-		//free(env_result);
 		return ;
 	}
 	node->value = env_processed[0];

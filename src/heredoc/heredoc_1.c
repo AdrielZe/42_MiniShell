@@ -47,6 +47,12 @@ void	read_heredoc(int *pipefd, t_delim *delimiters)
 		while (1)
 		{
 			display_input_line(&input);
+			if (!input)
+			{
+				close_pipefd(pipefd);
+				free_delimiters(delimiters);
+				exit(1);
+			}
 			if (ft_strcmp(input, current->delimiter) == 0)
 			{
 				current = current->next;
@@ -56,7 +62,6 @@ void	read_heredoc(int *pipefd, t_delim *delimiters)
 		}
 	}
 	close_pipefd(pipefd);
-	free_delimiters(delimiters);
 	exit(0);
 }
 

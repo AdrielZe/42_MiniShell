@@ -45,6 +45,8 @@ static void	sort(char **arr)
 }
 int	cd(char *argv[])
 {
+	char *cwd; 
+
 	if(argv[1] && argv[2])
 	{
 		printf("cd: muitos argumentos\n");
@@ -58,7 +60,12 @@ int	cd(char *argv[])
 	else if(chdir(argv[1]) >= 0)
 	{
 		write(1, "--- by VICTDA-S\n", 16);
-		setenv("PWD", getcwd(NULL, 0), 1);
+		cwd = getcwd(NULL, 0);
+		if (cwd)
+		{
+			setenv("PWD", cwd, 1);
+			free (cwd);
+		}
 		return (1);
 	}
 	else	
