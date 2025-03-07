@@ -20,10 +20,6 @@ int	if_cd(char *cmd, char **envp, t_ast_node *node)
 {
 	char	**split_cmd;
 
-	if (node->outfile)
-		close(node->outfile);
-	if (node->infile)
-		close(node->infile);
 	split_cmd = split_with_quotes(cmd);
 	if (!split_cmd)
 		perror("Comando vazio\n");

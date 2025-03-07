@@ -12,19 +12,33 @@
 
 #include "../headers/main.h"
 
-void	execute_command(char *cmd, char **envp,
-	t_ast_node *node)
+void	execute_command(char *cmd, char **envp, t_ast_node *node)
 {
+	int	saved_stdin;
+	int	saved_stdout;
+
+	saved_stdin = dup(STDIN_FILENO);
+	saved_stdout = dup(STDOUT_FILENO);
 	if (node->outfile)
+	{
 		dup2(node->outfile, STDOUT_FILENO);
+		close(node->outfile);
+	}
 	if (node->infile)
+	{
 		dup2(node->infile, STDIN_FILENO);
+		close(node->infile);
+	}
 	if (node->type == NODE_COMMAND)
 		execute_node_command(node, cmd, envp);
 	else if (node->type == TOKEN_WORD)
 		execute_word_node(node, cmd, envp);
 	else if (node->type == NODE_SIMPLE_QUOTE)
 		execute_simple_quote_node(node, cmd, envp);
+	dup2(saved_stdin, STDIN_FILENO);
+	dup2(saved_stdout, STDOUT_FILENO);
+	close(saved_stdin);
+	close(saved_stdout);
 }
 
 void	setup_tokens_and_commands(t_ast_node *node, char ***tokens,
