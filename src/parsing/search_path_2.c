@@ -80,7 +80,6 @@ void	execute_node_command(t_ast_node *node, char *cmd, char **envp)
 		if (execve(path, tokens, envp) == -1)
 			exit (127);
 	}
-	printf("oiniasodbnasd\n");
 	waitpid (pid, &status, 0);
 	add_exitcode(WEXITSTATUS(status));
 	free(path);

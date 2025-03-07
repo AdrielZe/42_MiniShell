@@ -25,8 +25,8 @@ static int	if_cd(char *cmd, char **envp, t_ast_node *node)
 		perror("Comando vazio\n");
 	else if (ft_strcmp(split_cmd[0], "cd") == 0)
 	{
-		if (cd(split_cmd))
-			return (1);
+		cd(split_cmd);
+		return (1);
 	}
 	else if (ft_strcmp(split_cmd[0], "export") == 0)
 	{
