@@ -55,9 +55,12 @@ t_ast_node	*create_node(t_node_type type, char *value)
 
 int	redirection_if(t_tokens *tokens, t_ast_node *node)
 {
-	if (!tokens->next && node->type != NODE_WORD)
+	if (!tokens->next || !node || node->type != NODE_COMMAND)
 	{
-		ft_putstr_fd("Erro de sintaxe!\n", STDERR_FILENO);
+		ft_putstr_fd("✘ minishell: syntax error near unexpected token `newline'\n",
+			STDERR_FILENO);
+		free(tokens->next);
+		tokens->next = NULL;
 		return (0);
 	}
 	if (tokens->type == TOKEN_REDIRECT_IN)

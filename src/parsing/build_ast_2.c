@@ -27,7 +27,7 @@ void	create_nodes_and_redirect_if(t_tokens **tokens,
 		create_envp_node(root, current, *tokens);
 	else if ((*tokens)->type == TOKEN_SIMPLE_QUOTE)
 		create_simple_quote_node(root, current, *tokens);
-	else if (redirection_if(*tokens, *current))
+	if (redirection_if(*tokens, *current))
 	{
 		if (*current && (*current)->infile == -1)
 			return ;
