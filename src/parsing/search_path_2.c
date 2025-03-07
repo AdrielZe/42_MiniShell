@@ -12,7 +12,7 @@
 
 #include "../headers/main.h"
 
-void	valid_outfile_and_path(char *cmd, t_ast_node *node, char *path)
+void	valid_outfile_and_path(char *cmd, char *path)
 {
 	if (!path)
 	{
@@ -81,11 +81,12 @@ void	execute_node_command(t_ast_node *node, char *cmd, char **envp)
 	path = resolve_path(updated_cmd, envp);
 	if (!path)
 	{
+		free(updated_cmd);
 		free_array(tokens, array_len(tokens));
 		return ;
 	}
-	execute_command_for_node_function(path, tokens, envp, node);
-	free(path);
+	printf("pATH: %s\n", path);
+	execute_command_for_node_function(path, tokens, envp);
 	free_array(tokens, array_len(tokens));
 }
 
@@ -107,7 +108,7 @@ void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
 	open_pid(&pid);
 	if (pid == 0)
 	{
-		valid_outfile_and_path(cmd, node, path);
+		valid_outfile_and_path(cmd, path);
 		if (execve(path, tokens, envp) == -1)
 			exit(127);
 	}

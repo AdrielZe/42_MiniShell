@@ -90,12 +90,10 @@ static char *find_string_to_replace(char *input, int index_of_env_symbol)
 char	*process_env_var(char *input)
 {
 	int		index_of_env_symbol;
-	int		i;
 	char	*input_to_return;
 	char	*word_to_switch;
 
 	index_of_env_symbol = 0;
-	i = 0;
 	while (input && input[index_of_env_symbol])
 	{
 		if (input[index_of_env_symbol] == '$')
@@ -108,7 +106,6 @@ char	*process_env_var(char *input)
 			free(word_to_switch);
 		}
 		index_of_env_symbol++;
-		i = 0;
 	}
 	return (input);
 }

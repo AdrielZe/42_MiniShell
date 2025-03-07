@@ -33,9 +33,6 @@ int	is_file(const char *path)
 
 void	handle_node_types(t_ast_node *node, char **envp, t_delim **delimiters)
 {
-	int	is_env_var;
-
-	is_env_var = 0;
 	if (node->type == NODE_HEREDOC)
 	{
 		*delimiters = get_all_delimiters(node);

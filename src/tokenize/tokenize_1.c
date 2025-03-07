@@ -89,6 +89,9 @@ char	**tokenize(const char *s)
 	int		i;
 	char	**array;
 
+	if (s == NULL || ft_count_word(s) == 0)
+		return (NULL);
+
 	i = 0;
 	array = malloc((ft_count_word(s) + 1) * sizeof(char *));
 	if (!array)

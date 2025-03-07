@@ -27,7 +27,7 @@ void	get_cmd(t_ast_node *node, char **cmd, char ***tokens)
 
 void	if_not_path(char *cmd, char **tokens)
 {
-	printf("minishell: %s: command not found\n", cmd);
+	printf("minishell: %s: command sdfsdfnot found\n", cmd);
 	add_exitcode(127);
 	free(cmd);
 	free_array(tokens, array_len(tokens));
@@ -62,7 +62,7 @@ void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 	open_pid(&pid);
 	if (pid == 0)
 	{
-		valid_outfile_and_path(cmd, node, path);
+		valid_outfile_and_path(cmd, path);
 		free(cmd);
 		if (execve(path, tokens, envp) == -1)
 			exit(127);

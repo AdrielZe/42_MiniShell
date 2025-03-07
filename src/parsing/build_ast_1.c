@@ -20,7 +20,8 @@ void	free_ast(t_ast_node *node)
 		free_ast(node->left);
 	if (node->right)
 		free_ast(node->right);
-	free(node->value);
+	if (node->value)
+		free(node->value);
 	free(node);
 }
 
@@ -45,7 +46,7 @@ t_ast_node	*create_node(t_node_type type, char *value)
 	}
 	else
 	{
-		free(node->value);
+		//free(node->value);
 		node->value = NULL;
 	}
 	node->left = NULL;

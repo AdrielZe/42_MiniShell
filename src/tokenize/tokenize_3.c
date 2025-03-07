@@ -42,29 +42,26 @@ void	print_array(char **array)
 	printf("\n");
 }
 
-void check_if_is_string(char *new_word, char **old_string, int *is_string, int len)
+void	check_if_is_string(char *new_word, char **old_string, int *is_string)
 {
-	char quote_type = 0;
-
-	if (*is_string && *old_string)
-		quote_type = (*old_string)[0];
-
-
-	if (ft_strlen(new_word) > 1 && (new_word[0] == '\''
-			&& new_word[ft_strlen(new_word) - 1] == '\'') ||
-			(new_word[0] == '"'
-			&& new_word[ft_strlen(new_word) - 1] == '"'))
+	if ((ft_strlen(new_word) > 1 &&
+		((new_word[0] == '\'' && new_word[ft_strlen(new_word) - 1] == '\'') ||
+		(new_word[0] == '"' && new_word[ft_strlen(new_word) - 1] == '"'))))
 		*is_string = 1;
-	if (*old_string)
-		free(*old_string);
-	*old_string = ft_strdup(new_word);
+	
+	*old_string = new_word;
+	if(*old_string == NULL)
+	{
+		perror("ft_strdup failed");
+		exit(EXIT_FAILURE);
+	}
 }
 
-void	process_words(const char **s, char ***array, int *i) {
+void	process_words(const char **s, char ***array, int *i) 
+{
 	char *old_string;
 	char *new_word;
 	int is_string;
-	int len;
 
 	is_string = 0;
 	old_string = NULL;
@@ -72,22 +69,22 @@ void	process_words(const char **s, char ***array, int *i) {
 	{
 		skip_spaces_and_alloc_elements(s, array, i);
 		if (*s == NULL)
-		break;
+			break;
 		get_new_word(&new_word, s, array, i);
-		len = ft_strlen(new_word);
-		check_if_is_string(new_word, &old_string, &is_string, len);
+		check_if_is_string(new_word, &old_string, &is_string);
 		if (*i == 0) 
 		{
 			alloc_new_word_in_array(array, i, new_word, &old_string);
 			is_string = 0;
 		}
-		else if (should_merge_token(*array, *i, is_string) == 1)
+		else if (should_merge_token(is_string) == 1)
 		{
 			merge_last_token(array, *i, new_word);
 			is_string = 0;
 			old_string = NULL;
 		} else 
 			alloc_new_word_in_array(array, i, new_word, &old_string);
-		free(old_string);
 	}
+	if (old_string)
+		free(old_string);
 }

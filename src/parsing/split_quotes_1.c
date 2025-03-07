@@ -24,10 +24,8 @@ static int	count_words(char *s)
 {
 	char	quote_char;
 	int		count;
-	int		in_quotes;
 
 	count = 0;
-	in_quotes = 0;
 	quote_char = 0;
 	while (*s)
 	{

@@ -26,25 +26,34 @@ void	handle_word_node(t_ast_node *node, char **envp)
 	old_string = ft_strdup(node->value);
 	node->value = process_env_var(node->value);
 	if (is_env_var == 1)
-		when_only_env_var(node, envp, old_string);
+		when_only_env_var(node, envp);
 	else if (ft_strcmp(old_string, node->value) != 0)
 		check_and_execute_if_is_cmd(node, envp);
 	else
-		(node, envp);
+		execute_regular_cmd(node, envp);
 	free(old_string);
 }
 
-void	when_only_env_var(t_ast_node *node, char **envp, char *old_string)
+void	when_only_env_var(t_ast_node *node, char **envp)
 {
 	if (check_if_is_directory(node->value) == 0)
 		return ;
-	if (!is_file(node->value) && !search_valid_path(node->value, envp))
+	if (!is_file(node->value))
 	{
-		printf("minishell: %s: No such file or directory\n", node->value);
+		if (!search_valid_path(node->value, envp))
+		{
+			if (ft_strchr(node->value, '/')) // Se contém '/', tratamos como caminho inválido
+				printf("minishell: %s: No such file or directory\n", node->value);
+			else
+				printf("minishell: %s: command not found\n", node->value);
+			return ;
+		}
 		return ;
 	}
 	execute_command(node->value, envp, node);
 }
+
+
 
 void	check_and_execute_if_is_cmd(t_ast_node *node, char **envp)
 {
@@ -80,6 +89,8 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 	char	*command_to_execute;
 	char	*search_result;
 	char	**split_values;
+	char	**split_path;
+	struct stat path_stat;
 
 	if (node->type == NODE_COMMAND)
 		get_cmd_to_execute(node, &split_values, &command_to_execute);
@@ -91,7 +102,22 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 	else
 	{
 		if (ft_strchr(node->value, '/') != NULL)
-			printf("zsh: %s: No such file or directory\n", node->value);
+		{
+			split_path = ft_split(node->value, ' ');
+			if (!split_path)
+				return ;
+			if (node->type != NODE_COMMAND)
+			{
+				free(split_path[0]);
+				split_path[0] = ft_strdup(node->value);
+			}
+			if (stat(node->value, &path_stat) != 0)
+				printf("minishell: %s: No such file or directory\n", split_path[0]);
+			else if (S_ISDIR(path_stat.st_mode))
+				printf("minishell: %s: Is a directory\n", split_path[0]);
+			else if (access(node->value, X_OK) != 0)
+				printf("minishell: %s: Permission denied\n", split_path[0]);
+		}
 		else if (!search_result)
 		{
 			not_found_msg_and_free(node, search_result,
@@ -101,7 +127,7 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 		else
 			execute_command(node->value, envp, node);
 	}
-	free_resources(node, split_values, search_result);
+	free_resources(node, split_values);
 }
 
 int	verify_if_is_env_var(t_ast_node *node)
