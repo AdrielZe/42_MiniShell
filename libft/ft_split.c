@@ -58,7 +58,7 @@ size_t	ft_count_word_split(char *s, char c)
 
 	i = 0;
 	in_word = 0;
-	while (*s)
+	while (s && *s)
 	{
 		if ((*s != c) && (in_word == 0))
 		{
@@ -82,7 +82,7 @@ char	**ft_split(char const *s, char c)
 				+ 1) * sizeof(char *));
 	if (!array)
 		return (NULL);
-	while (*s)
+	while (s && *s)
 	{
 		while (*s == c && *s)
 			s++;

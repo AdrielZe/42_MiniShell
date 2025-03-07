@@ -23,7 +23,10 @@ static char	*replace_substring(char *string, char *replace_string, int index)
 			ft_strlen(string) - index);
 	if (!string_rest)
 		return (string);
-	env_value = getenv(replace_string);
+	if(ft_strcmp(replace_string, "?") == 0)
+		env_value = getenv("EXITCODEMINISHELL");
+	else
+		env_value = getenv(replace_string);
 	if (!env_value)
 		env_value = "";
 	new_length = index + ft_strlen(env_value) + ft_strlen(string_rest) + 1;
@@ -37,27 +40,49 @@ static char	*replace_substring(char *string, char *replace_string, int index)
 	return (new_string);
 }
 
-static char	*find_string_to_replace(char *input, int index_of_env_symbol, int i)
-{
-	int		start;
-	int		end;
-	int		temp;
-	char	*word_to_switch;
+// static char	*find_string_to_replace(char *input, int index_of_env_symbol, int i)
+// {
+// 	int		start;
+// 	int		end;
+// 	int		temp;
+// 	char	*word_to_switch;
 
+// 	start = index_of_env_symbol + 1;
+// 	end = start;
+// 	while (ft_isalnum(input[end]) || input[end] == '_')
+// 		end++;
+// 	word_to_switch = ft_calloc((end - start + 1), sizeof(char));
+// 	if (!word_to_switch)
+// 		return (NULL);
+// 	temp = start;
+// 	while (temp < end)
+// 	{
+// 		word_to_switch[i] = input[temp];
+// 		temp++;
+// 		i++;
+// 	}
+// 	word_to_switch[i] = '\0';
+// 	return (word_to_switch);
+// }
+static char *find_string_to_replace(char *input, int index_of_env_symbol)
+{
+    int start, end, temp;
+    char *word_to_switch;
+    int i;
+
+	i = 0;
 	start = index_of_env_symbol + 1;
+	if (input[start] == '?')
+		return strdup("?");
 	end = start;
-	while (ft_isalnum(input[end]) || input[end] == '_')
+	while (isalnum(input[end]) || input[end] == '_')
 		end++;
-	word_to_switch = ft_calloc((end - start + 1), sizeof(char));
+	word_to_switch = (char *)calloc((end - start + 1), sizeof(char));
 	if (!word_to_switch)
-		return (NULL);
+		return NULL;
 	temp = start;
 	while (temp < end)
-	{
-		word_to_switch[i] = input[temp];
-		temp++;
-		i++;
-	}
+		word_to_switch[i++] = input[temp++];
 	word_to_switch[i] = '\0';
 	return (word_to_switch);
 }
@@ -71,12 +96,12 @@ char	*process_env_var(char *input)
 
 	index_of_env_symbol = 0;
 	i = 0;
-	while (input[index_of_env_symbol])
+	while (input && input[index_of_env_symbol])
 	{
 		if (input[index_of_env_symbol] == '$')
 		{
 			word_to_switch = find_string_to_replace(input,
-					index_of_env_symbol, i);
+					index_of_env_symbol);
 			input_to_return = replace_substring(input,
 					word_to_switch, index_of_env_symbol);
 			input = input_to_return;

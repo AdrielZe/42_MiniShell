@@ -73,6 +73,7 @@ char	*resolve_path(char *cmd, char **envp)
 void	execute_command_for_node_function(char *path,
 			char **tokens, char **envp, t_ast_node *node)
 {
+	int	status;
 	pid_t	pid;
 
 	pid = fork();
@@ -85,5 +86,6 @@ void	execute_command_for_node_function(char *path,
 			exit(127);
 		exit(0);
 	}
-	waitpid(pid, NULL, 0);
+	waitpid(pid, &status, 0);
+	add_exitcode(WEXITSTATUS(status));
 }

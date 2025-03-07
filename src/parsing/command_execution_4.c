@@ -20,29 +20,29 @@ int	if_cd(char *cmd, char **envp, t_ast_node *node)
 {
 	char	**split_cmd;
 
+	if (node->outfile)
+		close(node->outfile);
+	if (node->infile)
+		close(node->infile);
 	split_cmd = split_with_quotes(cmd);
 	if (!split_cmd)
 		perror("Comando vazio\n");
 	else if (ft_strcmp(split_cmd[0], "cd") == 0)
 	{
-		if (cd(split_cmd))
-			return (free_array(split_cmd, array_len(split_cmd)), 1);
+		cd(split_cmd);
+		return (1);
 	}
 	else if (ft_strcmp(split_cmd[0], "export") == 0)
 	{
-		if (export(split_cmd, envp))
-			return (1);
+		export(split_cmd, envp);
+		return (1);
 	}
 	else if (ft_strcmp(split_cmd[0], "unset") == 0)
 	{
-		if (unset(split_cmd))
-			return (free_array(split_cmd, array_len(split_cmd)), 1);
+		unset(split_cmd);
+		return (1);
 	}
-	if (node->outfile)
-		close(node->outfile);
-	if (node->infile)
-		close(node->infile);
-	return (free_array(split_cmd, array_len(split_cmd)), 0);
+	return (0);
 }
 
 void	handle_command_node(t_ast_node *node, char **envp)

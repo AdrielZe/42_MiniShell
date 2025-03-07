@@ -96,6 +96,7 @@ void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
 	pid_t	pid;
 	char	**cmd_to_split;
 	char	*built[1];
+	int	status;
 
 	built[0] = "PATH=built-ins";
 	setup_tokens_and_commands(node, &tokens, &cmd, &cmd_to_split);
@@ -109,9 +110,9 @@ void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
 		valid_outfile_and_path(cmd, node, path);
 		if (execve(path, tokens, envp) == -1)
 			exit(127);
-		exit(0);
 	}
+	waitpid (pid, &status, 0);
+	add_exitcode(WEXITSTATUS(status));
 	free(path);
 	free_array(tokens, array_len(tokens));
-	waitpid (pid, NULL, 0);
 }

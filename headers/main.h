@@ -49,4 +49,5 @@ void	handle_ctrl_d(char **envp_copy, struct s_tokens **token_list,
 //src/env_var/process_env_var.c
 char	*process_env_var(char *input);
 
+void	add_exitcode(int status);
 #endif

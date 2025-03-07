@@ -64,7 +64,10 @@ void	check_all_commands(t_ast_node *node, char **envp)
 		while (node->type != NODE_COMMAND)
 			node = node->left;
 		if (!search_valid_path(node->value, envp))
+		{
 			printf("command not found: %s\n", node->value);
+			add_exitcode(127);
+		}
 	}
 	check_all_commands(node->left, envp);
 	check_all_commands(node->right, envp);

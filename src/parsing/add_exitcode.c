@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   add_exitcode.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/28 18:30:05 by victda-s          #+#    #+#             */
-/*   Updated: 2025/03/07 01:46:38 by marvin           ###   ########.fr       */
+/*   Created: 2025/03/06 20:32:09 by victda-s          #+#    #+#             */
+/*   Updated: 2025/03/07 01:46:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "../headers/main.h"
 
-int	main(int argc, char *argv[], char *env[])
+void	add_exitcode(int status)
 {
-	while(*env)
-		printf("%s    ---by victda-s\n", *env++);
-	exit (0);
+	char	*status_char;
+
+	status_char = ft_itoa(status);
+	if(!status_char)
+		return ;
+	setenv("EXITCODEMINISHELL", status_char, 1);
+	free(status_char);
 }

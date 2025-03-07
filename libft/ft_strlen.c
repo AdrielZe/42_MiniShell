@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 18:01:32 by asilveir          #+#    #+#             */
-/*   Updated: 2024/12/02 16:34:53 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/03/06 19:47:55 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(char const *string)
 	size_t	i;
 
 	i = 0;
-	while (string[i])
+	while (string && string[i])
 	{
 		i++;
 	}

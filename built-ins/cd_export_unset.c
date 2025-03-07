@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "libft.h"
+#include "../headers/main.h"
 
 static void	sort(char **arr)
 {
@@ -50,22 +51,22 @@ int	cd(char *argv[])
 	if(argv[1] && argv[2])
 	{
 		printf("cd: muitos argumentos\n");
+		add_exitcode(1);
 		return (0);
 	}
 	else if(!argv[1])
 	{
 		if(chdir(getenv("HOME")) >= 0)
+		{
+			add_exitcode(0);
 			return (1);
+		}
 	}
 	else if(chdir(argv[1]) >= 0)
 	{
 		write(1, "--- by VICTDA-S\n", 16);
-		cwd = getcwd(NULL, 0);
-		if (cwd)
-		{
-			setenv("PWD", cwd, 1);
-			free (cwd);
-		}
+		setenv("PWD", getcwd(NULL, 0), 1);
+		add_exitcode(0);
 		return (1);
 	}
 	else	
@@ -82,10 +83,13 @@ int	export(char *argv[], char **envp)
 		sort(envp);
 		while(*envp)
 			printf("declare -x %s\n", *envp++);
+		add_exitcode(0);
 		return (1);
 	}
-	if (!argv[1]|| !ft_strchr(argv[1], '=')) {
+	if (!argv[1]|| !ft_strchr(argv[1], '='))
+	{
 		printf("Uso: %s NOME=VALOR\n", argv[0]);
+		add_exitcode(1);
 		return (1);
 	}
 	env = ft_split(argv[1], '=');
@@ -94,6 +98,7 @@ int	export(char *argv[], char **envp)
 	free(env[0]);
 	free(env[1]);
 	free(env);
+	add_exitcode(0);
 	return (1);
 }
 
@@ -105,6 +110,7 @@ int	unset(char *argv[])
 	if(!argv[i])
 	{
 		printf("Uso: %s NOME_VARIAVEL\n", argv[0]);
+		add_exitcode(1);
 		return (1);
 	}
 	while(argv[i])
@@ -112,5 +118,6 @@ int	unset(char *argv[])
 		unsetenv(argv[i]);
 		i++;
 	}
+	add_exitcode(0);
 	return (1);
 }

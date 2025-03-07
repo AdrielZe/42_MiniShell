@@ -30,7 +30,7 @@ void	handle_word_node(t_ast_node *node, char **envp)
 	else if (ft_strcmp(old_string, node->value) != 0)
 		check_and_execute_if_is_cmd(node, envp);
 	else
-		execute_regular_cmd(node, envp);
+		(node, envp);
 	free(old_string);
 }
 
@@ -59,6 +59,7 @@ void	check_and_execute_if_is_cmd(t_ast_node *node, char **envp)
 		{
 			printf("minishell: %s: command not found\n",
 				cmd[0]);
+			add_exitcode(127);
 			free_array(cmd, array_len(cmd));
 			return ;
 		}

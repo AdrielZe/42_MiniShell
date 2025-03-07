@@ -12,6 +12,8 @@
 
 #include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
+
 int	main(int argc, char *argv[])
 {
 	char	pwd[256];
@@ -20,5 +22,5 @@ int	main(int argc, char *argv[])
 		printf("%s   ---by VICTDA-S\n", pwd);
 	else
 		perror("error pwd");
-	return (0);
+	exit (0);
 }
