@@ -40,7 +40,7 @@ void	when_only_env_var(t_ast_node *node, char **envp, char *old_string)
 		return ;
 	if (!is_file(node->value) && !search_valid_path(node->value, envp))
 	{
-		handle_node_value(node, envp, old_string);
+		printf("minishell: %s: No such file or directory\n", node->value);
 		return ;
 	}
 	execute_command(node->value, envp, node);
@@ -63,7 +63,7 @@ void	check_and_execute_if_is_cmd(t_ast_node *node, char **envp)
 			return ;
 		}
 	}
-	if (is_directory(node->value))
+	if (is_directory(node->value) == 0)
 	{
 		printf("minishell: %s: Is a directory\n", node->value);
 		free_array(cmd, array_len(cmd));

@@ -167,4 +167,7 @@ void	create_nodes_and_redirect_if(struct s_tokens **tokens, t_ast_node **root, t
 void	handle_env_var(t_ast_node *node, char **envp, char *old_string);
 int	if_cd(char *cmd, char **envp, t_ast_node *node);
 void	process_command_execution(t_ast_node *node, char **envp, char *old_string, char **split_result);
+void execute_command_for_node_function(char *path, char **tokens, char **envp, t_ast_node *node);
+char *resolve_path(char *cmd, char **envp);
+
 #endif

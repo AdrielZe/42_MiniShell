@@ -73,7 +73,7 @@ void	free_split_result(char **result, int count)
 	int	i;
 
 	if (!result)
-		return;
+		return ;
 	i = 0;
 	while (i < count)
 	{
@@ -103,11 +103,8 @@ char	**split_with_quotes(char *s)
 		if (*s == '\0')
 			break ;
 		result[i] = extract_word(&s);
-		if (!result[i]) // Falha na alocação
-		{
-			free_split_result(result, i);
-			return (NULL);
-		}
+		if (!result[i])
+			return (free_split_result(result, i), NULL);
 		i++;
 	}
 	result[i] = NULL;

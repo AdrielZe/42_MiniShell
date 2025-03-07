@@ -48,47 +48,45 @@ char	*if_env_var(t_ast_node *node, char **tokens)
 	return (cmd);
 }
 
-//Fix norminette in thins function when cd and export are done
+char	**prepare_command(t_ast_node *node, char *cmd, char **out_cmd)
+{
+	char	**tokens;
+
+	tokens = split_with_quotes(cmd);
+	if (!tokens)
+		return (NULL);
+	if (node->type != NODE_SIMPLE_QUOTE)
+	{
+		*out_cmd = if_env_var(node, tokens);
+		if (!*out_cmd)
+		{
+			free_array(tokens, array_len(tokens));
+			return (NULL);
+		}
+	}
+	else
+		*out_cmd = cmd;
+	return (tokens);
+}
+
 void	execute_node_command(t_ast_node *node, char *cmd, char **envp)
 {
 	char	**tokens;
 	char	*path;
-	pid_t	pid;
-	char	*built[1];
-	char	**path_split_envp;
-	char	**path_split_built;
-	printf("oiaoai\n");
-	built[0] = "PATH=built-ins";
-	tokens = split_with_quotes(cmd);
-	if (node->type != NODE_SIMPLE_QUOTE)
-	{
-		cmd = if_env_var(node, tokens);
-		if (!cmd)
-			return ;
-	}
-	path_split_built = ft_split(cmd, ' ');
-	path = search_valid_path(path_split_built[0], built);
-	free_array(path_split_built, array_len(path_split_built));
+	char	*updated_cmd;
+
+	tokens = prepare_command(node, cmd, &updated_cmd);
+	if (!tokens)
+		return ;
+	path = resolve_path(updated_cmd, envp);
 	if (!path)
 	{
-
-		path_split_envp = ft_split(cmd, ' ');
-		path = search_valid_path(path_split_envp[0], envp);
-		free_array(path_split_envp, array_len(path_split_envp));
-	}
-	pid = fork();
-	if (pid < 0)
+		free_array(tokens, array_len(tokens));
 		return ;
-	if (pid == 0)
-	{
-		valid_outfile_and_path(cmd, node, path);
-		if (execve(path, tokens, envp) == -1)
-			exit (127);
-		exit (0);
 	}
+	execute_command_for_node_function(path, tokens, envp, node);
 	free(path);
 	free_array(tokens, array_len(tokens));
-	waitpid(pid, NULL, 0);
 }
 
 void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
