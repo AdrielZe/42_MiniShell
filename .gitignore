@@ -12,6 +12,9 @@ tokens.tx
 
 .my_history
 
+norminette-env/
+norminette/
+gitignore
 program
 minishell
 norminette_env/

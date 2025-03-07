@@ -61,15 +61,13 @@ void	handle_found_env_var(t_ast_node *node, char **envp, char *cmd)
 	if (search_valid_path(cmd, envp) && node->type == NODE_COMMAND)
 	{
 		execute_valid_cmd(node, envp, cmd);
-		free(env_result);
-		free_array(env_processed, array_len(env_processed));
+		free_env_and_array(env_result, env_processed);
 		return ;
 	}
 	else if (!search_valid_path(cmd, envp) && node->type == NODE_COMMAND)
 	{
 		execute_invalid_cmd(node, envp);
-		free_array(env_processed, array_len(env_processed));
-		free(env_result);
+		free_env_and_array(env_result, env_processed);
 		return ;
 	}
 	else if (node->type == NODE_WORD)

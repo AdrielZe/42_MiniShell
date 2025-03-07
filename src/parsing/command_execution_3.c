@@ -17,7 +17,6 @@ void	handle_word_node(t_ast_node *node, char **envp)
 {
 	char	*old_string;
 	int		is_env_var;
-	char *unquoted_cmd;
 
 	is_env_var = 0;
 	if (!node->value || node->value[0] == '\0')
@@ -25,8 +24,7 @@ void	handle_word_node(t_ast_node *node, char **envp)
 	if (ft_strchr(node->value, '$') != NULL)
 		is_env_var = 1;
 	old_string = ft_strdup(node->value);
-	if (node->type != NODE_SIMPLE_QUOTE)
-		node->value = process_env_var(node->value);
+	node->value = process_env_var(node->value);
 	if (is_env_var == 1)
 		when_only_env_var(node, envp, old_string);
 	else if (ft_strcmp(old_string, node->value) != 0)
@@ -38,7 +36,8 @@ void	handle_word_node(t_ast_node *node, char **envp)
 
 void	when_only_env_var(t_ast_node *node, char **envp, char *old_string)
 {
-	check_if_is_directory(node->value);
+	if (check_if_is_directory(node->value) == 0)
+		return ;
 	if (!is_file(node->value) && !search_valid_path(node->value, envp))
 	{
 		handle_node_value(node, envp, old_string);
@@ -94,16 +93,12 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 			printf("zsh: %s: No such file or directory\n", node->value);
 		else if (!search_result)
 		{
-			printf("minishell: %s: command not found\n", command_to_execute);
-			if (node->type == NODE_COMMAND)
-				free_split(split_values);
-			else
-				free(command_to_execute);
-			free(search_result);
+			not_found_msg_and_free(node, search_result,
+				split_values, command_to_execute);
 			return ;
-		}	
+		}
 		else
-			execute_command(node->value, envp, node);	
+			execute_command(node->value, envp, node);
 	}
 	free_resources(node, split_values, search_result);
 }

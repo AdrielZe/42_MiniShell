@@ -16,7 +16,7 @@ int	cd(char *argv[]);
 int	export(char *argv[], char **envp);
 int	unset(char *argv[]);
 
-static int	if_cd(char *cmd, char **envp, t_ast_node *node)
+int	if_cd(char *cmd, char **envp, t_ast_node *node)
 {
 	char	**split_cmd;
 
@@ -26,10 +26,7 @@ static int	if_cd(char *cmd, char **envp, t_ast_node *node)
 	else if (ft_strcmp(split_cmd[0], "cd") == 0)
 	{
 		if (cd(split_cmd))
-		{
-			free_array(split_cmd, array_len(split_cmd));
-			return (1);
-		}
+			return (free_array(split_cmd, array_len(split_cmd)), 1);
 	}
 	else if (ft_strcmp(split_cmd[0], "export") == 0)
 	{
@@ -39,17 +36,13 @@ static int	if_cd(char *cmd, char **envp, t_ast_node *node)
 	else if (ft_strcmp(split_cmd[0], "unset") == 0)
 	{
 		if (unset(split_cmd))
-		{
-			free_array(split_cmd, array_len(split_cmd));
-			return (1);
-		}
+			return (free_array(split_cmd, array_len(split_cmd)), 1);
 	}
 	if (node->outfile)
 		close(node->outfile);
 	if (node->infile)
 		close(node->infile);
-	free_array(split_cmd, array_len(split_cmd));
-	return (0);
+	return (free_array(split_cmd, array_len(split_cmd)), 0);
 }
 
 void	handle_command_node(t_ast_node *node, char **envp)
@@ -58,40 +51,27 @@ void	handle_command_node(t_ast_node *node, char **envp)
 	int		is_env_var;
 	char	**split_result;
 
-	is_env_var = 0;
 	if (!node->value || node->value[0] == '\0')
 		return ;
 	split_result = ft_split(node->value, ' ');
-	if (split_result && ft_strchr(split_result[0], '$') != NULL)
-		is_env_var = 1;
+	is_env_var = (split_result && ft_strchr(split_result[0], '$') != NULL);
 	old_string = ft_strdup(node->value);
 	if (node->type != NODE_SIMPLE_QUOTE)
 		node->value = process_env_var(node->value);
-	if (is_env_var == 1)
+	if (is_env_var)
 		when_only_env_var(node, envp, old_string);
-	else if (ft_strcmp(old_string, node->value) != 0)
-		check_and_execute_if_is_cmd(node, envp);
 	else
-	{
-		if (if_cd(node->value, envp, node))
-		{
-			free(old_string);
-			free_split(split_result);
-			return ;
-		}
-		execute_regular_cmd(node, envp);
-	}
-	free(old_string);
-	free_split(split_result);
+		process_command_execution(node, envp, old_string, split_result);
 }
 
-void	check_if_is_directory(char *node_value)
+int	check_if_is_directory(char *node_value)
 {
-	if (is_directory(node_value))
+	if (is_directory(node_value) == 0)
 	{
 		printf("minishell: %s: Is a directory\n", node_value);
-		return ;
+		return (0);
 	}
+	return (1);
 }
 
 void	check_if_is_cmd_or_dir(t_ast_node *node, char **envp)
@@ -111,7 +91,7 @@ void	handle_node_value(t_ast_node *node, char **envp, char *old_string)
 	char	**arr;
 
 	split_cmd = ft_split(node->value, ' ');
-	if (found_env_var(node, old_string))
+	if (found_env_var(node, old_string) == 1)
 	{
 		if (node->type == NODE_COMMAND)
 			cmd = split_cmd[0];

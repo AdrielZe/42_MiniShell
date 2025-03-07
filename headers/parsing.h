@@ -82,7 +82,7 @@ int			verify_if_is_env_var(t_ast_node *node);
 //src/command_execution_4.c
 void		handle_command_node(t_ast_node *node, char **envp);
 void		check_if_is_cmd_or_dir(t_ast_node *node, char **envp);
-void		check_if_is_directory(char *node_value);
+int		check_if_is_directory(char *node_value);
 void		handle_node_value(t_ast_node *node, char **envp, char *old_string);
 
 //src/command_execution_5.c
@@ -158,4 +158,13 @@ int			node_exists(t_ast_node *node);
 void	create_simple_quote_node(t_ast_node **root,
 	t_ast_node **current, struct s_tokens *tokens);
 
+void	handle_cmd_or_word_token(struct s_tokens *tokens,
+				t_ast_node **root, t_ast_node **current);
+int	redirection_if(struct s_tokens *tokens, t_ast_node *node);
+
+void	not_found_msg_and_free(t_ast_node *node, char *search_result, char **split_values, char *command_to_execute);
+void	create_nodes_and_redirect_if(struct s_tokens **tokens, t_ast_node **root, t_ast_node **current);
+void	handle_env_var(t_ast_node *node, char **envp, char *old_string);
+int	if_cd(char *cmd, char **envp, t_ast_node *node);
+void	process_command_execution(t_ast_node *node, char **envp, char *old_string, char **split_result);
 #endif

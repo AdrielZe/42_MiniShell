@@ -75,5 +75,4 @@ void		alloc_append(const char **s, char ***array, int *i);
 void		alloc_pipe(const char **s, char ***array, int *i);
 void		alloc_outfile(const char **s, char ***array, int *i);
 void		alloc_infile(const char **s, char ***array, int *i);
-
 #endif
