@@ -33,7 +33,7 @@ char	*ft_strjoin(char *str1, char *str2)
 		concat_string[i] = str1[i];
 		i++;
 	}
-	while (str2[j])
+	while (str2 && str2[j])
 		concat_string[i++] = str2[j++];
 	concat_string[i] = '\0';
 	return (concat_string);

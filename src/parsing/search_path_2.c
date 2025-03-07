@@ -60,6 +60,8 @@ void	execute_node_command(t_ast_node *node, char *cmd, char **envp)
 	built[0] = "PATH=built-ins";
 	tokens = split_with_quotes(cmd);
 	cmd = if_env_var(node, tokens);
+	if (!cmd)
+		return ;
 	path_split_built = ft_split(cmd, ' ');
 	path = search_valid_path(path_split_built[0], built);
 	free_array(path_split_built, array_len(path_split_built));
@@ -77,12 +79,12 @@ void	execute_node_command(t_ast_node *node, char *cmd, char **envp)
 		valid_outfile_and_path(cmd, node, path);
 		if (execve(path, tokens, envp) == -1)
 			exit (127);
-		exit (0);
 	}
+	printf("oiniasodbnasd\n");
+	waitpid (pid, &status, 0);
+	add_exitcode(WEXITSTATUS(status));
 	free(path);
 	free_array(tokens, array_len(tokens));
-	waitpid (pid, &status, 0);
-	setenv("EXITCODEMINISHELL", ft_itoa(WEXITSTATUS(status)), 1);
 }
 
 void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
@@ -106,10 +108,9 @@ void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
 		valid_outfile_and_path(cmd, node, path);
 		if (execve(path, tokens, envp) == -1)
 			exit(127);
-		exit(0);
 	}
+	waitpid (pid, &status, 0);
+	add_exitcode(WEXITSTATUS(status));
 	free(path);
 	free_array(tokens, array_len(tokens));
-	waitpid (pid, &status, 0);
-	setenv("EXITCODEMINISHELL", ft_itoa(WEXITSTATUS(status)), 1);
 }

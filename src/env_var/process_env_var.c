@@ -96,7 +96,7 @@ char	*process_env_var(char *input)
 
 	index_of_env_symbol = 0;
 	i = 0;
-	while (input[index_of_env_symbol])
+	while (input && input[index_of_env_symbol])
 	{
 		if (input[index_of_env_symbol] == '$')
 		{

@@ -37,7 +37,7 @@ int	main(int argc, char *argv[], char *envp[])
 	printf("   ---by VICTDA-S");
 	if(new_line)
 		printf("\n");
-	return (0);
+	exit (0);
 }
 int	export(char *argv[])
 {

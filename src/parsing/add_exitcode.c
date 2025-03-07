@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   add_exitcode.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/08 18:01:32 by asilveir          #+#    #+#             */
-/*   Updated: 2025/03/06 19:47:55 by victda-s         ###   ########.fr       */
+/*   Created: 2025/03/06 20:32:09 by victda-s          #+#    #+#             */
+/*   Updated: 2025/03/06 20:40:24 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../headers/main.h"
 
-size_t	ft_strlen(char const *string)
+void	add_exitcode(int status)
 {
-	size_t	i;
+	char	*status_char;
 
-	i = 0;
-	while (string && string[i])
-	{
-		i++;
-	}
-	return (i);
+	status_char = ft_itoa(status);
+	if(!status_char)
+		return ;
+	setenv("EXITCODEMINISHELL", status_char, 1);
+	free(status_char);
+	
 }

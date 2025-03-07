@@ -43,4 +43,5 @@ void	exit_if_typed_exit(char *input, struct s_tokens **token_list, char **envp_c
 void	setup_tokens_and_build_ast(char *input, struct s_tokens **token_list, char **envp, char ***token);
 void	manage_rl_input(char **input, char **envp, struct s_tokens **token_list, struct s_ast_node *root);
 
+void	add_exitcode(int status);
 #endif
