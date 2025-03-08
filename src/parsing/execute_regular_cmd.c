@@ -49,3 +49,14 @@ int	control_command_execution_with_slash(char ***split_path, t_ast_node *node, c
 		execute_command(node->value, envp, node);
 	return (0);
 }
+
+int	not_result_msg_free(char *search_result, t_ast_node *node, char **split_values, char *command_to_execute)
+{
+	if (!search_result)
+	{
+		not_found_msg_and_free(node, search_result,
+			split_values, command_to_execute);
+		return (1);
+	}
+	return (0);
+}

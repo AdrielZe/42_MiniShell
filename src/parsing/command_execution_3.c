@@ -100,12 +100,9 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 			if(control_command_execution_with_slash(&split_path, node, envp) == 1)
 				return ;
 		}
-		else if (!search_result)
-		{
-			not_found_msg_and_free(node, search_result,
-				split_values, command_to_execute);
-			return ;
-		}
+		else if (not_result_msg_free(search_result,
+				node, split_values, command_to_execute) == 1)
+			return;
 		else
 			execute_command(node->value, envp, node);
 	}
