@@ -61,5 +61,5 @@ void	merge_last_token(char ***array, int i, char *new_word)
 		(*array)[i - 1] = NULL;
 	}
 	(*array)[i - 1] = joined;
-	free(new_word);
+	//free(new_word);
 }

@@ -89,12 +89,18 @@ void	process_words(const char **s, char ***array, int *i, char **envp)
 
 	is_string = 0;
 	old_string = NULL;
+	new_word = NULL;
 	while (**s)
 	{
 		skip_spaces_and_alloc_elements(s, array, i);
 		if (*s == NULL)
 			break;
 		get_new_word(&new_word, s, array, i);
+		if (!new_word)
+		{
+			free_array(*array, array_len(*array));
+			return ;
+		}
 		check_if_is_string(new_word, &old_string, &is_string);
 		if (*i == 0) 
 		{
@@ -109,16 +115,16 @@ void	process_words(const char **s, char ***array, int *i, char **envp)
 			old_string = NULL;
 		} else 
 			alloc_new_word_in_array(array, i, new_word, &old_string);
-              unquoted_word = ft_strdup(new_word);
+		if (new_word)
+              	unquoted_word = ft_strdup(new_word);
+		if (!unquoted_word)
+			return ;
 		remove_quotes(unquoted_word);
 		if (search_valid_path(unquoted_word, envp) != NULL && *i != 0)
-		{
-			printf("entrou\n");
-			printf("is executable: %s\n", unquoted_word);
 			is_executable = 1;
-		}
-		printf("new word: %s\n", new_word);
+		free(unquoted_word);
 	}
+
 	if (old_string)
 		free(old_string);
 }
