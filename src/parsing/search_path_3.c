@@ -52,7 +52,7 @@ void	open_pid(int *pid)
 		return ;
 }
 
-char *resolve_path(char *cmd, char **envp)
+char	*resolve_path(char *cmd, char **envp)
 {
 	char	*path;
 	char	**path_split;
@@ -76,7 +76,7 @@ char *resolve_path(char *cmd, char **envp)
 void	execute_command_for_node_function(char *path,
 			char **tokens, char **envp)
 {
-	int	status;
+	int		status;
 	pid_t	pid;
 
 	pid = fork();

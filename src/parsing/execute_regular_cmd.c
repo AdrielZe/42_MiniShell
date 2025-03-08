@@ -13,16 +13,18 @@
 #include "../headers/main.h"
 #include <sys/stat.h>
 
-void	rmv_quotes_set_cmd(t_ast_node *node, char ***split_values, char **command_to_execute)
+void	rmv_quotes_set_cmd(t_ast_node *node,
+				char ***split_values, char **command_to_execute)
 {
 	remove_quotes(node->value);
 	if (node->type == NODE_COMMAND)
 		get_cmd_to_execute(node, split_values, command_to_execute);
-	else	
+	else
 		*command_to_execute = ft_strdup(node->value);
 }
 
-int	control_command_execution_with_slash(char ***split_path, t_ast_node *node, char **envp)
+int	control_command_execution_with_slash(char ***split_path,
+				t_ast_node *node, char **envp)
 {
 	struct stat	path_stat;
 
@@ -50,7 +52,8 @@ int	control_command_execution_with_slash(char ***split_path, t_ast_node *node, c
 	return (0);
 }
 
-int	not_result_msg_free(char *search_result, t_ast_node *node, char **split_values, char *command_to_execute)
+int	not_result_msg_free(char *search_result,
+			t_ast_node *node, char **split_values, char *command_to_execute)
 {
 	if (!search_result)
 	{

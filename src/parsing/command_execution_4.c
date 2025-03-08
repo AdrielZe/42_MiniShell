@@ -26,9 +26,7 @@ int	if_cd(char *cmd, char **envp, t_ast_node *node)
 		close(node->infile);
 	split_cmd = split_with_quotes(cmd);
 	if (!split_cmd)
-	{
 		perror("Comando vazio\n");
-	}
 	else if (ft_strcmp(split_cmd[0], "cd") == 0)
 	{
 		cd(split_cmd);
@@ -97,7 +95,6 @@ void	handle_node_value(t_ast_node *node, char **envp, char *old_string)
 	split_cmd = ft_split(node->value, ' ');
 	if (found_env_var(node, old_string) == 1)
 	{
-
 		handle_found_env_var(node, envp, old_string);
 		free_array(split_cmd, array_len(split_cmd));
 		return ;

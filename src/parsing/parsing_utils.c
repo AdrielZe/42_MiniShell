@@ -12,8 +12,8 @@
 
 #include "../headers/main.h"
 
-void	not_found_msg_and_free(t_ast_node *node,
-			char *search_result, char **split_values, char *command_to_execute)
+void	not_found_msg_and_free(t_ast_node *node, char *search_result,
+					char **split_values, char *command_to_execute)
 {
 	printf("minishell: %s: command not found\n", command_to_execute);
 	add_exitcode(127);
@@ -43,7 +43,7 @@ void	process_command_execution(t_ast_node *node,
 			free_split(split_result);
 		return ;
 	}
-	handle_env_var(node, envp, old_string);;
+	handle_env_var(node, envp, old_string);
 	if (old_string)
 		free(old_string);
 	if (split_result)

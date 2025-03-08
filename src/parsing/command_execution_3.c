@@ -97,12 +97,13 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 	{
 		if (ft_strchr(node->value, '/') != NULL)
 		{
-			if(control_command_execution_with_slash(&split_path, node, envp) == 1)
+			if (control_command_execution_with_slash(&split_path,
+					node, envp) == 1)
 				return ;
 		}
 		else if (not_result_msg_free(search_result,
 				node, split_values, command_to_execute) == 1)
-			return;
+			return ;
 		else
 			execute_command(node->value, envp, node);
 	}

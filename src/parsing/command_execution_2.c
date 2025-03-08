@@ -31,9 +31,34 @@ int	is_file(const char *path)
 	return (S_ISREG(path_stat.st_mode));
 }
 
+void	handle_pipe_node(t_ast_node *node, char **envp)
+{
+	pid_t		pid_left;
+	pid_t		pid_right;
+	int			pipefd[2];
+	t_delim		*delimiters;
+	int			status;
+
+	delimiters = get_all_delimiters(node);
+	open_left_pipe(pipefd, &pid_left);
+	if (pid_left == 0)
+		left_process(pipefd, node, delimiters, envp);
+	waitpid(pid_left, NULL, 0);
+	open_right_pipe(&pid_right);
+	if (pid_right == 0)
+		right_process(pipefd, node, envp);
+	close_pipefd(pipefd);
+	waitpid(pid_left, &status, 0);
+	waitpid(pid_right, NULL, 0);
+	add_exitcode(WEXITSTATUS(status));
+	free_delimiters(delimiters);
+}
+
 void	handle_node_types(t_ast_node *node, char **envp, t_delim **delimiters)
 {
-	if (node->type == NODE_HEREDOC)
+	if (node->type == NODE_PIPE)
+		handle_pipe_node(node, envp);
+	else if (node->type == NODE_HEREDOC)
 	{
 		*delimiters = get_all_delimiters(node);
 		handle_heredoc(node, envp);

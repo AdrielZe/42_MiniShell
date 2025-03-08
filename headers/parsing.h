@@ -184,6 +184,10 @@ int	execute_command_for_word_node(char *path, char **tokens, char **envp);
 int	control_command_execution_with_slash(char ***split_path, t_ast_node *node, char **envp);
 void	rmv_quotes_set_cmd(t_ast_node *node, char ***split_values, char **command_to_execute);
 int	not_result_msg_free(char *search_result, t_ast_node *node, char **split_values, char *command_to_execute);
-
+void	open_left_pipe(int *pipefd, pid_t *pid_left);
+void	open_right_pipe(pid_t *pid_right);
+void	right_process(int *pipe, t_ast_node *node, char **envp);
+void	left_process(int *pipe, t_ast_node *node,
+		t_delim *delimiters, char **envp);
 
 #endif
