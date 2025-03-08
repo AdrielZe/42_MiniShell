@@ -42,8 +42,9 @@ void	when_only_env_var(t_ast_node *node, char **envp)
 	{
 		if (!search_valid_path(node->value, envp))
 		{
-			if (ft_strchr(node->value, '/')) // Se contém '/', tratamos como caminho inválido
-				printf("minishell: %s: No such file or directory\n", node->value);
+			if (ft_strchr(node->value, '/'))
+				printf("minishell: %s: No such file or directory\n",
+					node->value);
 			else
 				printf("minishell: %s: command not found\n", node->value);
 			return ;
@@ -52,8 +53,6 @@ void	when_only_env_var(t_ast_node *node, char **envp)
 	}
 	execute_command(node->value, envp, node);
 }
-
-
 
 void	check_and_execute_if_is_cmd(t_ast_node *node, char **envp)
 {
@@ -86,13 +85,13 @@ void	check_and_execute_if_is_cmd(t_ast_node *node, char **envp)
 
 void	execute_regular_cmd(t_ast_node *node, char **envp)
 {
-	char	*command_to_execute;
-	char	*search_result;
-	char	**split_values;
-	char	**split_path;
-	struct stat path_stat;
+	struct stat	path_stat;
+	char		*command_to_execute;
+	char		*search_result;
+	char		**split_values;
+	char		**split_path;
 
-       remove_quotes(node->value);
+	remove_quotes(node->value);
 	if (node->type == NODE_COMMAND)
 		get_cmd_to_execute(node, &split_values, &command_to_execute);
 	else
@@ -107,7 +106,7 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 			split_path = ft_split(node->value, ' ');
 			if (!split_path)
 				return ;
-			if(search_valid_path(split_path[0], envp))
+			if (search_valid_path(split_path[0], envp))
 			{
 				execute_command(node->value, envp, node);
 				return ;

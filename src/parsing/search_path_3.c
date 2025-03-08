@@ -54,9 +54,9 @@ void	open_pid(int *pid)
 
 char *resolve_path(char *cmd, char **envp)
 {
-	char *path;
-	char **path_split;
-	char *built[2];
+	char	*path;
+	char	**path_split;
+	char	*built[2];
 
 	built[0] = "PATH=built-ins";
 	built[1] = NULL;
@@ -70,10 +70,8 @@ char *resolve_path(char *cmd, char **envp)
 	printf("path in resolve_path: %s\n", path);
 	if (!path)
 		path = search_valid_path(path_split[0], envp);
-	//free_array(path_split, array_len(path_split));
 	return (path);
 }
-
 
 void	execute_command_for_node_function(char *path,
 			char **tokens, char **envp)

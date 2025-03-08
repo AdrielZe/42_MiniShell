@@ -84,14 +84,13 @@ char	*process_quotes(const char **s)
 	return (allocate_word(start, *s - start));
 }
 
-char	**tokenize(const char *s, char  **envp)
+char	**tokenize(const char *s, char **envp)
 {
-	int		i;
 	char	**array;
+	int		i;
 
 	if (s == NULL || ft_count_word(s) == 0)
 		return (NULL);
-
 	i = 0;
 	array = malloc((ft_count_word(s) + 1) * sizeof(char *));
 	if (!array)

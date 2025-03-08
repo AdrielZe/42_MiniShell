@@ -97,10 +97,7 @@ void	parse_commands(t_ast_node *node, char **envp)
 		return ;
 	delimiters = NULL;
 	if (node->type == NODE_PIPE)
-	{	
-
-		if (node && node->right)
-			printf("temmmm");
+	{
 		delimiters = get_all_delimiters(node);
 		open_left_pipe(pipefd, &pid_left);
 		if (pid_left == 0)

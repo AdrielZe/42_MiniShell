@@ -13,7 +13,7 @@
 #include "../../headers/tokenize.h"
 #include "../../headers/parsing.h"
 
-static void	get_new_word(char **new_word, const char **s, char ***array, int *i)
+void	get_new_word(char **new_word, const char **s, char ***array, int *i)
 {
 	*new_word = process_quotes(s);
 	if (!*new_word)
@@ -44,48 +44,45 @@ void	print_array(char **array)
 
 void	check_if_is_string(char *new_word, char **old_string, int *is_string)
 {
-	if ((ft_strlen(new_word) > 1 &&
-		((new_word[0] == '\'' && new_word[ft_strlen(new_word) - 1] == '\'') ||
-		(new_word[0] == '"' && new_word[ft_strlen(new_word) - 1] == '"'))))
+	if ((ft_strlen(new_word) > 1 && ((new_word[0] == '\''
+					&& new_word[ft_strlen(new_word) - 1] == '\'')
+				|| (new_word[0] == '"'
+					&& new_word[ft_strlen(new_word) - 1] == '"'))))
 		*is_string = 1;
-	
 	*old_string = new_word;
-	if(*old_string == NULL)
+	if (*old_string == NULL)
 	{
 		perror("ft_strdup failed");
 		exit(EXIT_FAILURE);
 	}
 }
 
-#include <stdio.h>
-
-void remove_quotes(char *str)
+void	remove_quotes(char *str)
 {
-    char *read = str;
-    char *write = str;
+	char	*read;
+	char	*write;
 
-    while (*read)
-    {
-        // Se o caractere não for uma aspa, copie-o para a posição de 'write'
-        if (*read != '"' && *read != '\'')
-        {
-            *write = *read;
-            write++;
-        }
-        read++;
-    }
-    *write = '\0';  // Finaliza a string
+	read = str;
+	write = str;
+	while (*read)
+	{
+		if (*read != '"' && *read != '\'')
+		{
+			*write = *read;
+			write++;
+		}
+		read++;
+	}
+	*write = '\0';
 }
 
-
-
-void	process_words(const char **s, char ***array, int *i, char **envp) 
+void	process_words(const char **s, char ***array, int *i, char **envp)
 {
-	char *old_string;
-	char *new_word;
-	char  *unquoted_word;
-	int is_string;
+	char		*old_string;
+	char		*new_word;
+	char		*unquoted_word;
 	static int	is_executable;	
+	int			is_string;
 
 	is_string = 0;
 	old_string = NULL;
@@ -94,7 +91,7 @@ void	process_words(const char **s, char ***array, int *i, char **envp)
 	{
 		skip_spaces_and_alloc_elements(s, array, i);
 		if (*s == NULL)
-			break;
+			break ;
 		get_new_word(&new_word, s, array, i);
 		if (!new_word)
 		{
@@ -102,7 +99,7 @@ void	process_words(const char **s, char ***array, int *i, char **envp)
 			return ;
 		}
 		check_if_is_string(new_word, &old_string, &is_string);
-		if (*i == 0) 
+		if (*i == 0)
 		{
 			alloc_new_word_in_array(array, i, new_word, &old_string);
 			is_string = 0;
@@ -113,10 +110,11 @@ void	process_words(const char **s, char ***array, int *i, char **envp)
 			is_string = 0;
 			is_executable = 0;
 			old_string = NULL;
-		} else 
+		}
+		else
 			alloc_new_word_in_array(array, i, new_word, &old_string);
 		if (new_word)
-              	unquoted_word = ft_strdup(new_word);
+			unquoted_word = ft_strdup(new_word);
 		if (!unquoted_word)
 			return ;
 		remove_quotes(unquoted_word);
@@ -124,7 +122,6 @@ void	process_words(const char **s, char ***array, int *i, char **envp)
 			is_executable = 1;
 		free(unquoted_word);
 	}
-
 	if (old_string)
 		free(old_string);
 }
