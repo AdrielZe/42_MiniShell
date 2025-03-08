@@ -181,5 +181,6 @@ void	valid_outfile_and_path(char *cmd, char *path);
 void remove_quotes(char *str);
 void	get_new_word(char **new_word, const char **s, char ***array, int *i);
 int	execute_command_for_word_node(char *path, char **tokens, char **envp);
-
+int	control_command_execution_with_slash(char ***split_path, t_ast_node *node, char **envp);
+void	rmv_quotes_set_cmd(t_ast_node *node, char ***split_values, char **command_to_execute);
 #endif

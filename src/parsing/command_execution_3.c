@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../headers/main.h"
-#include <sys/stat.h>
 
 void	handle_word_node(t_ast_node *node, char **envp)
 {
@@ -85,17 +84,12 @@ void	check_and_execute_if_is_cmd(t_ast_node *node, char **envp)
 
 void	execute_regular_cmd(t_ast_node *node, char **envp)
 {
-	struct stat	path_stat;
 	char		*command_to_execute;
 	char		*search_result;
 	char		**split_values;
 	char		**split_path;
 
-	remove_quotes(node->value);
-	if (node->type == NODE_COMMAND)
-		get_cmd_to_execute(node, &split_values, &command_to_execute);
-	else
-		command_to_execute = ft_strdup(node->value);
+	rmv_quotes_set_cmd(node, &split_values, &command_to_execute);
 	search_result = search_valid_path(command_to_execute, envp);
 	if (ft_strchr(node->value, '$') != NULL)
 		execute_cmd_or_word(node, command_to_execute, envp);
@@ -103,27 +97,8 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 	{
 		if (ft_strchr(node->value, '/') != NULL)
 		{
-			split_path = ft_split(node->value, ' ');
-			if (!split_path)
+			if(control_command_execution_with_slash(&split_path, node, envp) == 1)
 				return ;
-			if (search_valid_path(split_path[0], envp))
-			{
-				execute_command(node->value, envp, node);
-				return ;
-			}
-			if (node->type != NODE_COMMAND)
-			{
-				free(split_path[0]);
-				split_path[0] = ft_strdup(node->value);
-			}
-			if (stat(node->value, &path_stat) != 0)
-				printf("minishell: %s: No such file or directory\n", split_path[0]);
-			else if (S_ISDIR(path_stat.st_mode))
-				printf("minishell: %s: Is a directory\n", split_path[0]);
-			else if (access(node->value, X_OK) != 0)
-				printf("minishell: %s: Permission denied\n", split_path[0]);
-			else
-				execute_command(node->value, envp, node);
 		}
 		else if (!search_result)
 		{
