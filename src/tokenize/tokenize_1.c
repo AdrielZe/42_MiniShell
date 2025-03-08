@@ -84,7 +84,7 @@ char	*process_quotes(const char **s)
 	return (allocate_word(start, *s - start));
 }
 
-char	**tokenize(const char *s)
+char	**tokenize(const char *s, char  **envp)
 {
 	int		i;
 	char	**array;
@@ -96,7 +96,7 @@ char	**tokenize(const char *s)
 	array = malloc((ft_count_word(s) + 1) * sizeof(char *));
 	if (!array)
 		return (NULL);
-	process_words(&s, &array, &i);
+	process_words(&s, &array, &i, envp);
 	array[i] = NULL;
 	return (array);
 }

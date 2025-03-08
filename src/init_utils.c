@@ -24,7 +24,7 @@ void	setup_tokens_and_build_ast(char *input,
 	t_tokens **token_list, char **envp, char ***token)
 {
 	exit_if_typed_exit(input, token_list, envp);
-	*token = tokenize(input);
+	*token = tokenize(input, envp);
 	classify_token(*token, token_list);
 	free_array(*token, array_len(*token));
 }

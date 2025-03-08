@@ -79,13 +79,13 @@ void	execute_node_command(t_ast_node *node, char *cmd, char **envp)
 	if (!tokens)
 		return ;
 	path = resolve_path(updated_cmd, envp);
+	printf("PATH: %s\n", path);
 	if (!path)
 	{
 		free(updated_cmd);
 		free_array(tokens, array_len(tokens));
 		return ;
 	}
-	printf("pATH: %s\n", path);
 	execute_command_for_node_function(path, tokens, envp);
 	free_array(tokens, array_len(tokens));
 }
@@ -97,23 +97,48 @@ void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
 	pid_t	pid;
 	char	**cmd_to_split;
 	char	*built[1];
-	int	status;
+	int		status;
 
 	built[0] = "PATH=built-ins";
 	setup_tokens_and_commands(node, &tokens, &cmd, &cmd_to_split);
+
 	path = search_valid_path(cmd_to_split[0], built);
 	if (!path)
 		path = search_valid_path(cmd_to_split[0], envp);
-	free_array(cmd_to_split, array_len(cmd_to_split));
+
+	// Verifica antes de liberar cmd_to_split
+	// if (cmd_to_split)
+	// 	free_array(cmd_to_split, array_len(cmd_to_split));
+
 	open_pid(&pid);
 	if (pid == 0)
 	{
-		valid_outfile_and_path(cmd, path);
+		printf("trying to execute\n");
+		valid_outfile_and_path(cmd, path);	
+		printf("PATH IN SRCH PATH 2: %s\n", path);
+		int i = 0;
+		while (tokens[i])
+		{
+			printf("TOKEN: %s\n", tokens[i]);
+			i++;
+		}
+		// Se execve falhar, imprime erro antes de sair
 		if (execve(path, tokens, envp) == -1)
+		{
+			perror("execve failed");
 			exit(127);
+		}
 	}
-	waitpid (pid, &status, 0);
+
+	waitpid(pid, &status, 0);
 	add_exitcode(WEXITSTATUS(status));
-	free(path);
-	free_array(tokens, array_len(tokens));
+
+	// Verifica antes de liberar path
+	if (path)
+		free(path);
+
+	// Verifica antes de liberar tokens
+	if (tokens)
+		free_array(tokens, array_len(tokens));
 }
+

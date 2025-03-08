@@ -55,7 +55,7 @@ void		free_array(char **array, int i);
 char		*allocate_word(const char *s, int len);
 size_t		ft_count_word(const char *s);
 char		*process_quotes(const char **s);
-char		**tokenize(const char *s);
+char		**tokenize(const char *s, char **envp);
 
 //src/tokenize/tokenize_2.c
 void		skip_spaces_and_alloc_elements(const char **s,
@@ -66,7 +66,7 @@ int			should_merge_token(int is_string);
 void		merge_last_token(char ***array, int i, char *new_word);
 
 //src/tokenize/tokenize_3.c
-void		process_words(const char **s, char ***array, int *i);
+void		process_words(const char **s, char ***array, int *i, char **envp);
 
 //src/tokenize/tokenize_alloc_tokens.c
 void		alloc_heredoc(const char **s, char ***array, int *i);

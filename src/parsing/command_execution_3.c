@@ -103,6 +103,8 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 	{
 		if (ft_strchr(node->value, '/') != NULL)
 		{
+			if(search_valid_path(node->value, envp))
+				execute_command(node->value, envp, node);
 			split_path = ft_split(node->value, ' ');
 			if (!split_path)
 				return ;
@@ -117,6 +119,8 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 				printf("minishell: %s: Is a directory\n", split_path[0]);
 			else if (access(node->value, X_OK) != 0)
 				printf("minishell: %s: Permission denied\n", split_path[0]);
+			else
+				execute_command(node->value, envp, node);
 		}
 		else if (!search_result)
 		{
