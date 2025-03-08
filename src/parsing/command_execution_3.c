@@ -103,11 +103,14 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 	{
 		if (ft_strchr(node->value, '/') != NULL)
 		{
-			if(search_valid_path(node->value, envp))
-				execute_command(node->value, envp, node);
 			split_path = ft_split(node->value, ' ');
 			if (!split_path)
 				return ;
+			if(search_valid_path(split_path[0], envp))
+			{
+				execute_command(node->value, envp, node);
+				return ;
+			}
 			if (node->type != NODE_COMMAND)
 			{
 				free(split_path[0]);
