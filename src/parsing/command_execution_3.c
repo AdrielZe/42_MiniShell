@@ -92,6 +92,7 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 	char	**split_path;
 	struct stat path_stat;
 
+       remove_quotes(node->value);
 	if (node->type == NODE_COMMAND)
 		get_cmd_to_execute(node, &split_values, &command_to_execute);
 	else

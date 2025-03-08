@@ -178,5 +178,6 @@ void	process_valid_path(t_ast_node *node,
 		char **value_to_search, char **envp);
 void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp);
 void	valid_outfile_and_path(char *cmd, char *path);
+void remove_quotes(char *str);
 
 #endif
