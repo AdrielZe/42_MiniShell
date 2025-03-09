@@ -17,29 +17,42 @@ int	control_quotes(const char *new_word)
 	int	i;
 	int	double_quotes_number;
 	int	simple_quotes_number;
-	const	char *word_without_spaces;
+	int	in_single_quotes;
+	int	in_double_quotes;
 
 	i = 0;
 	double_quotes_number = 0;
 	simple_quotes_number = 0;
-	word_without_spaces = ft_strtrim(new_word, " ");
-	if (word_without_spaces[0] == '\'' && word_without_spaces[ft_strlen(word_without_spaces) - 1] == '\'')
-		return (0);
-	while (word_without_spaces[i])
+	in_single_quotes = 0;
+	in_double_quotes = 0;
+
+	// Contagem das aspas e verificações para alternar entre aspas simples e duplas
+	while (new_word[i])
 	{
-		if (word_without_spaces[i] == '\'')
-			simple_quotes_number++;
-		if (word_without_spaces[i] == '"')
-			double_quotes_number++;
+		if (new_word[i] == '\'')
+		{
+			// Se estiver fora de aspas duplas, alterna entre dentro e fora das aspas simples
+			if (!in_double_quotes)
+				in_single_quotes = !in_single_quotes;
+		}
+		if (new_word[i] == '"')
+		{
+			// Se estiver fora de aspas simples, alterna entre dentro e fora das aspas duplas
+			if (!in_single_quotes)
+				in_double_quotes = !in_double_quotes;
+		}
 		i++;
 	}
-	if ((simple_quotes_number % 2) != 0 || (double_quotes_number % 2) != 0)
+
+	// Se houver um número ímpar de aspas (simples ou duplas) fora de outras aspas, retorna erro
+	if (in_single_quotes || in_double_quotes)
 	{
-		if ((simple_quotes_number % 2) != 0)
-			printf("minishell: unexpected EOF for `''\n");
-		else
-			printf("minishell: unexpected EOF for `\"'\n");
+		if (in_single_quotes)
+			printf("minishell: unexpected EOF for `\'\'\n");
+		if (in_double_quotes)
+			printf("minishell: unexpected EOF for `\"\"\n");
 		return (1);
 	}
 	return (0);
 }
+

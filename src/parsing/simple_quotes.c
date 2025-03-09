@@ -61,6 +61,7 @@ void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 		return ;
 	}
 	open_pid(&pid);
+
 	if (pid == 0)
 	{
 		valid_outfile_and_path(cmd, path);

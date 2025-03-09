@@ -67,23 +67,37 @@ static char	*find_string_to_replace(char *input, int index_of_env_symbol)
 
 char	*process_env_var(char *input)
 {
-	int		index_of_env_symbol;
+	int		index;
 	char	*input_to_return;
 	char	*word_to_switch;
+	int		in_single_quotes;
 
-	index_of_env_symbol = 0;
-	while (input && input[index_of_env_symbol])
+	index = 0;
+	in_single_quotes = 0;
+	printf("this is the input: %s\n", input);
+	while (input && input[index])
 	{
-		if (input[index_of_env_symbol] == '$')
+		if (input[index] == '\'')
+			in_single_quotes = !in_single_quotes; // Alterna entre dentro/fora de aspas simples
+		if (input[index] == '$')
 		{
-			word_to_switch = find_string_to_replace(input,
-					index_of_env_symbol);
-			input_to_return = replace_substring(input,
-					word_to_switch, index_of_env_symbol);
+			word_to_switch = find_string_to_replace(input, index);
+			if (in_single_quotes) // Se estiver entre aspas simples, retorna com o '$' e aspas
+			{
+				char *dollar_prefixed = ft_strjoin("$", word_to_switch);
+				char *quoted_word = ft_strjoin("'", dollar_prefixed);
+				char *final_word = ft_strjoin(quoted_word, "'");
+				free(dollar_prefixed);
+				free(quoted_word);
+				return (final_word);
+			}
+			input_to_return = replace_substring(input, word_to_switch, index);
 			input = input_to_return;
 			free(word_to_switch);
 		}
-		index_of_env_symbol++;
+		index++;
 	}
 	return (input);
 }
+
+
