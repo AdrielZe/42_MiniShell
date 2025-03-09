@@ -23,35 +23,16 @@ void	get_new_word(char **new_word, const char **s, char ***array, int *i)
 	}
 }
 
-void	print_array(char **array)
-{
-	int	j;
-
-	j = 0;
-	printf("Array atual:\n");
-	if (!array)
-	{
-		printf("Array é NULL\n");
-		return ;
-	}
-	while (array[j])
-	{
-		printf("[%d] %s\n", j, array[j]);
-		j++;
-	}
-	printf("\n");
-}
-
 int	count_quotes(char *new_word)
 {
 	int	i;
 	int	double_quotes_number;
-	int 	simple_quotes_number;
-	
+	int	simple_quotes_number;
+
 	i = 0;
 	double_quotes_number = 0;
 	simple_quotes_number = 0;
-	while(new_word[i])
+	while (new_word[i])
 	{
 		if (new_word[i] == '\'')
 			simple_quotes_number++;
@@ -106,11 +87,17 @@ void	remove_quotes(char *str)
 
 void	process_words(const char **s, char ***array, int *i, char **envp)
 {
-	char		*old_string = NULL;
-	char		*new_word = NULL;
+	char		*old_string;
+	char		*new_word;
 	static int	is_executable = 0;
-	t_word_data	data = {&old_string, &is_executable, i, array};
+	t_word_data	data;
 
+	data.old_string = &old_string;
+	data.is_executable = &is_executable;
+	data.i = i;
+	data.array = array;
+	new_word = NULL;
+	old_string = NULL;
 	while (**s)
 	{
 		skip_spaces_and_alloc_elements(s, array, i);

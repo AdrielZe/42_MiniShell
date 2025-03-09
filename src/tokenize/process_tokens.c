@@ -12,14 +12,6 @@
 
 #include "../headers/main.h"
 
-void	set_word_data(t_word_data *data,
-			char *old_string, int is_executable, int *i)
-{
-	data->old_string = &old_string;
-	data->is_executable = &is_executable;
-	data->i = i;
-}
-
 void	handle_word_quotes(char *new_word,
 				int *is_executable, char **envp, int index)
 {
@@ -36,7 +28,6 @@ void	handle_word_quotes(char *new_word,
 	free(unquoted_word);
 }
 
-
 void	process_new_word(char *new_word, t_word_data *data)
 {
 	int	is_string;
@@ -45,10 +36,11 @@ void	process_new_word(char *new_word, t_word_data *data)
 	check_if_is_string(new_word, data->old_string, &is_string);
 	if (*(data->i) == 0)
 	{
-		alloc_new_word_in_array(data->array, data->i, new_word, data->old_string);
+		alloc_new_word_in_array(data->array,
+			data->i, new_word, data->old_string);
 		is_string = 0;
 	}
-	else if(should_merge_token(is_string) == 1 || *(data->is_executable) == 1)
+	else if (should_merge_token(is_string) == 1 || *(data->is_executable) == 1)
 	{
 		merge_last_token(data->array, *(data->i), new_word);
 		is_string = 0;
@@ -56,5 +48,6 @@ void	process_new_word(char *new_word, t_word_data *data)
 		data->old_string = NULL;
 	}
 	else
-		alloc_new_word_in_array(data->array, data->i, new_word, data->old_string);
+		alloc_new_word_in_array(data->array, data->i,
+			new_word, data->old_string);
 }
