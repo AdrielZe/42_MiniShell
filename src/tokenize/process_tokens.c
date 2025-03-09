@@ -34,7 +34,7 @@ void	process_new_word(char *new_word, t_word_data *data)
 
 	is_string = 0;
 
-	check_if_is_string(new_word, data->old_string, &is_string);
+	check_if_is_string(new_word, data, &is_string);
 	if (*(data->i) == 0)
 	{
 		alloc_new_word_in_array(data->array,

@@ -30,7 +30,7 @@ void	check_if_is_string(char *new_word, t_word_data *data, int *is_string)
 				|| (new_word[0] == '"'
 					&& new_word[ft_strlen(new_word) - 1] == '"'))))
 		*is_string = 1;
-	data->old_string = new_word;
+	data->old_string = &new_word;
 	if (data->old_string == NULL)
 	{
 		perror("ft_strdup failed");
@@ -64,7 +64,7 @@ void	process_words(const char **s, char ***array, int *i, char **envp)
 	static int	is_executable = 0;
 	t_word_data	data;
 
-	data.old_string = &old_string;
+	data.old_string = NULL;
 	data.is_executable = &is_executable;
 	data.i = i;
 	data.array = array;
