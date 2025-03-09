@@ -55,6 +55,7 @@ void	init_shell(char ***token, t_tokens **token_list, char
 			free(input);
 			continue ;
 		}
+		printf("segfautloaisdk\n");
 		setup_tokens_and_build_ast(input, token_list, envp, token);
 		*root = build_ast(*token_list);
 		print_list(*token_list);

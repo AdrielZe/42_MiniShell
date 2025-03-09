@@ -23,43 +23,15 @@ void	get_new_word(char **new_word, const char **s, char ***array, int *i)
 	}
 }
 
-int	count_quotes(char *new_word)
-{
-	int	i;
-	int	double_quotes_number;
-	int	simple_quotes_number;
-
-	i = 0;
-	double_quotes_number = 0;
-	simple_quotes_number = 0;
-	while (new_word[i])
-	{
-		if (new_word[i] == '\'')
-			simple_quotes_number++;
-		if (new_word[i] == '"')
-			double_quotes_number++;
-		i++;
-	}
-	if ((simple_quotes_number % 2) != 0 || (double_quotes_number % 2) != 0)
-	{
-		if ((simple_quotes_number % 2) != 0)
-			printf("minishell: unexpected EOF for `''\n");
-		else
-			printf("minishell: unexpected EOF for `\"'\n");
-		return (1);
-	}
-	return (0);
-}
-
-void	check_if_is_string(char *new_word, char **old_string, int *is_string)
+void	check_if_is_string(char *new_word, t_word_data *data, int *is_string)
 {
 	if ((ft_strlen(new_word) > 1 && ((new_word[0] == '\''
 					&& new_word[ft_strlen(new_word) - 1] == '\'')
 				|| (new_word[0] == '"'
 					&& new_word[ft_strlen(new_word) - 1] == '"'))))
 		*is_string = 1;
-	*old_string = new_word;
-	if (*old_string == NULL)
+	data->old_string = new_word;
+	if (data->old_string == NULL)
 	{
 		perror("ft_strdup failed");
 		exit(EXIT_FAILURE);
@@ -100,9 +72,10 @@ void	process_words(const char **s, char ***array, int *i, char **envp)
 	old_string = NULL;
 	while (**s)
 	{
+
 		skip_spaces_and_alloc_elements(s, array, i);
-		if (*s == NULL)
-			break ;
+		if (!**s)
+			return ;
 		get_new_word(&new_word, s, array, i);
 		if (!new_word)
 		{

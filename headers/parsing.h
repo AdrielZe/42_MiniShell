@@ -189,6 +189,4 @@ void	open_right_pipe(pid_t *pid_right);
 void	right_process(int *pipe, t_ast_node *node, char **envp);
 void	left_process(int *pipe, t_ast_node *node,
 		t_delim *delimiters, char **envp);
-void	check_if_is_string(char *new_word, char **old_string, int *is_string);
-
 #endif

@@ -89,10 +89,13 @@ char	**tokenize(const char *s, char **envp)
 	char	**array;
 	int		i;
 
+
 	if (s == NULL || ft_count_word(s) == 0)
 		return (NULL);
 	i = 0;
 	array = malloc((ft_count_word(s) + 1) * sizeof(char *));
+	if (control_quotes(s) == 1)
+		return (NULL);
 	if (!array)
 		return (NULL);
 	process_words(&s, &array, &i, envp);

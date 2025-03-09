@@ -86,5 +86,7 @@ void		alloc_infile(const char **s, char ***array, int *i);
 void		handle_word_quotes(char *new_word, int *is_executable, char **envp, int index);
 void		process_new_word(char *new_word, t_word_data *data);
 void		set_word_data(t_word_data *data, char *old_string, int is_executable, int *i);
+int		control_quotes(const char *new_word);
+void	check_if_is_string(char *new_word, t_word_data *data, int *is_string);
 
 #endif
