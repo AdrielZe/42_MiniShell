@@ -42,6 +42,34 @@ void	print_array(char **array)
 	printf("\n");
 }
 
+int	count_quotes(char *new_word)
+{
+	int	i;
+	int	double_quotes_number;
+	int 	simple_quotes_number;
+	
+	i = 0;
+	double_quotes_number = 0;
+	simple_quotes_number = 0;
+	while(new_word[i])
+	{
+		if (new_word[i] == '\'')
+			simple_quotes_number++;
+		if (new_word[i] == '"')
+			double_quotes_number++;
+		i++;
+	}
+	if ((simple_quotes_number % 2) != 0 || (double_quotes_number % 2) != 0)
+	{
+		if ((simple_quotes_number % 2) != 0)
+			printf("minishell: unexpected EOF for `''\n");
+		else
+			printf("minishell: unexpected EOF for `\"'\n");
+		return (1);
+	}
+	return (0);
+}
+
 void	check_if_is_string(char *new_word, char **old_string, int *is_string)
 {
 	if ((ft_strlen(new_word) > 1 && ((new_word[0] == '\''
@@ -93,6 +121,8 @@ void	process_words(const char **s, char ***array, int *i, char **envp)
 		if (*s == NULL)
 			break ;
 		get_new_word(&new_word, s, array, i);
+		if (count_quotes(new_word) != 0)
+			break;
 		if (!new_word)
 		{
 			free_array(*array, array_len(*array));
