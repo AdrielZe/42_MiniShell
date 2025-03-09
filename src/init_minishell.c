@@ -59,7 +59,7 @@ void	check_syntax(t_tokens *tokens, char **envp)
 			current->type == TOKEN_HEREDOC ||
 			current->type == TOKEN_REDIRECT_IN ||
 			current->type == TOKEN_REDIRECT_OUT)
-			if (!current->next || current->next->type != TOKEN_WORD ||
+			if (!current->next || current->next->type != TOKEN_WORD &&
 				current->next->type != TOKEN_COMMAND)
             {
                 printf("Erro de sintaxe: operador de redirecionamento sem arquivo.\n");
@@ -71,7 +71,7 @@ void	check_syntax(t_tokens *tokens, char **envp)
 		{
 			if(!current->next || current->next->type == TOKEN_PIPE)
 			{
-				printf("Erro de sintaxe: operador de redirecionamento sem arquivo.\n");
+				printf("Erro de sintaxe: pipes.\n");
                 clear_token_list(&tokens);
                 free_array(envp, array_len(envp));
                 exit(3);
