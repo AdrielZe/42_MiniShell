@@ -26,14 +26,26 @@ char	*extract_new_word(const char **s, char ***array, int *i)
 	return (new_word);
 }
 
+void	check_if_is_executable(char *new_word, char **envp,
+				int *i, int *is_executable)
+{
+	char	*unquoted_word;
+
+	unquoted_word = ft_strdup(new_word);
+	if (!unquoted_word)
+		return ;
+	remove_quotes(unquoted_word);
+	if (search_valid_path(unquoted_word, envp) != NULL && *i != 0)
+		*is_executable = 1;
+	free(unquoted_word);
+}
+
 void	handle_word(char *new_word, char **old_string,
 			char ***array, int *i, int *is_executable, char **envp)
 {
 	int		is_string;
-	char	*unquoted_word;
 
 	is_string = 0;
-	unquoted_word = NULL;
 	check_if_is_string(new_word, old_string, &is_string);
 	if (*i == 0)
 	{
@@ -49,11 +61,5 @@ void	handle_word(char *new_word, char **old_string,
 	}
 	else
 		alloc_new_word_in_array(array, i, new_word, old_string);
-	unquoted_word = ft_strdup(new_word);
-	if (!unquoted_word)
-		return ;
-	remove_quotes(unquoted_word);
-	if (search_valid_path(unquoted_word, envp) != NULL && *i != 0)
-		*is_executable = 1;
-	free(unquoted_word);
+	check_if_is_executable(new_word, envp, i, is_executable);
 }
