@@ -12,7 +12,14 @@
 
 #include "../headers/main.h"
 
-void	handle_word_quotes(char *new_word, int *is_executable, char **envp, int index)
+void set_word_data(t_word_data *data, char *old_string, int is_executable, int *i)
+{	
+	data->old_string = &old_string;
+	data->is_executable = &is_executable;
+	data->i = i;
+}
+void	handle_word_quotes(char *new_word,
+				int *is_executable, char **envp, int index)
 {
 	char	*unquoted_word;
 
@@ -29,11 +36,14 @@ void	handle_word_quotes(char *new_word, int *is_executable, char **envp, int ind
 
 void	process_new_word(char *new_word, t_word_data *data)
 {
-	int	is_string = 0;
+	int	is_string ;
 
+	is_string = 0;
 	check_if_is_string(new_word, data->old_string, &is_string);
-	if (*(data->i) == 0 || (should_merge_token(is_string) == 0 && *(data->is_executable) == 0))
-		alloc_new_word_in_array(data->array, data->i, new_word, data->old_string);
+	if (*(data->i) == 0 || (should_merge_token(is_string) == 0
+			&& *(data->is_executable) == 0))
+		alloc_new_word_in_array(data->array, data->i,
+			new_word, data->old_string);
 	else
 	{
 		merge_last_token(data->array, *(data->i), new_word);

@@ -78,11 +78,15 @@ void	remove_quotes(char *str)
 
 void	process_words(const char **s, char ***array, int *i, char **envp)
 {
-	char		*old_string = NULL;
-	char		*new_word = NULL;
+	char		*old_string;
+	char		*new_word;
 	static int	is_executable = 0;
-	t_word_data	data = {&old_string, &is_executable, i, array};
+	t_word_data	data;
 
+	set_word_data(&data, old_string, is_executable, i);
+	data.array = array;
+	old_string = NULL;
+	new_word = NULL;
 	while (**s)
 	{
 		skip_spaces_and_alloc_elements(s, array, i);
