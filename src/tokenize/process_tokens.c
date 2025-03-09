@@ -12,12 +12,14 @@
 
 #include "../headers/main.h"
 
-void set_word_data(t_word_data *data, char *old_string, int is_executable, int *i)
-{	
+void	set_word_data(t_word_data *data,
+			char *old_string, int is_executable, int *i)
+{
 	data->old_string = &old_string;
 	data->is_executable = &is_executable;
 	data->i = i;
 }
+
 void	handle_word_quotes(char *new_word,
 				int *is_executable, char **envp, int index)
 {
