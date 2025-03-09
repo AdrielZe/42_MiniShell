@@ -39,27 +39,3 @@ void	check_if_is_executable(char *new_word, char **envp,
 		*is_executable = 1;
 	free(unquoted_word);
 }
-
-void	handle_word(char *new_word, char **old_string,
-			char ***array, int *i, int *is_executable, char **envp)
-{
-	int		is_string;
-
-	is_string = 0;
-	check_if_is_string(new_word, old_string, &is_string);
-	if (*i == 0)
-	{
-		alloc_new_word_in_array(array, i, new_word, old_string);
-		is_string = 0;
-	}
-	else if (should_merge_token(is_string) == 1 || *is_executable == 1)
-	{
-		merge_last_token(array, *i, new_word);
-		is_string = 0;
-		*is_executable = 0;
-		*old_string = NULL;
-	}
-	else
-		alloc_new_word_in_array(array, i, new_word, old_string);
-	check_if_is_executable(new_word, envp, i, is_executable);
-}

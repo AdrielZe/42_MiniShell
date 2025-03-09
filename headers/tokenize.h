@@ -31,6 +31,14 @@ typedef enum e_token_typeh
 	TOKEN_COMMAND,
 }	t_token_type;
 
+typedef struct s_word_data
+{
+	char	**old_string;
+	int		*is_executable;
+	int		*i;
+	char	***array;
+}	t_word_data;
+
 typedef struct s_tokens
 {
 	t_token_type	type;
@@ -74,4 +82,8 @@ void		alloc_append(const char **s, char ***array, int *i);
 void		alloc_pipe(const char **s, char ***array, int *i);
 void		alloc_outfile(const char **s, char ***array, int *i);
 void		alloc_infile(const char **s, char ***array, int *i);
+
+void		handle_word_quotes(char *new_word, int *is_executable, char **envp, int index);
+void		process_new_word(char *new_word, t_word_data *data);
+
 #endif

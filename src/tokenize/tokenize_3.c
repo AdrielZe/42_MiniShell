@@ -78,15 +78,11 @@ void	remove_quotes(char *str)
 
 void	process_words(const char **s, char ***array, int *i, char **envp)
 {
-	char		*old_string;
-	char		*new_word;
-	char		*unquoted_word;
-	static int	is_executable;	
-	int			is_string;
+	char		*old_string = NULL;
+	char		*new_word = NULL;
+	static int	is_executable = 0;
+	t_word_data	data = {&old_string, &is_executable, i, array};
 
-	is_string = 0;
-	old_string = NULL;
-	new_word = NULL;
 	while (**s)
 	{
 		skip_spaces_and_alloc_elements(s, array, i);
@@ -98,30 +94,8 @@ void	process_words(const char **s, char ***array, int *i, char **envp)
 			free_array(*array, array_len(*array));
 			return ;
 		}
-		check_if_is_string(new_word, &old_string, &is_string);
-		if (*i == 0)
-		{
-			alloc_new_word_in_array(array, i, new_word, &old_string);
-			is_string = 0;
-		}
-		else if (should_merge_token(is_string) == 1 || is_executable == 1)
-		{
-			merge_last_token(array, *i, new_word);
-			is_string = 0;
-			is_executable = 0;
-			old_string = NULL;
-		}
-		else
-			alloc_new_word_in_array(array, i, new_word, &old_string);
-		if (new_word)
-			unquoted_word = ft_strdup(new_word);
-		if (!unquoted_word)
-			return ;
-		remove_quotes(unquoted_word);
-		if (search_valid_path(unquoted_word, envp) != NULL && *i != 0)
-			is_executable = 1;
-		free(unquoted_word);
+		process_new_word(new_word, &data);
+		handle_word_quotes(new_word, &is_executable, envp, *i);
 	}
-	if (old_string)
-		free(old_string);
+	free(old_string);
 }
