@@ -51,6 +51,7 @@ void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 
 	built[0] = "PATH=built-ins";
 	get_cmd(node, &cmd, &tokens);
+	printf("cmd is : %s\n", cmd);
 	path = search_valid_path(cmd, built);
 	if (!path)
 		path = search_valid_path(cmd, envp);
@@ -63,17 +64,39 @@ void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 	if (pid == 0)
 	{
 		valid_outfile_and_path(cmd, path);
-		free(cmd);
+		//f/ree(cmd);
 		if (execve(path, tokens, envp) == -1)
+		{
+			perror("execve failed\n");
 			exit(127);
+		}
 		exit(0);
 	}
-	free_elements_and_wait_child(path, cmd, tokens, pid);
+	waitpid(pid, NULL, 0);
+	//free_elements_and_wait_child(path, cmd, tokens, pid);
 }
 
 void	handle_simple_quote_node(t_ast_node *node, char **envp)
 {
+	char	*command_to_execute;
+	char	**split_values;
+	char	*search_result;
+	char	**split_path;
+
+	rmv_quotes_set_cmd(node, &split_values, &command_to_execute);
+	search_result = search_valid_path(command_to_execute, envp);
 	if (!node->value || node->value[0] == '\0')
 		return ;
+	if (ft_strchr(node->value, '/') != NULL)
+	{
+		if (control_command_execution_with_slash(&split_path,
+				node, envp) == 1)
+			return ;
+		else if (not_result_msg_free(search_result,
+				node, split_values, command_to_execute) == 1)
+			return ;
+		else
+			execute_simple_quote_node(node, node->value, envp);
+	}
 	execute_simple_quote_node(node, node->value, envp);
 }

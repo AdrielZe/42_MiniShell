@@ -36,20 +36,25 @@ void	handle_word_quotes(char *new_word,
 	free(unquoted_word);
 }
 
+
 void	process_new_word(char *new_word, t_word_data *data)
 {
-	int	is_string ;
+	int	is_string;
 
 	is_string = 0;
 	check_if_is_string(new_word, data->old_string, &is_string);
-	if (*(data->i) == 0 || (should_merge_token(is_string) == 0
-			&& *(data->is_executable) == 0))
-		alloc_new_word_in_array(data->array, data->i,
-			new_word, data->old_string);
-	else
+	if (*(data->i) == 0)
+	{
+		alloc_new_word_in_array(data->array, data->i, new_word, data->old_string);
+		is_string = 0;
+	}
+	else if(should_merge_token(is_string) == 1 || *(data->is_executable) == 1)
 	{
 		merge_last_token(data->array, *(data->i), new_word);
+		is_string = 0;
 		*(data->is_executable) = 0;
-		*(data->old_string) = NULL;
+		data->old_string = NULL;
 	}
+	else
+		alloc_new_word_in_array(data->array, data->i, new_word, data->old_string);
 }

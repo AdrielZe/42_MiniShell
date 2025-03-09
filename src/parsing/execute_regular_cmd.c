@@ -31,7 +31,7 @@ int	control_command_execution_with_slash(char ***split_path,
 	*split_path = ft_split(node->value, ' ');
 	if (!*split_path)
 		return (1);
-	if (search_valid_path(*split_path[0], envp))
+	if (search_valid_path(*split_path[0], envp) != NULL)
 	{
 		execute_command(node->value, envp, node);
 		return (1);
