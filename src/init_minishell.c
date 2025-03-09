@@ -40,7 +40,47 @@ void	free_token(char ***token)
 	free(*token);
 	*token = NULL;
 }
+void	check_syntax(t_tokens *tokens, char **envp)
+{
+	t_tokens	*current;
+	t_tokens	*temp;
 
+	current = tokens->next;
+	if(tokens->type != TOKEN_COMMAND && tokens->type != TOKEN_WORD)
+	{
+		printf("erro de syntax\n");
+		clear_token_list(&tokens);
+		free_array(envp, array_len(envp));
+		exit(3);
+	}
+	while (current)
+	{
+		if(current->type == TOKEN_APPEND ||
+			current->type == TOKEN_HEREDOC ||
+			current->type == TOKEN_REDIRECT_IN ||
+			current->type == TOKEN_REDIRECT_OUT)
+			if (!current->next || current->next->type != TOKEN_WORD ||
+				current->next->type != TOKEN_COMMAND)
+            {
+                printf("Erro de sintaxe: operador de redirecionamento sem arquivo.\n");
+                clear_token_list(&tokens);
+                free_array(envp, array_len(envp));
+                exit(3);
+            }
+		if(current->type == TOKEN_PIPE)
+		{
+			if(!current->next || current->next->type == TOKEN_PIPE)
+			{
+				printf("Erro de sintaxe: operador de redirecionamento sem arquivo.\n");
+                clear_token_list(&tokens);
+                free_array(envp, array_len(envp));
+                exit(3);
+			}
+		}
+		current = current->next;
+	}
+	
+}
 void	init_shell(char ***token, t_tokens **token_list, char
 			**envp, t_ast_node **root)
 {
@@ -56,6 +96,7 @@ void	init_shell(char ***token, t_tokens **token_list, char
 			continue ;
 		}
 		setup_tokens_and_build_ast(input, token_list, envp, token);
+		check_syntax(*token_list, envp);
 		*root = build_ast(*token_list);
 		print_list(*token_list);
 		clear_token_list(token_list);
