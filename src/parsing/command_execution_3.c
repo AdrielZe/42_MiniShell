@@ -84,36 +84,29 @@ void	check_and_execute_if_is_cmd(t_ast_node *node, char **envp)
 
 void	execute_regular_cmd(t_ast_node *node, char **envp)
 {
-	char		*command_to_execute;
-	char		*search_result;
-	char		**split_values;
-	char		**split_path;
+	char	*command_to_execute;
+	char	**split_values;
+	char	*search_result;
+	char	**split_path;
 
 	rmv_quotes_set_cmd(node, &split_values, &command_to_execute);
+        printf("commandto execute: %s\n", command_to_execute);
 	search_result = search_valid_path(command_to_execute, envp);
-       if (!node->value || node->value[0] == '\0')
-	       return ;
-	if (ft_strchr(node->value, '$') != NULL)
-		execute_cmd_or_word(node, command_to_execute, envp);
-	else
+	if (!node->value || node->value[0] == '\0')
+		return ;
+	if (ft_strchr(node->value, '/') != NULL)
 	{
-		if (ft_strchr(node->value, '/') != NULL)
-		{
-			if (control_command_execution_with_slash(&split_path,
-					node, envp) == 1)
-				return ;
-		}
+		if (control_command_execution_with_slash(&split_path,
+				node, envp) == 1)
+			return ;
 		else if (not_result_msg_free(search_result,
 				node, split_values, command_to_execute) == 1)
-		{
-			printf("to aquiiii\n");
 			return ;
-		}
 		else
-			execute_simple_quote_node(node, command_to_execute, envp);
-	} 
-       execute_simple_quote_node(node, command_to_execute, envp);
-	free_resources(node, split_values);
+			execute_simple_quote_node(node, node->value, envp);
+	}
+	printf("Está chegando ate auqisim \n");
+	execute_simple_quote_node(node, node->value, envp);
 }
 
 int	verify_if_is_env_var(t_ast_node *node)
