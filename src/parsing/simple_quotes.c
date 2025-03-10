@@ -52,8 +52,6 @@ void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 	char	*built[1];
 
 	built[0] = "PATH=built-ins";
-	printf("cmd is : %s\n", cmd);
-
 	get_cmd(node, &cmd, &tokens);
 	int i = 0;
 	while (tokens[i])
@@ -61,7 +59,6 @@ void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 	 	printf("TOKEN: %s\n", tokens[i]);
 		i++;
 	}
-	printf("cmd is : %s\n", cmd);
 	path = search_valid_path(cmd, built);
 	if (!path)
 		path = search_valid_path(cmd, envp);

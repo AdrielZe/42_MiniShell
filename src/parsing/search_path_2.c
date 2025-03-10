@@ -100,7 +100,6 @@ void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
 
 	setup_tokens_and_commands(node, &tokens, &cmd, &cmd_to_split);
 	int i = 0;
-	while (tokens[i])
 	built[0] = "PATH=built-ins";
 	path = search_valid_path(cmd_to_split[0], built);
 	if (!path)

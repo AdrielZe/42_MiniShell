@@ -78,11 +78,11 @@ char	*process_env_var(char *input)
 	while (input && input[index])
 	{
 		if (input[index] == '\'')
-			in_single_quotes = !in_single_quotes; // Alterna entre dentro/fora de aspas simples
+			in_single_quotes = !in_single_quotes;
 		if (input[index] == '$')
 		{
 			word_to_switch = find_string_to_replace(input, index);
-			if (in_single_quotes) // Se estiver entre aspas simples, retorna com o '$' e aspas
+			if (in_single_quotes)
 			{
 				char *dollar_prefixed = ft_strjoin("$", word_to_switch);
 				char *quoted_word = ft_strjoin("'", dollar_prefixed);

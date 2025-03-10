@@ -87,15 +87,7 @@ void	handle_cmd_or_word_token(t_tokens *tokens,
 	char	*token_value;
 
 	if (tokens->type == TOKEN_WORD)
-	{
-		if (tokens->value)
-		{
-			token_value = extract_word(&tokens->value);
-			if (token_value)
-				tokens->value = token_value;
-		}
 		create_word_node(root, current, tokens);
-	}
 	else
 		create_command_node(root, current, tokens);
 }
