@@ -40,19 +40,11 @@ void	free_token(char ***token)
 	free(*token);
 	*token = NULL;
 }
-void	check_syntax(t_tokens *tokens, char **envp)
+int	check_syntax(t_tokens *tokens, char **envp)
 {
 	t_tokens	*current;
-	t_tokens	*temp;
 
-	current = tokens->next;
-	if(tokens->type != TOKEN_COMMAND && tokens->type != TOKEN_WORD)
-	{
-		printf("erro de syntax\n");
-		clear_token_list(&tokens);
-		free_array(envp, array_len(envp));
-		exit(3);
-	}
+	current = tokens;
 	while (current)
 	{
 		if(current->type == TOKEN_APPEND ||
@@ -62,24 +54,33 @@ void	check_syntax(t_tokens *tokens, char **envp)
 			if (!current->next || current->next->type != TOKEN_WORD &&
 				current->next->type != TOKEN_COMMAND)
             {
-                printf("Erro de sintaxe: operador de redirecionamento sem arquivo.\n");
-                clear_token_list(&tokens);
-                free_array(envp, array_len(envp));
-                exit(3);
+                printf("Erro de sintaxe: operador de redirecionamento.\n");
+				return (0);
             }
 		if(current->type == TOKEN_PIPE)
 		{
 			if(!current->next || current->next->type == TOKEN_PIPE)
 			{
 				printf("Erro de sintaxe: pipes.\n");
-                clear_token_list(&tokens);
-                free_array(envp, array_len(envp));
-                exit(3);
+				return (0);
 			}
 		}
 		current = current->next;
 	}
-	
+	return (1);
+}
+static t_ast_node	*process_ast(t_ast_node **root, t_tokens **token_list, char **envp)
+{
+	if(check_syntax(*token_list, envp))
+	{
+		*root = build_ast(*token_list);
+		print_list(*token_list);
+		clear_token_list(token_list);
+		parse_commands(*root, envp);
+	}
+	else
+		clear_token_list(token_list);
+	return (*root);
 }
 void	init_shell(char ***token, t_tokens **token_list, char
 			**envp, t_ast_node **root)
@@ -96,11 +97,7 @@ void	init_shell(char ***token, t_tokens **token_list, char
 			continue ;
 		}
 		setup_tokens_and_build_ast(input, token_list, envp, token);
-		check_syntax(*token_list, envp);
-		*root = build_ast(*token_list);
-		print_list(*token_list);
-		clear_token_list(token_list);
-		parse_commands(*root, envp);
+		*root = process_ast(root, token_list, envp);
 		if (*root)
 		{
 			free_ast(*root);
