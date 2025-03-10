@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_direction.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/07 15:07:39 by marvin           ###   ########.fr       */
+/*   Updated: 2025/03/10 02:15:22 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,11 @@ void	print_not_found_msg_and_free(char *command_to_execute,
 void	get_cmd_to_execute(t_ast_node *node,
 		char ***split_values, char **command_to_execute)
 {
+	printf("in get cmd to execute: %s\n", node->value);
 	*split_values = ft_split(node->value, ' ');
+		printf("in get cmd to execute: %s\n", *split_values[0]);
 	*command_to_execute = *split_values[0];
+	printf("cmd to execue after > %s\n", *command_to_execute);
 }
 
 void	free_resources(t_ast_node *node,

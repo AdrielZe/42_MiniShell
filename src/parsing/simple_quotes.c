@@ -14,22 +14,24 @@
 
 void	get_cmd(t_ast_node *node, char **cmd, char ***tokens)
 {
-	*cmd = ft_strtrim(node->value, "'");
-	if (!*cmd)
-		return ;
-	*tokens = split_with_quotes(*cmd);
+	int	i;
+
+	i = 0;
+	*tokens = split_with_quotes(node->value);
 	if (!*tokens)
-	{
-		free(*cmd);
 		return ;
+	while (tokens[i])
+	{
+		remove_quotes(*tokens[i]);
+		i++;
 	}
+	*cmd = *tokens[0];
 }
 
 void	if_not_path(char *cmd, char **tokens)
 {
 	printf("minishell: %s: command sdfsdfnot found\n", cmd);
 	add_exitcode(127);
-	free(cmd);
 	free_array(tokens, array_len(tokens));
 }
 
@@ -50,7 +52,15 @@ void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 	char	*built[1];
 
 	built[0] = "PATH=built-ins";
+	printf("cmd is : %s\n", cmd);
+
 	get_cmd(node, &cmd, &tokens);
+	int i = 0;
+	while (tokens[i])
+	{
+	 	printf("TOKEN: %s\n", tokens[i]);
+		i++;
+	}
 	printf("cmd is : %s\n", cmd);
 	path = search_valid_path(cmd, built);
 	if (!path)
@@ -85,6 +95,7 @@ void	handle_simple_quote_node(t_ast_node *node, char **envp)
 	char	**split_path;
 
 	rmv_quotes_set_cmd(node, &split_values, &command_to_execute);
+        printf("commandto execute: %s\n", command_to_execute);
 	search_result = search_valid_path(command_to_execute, envp);
 	if (!node->value || node->value[0] == '\0')
 		return ;
@@ -99,5 +110,6 @@ void	handle_simple_quote_node(t_ast_node *node, char **envp)
 		else
 			execute_simple_quote_node(node, node->value, envp);
 	}
+	printf("Está chegando ate auqisim \n");
 	execute_simple_quote_node(node, node->value, envp);
 }
