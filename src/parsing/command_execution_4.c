@@ -50,18 +50,23 @@ void	handle_command_node(t_ast_node *node, char **envp)
 	char	*old_string;
 	int		is_env_var;
 	char	**split_result;
+	int		saved_stdin;
+	int		saved_stdout;
 
+	saved_stdin = dup(STDIN_FILENO);
+	saved_stdout = dup(STDOUT_FILENO);
+
+	if(node->outfile)
+		dup2(node->outfile, STDOUT_FILENO);
+	if(node->infile)
+		dup2(node->infile, STDIN_FILENO);
 	if (!node->value || node->value[0] == '\0')
 		return ;
 	split_result = ft_split(node->value, ' ');
 	is_env_var = (split_result && ft_strchr(split_result[0], '$') != NULL);
 	old_string = ft_strdup(node->value);
 	if (node->type != NODE_SIMPLE_QUOTE)
-	{
-		printf("node valeu em handle command node: %s\n", node->value);
-		printf("processing env var\n");
 		node->value = process_env_var(node->value);
-	}
 	if (is_env_var)
 		when_only_env_var(node, envp);
 	else
