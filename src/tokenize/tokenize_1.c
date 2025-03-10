@@ -15,14 +15,16 @@
 
 void	free_array(char **array, int i)
 {
-	if (!array)
-		return ;
-	while (i-- > 0)
-	{
-		if (array[i])
-			free(array[i]);
-	}
-	free(array);
+    int i2 = 0;
+    if (!array)
+        return;
+    
+    while (array[i2])
+    {
+        free(array[i2]);
+        i2++;
+    }
+    free(array);
 }
 
 char	*allocate_word(const char *s, int len)
@@ -47,7 +49,7 @@ size_t	ft_count_word(const char *s)
 	while (*s)
 	{
 		s += count_if(&count, s);
-		while (*s == '|' || (*s == '<' && *(s + 1) == '<'))
+		while (*s == '|')
 		{
 			delim_counter++;
 			s++;
@@ -90,7 +92,7 @@ char	**tokenize(const char *s)
 	char	**array;
 
 	i = 0;
-	array = malloc((ft_count_word(s) + 1) * sizeof(char *));
+	array = ft_calloc(ft_count_word(s) + 1, sizeof(char *));
 	if (!array)
 		return (NULL);
 	process_words(&s, &array, &i);

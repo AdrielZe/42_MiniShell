@@ -96,7 +96,7 @@ void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
 	pid_t	pid;
 	char	**cmd_to_split;
 	char	*built[1];
-	int	status;
+	int		status;
 
 	built[0] = "PATH=built-ins";
 	setup_tokens_and_commands(node, &tokens, &cmd, &cmd_to_split);

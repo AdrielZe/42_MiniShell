@@ -47,8 +47,7 @@ int	check_syntax(t_tokens *tokens, char **envp)
 	current = tokens;
 	while (current)
 	{
-		if(current->type == TOKEN_APPEND ||
-			current->type == TOKEN_HEREDOC ||
+		if(current->type == TOKEN_APPEND || current->type == TOKEN_HEREDOC ||
 			current->type == TOKEN_REDIRECT_IN ||
 			current->type == TOKEN_REDIRECT_OUT)
 			if (!current->next || current->next->type != TOKEN_WORD &&

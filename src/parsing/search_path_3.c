@@ -87,7 +87,7 @@ char	*resolve_path(char *cmd, char **envp)
 void	execute_command_for_node_function(char *path,
 			char **tokens, char **envp, t_ast_node *node)
 {
-	int	status;
+	int		status;
 	pid_t	pid;
 
 	pid = fork();
