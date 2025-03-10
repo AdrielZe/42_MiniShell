@@ -16,14 +16,7 @@
 void	rmv_quotes_set_cmd(t_ast_node *node,
 				char ***split_values, char **command_to_execute)
 {
-	// if (node->type == NODE_COMMAND)
 	get_cmd_to_execute(node, split_values, command_to_execute);
-	// else
-	// {
-			//remove_quotes(node->value);
-
-	// 	*command_to_execute = ft_strdup(node->value);
-	// }
 }
 
 int	control_command_execution_with_slash(char ***split_path,

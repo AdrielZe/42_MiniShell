@@ -20,11 +20,6 @@ void	get_cmd(t_ast_node *node, char **cmd, char ***tokens)
 	*tokens = split_with_quotes(node->value);
 	if (!*tokens)
 		return ;
-	while (tokens[i])
-	{
-		remove_quotes(*tokens[i]);
-		i++;
-	}
 	*cmd = *tokens[0];
 }
 
@@ -52,6 +47,7 @@ void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 	char	*built[1];
 
 	built[0] = "PATH=built-ins";
+	printf("commands are : %s\n", cmd);
 	get_cmd(node, &cmd, &tokens);
 	int i = 0;
 	while (tokens[i])
@@ -92,7 +88,6 @@ void	handle_simple_quote_node(t_ast_node *node, char **envp)
 	char	**split_path;
 
 	rmv_quotes_set_cmd(node, &split_values, &command_to_execute);
-        printf("commandto execute: %s\n", command_to_execute);
 	search_result = search_valid_path(command_to_execute, envp);
 	if (!node->value || node->value[0] == '\0')
 		return ;
@@ -107,6 +102,5 @@ void	handle_simple_quote_node(t_ast_node *node, char **envp)
 		else
 			execute_simple_quote_node(node, node->value, envp);
 	}
-	printf("Está chegando ate auqisim \n");
 	execute_simple_quote_node(node, node->value, envp);
 }

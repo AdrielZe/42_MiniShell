@@ -47,7 +47,7 @@ size_t	ft_count_word(const char *s)
 	while (*s)
 	{
 		s += count_if(&count, s);
-		while (*s == '|' || (*s == '<' && *(s + 1) == '<'))
+		while (*s == '|')
 		{
 			delim_counter++;
 			s++;

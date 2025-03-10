@@ -36,9 +36,9 @@ void	alloc_new_word_in_array(char ***array,
 
 int	should_merge_token(int is_string)
 {
-	if ((is_string == 1))
+	// if ((is_string == 1))
 		return (1);
-	return (0);
+	// return (0);
 }
 
 void	merge_last_token(char ***array, int i, char *new_word)
