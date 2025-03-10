@@ -15,6 +15,7 @@
 void	execute_command(char *cmd, char **envp,
 	t_ast_node *node)
 {
+	printf("entered here\n");
 	if (node->outfile)
 		dup2(node->outfile, STDOUT_FILENO);
 	if (node->infile)

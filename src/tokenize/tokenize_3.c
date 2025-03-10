@@ -45,6 +45,8 @@ void	remove_quotes(char *str)
 
 	read = str;
 	write = str;
+	if (!*read)
+		return;
 	while (*read)
 	{
 		if (*read != '"' && *read != '\'')

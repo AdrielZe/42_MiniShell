@@ -57,13 +57,12 @@ void	handle_command_node(t_ast_node *node, char **envp)
 
 	if (!node->value || node->value[0] == '\0')
 		return ;
-	printf("chegou aq enssess\n");
-	printf("NODE VALUE : %s\n", node->value);
 	split_result = ft_split(node->value, ' ');
 	is_env_var = (split_result && ft_strchr(split_result[0], '$') != NULL);
 	old_string = ft_strdup(node->value);
 	if (node->type != NODE_SIMPLE_QUOTE)
 	{
+		printf("node valeu em handle command node: %s\n", node->value);
 		printf("processing env var\n");
 		node->value = process_env_var(node->value);
 	}
