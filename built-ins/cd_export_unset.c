@@ -46,8 +46,6 @@ static void	sort(char **arr)
 }
 int	cd(char *argv[])
 {
-	char *cwd; 
-
 	if(argv[1] && argv[2])
 	{
 		printf("cd: muitos argumentos\n");

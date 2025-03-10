@@ -73,7 +73,7 @@ int			is_file(const char *path);
 
 //src/command_execution_3.c
 void		handle_word_node(t_ast_node *node, char **envp);
-void		when_only_env_var(t_ast_node *node, char **envp, char *old_string);
+void		when_only_env_var(t_ast_node *node, char **envp);
 void		check_and_execute_if_is_cmd(t_ast_node *node, char **envp);
 void		execute_regular_cmd(t_ast_node *node, char **envp);
 void		free_split(char **split);
@@ -92,8 +92,8 @@ void		handle_found_env_var(t_ast_node *node, char **envp, char *cmd);
 
 //src/command_execution_6.c
 void		search_for_cmd_in_array(t_ast_node *node, char **temp,
-				char ***arr_not_envp, char **arr);
-void		handle_not_found_env_var(t_ast_node *node, char **evnp, char **arr);
+				char ***arr_not_envp);
+void		handle_not_found_env_var(t_ast_node *node, char **evnp);
 int			is_only_spaces(char *str);
 
 //src/search_path_1.c
@@ -141,7 +141,7 @@ void		print_not_found_msg_and_free(char *command_to_execute,
 void		get_cmd_to_execute(t_ast_node *node,
 				char ***split_values, char **command_to_execute);
 void		free_resources(t_ast_node *node,
-				char **split_values, char *search_result);
+				char **split_values);
 void		get_cmds_to_execute(char **old_temp,
 				char **temp, char **local_arr, int i);
 
@@ -167,7 +167,26 @@ void	create_nodes_and_redirect_if(struct s_tokens **tokens, t_ast_node **root, t
 void	handle_env_var(t_ast_node *node, char **envp, char *old_string);
 int	if_cd(char *cmd, char **envp, t_ast_node *node);
 void	process_command_execution(t_ast_node *node, char **envp, char *old_string, char **split_result);
-void execute_command_for_node_function(char *path, char **tokens, char **envp, t_ast_node *node);
+void execute_command_for_node_function(char *path, char **tokens, char **envp);
 char *resolve_path(char *cmd, char **envp);
-
+void	display_input_line(char **input);
+void	handle_simple_quote_node(t_ast_node *node, char **envp);
+void	free_env_and_array(char *env_result, char **env_processed);
+void	update_node_value(t_ast_node *node, char *new_value);
+void	process_local_array(char **temp, char **arr_not_envp);
+void	process_valid_path(t_ast_node *node,
+		char **value_to_search, char **envp);
+void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp);
+void	valid_outfile_and_path(char *cmd, char *path);
+void remove_quotes(char *str);
+void	get_new_word(char **new_word, const char **s, char ***array, int *i);
+int	execute_command_for_word_node(char *path, char **tokens, char **envp);
+int	control_command_execution_with_slash(char ***split_path, t_ast_node *node, char **envp);
+void	rmv_quotes_set_cmd(t_ast_node *node, char ***split_values, char **command_to_execute);
+int	not_result_msg_free(char *search_result, t_ast_node *node, char **split_values, char *command_to_execute);
+void	open_left_pipe(int *pipefd, pid_t *pid_left);
+void	open_right_pipe(pid_t *pid_right);
+void	right_process(int *pipe, t_ast_node *node, char **envp);
+void	left_process(int *pipe, t_ast_node *node,
+		t_delim *delimiters, char **envp);
 #endif

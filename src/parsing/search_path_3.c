@@ -31,7 +31,7 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 	}
 	if (node->type == NODE_COMMAND)
 		execute_node_command(node, cmd, envp);
-	else if (node->type == TOKEN_WORD)
+	else if (node->type == NODE_WORD)
 		execute_word_node(node, cmd, envp);
 	else if (node->type == NODE_SIMPLE_QUOTE)
 		execute_simple_quote_node(node, cmd, envp);
@@ -44,6 +44,7 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 void	setup_tokens_and_commands(t_ast_node *node, char ***tokens,
 		char **cmd, char ***cmd_to_split)
 {
+	printf("cmd in word node is: %s\n", *cmd);
 	*tokens = split_with_quotes(*cmd);
 	if (node->type != NODE_SIMPLE_QUOTE)
 	{
@@ -76,16 +77,19 @@ char	*resolve_path(char *cmd, char **envp)
 	built[1] = NULL;
 	path_split = ft_split(cmd, ' ');
 	if (!path_split)
+	{
+		free_array(built, array_len(built));
 		return (NULL);
+	}
 	path = search_valid_path(path_split[0], built);
+	printf("path in resolve_path: %s\n", path);
 	if (!path)
 		path = search_valid_path(path_split[0], envp);
-	free_array(path_split, array_len(path_split));
 	return (path);
 }
 
 void	execute_command_for_node_function(char *path,
-			char **tokens, char **envp, t_ast_node *node)
+			char **tokens, char **envp)
 {
 	int		status;
 	pid_t	pid;
@@ -95,7 +99,7 @@ void	execute_command_for_node_function(char *path,
 		return ;
 	if (pid == 0)
 	{
-		valid_outfile_and_path(tokens[0], node, path);
+		valid_outfile_and_path(tokens[0], path);
 		if (execve(path, tokens, envp) == -1)
 			exit(127);
 		exit(0);

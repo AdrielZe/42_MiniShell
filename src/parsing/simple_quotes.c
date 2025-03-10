@@ -14,22 +14,19 @@
 
 void	get_cmd(t_ast_node *node, char **cmd, char ***tokens)
 {
-	*cmd = ft_strtrim(node->value, "'");
-	if (!*cmd)
-		return ;
-	*tokens = split_with_quotes(*cmd);
+	int	i;
+
+	i = 0;
+	*tokens = split_with_quotes(node->value);
 	if (!*tokens)
-	{
-		free(*cmd);
 		return ;
-	}
+	*cmd = *tokens[0];
 }
 
 void	if_not_path(char *cmd, char **tokens)
 {
-	printf("minishell: %s: command not found\n", cmd);
+	printf("minishell: %s: command sdfsdfnot found\n", cmd);
 	add_exitcode(127);
-	free(cmd);
 	free_array(tokens, array_len(tokens));
 }
 
@@ -50,7 +47,14 @@ void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 	char	*built[1];
 
 	built[0] = "PATH=built-ins";
+	printf("commands are : %s\n", cmd);
 	get_cmd(node, &cmd, &tokens);
+	int i = 0;
+	while (tokens[i])
+	{
+	 	printf("TOKEN: %s\n", tokens[i]);
+		i++;
+	}
 	path = search_valid_path(cmd, built);
 	if (!path)
 		path = search_valid_path(cmd, envp);
@@ -60,20 +64,43 @@ void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 		return ;
 	}
 	open_pid(&pid);
+
 	if (pid == 0)
 	{
-		valid_outfile_and_path(cmd, node, path);
-		free(cmd);
+		valid_outfile_and_path(cmd, path);
+		//f/ree(cmd);
 		if (execve(path, tokens, envp) == -1)
+		{
+			perror("execve failed\n");
 			exit(127);
+		}
 		exit(0);
 	}
-	free_elements_and_wait_child(path, cmd, tokens, pid);
+	waitpid(pid, NULL, 0);
+	//free_elements_and_wait_child(path, cmd, tokens, pid);
 }
 
 void	handle_simple_quote_node(t_ast_node *node, char **envp)
 {
+	char	*command_to_execute;
+	char	**split_values;
+	char	*search_result;
+	char	**split_path;
+
+	rmv_quotes_set_cmd(node, &split_values, &command_to_execute);
+	search_result = search_valid_path(command_to_execute, envp);
 	if (!node->value || node->value[0] == '\0')
 		return ;
+	if (ft_strchr(node->value, '/') != NULL)
+	{
+		if (control_command_execution_with_slash(&split_path,
+				node, envp) == 1)
+			return ;
+		else if (not_result_msg_free(search_result,
+				node, split_values, command_to_execute) == 1)
+			return ;
+		else
+			execute_simple_quote_node(node, node->value, envp);
+	}
 	execute_simple_quote_node(node, node->value, envp);
 }

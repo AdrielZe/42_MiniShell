@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_direction.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/07 02:22:36 by marvin           ###   ########.fr       */
+/*   Updated: 2025/03/10 16:14:53 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,15 @@ void	get_cmd_to_execute(t_ast_node *node,
 }
 
 void	free_resources(t_ast_node *node,
-		char **split_values, char *search_result)
+		char **split_values)
 {
 	if (node->type == NODE_COMMAND)
-		free_split(split_values);
-	free(search_result);
+	{
+		if (split_values)
+			free_split(split_values);
+	}
+	// if (search_result)
+	// 	free(search_result);
 }
 
 void	get_cmds_to_execute(char **old_temp,

@@ -12,8 +12,8 @@
 
 #include "../headers/main.h"
 
-void	not_found_msg_and_free(t_ast_node *node,
-			char *search_result, char **split_values, char *command_to_execute)
+void	not_found_msg_and_free(t_ast_node *node, char *search_result,
+					char **split_values, char *command_to_execute)
 {
 	printf("minishell: %s: command not found\n", command_to_execute);
 	add_exitcode(127);
@@ -27,7 +27,10 @@ void	not_found_msg_and_free(t_ast_node *node,
 void	handle_env_var(t_ast_node *node, char **envp, char *old_string)
 {
 	if (ft_strcmp(old_string, node->value) != 0)
+	{
+		printf("NDOE VALUE %s\n", node->value);
 		check_and_execute_if_is_cmd(node, envp);
+	}
 	else
 		execute_regular_cmd(node, envp);
 }
@@ -37,13 +40,17 @@ void	process_command_execution(t_ast_node *node,
 {
 	if (if_cd(node->value, envp, node))
 	{
-		free(old_string);
-		free_split(split_result);
+		if (old_string)
+			free(old_string);
+		if (split_result)
+			free_split(split_result);
 		return ;
 	}
 	handle_env_var(node, envp, old_string);
-	free(old_string);
-	free_split(split_result);
+	if (old_string)
+		free(old_string);
+	if (split_result)
+		free_split(split_result);
 }
 
 void	free_env_and_array(char *env_result, char **env_processed)

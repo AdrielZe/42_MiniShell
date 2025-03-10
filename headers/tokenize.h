@@ -31,6 +31,14 @@ typedef enum e_token_typeh
 	TOKEN_COMMAND,
 }	t_token_type;
 
+typedef struct s_word_data
+{
+	char	**old_string;
+	int		*is_executable;
+	int		*i;
+	char	***array;
+}	t_word_data;
+
 typedef struct s_tokens
 {
 	t_token_type	type;
@@ -55,19 +63,18 @@ void		free_array(char **array, int i);
 char		*allocate_word(const char *s, int len);
 size_t		ft_count_word(const char *s);
 char		*process_quotes(const char **s);
-char		**tokenize(const char *s);
+char		**tokenize(const char *s, char **envp);
 
 //src/tokenize/tokenize_2.c
 void		skip_spaces_and_alloc_elements(const char **s,
 				char ***array, int *i);
 void		alloc_new_word_in_array(char ***array, int *i,
 				char *new_word, char **old_string);
-int			should_merge_token(char **array, int i,
-				int is_string);
+int			should_merge_token(int is_string);
 void		merge_last_token(char ***array, int i, char *new_word);
 
 //src/tokenize/tokenize_3.c
-void		process_words(const char **s, char ***array, int *i);
+void		process_words(const char **s, char ***array, int *i, char **envp);
 
 //src/tokenize/tokenize_alloc_tokens.c
 void		alloc_heredoc(const char **s, char ***array, int *i);
@@ -75,4 +82,11 @@ void		alloc_append(const char **s, char ***array, int *i);
 void		alloc_pipe(const char **s, char ***array, int *i);
 void		alloc_outfile(const char **s, char ***array, int *i);
 void		alloc_infile(const char **s, char ***array, int *i);
+
+void		handle_word_quotes(char *new_word, int *is_executable, char **envp, int index);
+void		process_new_word(char *new_word, t_word_data *data);
+void		set_word_data(t_word_data *data, char *old_string, int is_executable, int *i);
+int		control_quotes(const char *new_word);
+void	check_if_is_string(char *new_word, t_word_data *data, int *is_string);
+
 #endif

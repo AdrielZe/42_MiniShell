@@ -20,7 +20,8 @@ void	free_ast(t_ast_node *node)
 		free_ast(node->left);
 	if (node->right)
 		free_ast(node->right);
-	free(node->value);
+	if (node->value)
+		free(node->value);
 	free(node);
 }
 
@@ -45,7 +46,7 @@ t_ast_node	*create_node(t_node_type type, char *value)
 	}
 	else
 	{
-		free(node->value);
+		//free(node->value);
 		node->value = NULL;
 	}
 	node->left = NULL;
@@ -86,15 +87,7 @@ void	handle_cmd_or_word_token(t_tokens *tokens,
 	char	*token_value;
 
 	if (tokens->type == TOKEN_WORD)
-	{
-		if (tokens->value)
-		{
-			token_value = extract_word(&tokens->value);
-			if (token_value)
-				tokens->value = token_value;
-		}
 		create_word_node(root, current, tokens);
-	}
 	else
 		create_command_node(root, current, tokens);
 }

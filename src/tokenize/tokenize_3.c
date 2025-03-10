@@ -13,7 +13,7 @@
 #include "../../headers/tokenize.h"
 #include "../../headers/parsing.h"
 
-static void	get_new_word(char **new_word, const char **s, char ***array, int *i)
+void	get_new_word(char **new_word, const char **s, char ***array, int *i)
 {
 	*new_word = process_quotes(s);
 	if (!*new_word)
@@ -23,71 +23,69 @@ static void	get_new_word(char **new_word, const char **s, char ***array, int *i)
 	}
 }
 
-void	print_array(char **array)
+void	check_if_is_string(char *new_word, t_word_data *data, int *is_string)
 {
-	int	j;
-
-	j = 0;
-	printf("Array atual:\n");
-	if (!array)
-	{
-		printf("Array é NULL\n");
-		return ;
-	}
-	while (array[j])
-	{
-		printf("[%d] %s\n", j, array[j]);
-		j++;
-	}
-	printf("\n");
-}
-
-void check_if_is_string(char *new_word, char **old_string, int *is_string, int len)
-{
-	char quote_type = 0;
-
-	if (*is_string && *old_string)
-		quote_type = (*old_string)[0];
-
-
-	if (ft_strlen(new_word) > 1 && (new_word[0] == '\''
-			&& new_word[ft_strlen(new_word) - 1] == '\'') ||
-			(new_word[0] == '"'
-			&& new_word[ft_strlen(new_word) - 1] == '"'))
+	if ((ft_strlen(new_word) > 1 && ((new_word[0] == '\''
+					&& new_word[ft_strlen(new_word) - 1] == '\'')
+				|| (new_word[0] == '"'
+					&& new_word[ft_strlen(new_word) - 1] == '"'))))
 		*is_string = 1;
-	if (*old_string)
-		free(*old_string);
-	*old_string = ft_strdup(new_word);
+	data->old_string = &new_word;
+	if (data->old_string == NULL)
+	{
+		perror("ft_strdup failed");
+		exit(EXIT_FAILURE);
+	}
 }
 
-void	process_words(const char **s, char ***array, int *i) {
-	char *old_string;
-	char *new_word;
-	int is_string;
-	int len;
+void	remove_quotes(char *str)
+{
+	char	*read;
+	char	*write;
 
-	is_string = 0;
+	read = str;
+	write = str;
+	if (!str)
+		return;
+	while (*read)
+	{
+		if (*read != '"' && *read != '\'')
+		{
+			*write = *read;
+			write++;
+		}
+		read++;
+	}
+	*write = '\0';
+}
+
+void	process_words(const char **s, char ***array, int *i, char **envp)
+{
+	char		*old_string;
+	char		*new_word;
+	static int	is_executable = 0;
+	t_word_data	data;
+
+	data.old_string = NULL;
+	data.is_executable = &is_executable;
+	data.i = i;
+	data.array = array;
+	new_word = NULL;
 	old_string = NULL;
 	while (**s)
 	{
+
 		skip_spaces_and_alloc_elements(s, array, i);
-		if (*s == NULL)
-		break;
+		if (!**s)
+			return ;
 		get_new_word(&new_word, s, array, i);
-		len = ft_strlen(new_word);
-		check_if_is_string(new_word, &old_string, &is_string, len);
-		if (*i == 0) 
+		if (!new_word)
 		{
-			alloc_new_word_in_array(array, i, new_word, &old_string);
-			is_string = 0;
+			free_array(*array, array_len(*array));
+			return ;
 		}
-		else if (should_merge_token(*array, *i, is_string) == 1)
-		{
-			merge_last_token(array, *i, new_word);
-			is_string = 0;
-			old_string = NULL;
-		} else 
-			alloc_new_word_in_array(array, i, new_word, &old_string);
-		free(old_string);
+		process_new_word(new_word, &data);
+		handle_word_quotes(new_word, &is_executable, envp, *i);
 	}
+	free(old_string);
 }

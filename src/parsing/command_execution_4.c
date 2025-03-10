@@ -26,18 +26,22 @@ int	if_cd(char *cmd, char **envp, t_ast_node *node)
 	else if (ft_strcmp(split_cmd[0], "cd") == 0)
 	{
 		cd(split_cmd);
+		free_array(split_cmd, array_len(split_cmd));
 		return (1);
 	}
 	else if (ft_strcmp(split_cmd[0], "export") == 0)
 	{
 		export(split_cmd, envp);
+		free_array(split_cmd, array_len(split_cmd));
 		return (1);
 	}
 	else if (ft_strcmp(split_cmd[0], "unset") == 0)
 	{
 		unset(split_cmd);
+		free_array(split_cmd, array_len(split_cmd));
 		return (1);
 	}
+	free_array(split_cmd, array_len(split_cmd));
 	return (0);
 }
 
@@ -53,9 +57,13 @@ void	handle_command_node(t_ast_node *node, char **envp)
 	is_env_var = (split_result && ft_strchr(split_result[0], '$') != NULL);
 	old_string = ft_strdup(node->value);
 	if (node->type != NODE_SIMPLE_QUOTE)
+	{
+		printf("node valeu em handle command node: %s\n", node->value);
+		printf("processing env var\n");
 		node->value = process_env_var(node->value);
+	}
 	if (is_env_var)
-		when_only_env_var(node, envp, old_string);
+		when_only_env_var(node, envp);
 	else
 		process_command_execution(node, envp, old_string, split_result);
 }
@@ -82,24 +90,18 @@ void	check_if_is_cmd_or_dir(t_ast_node *node, char **envp)
 
 void	handle_node_value(t_ast_node *node, char **envp, char *old_string)
 {
-	char	*cmd;
 	char	**split_cmd;
-	char	**arr;
 
 	split_cmd = ft_split(node->value, ' ');
 	if (found_env_var(node, old_string) == 1)
 	{
-		if (node->type == NODE_COMMAND)
-			cmd = split_cmd[0];
-		else if (node->type == NODE_WORD)
-			cmd = node->value;
 		handle_found_env_var(node, envp, old_string);
 		free_array(split_cmd, array_len(split_cmd));
 		return ;
 	}
 	else
 	{
-		handle_not_found_env_var(node, envp, arr);
+		handle_not_found_env_var(node, envp);
 		free_array(split_cmd, array_len(split_cmd));
 	}
 }

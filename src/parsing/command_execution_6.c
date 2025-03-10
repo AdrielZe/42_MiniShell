@@ -26,7 +26,7 @@ void	free_split(char **split)
 }
 
 void	search_for_cmd_in_array(t_ast_node *node, char **temp,
-			char ***arr_not_envp, char **arr)
+			char ***arr_not_envp)
 {
 	*temp = "";
 	*arr_not_envp = ft_split(node->value, ' ');
@@ -36,13 +36,13 @@ void	search_for_cmd_in_array(t_ast_node *node, char **temp,
 	free_array(*arr_not_envp, array_len(*arr_not_envp));
 }
 
-void	handle_not_found_env_var(t_ast_node *node, char **envp, char **arr)
+void	handle_not_found_env_var(t_ast_node *node, char **envp)
 {
 	char	*temp;
 	char	**arr_not_envp;
 	char	**value_to_search;
 
-	search_for_cmd_in_array(node, &temp, &arr_not_envp, arr);
+	search_for_cmd_in_array(node, &temp, &arr_not_envp);
 	if (temp == NULL || ft_strcmp(temp, "") == 0)
 		return ;
 	update_node_value(node, temp);

@@ -12,7 +12,7 @@
 
 #include "../headers/main.h"
 
-void	valid_outfile_and_path(char *cmd, t_ast_node *node, char *path)
+void	valid_outfile_and_path(char *cmd, char *path)
 {
 	if (!path)
 	{
@@ -79,13 +79,14 @@ void	execute_node_command(t_ast_node *node, char *cmd, char **envp)
 	if (!tokens)
 		return ;
 	path = resolve_path(updated_cmd, envp);
+	printf("PATH: %s\n", path);
 	if (!path)
 	{
+		free(updated_cmd);
 		free_array(tokens, array_len(tokens));
 		return ;
 	}
-	execute_command_for_node_function(path, tokens, envp, node);
-	free(path);
+	execute_command_for_node_function(path, tokens, envp);
 	free_array(tokens, array_len(tokens));
 }
 
@@ -93,26 +94,21 @@ void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
 {
 	char	**tokens;
 	char	*path;
-	pid_t	pid;
 	char	**cmd_to_split;
 	char	*built[1];
 	int		status;
 
-	built[0] = "PATH=built-ins";
 	setup_tokens_and_commands(node, &tokens, &cmd, &cmd_to_split);
+	int i = 0;
+	built[0] = "PATH=built-ins";
 	path = search_valid_path(cmd_to_split[0], built);
 	if (!path)
 		path = search_valid_path(cmd_to_split[0], envp);
-	free_array(cmd_to_split, array_len(cmd_to_split));
-	open_pid(&pid);
-	if (pid == 0)
-	{
-		valid_outfile_and_path(cmd, node, path);
-		if (execve(path, tokens, envp) == -1)
-			exit(127);
-	}
-	waitpid (pid, &status, 0);
+	printf("eu aqui neh\n");
+	status = execute_command_for_word_node(path, tokens, envp);
 	add_exitcode(WEXITSTATUS(status));
-	free(path);
-	free_array(tokens, array_len(tokens));
+	if (path)
+		free(path);
+	if (tokens)
+		free_array(tokens, array_len(tokens));
 }

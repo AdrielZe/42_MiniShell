@@ -12,7 +12,7 @@
 
 #include "../headers/main.h"
 
-static void	left_process(int *pipe, t_ast_node *node,
+void	left_process(int *pipe, t_ast_node *node,
 		t_delim *delimiters, char **envp)
 {
 	t_ast_node	*current;
@@ -41,7 +41,7 @@ static void	left_process(int *pipe, t_ast_node *node,
 	exit(0);
 }
 
-static void	right_process(int *pipe, t_ast_node *node, char **envp)
+void	right_process(int *pipe, t_ast_node *node, char **envp)
 {
 	if (!node || !node->right)
 		return ;
@@ -60,7 +60,7 @@ static void	right_process(int *pipe, t_ast_node *node, char **envp)
 	exit(0);
 }
 
-static void	open_left_pipe(int *pipefd, pid_t *pid_left)
+void	open_left_pipe(int *pipefd, pid_t *pid_left)
 {
 	if (pipe(pipefd) == -1)
 	{
@@ -75,7 +75,7 @@ static void	open_left_pipe(int *pipefd, pid_t *pid_left)
 	}
 }
 
-static void	open_right_pipe(pid_t *pid_right)
+void	open_right_pipe(pid_t *pid_right)
 {
 	*pid_right = fork();
 	if (*pid_right < 0)
@@ -96,22 +96,5 @@ void	parse_commands(t_ast_node *node, char **envp)
 	if (!node)
 		return ;
 	delimiters = NULL;
-	if (node->type == NODE_PIPE)
-	{
-		delimiters = get_all_delimiters(node);
-		open_left_pipe(pipefd, &pid_left);
-		if (pid_left == 0)
-			left_process(pipefd, node, delimiters, envp);
-		waitpid(pid_left, NULL, 0);
-		open_right_pipe(&pid_right);
-		if (pid_right == 0)
-			right_process(pipefd, node, envp);
-		close_pipefd(pipefd);
-		waitpid(pid_left, &status, 0);
-		waitpid(pid_right, NULL, 0);
-		add_exitcode(WEXITSTATUS(status));
-		free_delimiters(delimiters);
-	}
-	else
-		handle_node_types(node, envp, &delimiters);
+	handle_node_types(node, envp, &delimiters);
 }
