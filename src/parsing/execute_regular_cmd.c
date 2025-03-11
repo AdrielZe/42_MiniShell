@@ -30,6 +30,11 @@ int	control_command_execution_with_slash(char ***split_path,
 	*split_path = ft_split(cmd_value, ' ');
 	if (!*split_path)
 		return (1);
+	if (ft_strcmp(*split_path[0], "/") == 0)
+	{
+		printf("/: is a directory\n");
+		return (1);
+	}
 	if (search_valid_path(*split_path[0], envp) != NULL)
 	{
 		execute_command(cmd_value, envp, node);

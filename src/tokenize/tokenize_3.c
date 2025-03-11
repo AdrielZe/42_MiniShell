@@ -74,7 +74,6 @@ void	process_words(const char **s, char ***array, int *i, char **envp)
 	old_string = NULL;
 	while (**s)
 	{
-
 		skip_spaces_and_alloc_elements(s, array, i);
 		if (!**s)
 			return ;
