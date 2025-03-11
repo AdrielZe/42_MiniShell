@@ -25,6 +25,8 @@
 struct	s_tokens;
 struct	s_ast_node;
 
+int* get_heredoc_status(void);
+void	sigint_heredoc_action(int sig);
 //src/main.c
 int		array_len(char **array);
 

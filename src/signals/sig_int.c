@@ -24,7 +24,6 @@ void	handle_sigint(int sig)
 	rl_redisplay();
 	write(1, "\n> ", 3);
 }
-
 void	handle_ctrl_d(char **envp_copy, t_tokens **token_list, t_ast_node *root)
 {
 	write(1, "Exiting minishell\n", 19);
@@ -40,4 +39,12 @@ void	handle_ctrl_d(char **envp_copy, t_tokens **token_list, t_ast_node *root)
 	rl_clear_history();
 	clear_history();
 	exit(0);
+}
+void sigint_heredoc_action(int sig)
+{
+    if (sig == SIGINT)
+    {
+        ft_putchar_fd('\n', 1);
+        exit(EXIT_FAILURE); // Sai com falha para indicar interrupção
+    }
 }
