@@ -73,7 +73,6 @@ static t_ast_node	*process_ast(t_ast_node **root, t_tokens **token_list, char **
 	if(check_syntax(*token_list, envp))
 	{
 		*root = build_ast(*token_list);
-		print_list(*token_list);
 		clear_token_list(token_list);
 		parse_commands(*root, envp);
 	}

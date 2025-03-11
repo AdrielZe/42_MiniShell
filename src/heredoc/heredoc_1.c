@@ -59,7 +59,6 @@ void read_heredoc(int *pipefd, t_delim *delimiters)
                 current = current->next;
                 break;
             }
-	     printf("testando");
             write_and_free_input(pipefd, input);
         }
     }
