@@ -90,7 +90,6 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 	char	**split_path;
 
 	rmv_quotes_set_cmd(node, &split_values, &command_to_execute);
-        printf("commandto execute: %s\n", command_to_execute);
 	search_result = search_valid_path(command_to_execute, envp);
 	if (!node->value || node->value[0] == '\0')
 		return ;
@@ -105,7 +104,6 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 		else
 			execute_simple_quote_node(node, node->value, envp);
 	}
-	printf("Está chegando ate auqisim \n");
 	execute_simple_quote_node(node, node->value, envp);
 }
 

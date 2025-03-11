@@ -23,6 +23,14 @@ typedef struct s_delim
 	struct s_delim	*next;
 }	t_delim;
 
+typedef struct s_heredoc_data
+{
+    int *pipefd;         // Ponteiro para o array de file descriptors do pipe
+    t_delim *delimiters; // Lista de delimitadores (corrigido para t_delim *)
+} t_heredoc_data;
+
+
+t_heredoc_data *get_heredoc_data(void);
 typedef enum e_node_type
 {
 	NODE_WORD,

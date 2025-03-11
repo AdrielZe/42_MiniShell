@@ -74,8 +74,6 @@ char *process_env_var(char *input)
 
     index = 0;
     in_single_quotes = 0;
-    printf("this is the input: %s\n", input);
-    
     while (input && input[index])
     {
         if (input[index] == '\'')

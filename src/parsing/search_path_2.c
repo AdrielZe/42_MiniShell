@@ -17,7 +17,7 @@ void	valid_outfile_and_path(char *cmd, char *path)
 	if (!path)
 	{
 		ft_putstr_fd(cmd, STDERR_FILENO);
-		ft_putstr_fd(" :command not found\n", STDERR_FILENO);
+		ft_putstr_fd(" :commannd not found\n", STDERR_FILENO);
 		exit(127);
 	}
 }
@@ -79,7 +79,6 @@ void	execute_node_command(t_ast_node *node, char *cmd, char **envp)
 	if (!tokens)
 		return ;
 	path = resolve_path(updated_cmd, envp);
-	printf("PATH: %s\n", path);
 	if (!path)
 	{
 		free(updated_cmd);
@@ -104,7 +103,6 @@ void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
 	path = search_valid_path(cmd_to_split[0], built);
 	if (!path)
 		path = search_valid_path(cmd_to_split[0], envp);
-	printf("eu aqui neh\n");
 	status = execute_command_for_word_node(path, tokens, envp);
 	add_exitcode(WEXITSTATUS(status));
 	if (path)

@@ -57,17 +57,21 @@ t_delim	*get_all_delimiters(t_ast_node *node)
 
 void	check_all_commands(t_ast_node *node, char **envp)
 {
+	char *cmd;
+
 	if (!node)
 		return ;
 	if (node->type == NODE_PIPE)
 	{
 		while (node->type != NODE_COMMAND)
 			node = node->left;
-		if (!search_valid_path(node->value, envp))
+		cmd = ft_strtrim(node->value, " ");
+		if (search_valid_path(cmd, envp) == NULL)
 		{
-			printf("command not found: %s\n", node->value);
-			add_exitcode(127);
+			printf("minishell: %s: command not found\n", cmd);
+			free(cmd);
 		}
+		// add_exitcode(127);
 	}
 	check_all_commands(node->left, envp);
 	check_all_commands(node->right, envp);

@@ -11,6 +11,14 @@
 /* ************************************************************************** */
 
 #include "../headers/main.h"
+#include <signal.h>
+
+t_heredoc_data *get_heredoc_data(void)
+{
+    static t_heredoc_data data = {NULL, NULL}; // Inicializa como NULL
+
+    return (&data);
+}
 
 static void	protect_fork(pid_t *pid)
 {
@@ -36,73 +44,92 @@ static void	open_heredoc_pipe(int *pipefd, pid_t *pid)
 	}
 }
 
-void	read_heredoc(int *pipefd, t_delim *delimiters)
+void read_heredoc(int *pipefd, t_delim *delimiters)
 {
-	char	*input;
-	t_delim	*current;
+    char *input;
+    t_delim *current;
 
-	current = delimiters;
-	while (current)
-	{
-		while (1)
-		{
-			display_input_line(&input);
-			if (!input)
-			{
-				close_pipefd(pipefd);
-				free_delimiters(delimiters);
-				exit(1);
-			}
-			if (ft_strcmp(input, current->delimiter) == 0)
-			{
-				current = current->next;
-				break ;
-			}
-			write_and_free_input(pipefd, input);
-		}
-	}
-	close_pipefd(pipefd);
-	exit(0);
+t_heredoc_data *data = get_heredoc_data();
+    data->pipefd = pipefd;
+    data->delimiters = delimiters;
+    current = delimiters;
+
+    while (current)
+    {
+        while (1)
+        {
+            display_input_line(&input);
+            if (!input) // EOF (Ctrl+D)
+            {
+                close_pipefd(pipefd);
+                free_delimiters(delimiters);
+                exit(1);
+            }
+            if (ft_strcmp(input, current->delimiter) == 0)
+            {
+                free(input);
+                current = current->next;
+                break;
+            }
+            write_and_free_input(pipefd, input);
+        }
+    }
+    cleanup_heredoc();
+    close_pipefd(pipefd);
+// Mudar para o handler do heredoc
+
+    exit(0);
 }
 
-void	execute_command_with_heredoc(int *pipefd,
-			pid_t pid, t_ast_node *node, char **envp)
+void execute_command_with_heredoc(int *pipefd, pid_t pid, t_ast_node *node, char **envp)
 {
-	t_ast_node	*current;
-	int			pipe_found;
+    t_ast_node *current;
+    int pipe_found;
+    int status;
 
-	current = node;
-	pipe_found = 0;
-	waitpid(pid, NULL, 0);
-	close(pipefd[1]);
-	pid = fork();
-	protect_fork(pipefd);
-	if (pid == 0)
-	{
-		dup2(pipefd[0], STDIN_FILENO);
-		close(pipefd[0]);
-		close(pipefd[1]);
-		handle_nodes_to_execute_command(current, pipe_found, node, envp);
-		check_all_commands(node, envp);
-		exit(1);
-	}
-	close(pipefd[0]);
-	waitpid(pid, NULL, 0);
+    current = node;
+    pipe_found = 0;
+    pid = fork();
+    protect_fork(&pid); // Corrige: passa o endereço de pid
+    if (pid == 0)
+    {
+        dup2(pipefd[0], STDIN_FILENO);
+        close(pipefd[0]);
+        handle_nodes_to_execute_command(current, pipe_found, node, envp);
+        check_all_commands(node, envp);
+        exit(1);
+    }
+    close(pipefd[0]); // Fecha a extremidade de leitura no pai
+    waitpid(pid, &status, 0);
 }
 
-void	handle_heredoc(t_ast_node *node, char **envp)
+void handle_heredoc(t_ast_node *node, char **envp)
 {
-	t_delim	*delim_list;
-	pid_t	pid;
-	int		pipefd[2];
+    t_delim *delim_list;
+    pid_t pid;
+    int pipefd[2];
+    int status;
 
-	open_heredoc_pipe(pipefd, &pid);
-	if (pid == 0)
-	{
-		delim_list = get_all_delimiters(node);
-		read_heredoc(pipefd, delim_list);
-	}
-	close(pipefd[0]);
-	close(pipefd[1]);
-	execute_command_with_heredoc(pipefd, pid, node, envp);
+    open_heredoc_pipe(pipefd, &pid);
+    set_signal_handler(SIG_IGN); // O pai ignora SIGINT temporariamente
+    if (pid == 0)
+    {
+		set_signal_handler(sigint_heredoc_action); 
+// Mudar para o handler do heredoc
+
+       // signal(SIGINT, sigint_heredoc_action);
+        delim_list = get_all_delimiters(node);
+        read_heredoc(pipefd, delim_list);
+        free_delimiters(delim_list);
+        exit(0);
+    }
+//     signal(SIGINT, SIG_IGN);
+    close(pipefd[1]);
+    waitpid(pid, &status, 0);
+    if (WIFEXITED(status) && WEXITSTATUS(status) == 0)
+    {
+        execute_command_with_heredoc(pipefd, pid, node, envp);
+    }
+    close(pipefd[0]);
+set_signal_handler(handle_sigint); 
 }

@@ -65,7 +65,10 @@ int	cd(char *argv[])
 		return (1);
 	}
 	else
+	{
+		perror("cd");
 		add_exitcode(127);
+	}
 	return (0);
 }
 

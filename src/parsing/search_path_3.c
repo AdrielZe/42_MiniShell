@@ -35,6 +35,8 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 		execute_word_node(node, cmd, envp);
 	else if (node->type == NODE_SIMPLE_QUOTE)
 		execute_simple_quote_node(node, cmd, envp);
+	else if (node->type == NODE_HEREDOC)
+		execute_node_command(node, cmd, envp);
 	dup2(saved_stdin, STDIN_FILENO);
 	dup2(saved_stdout, STDOUT_FILENO);
 	close(saved_stdin);
@@ -82,7 +84,6 @@ char	*resolve_path(char *cmd, char **envp)
 		return (NULL);
 	}
 	path = search_valid_path(path_split[0], built);
-	printf("path in resolve_path: %s\n", path);
 	if (!path)
 		path = search_valid_path(path_split[0], envp);
 	return (path);
@@ -101,7 +102,10 @@ void	execute_command_for_node_function(char *path,
 	{
 		valid_outfile_and_path(tokens[0], path);
 		if (execve(path, tokens, envp) == -1)
+		{
+			printf("minishell: %s: is a directory\n", tokens[0]);
 			exit(127);
+		}
 		exit(0);
 	}
 	waitpid(pid, &status, 0);

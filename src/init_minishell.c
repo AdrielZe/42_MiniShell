@@ -58,7 +58,7 @@ int	check_syntax(t_tokens *tokens, char **envp)
             }
 		if(current->type == TOKEN_PIPE)
 		{
-			if(!current->next || current->next->type == TOKEN_PIPE)
+			if(!current->next || current->next && current->next->type == TOKEN_PIPE)
 			{
 				printf("Erro de sintaxe: pipes.\n");
 				return (0);
@@ -78,7 +78,6 @@ static t_ast_node	*process_ast(t_ast_node **root, t_tokens **token_list, char **
 	if(check_syntax(*token_list, envp))
 	{
 		*root = build_ast(*token_list);
-		print_list(*token_list);
 		clear_token_list(token_list);
 		parse_commands(*root, envp);
 	}
@@ -94,10 +93,12 @@ void	init_shell(char ***token, t_tokens **token_list, char
 			**envp, t_ast_node **root)
 {
 	char	*input;
+int i = 0;
 
 	*token = NULL;
 	while (1)
 	{
+ 		set_signal_handler(handle_sigint); // Usar o handler padrão do shell
 		manage_rl_input(&input, envp, token_list, *root);
 		if (!input || ft_strlen(input) == 0)
 		{

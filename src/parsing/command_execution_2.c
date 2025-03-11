@@ -41,9 +41,16 @@ void	handle_pipe_node(t_ast_node *node, char **envp)
 
 	delimiters = get_all_delimiters(node);
 	open_left_pipe(pipefd, &pid_left);
+	 set_signal_handler(SIG_IGN);
 	if (pid_left == 0)
+	{
 		left_process(pipefd, node, delimiters, envp);
-	waitpid(pid_left, NULL, 0);
+	 	set_signal_handler(handle_sigint);
+
+	}
+	waitpid(pid_left, &status, 0);
+	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
+		return ;
 	open_right_pipe(&pid_right);
 	if (pid_right == 0)
 		right_process(pipefd, node, envp);
@@ -70,7 +77,6 @@ void	handle_node_types(t_ast_node *node, char **envp, t_delim **delimiters)
 		handle_command_node(node, envp);
 	else if (node->type == NODE_SIMPLE_QUOTE)
 	{
-		printf("Chamou\n");
 		handle_simple_quote_node(node, envp);
 	}
 }
