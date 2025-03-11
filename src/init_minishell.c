@@ -84,10 +84,12 @@ void	init_shell(char ***token, t_tokens **token_list, char
 			**envp, t_ast_node **root)
 {
 	char	*input;
+int i = 0;
 
 	*token = NULL;
 	while (1)
 	{
+ 		signal(SIGINT, handle_sigint);
 		manage_rl_input(&input, envp, token_list, *root);
 		if (!input || ft_strlen(input) == 0)
 		{

@@ -24,6 +24,7 @@ void	left_process(int *pipe, t_ast_node *node,
 		{
 			delimiters = get_all_delimiters(current);
 			read_heredoc(pipe, delimiters);
+			return ;
 		}
 		current = current->left;
 	}
