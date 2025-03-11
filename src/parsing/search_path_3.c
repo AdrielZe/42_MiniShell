@@ -29,8 +29,6 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 		dup2(node->infile, STDIN_FILENO);
 		close(node->infile);
 	}
-          printf("executing : %s\n", cmd);
-         printf("NODE TYPE: %d\n", node->type);
 	if (node->type == NODE_COMMAND)
 		execute_node_command(node, cmd, envp);
 	else if (node->type == NODE_WORD)
@@ -86,7 +84,6 @@ char	*resolve_path(char *cmd, char **envp)
 		return (NULL);
 	}
 	path = search_valid_path(path_split[0], built);
-	printf("path in resolve_path: %s\n", path);
 	if (!path)
 		path = search_valid_path(path_split[0], envp);
 	return (path);

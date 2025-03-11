@@ -30,8 +30,6 @@ int	control_command_execution_with_slash(char ***split_path,
 	*split_path = ft_split(cmd_value, ' ');
 	if (!*split_path)
 		return (1);
-	printf("CMED VALUE IS %s\n", cmd_value);
-	printf("why are tyou %s\n", *split_path[0]);
 	if (search_valid_path(*split_path[0], envp) != NULL)
 	{
 		execute_command(cmd_value, envp, node);

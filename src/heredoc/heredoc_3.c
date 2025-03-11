@@ -20,7 +20,6 @@ void	handle_nodes_to_execute_command(t_ast_node *current, int pipe_found,
 		current = current->left;
 		if (current->type == NODE_PIPE && pipe_found == 0)
 		{
-			printf("executing command (DIFF) : %s\n", node->value);
 			pipe_found = 1;
 			if (node->right->outfile)
 				dup2(node->right->outfile, STDOUT_FILENO);
@@ -31,7 +30,6 @@ void	handle_nodes_to_execute_command(t_ast_node *current, int pipe_found,
 	{
 		if (current->type == NODE_COMMAND && pipe_found == 0)
 		{
-		printf("CURRENT: %s\n", current->value);
 			if (node->right->outfile)
 				dup2(node->right->outfile, STDOUT_FILENO);
 			execute_command(current->value, envp, node);
