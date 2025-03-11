@@ -62,8 +62,6 @@ void	clear_token_list(t_tokens **token_list)
 		current = next;
 	}
 	*token_list = NULL;
-	free(token_list);
-	token_list = NULL;
 }
 
 static void	create_tokens(char *token_value, t_tokens **token_list)
