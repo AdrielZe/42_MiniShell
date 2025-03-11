@@ -29,12 +29,16 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 		dup2(node->infile, STDIN_FILENO);
 		close(node->infile);
 	}
+          printf("executing : %s\n", cmd);
+         printf("NODE TYPE: %d\n", node->type);
 	if (node->type == NODE_COMMAND)
 		execute_node_command(node, cmd, envp);
 	else if (node->type == NODE_WORD)
 		execute_word_node(node, cmd, envp);
 	else if (node->type == NODE_SIMPLE_QUOTE)
 		execute_simple_quote_node(node, cmd, envp);
+	else if (node->type == NODE_HEREDOC)
+		execute_node_command(node, cmd, envp);
 	dup2(saved_stdin, STDIN_FILENO);
 	dup2(saved_stdout, STDOUT_FILENO);
 	close(saved_stdin);

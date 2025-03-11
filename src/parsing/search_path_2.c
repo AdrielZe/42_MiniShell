@@ -17,7 +17,7 @@ void	valid_outfile_and_path(char *cmd, char *path)
 	if (!path)
 	{
 		ft_putstr_fd(cmd, STDERR_FILENO);
-		ft_putstr_fd(" :command not found\n", STDERR_FILENO);
+		ft_putstr_fd(" :commannd not found\n", STDERR_FILENO);
 		exit(127);
 	}
 }
