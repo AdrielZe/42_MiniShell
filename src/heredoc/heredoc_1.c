@@ -101,6 +101,7 @@ void execute_command_with_heredoc(int *pipefd, pid_t pid, t_ast_node *node, char
     }
     close(pipefd[0]); // Fecha a extremidade de leitura no pai
     waitpid(pid, &status, 0);
+	add_exitcode(WEXITSTATUS(status));
 }
 
 void handle_heredoc(t_ast_node *node, char **envp)

@@ -45,6 +45,7 @@ void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 	char	*path;
 	pid_t	pid;
 	char	*built[1];
+	int		status;
 
 	built[0] = "PATH=built-ins";
 	get_cmd(node, &cmd, &tokens);
@@ -69,7 +70,8 @@ void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 		}
 		exit(0);
 	}
-	waitpid(pid, NULL, 0);
+	waitpid(pid, &status, 0);
+	add_exitcode(WEXITSTATUS(status));
 	//free_elements_and_wait_child(path, cmd, tokens, pid);
 }
 

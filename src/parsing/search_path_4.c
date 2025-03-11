@@ -29,5 +29,6 @@ int	execute_command_for_word_node(char *path, char **tokens, char **envp)
 		}
 	}
 	waitpid(pid, &status, 0);
+	add_exitcode(WEXITSTATUS(status));
 	return (status);
 }
