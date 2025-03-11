@@ -44,7 +44,6 @@ void	handle_pipe_node(t_ast_node *node, char **envp)
 	 set_signal_handler(SIG_IGN);
 	if (pid_left == 0)
 	{
-		printf("executing left process\n");
 		left_process(pipefd, node, delimiters, envp);
 	 	set_signal_handler(handle_sigint);
 
@@ -54,10 +53,7 @@ void	handle_pipe_node(t_ast_node *node, char **envp)
 		return ;
 	open_right_pipe(&pid_right);
 	if (pid_right == 0)
-	{
-		printf("executing right process\n");
 		right_process(pipefd, node, envp);
-	}
 	close_pipefd(pipefd);
 	waitpid(pid_left, &status, 0);
 	waitpid(pid_right, NULL, 0);
@@ -68,10 +64,7 @@ void	handle_pipe_node(t_ast_node *node, char **envp)
 void	handle_node_types(t_ast_node *node, char **envp, t_delim **delimiters)
 {
 	if (node->type == NODE_PIPE)
-	{
-		printf("handling pipe node\n");
 		handle_pipe_node(node, envp);
-	}
 	else if (node->type == NODE_HEREDOC)
 	{
 		*delimiters = get_all_delimiters(node);
