@@ -16,6 +16,25 @@
 #include <unistd.h>
 #include <stdio.h>
 
+
+void cleanup_heredoc(void)
+{
+t_heredoc_data *data = get_heredoc_data();
+    if (data->pipefd)
+    {
+        close(data->pipefd[0]);
+        close(data->pipefd[1]);
+        data->pipefd = NULL;
+    }
+    if (data->delimiters)
+    {
+        free_delimiters(data->delimiters);
+        data->delimiters = NULL;
+    }
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	// rl_redisplay();
+}
 void	handle_sigint(int sig)
 {
 	(void)sig;
@@ -45,6 +64,7 @@ void sigint_heredoc_action(int sig)
     if (sig == SIGINT)
     {
         ft_putchar_fd('\n', 1);
-        exit(EXIT_FAILURE); // Sai com falha para indicar interrupção
+        cleanup_heredoc();
+        exit(130); // Sai com falha para indicar interrupção
     }
 }

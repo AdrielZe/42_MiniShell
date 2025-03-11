@@ -12,6 +12,14 @@
 
 #include "../headers/main.h"
 #include <signal.h>
+
+t_heredoc_data *get_heredoc_data(void)
+{
+    static t_heredoc_data data = {NULL, NULL}; // Inicializa como NULL
+
+    return (&data);
+}
+
 static void	protect_fork(pid_t *pid)
 {
 	if (*pid < 0)
@@ -41,7 +49,11 @@ void read_heredoc(int *pipefd, t_delim *delimiters)
     char *input;
     t_delim *current;
 
+t_heredoc_data *data = get_heredoc_data();
+    data->pipefd = pipefd;
+    data->delimiters = delimiters;
     current = delimiters;
+    signal(SIGINT, sigint_heredoc_action);
     while (current)
     {
         while (1)
@@ -62,6 +74,7 @@ void read_heredoc(int *pipefd, t_delim *delimiters)
             write_and_free_input(pipefd, input);
         }
     }
+    cleanup_heredoc();
     close_pipefd(pipefd);
     exit(0);
 }
@@ -97,7 +110,7 @@ void handle_heredoc(t_ast_node *node, char **envp)
     open_heredoc_pipe(pipefd, &pid);
     if (pid == 0)
     {
-        signal(SIGINT, sigint_heredoc_action);
+       signal(SIGINT, sigint_heredoc_action);
         delim_list = get_all_delimiters(node);
         read_heredoc(pipefd, delim_list);
         free_delimiters(delim_list);
@@ -106,7 +119,6 @@ void handle_heredoc(t_ast_node *node, char **envp)
     signal(SIGINT, SIG_IGN);
     close(pipefd[1]);
     waitpid(pid, &status, 0);
-    signal(SIGINT, handle_sigint); 
     if (WIFEXITED(status) && WEXITSTATUS(status) == 0)
     {
         execute_command_with_heredoc(pipefd, pid, node, envp);

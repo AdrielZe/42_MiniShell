@@ -103,7 +103,6 @@ void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
 	path = search_valid_path(cmd_to_split[0], built);
 	if (!path)
 		path = search_valid_path(cmd_to_split[0], envp);
-	printf("eu aqui neh\n");
 	status = execute_command_for_word_node(path, tokens, envp);
 	add_exitcode(WEXITSTATUS(status));
 	if (path)
