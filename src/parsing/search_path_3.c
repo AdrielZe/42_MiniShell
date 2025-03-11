@@ -102,7 +102,10 @@ void	execute_command_for_node_function(char *path,
 	{
 		valid_outfile_and_path(tokens[0], path);
 		if (execve(path, tokens, envp) == -1)
+		{
+			printf("minishell: %s: is a directory\n", tokens[0]);
 			exit(127);
+		}
 		exit(0);
 	}
 	waitpid(pid, &status, 0);

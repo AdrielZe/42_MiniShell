@@ -85,6 +85,7 @@ void execute_command_with_heredoc(int *pipefd, pid_t pid, t_ast_node *node, char
 {
     t_ast_node *current;
     int pipe_found;
+    int status;
 
     current = node;
     pipe_found = 0;
@@ -99,7 +100,7 @@ void execute_command_with_heredoc(int *pipefd, pid_t pid, t_ast_node *node, char
         exit(1);
     }
     close(pipefd[0]); // Fecha a extremidade de leitura no pai
-    waitpid(pid, NULL, 0);
+    waitpid(pid, &status, 0);
 }
 
 void handle_heredoc(t_ast_node *node, char **envp)

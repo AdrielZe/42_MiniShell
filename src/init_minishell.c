@@ -58,7 +58,7 @@ int	check_syntax(t_tokens *tokens, char **envp)
             }
 		if(current->type == TOKEN_PIPE)
 		{
-			if(!current->next || current->next->type == TOKEN_PIPE)
+			if(!current->next || current->next && current->next->type == TOKEN_PIPE)
 			{
 				printf("Erro de sintaxe: pipes.\n");
 				return (0);
