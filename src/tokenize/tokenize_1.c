@@ -92,6 +92,8 @@ char	**tokenize(const char *s, char **envp)
 	int		i;
 
 
+	while(*s && *s == ' ')
+		*s++;
 	if (s == NULL || ft_count_word(s) == 0)
 		return (NULL);
 	i = 0;
