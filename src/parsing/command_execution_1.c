@@ -22,6 +22,8 @@ void	left_process(int *pipe, t_ast_node *node,
 	{
 		if (current->type == NODE_HEREDOC)
 		{
+			set_signal_handler(sigint_heredoc_action); 
+
 			delimiters = get_all_delimiters(current);
 			read_heredoc(pipe, delimiters);
 			return ;

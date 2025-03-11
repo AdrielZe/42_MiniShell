@@ -17,6 +17,15 @@
 #include <stdio.h>
 
 
+void	set_signal_handler(void (*handler)(int))
+{
+	struct sigaction sa;
+
+	sa.sa_handler = handler;
+	sa.sa_flags = SA_RESTART; // Para evitar interrupção de chamadas de sistema como read()
+	sigemptyset(&sa.sa_mask);
+	sigaction(SIGINT, &sa, NULL);
+}
 void cleanup_heredoc(void)
 {
 t_heredoc_data *data = get_heredoc_data();
