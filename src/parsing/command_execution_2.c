@@ -41,7 +41,7 @@ void	handle_pipe_node(t_ast_node *node, char **envp)
 
 	delimiters = get_all_delimiters(node);
 	open_left_pipe(pipefd, &pid_left);
-	 set_signal_handler(SIG_IGN); // O pai ignora SIGINT temporariamente
+	 set_signal_handler(SIG_IGN);
 	if (pid_left == 0)
 	{
 		printf("executing left process\n");

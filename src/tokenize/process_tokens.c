@@ -39,6 +39,7 @@ void	process_new_word(char *new_word, t_word_data *data)
 	{
 		alloc_new_word_in_array(data->array,
 			data->i, new_word, data->old_string);
+		*(data->is_executable) = 0;
 		is_string = 0;
 	}
 	else if (should_merge_token(is_string) == 1 || *(data->is_executable) == 1)
