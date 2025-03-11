@@ -35,9 +35,9 @@ void	process_new_word(char *new_word, t_word_data *data)
 	is_string = 0;
 
 	check_if_is_string(new_word, data, &is_string);
-	if (*(data->i) == 0 || ft_strcmp(new_word, "|") == 0 || ft_strcmp(new_word, "<") == 0 || ft_strcmp(new_word, ">") == 0)
+	if (*(data->i) == 0 || ft_strcmp(new_word, "|") == 0 || ft_strcmp(new_word, "<") == 0 || ft_strcmp(new_word, ">") == 0 || ft_strcmp(new_word, "<<") == 0)
 	{
-		printf("entered here\n");
+		printf("entrou aq\n");
 		alloc_new_word_in_array(data->array,
 			data->i, new_word, data->old_string);
 		is_string = 0;

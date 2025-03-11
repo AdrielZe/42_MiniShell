@@ -59,6 +59,7 @@ void read_heredoc(int *pipefd, t_delim *delimiters)
                 current = current->next;
                 break;
             }
+	     printf("testando");
             write_and_free_input(pipefd, input);
         }
     }
@@ -95,21 +96,21 @@ void handle_heredoc(t_ast_node *node, char **envp)
     int status;
 
     open_heredoc_pipe(pipefd, &pid);
-    if (pid == 0) // Processo filho
+    if (pid == 0)
     {
-        signal(SIGINT, sigint_heredoc_action); // Configura SIGINT para o heredoc
+        signal(SIGINT, sigint_heredoc_action);
         delim_list = get_all_delimiters(node);
         read_heredoc(pipefd, delim_list);
-        free_delimiters(delim_list); // Libera memória antes de sair
-        exit(0); // Sai normalmente se o heredoc for concluído
+        free_delimiters(delim_list);
+        exit(0);
     }
-    signal(SIGINT, SIG_IGN); // Ignora SIGINT no pai durante o heredoc
-    close(pipefd[1]); // Fecha apenas a extremidade de escrita no pai
-    waitpid(pid, &status, 0); // Espera o filho terminar
-    signal(SIGINT, handle_sigint); // Restaura o manipulador original
-    if (WIFEXITED(status) && WEXITSTATUS(status) == 0) // Heredoc concluído com sucesso
+    signal(SIGINT, SIG_IGN);
+    close(pipefd[1]);
+    waitpid(pid, &status, 0);
+    signal(SIGINT, handle_sigint); 
+    if (WIFEXITED(status) && WEXITSTATUS(status) == 0)
     {
         execute_command_with_heredoc(pipefd, pid, node, envp);
     }
-    close(pipefd[0]); // Fecha a extremidade de leitura após o uso
+    close(pipefd[0]);
 }
