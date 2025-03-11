@@ -35,7 +35,7 @@ void	alloc_pipe(const char **s, char ***array, int *i)
 {
 	if (**s == '|')
 	{
-		(*array)[(*i)++] = ft_strdup("|");
+		(*array)[(*i)] = ft_strdup("|");
 		(*s)++;
 	}
 }

@@ -74,7 +74,7 @@ static t_ast_node	*process_ast(t_ast_node **root, t_tokens **token_list, char **
 	int	save_stdin;
 
 	save_stdout = dup(STDOUT_FILENO);
-	save_stdout = dup(STDIN_FILENO);
+	save_stdin = dup(STDIN_FILENO);
 	if(!token_list || !*token_list)
 		return NULL;
 	if(check_syntax(*token_list, envp))
@@ -82,13 +82,15 @@ static t_ast_node	*process_ast(t_ast_node **root, t_tokens **token_list, char **
 		*root = build_ast(*token_list);
 		clear_token_list(token_list);
 		parse_commands(*root, envp);
+		if (root && (*root)->outfile)
+			dup2(save_stdout, STDOUT_FILENO);
+		if(root && (*root)->infile)
+			dup2(save_stdin, STDOUT_FILENO);
 	}
 	else
 		clear_token_list(token_list);
-	if (root && (*root)->outfile)
-		dup2(save_stdout, STDOUT_FILENO);
-	if(root && (*root)->infile)
-		dup2(save_stdin, STDOUT_FILENO);
+	close(save_stdout);
+	close(save_stdin);
 	return (*root);
 }
 void	init_shell(char ***token, t_tokens **token_list, char
