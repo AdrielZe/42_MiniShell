@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../headers/main.h"
+#include <signal.h>
 
 void	handle_word_node(t_ast_node *node, char **envp)
 {

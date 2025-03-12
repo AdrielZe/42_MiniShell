@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../headers/main.h"
+#include <signal.h>
 
 void	get_cmd(t_ast_node *node, char **cmd, char ***tokens)
 {
@@ -58,11 +59,11 @@ void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 		return ;
 	}
 	open_pid(&pid);
-
+	//set_signal_handler(SIG_IGN);
+	set_signal_handler(sigint_cat_action);
 	if (pid == 0)
 	{
 		valid_outfile_and_path(cmd, path);
-		//f/ree(cmd);
 		if (execve(path, tokens, envp) == -1)
 		{
 			perror("execve failed\n");
@@ -72,6 +73,10 @@ void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 	}
 	waitpid(pid, &status, 0);
 	add_exitcode(WEXITSTATUS(status));
+	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
+	{
+	    printf("\n");
+	}
 	//free_elements_and_wait_child(path, cmd, tokens, pid);
 }
 

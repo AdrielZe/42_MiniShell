@@ -43,6 +43,7 @@ int		ft_toupper(int c);
 int		ft_tolower(int c);
 int		ft_atoi(const char *num);
 int		ft_strcmp(char *s1, char *s2);
+int		ft_isnumeric(const char *str);
 char	*ft_itoa(int n);
 char	*ft_strcat(char *dest, char *src);
 char	**ft_split(char const *s, char c);

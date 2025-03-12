@@ -23,19 +23,14 @@ void	get_new_word(char **new_word, const char **s, char ***array, int *i)
 	}
 }
 
-void	check_if_is_string(char *new_word, t_word_data *data, int *is_string)
+int	check_if_is_string(char *word)
 {
-	if ((ft_strlen(new_word) > 1 && ((new_word[0] == '\''
-					&& new_word[ft_strlen(new_word) - 1] == '\'')
-				|| (new_word[0] == '"'
-					&& new_word[ft_strlen(new_word) - 1] == '"'))))
-		*is_string = 1;
-	data->old_string = &new_word;
-	if (data->old_string == NULL)
-	{
-		perror("ft_strdup failed");
-		exit(EXIT_FAILURE);
-	}
+	if ((ft_strlen(word) > 1 && ((word[0] == '\''
+					&& word[ft_strlen(word) - 1] == '\'')
+				|| (word[0] == '"'
+					&& word[ft_strlen(word) - 1] == '"'))))
+		return (0);
+	return (1);
 }
 
 void	remove_quotes(char *str)
@@ -72,6 +67,8 @@ void	process_words(const char **s, char ***array, int *i, char **envp)
 	data.array = array;
 	new_word = NULL;
 	old_string = NULL;
+	if (ft_exit(s) == 1)
+		return ;
 	while (**s)
 	{
 		skip_spaces_and_alloc_elements(s, array, i);

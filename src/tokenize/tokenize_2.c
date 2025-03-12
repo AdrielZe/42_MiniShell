@@ -31,7 +31,7 @@ void	alloc_new_word_in_array(char ***array,
 {
 	(*array)[*i] = new_word;
 	(*i)++;
-	*old_string = NULL;
+	//*old_string = NULL;
 }
 
 int	should_merge_token(int is_string)

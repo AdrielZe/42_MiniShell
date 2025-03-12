@@ -16,33 +16,32 @@
 #include <unistd.h>
 #include <stdio.h>
 
-
 void	set_signal_handler(void (*handler)(int))
 {
 	struct sigaction sa;
 
 	sa.sa_handler = handler;
-	sa.sa_flags = SA_RESTART; // Para evitar interrupção de chamadas de sistema como read()
+	sa.sa_flags = SA_RESTART;
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGINT, &sa, NULL);
 }
+
 void cleanup_heredoc(void)
 {
-t_heredoc_data *data = get_heredoc_data();
-    if (data->pipefd)
-    {
-        close(data->pipefd[0]);
-        close(data->pipefd[1]);
-        data->pipefd = NULL;
-    }
-    if (data->delimiters)
-    {
-        free_delimiters(data->delimiters);
-        data->delimiters = NULL;
-    }
+	t_heredoc_data *data = get_heredoc_data();
+	if (data->pipefd)
+	{
+		close(data->pipefd[0]);
+		close(data->pipefd[1]);
+		data->pipefd = NULL;
+	}
+	if (data->delimiters)
+	{
+		free_delimiters(data->delimiters);
+		data->delimiters = NULL;
+	}
 	rl_replace_line("", 0);
 	rl_on_new_line();
-	// rl_redisplay();
 }
 void	handle_sigint(int sig)
 {
@@ -70,10 +69,18 @@ void	handle_ctrl_d(char **envp_copy, t_tokens **token_list, t_ast_node *root)
 }
 void sigint_heredoc_action(int sig)
 {
-    if (sig == SIGINT)
-    {
-        ft_putchar_fd('\n', 1);
-        cleanup_heredoc();
-        exit(130); // Sai com falha para indicar interrupção
-    }
+	(void)sig;
+	if (sig == SIGINT)
+	{
+		ft_putchar_fd('\n', 1);
+		cleanup_heredoc();
+		exit(130);
+	}
+}
+
+void sigint_cat_action(int sig)
+{
+    	(void)sig;
+	ft_putchar_fd('\n', 1);
+	return ;
 }

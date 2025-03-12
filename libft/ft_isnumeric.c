@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_status.c                                   :+:      :+:    :+:   */
+/*   ft_isnumeric.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 17:57:59 by asilveir          #+#    #+#             */
-/*   Updated: 2025/03/12 15:05:53 by asilveir         ###   ########.fr       */
+/*   Created: 2025/03/12 14:47:35 by asilveir          #+#    #+#             */
+/*   Updated: 2025/03/12 14:48:20 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/main.h"
+#include <ctype.h>
 
-static pid_t heredoc_pid = -1;
-
-int* get_heredoc_status(void)
+int	ft_isnumeric(const char *str)
 {
-    static int heredoc_status = 0;  // A variável estática persiste entre chamadas
-    return &heredoc_status;         // Retorna o endereço da variável
+	int	i;
+
+	if (!str || !*str)
+		return (0);
+	i = 0;
+	if (str[i] == '-' || str[i] == '+') // Permite sinais no início
+		i++;
+	while (str[i])
+	{
+		if (!isdigit((unsigned char)str[i])) // Verifica se não é um número
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
-void set_heredoc_status(int status)
-{
-    *get_heredoc_status() = status;  // Altera o valor da variável estática
-}

@@ -106,31 +106,25 @@ void execute_command_with_heredoc(int *pipefd, pid_t pid, t_ast_node *node, char
 
 void handle_heredoc(t_ast_node *node, char **envp)
 {
-    t_delim *delim_list;
-    pid_t pid;
-    int pipefd[2];
-    int status;
+	t_delim *delim_list;
+	pid_t pid;
+	int pipefd[2];
+	int status;
 
-    open_heredoc_pipe(pipefd, &pid);
-    set_signal_handler(SIG_IGN); // O pai ignora SIGINT temporariamente
-    if (pid == 0)
-    {
+	open_heredoc_pipe(pipefd, &pid);
+	set_signal_handler(SIG_IGN);
+	if (pid == 0)
+	{
 		set_signal_handler(sigint_heredoc_action); 
-// Mudar para o handler do heredoc
-
-       // signal(SIGINT, sigint_heredoc_action);
-        delim_list = get_all_delimiters(node);
-        read_heredoc(pipefd, delim_list);
-        free_delimiters(delim_list);
-        exit(0);
-    }
-//     signal(SIGINT, SIG_IGN);
-    close(pipefd[1]);
-    waitpid(pid, &status, 0);
-    if (WIFEXITED(status) && WEXITSTATUS(status) == 0)
-    {
-        execute_command_with_heredoc(pipefd, pid, node, envp);
-    }
-    close(pipefd[0]);
-set_signal_handler(handle_sigint); 
+		delim_list = get_all_delimiters(node);
+		read_heredoc(pipefd, delim_list);
+		free_delimiters(delim_list);
+		exit(0);
+	}
+	close(pipefd[1]);
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status) && WEXITSTATUS(status) == 0)
+		execute_command_with_heredoc(pipefd, pid, node, envp);
+	close(pipefd[0]);
+	set_signal_handler(handle_sigint); 
 }
