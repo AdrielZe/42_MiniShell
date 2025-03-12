@@ -42,7 +42,7 @@ void	process_new_word(char *new_word, t_word_data *data)
 		*(data->is_executable) = 0;
 		is_string = 0;
 	}
-	else if (should_merge_token(is_string) == 1 || *(data->is_executable) == 1)
+	else if (ft_strcmp((*data->array)[*(data->i) - 1], "|") != 0 && ft_strcmp((*data->array)[*(data->i) - 1], "<") != 0 && ft_strcmp((*data->array)[*(data->i) - 1], ">") != 0 && ft_strcmp((*data->array)[*(data->i) - 1], "<<") != 0)
 	{
 		merge_last_token(data->array, *(data->i), new_word);
 		is_string = 0;

@@ -14,6 +14,7 @@ tokens.tx
 
 norminette-env/
 norminette/
+src/tests/
 gitignore
 program
 minishell
