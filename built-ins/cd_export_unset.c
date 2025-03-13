@@ -52,7 +52,7 @@ int	cd(char *argv[])
 		add_exitcode(1);
 		return (0);
 	}
-	else if(!argv[1] && chdir(getenv("HOME")) >= 0)
+	else if((!argv[1] && chdir(getenv("HOME")) >= 0) || argv[1][0] == '~')
 	{
 		add_exitcode(0);
 		return (1);
