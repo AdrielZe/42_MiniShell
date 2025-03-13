@@ -73,32 +73,39 @@ int	cd(char *argv[])
 	return (0);
 }
 
-int	export(char *argv[], char **envp)
+int export(char *argv[], char **envp)
 {
-	char	**env;
-
-	if(!argv[1])
-	{
-		sort(envp);
-		while(*envp)
-			printf("declare -x %s\n", *envp++);
-		add_exitcode(0);
-		return (1);
+    int i2;
+    char *equal_pos;
+	char **tmp;
+	
+	i2 = 1;
+	tmp = envp;
+    if (!argv[1])
+    {
+        sort(envp);
+        while (*tmp)
+            printf("declare -x %s\n", *tmp++);
+    }
+    while (argv[i2])
+    {
+        equal_pos = strchr(argv[i2], '=');
+		if (equal_pos)
+		{
+			*equal_pos = '\0';
+			if(!equal_pos[1])
+			{
+				setenv(argv[i2], argv[i2 + 1], 1);
+				i2++;
+			}
+			else
+				setenv(argv[i2], equal_pos + 1, 1);
+		}
+		else
+			setenv(argv[i2], "", 1);
+		i2++;
 	}
-	if (!argv[1]|| !ft_strchr(argv[1], '='))
-	{
-		printf("Uso: %s NOME=VALOR\n", argv[0]);
-		add_exitcode(1);
-		return (1);
-	}
-	env = ft_split(argv[1], '=');
-	if (setenv(env[0], env[1], 1) != 0)
-		perror("setenv");
-	free(env[0]);
-	free(env[1]);
-	free(env);
-	add_exitcode(0);
-	return (1);
+	return (0);
 }
 
 int	unset(char *argv[])
