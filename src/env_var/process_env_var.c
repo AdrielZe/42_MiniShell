@@ -78,8 +78,6 @@ char *process_env_var(char *input, int is_heredoc)
     {
         if (input[index] == '\'')
             in_single_quotes = !in_single_quotes;
-        
-    //    Se encontrar o '$' e não estiver dentro de aspas simples
         if (input[index] == '$' && !in_single_quotes)
         {
             word_to_switch = find_string_to_replace(input, index);
