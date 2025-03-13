@@ -80,7 +80,8 @@ void	process_new_word(char *new_word, t_word_data *data)
 	else if (ft_strcmp((*data->array)[*(data->i) - 1], "|") != 0 
 			&& ft_strcmp((*data->array)[*(data->i) - 1], "<") != 0 
 			&& ft_strcmp((*data->array)[*(data->i) - 1], ">") != 0
-			&& ft_strcmp((*data->array)[*(data->i) - 1], "<<") != 0)
+			&& ft_strcmp((*data->array)[*(data->i) - 1], "<<") != 0
+			&& ft_strcmp((*data->array)[(*data->i) -1], ">>") != 0)
 	{
 		merge_last_token(data->array, *(data->i), new_word);
 		*(data->is_executable) = 0;

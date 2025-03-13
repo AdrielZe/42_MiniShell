@@ -34,7 +34,7 @@ char	*allocate_word(const char *s, int len)
 	word = malloc((len + 1) * sizeof(char));
 	if (!word)
 		return (NULL);
-	memcpy(word, s, len);
+	ft_memcpy(word, s, len);
 	word[len] = '\0';
 	return (word);
 }
