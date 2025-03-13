@@ -54,6 +54,7 @@ int	cd(char *argv[])
 	}
 	else if(((!argv[1] || argv[1][0] == '~') && chdir(getenv("HOME")) >= 0))
 	{
+		setenv("PWD", getcwd(NULL, 0), 1);
 		add_exitcode(0);
 		return (1);
 	}
