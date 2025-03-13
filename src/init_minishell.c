@@ -101,7 +101,7 @@ void	init_shell(char ***token, t_tokens **token_list, char
 	*token = NULL;
 	while (1)
 	{
- 		set_signal_handler(handle_sigint); // Usar o handler padrão do shell
+ 		set_signal_handler(handle_sigint);
 		manage_rl_input(&input, envp, token_list, *root);
 		if (!input || ft_strlen(input) == 0)
 		{

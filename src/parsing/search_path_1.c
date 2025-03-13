@@ -25,6 +25,7 @@ static void	free_paths(char **paths)
 		i++;
 	}
 	free(paths);
+	paths = NULL;
 }
 
 static int	search_for_path_index(char **envp)
