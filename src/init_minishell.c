@@ -87,9 +87,9 @@ static t_ast_node	*process_ast(t_ast_node **root, t_tokens **token_list, char **
 	}
 	else
 		clear_token_list(token_list);
-	if (root && (*root)->outfile)
+	if (*root && (*root)->outfile)
 		dup2(save_stdout, STDOUT_FILENO);
-	if(root && (*root)->infile)
+	if(*root && (*root)->infile)
 		dup2(save_stdin, STDOUT_FILENO);
 	return (*root);
 }
