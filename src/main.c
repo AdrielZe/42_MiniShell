@@ -67,7 +67,7 @@ int	main(int argc, char *argv[], char *envp[])
 	clear_token_list(&token_list);
 	write_history(".my_history");
 	len = array_len(envp_copy);
-	free_array(envp_copy, len);
+	free_array(envp_copy);
 	clear_history();
 	return (0);
 }

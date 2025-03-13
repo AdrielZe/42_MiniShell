@@ -18,7 +18,7 @@ void	exit_if_typed_exit(char *input,
 	if (ft_strcmp("exit", input) == 0)
 	{
 		clear_token_list(token_list);
-		free_array(envp_copy, array_len(envp_copy));
+		free_array(envp_copy);
 		free(input);
 		printf("Saindo do programa.\n");
 		exit(0);
@@ -40,7 +40,7 @@ void	free_token(char ***token)
 	free(*token);
 	*token = NULL;
 }
-int	check_syntax(t_tokens *tokens, char **envp)
+int	check_syntax(t_tokens *tokens)
 {
 	t_tokens	*current;
 
@@ -50,15 +50,15 @@ int	check_syntax(t_tokens *tokens, char **envp)
 		if(current->type == TOKEN_APPEND || current->type == TOKEN_HEREDOC ||
 			current->type == TOKEN_REDIRECT_IN ||
 			current->type == TOKEN_REDIRECT_OUT)
-			if (!current->next || current->next->type != TOKEN_WORD &&
-				current->next->type != TOKEN_COMMAND)
+			if (!current->next || (current->next->type != TOKEN_WORD &&
+				current->next->type != TOKEN_COMMAND))
             {
                 printf("Erro de sintaxe: operador de redirecionamento.\n");
 				return (0);
             }
 		if(current->type == TOKEN_PIPE)
 		{
-			if(!current->next || current->next && current->next->type == TOKEN_PIPE)
+			if(!current->next || (current->next && current->next->type == TOKEN_PIPE))
 			{
 				printf("Erro de sintaxe: pipes.\n");
 				return (0);
@@ -73,11 +73,13 @@ static t_ast_node	*process_ast(t_ast_node **root, t_tokens **token_list, char **
 	int	save_stdout;
 	int	save_stdin;
 
+	save_stdout = 0;
+	save_stdin = 0;
 	save_stdout = dup(STDOUT_FILENO);
 	save_stdout = dup(STDIN_FILENO);
 	if(!token_list || !*token_list)
 		return NULL;
-	if(check_syntax(*token_list, envp))
+	if(check_syntax(*token_list))
 	{
 		*root = build_ast(*token_list);
 		clear_token_list(token_list);
@@ -95,7 +97,6 @@ void	init_shell(char ***token, t_tokens **token_list, char
 			**envp, t_ast_node **root)
 {
 	char	*input;
-int i = 0;
 
 	*token = NULL;
 	while (1)

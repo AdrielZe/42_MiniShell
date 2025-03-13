@@ -29,6 +29,7 @@ char	*if_env_var(t_ast_node *node, char **tokens)
 	int		i;
 
 	i = 0;
+	expanded = NULL;
 	if (!tokens || !tokens[0])
 		return (NULL);
 	cmd = process_env_var(tokens[0]);
@@ -60,7 +61,7 @@ char	**prepare_command(t_ast_node *node, char *cmd, char **out_cmd)
 		*out_cmd = if_env_var(node, tokens);
 		if (!*out_cmd)
 		{
-			free_array(tokens, array_len(tokens));
+			free_array(tokens);
 			return (NULL);
 		}
 	}
@@ -82,11 +83,11 @@ void	execute_node_command(t_ast_node *node, char *cmd, char **envp)
 	if (!path)
 	{
 		free(updated_cmd);
-		free_array(tokens, array_len(tokens));
+		free_array(tokens);
 		return ;
 	}
 	execute_command_for_node_function(path, tokens, envp);
-	free_array(tokens, array_len(tokens));
+	free_array(tokens);
 }
 
 void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
@@ -98,7 +99,6 @@ void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
 	int		status;
 
 	setup_tokens_and_commands(node, &tokens, &cmd, &cmd_to_split);
-	int i = 0;
 	built[0] = "PATH=built-ins";
 	path = search_valid_path(cmd_to_split[0], built);
 	if (!path)
@@ -108,5 +108,5 @@ void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
 	if (path)
 		free(path);
 	if (tokens)
-		free_array(tokens, array_len(tokens));
+		free_array(tokens);
 }

@@ -73,7 +73,7 @@ void	process_new_word(char *new_word, t_word_data *data)
 			|| ft_strcmp(new_word, "<<") == 0)
 	{
 		alloc_new_word_in_array(data->array,
-			data->i, new_word, data->old_string);
+			data->i, new_word);
 		*(data->is_executable) = 0;
 
 	}
@@ -90,6 +90,6 @@ void	process_new_word(char *new_word, t_word_data *data)
 	else
 	{
 		alloc_new_word_in_array(data->array, data->i,
-			new_word, data->old_string);
+			new_word);
 	}
 }

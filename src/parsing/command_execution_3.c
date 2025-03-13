@@ -68,19 +68,19 @@ void	check_and_execute_if_is_cmd(t_ast_node *node, char **envp)
 			printf("minishell: %s: command not found\n",
 				cmd[0]);
 			add_exitcode(127);
-			free_array(cmd, array_len(cmd));
+			free_array(cmd);
 			return ;
 		}
 	}
 	if (is_directory(node->value) == 0)
 	{
 		printf("minishell: %s: Is a directory\n", node->value);
-		free_array(cmd, array_len(cmd));
+		free_array(cmd);
 		return ;
 	}
 	else
 		execute_command(node->value, envp, node);
-	free_array(cmd, array_len(cmd));
+	free_array(cmd);
 }
 
 void	execute_regular_cmd(t_ast_node *node, char **envp)

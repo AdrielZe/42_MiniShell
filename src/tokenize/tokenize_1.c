@@ -13,12 +13,11 @@
 #include "../../headers/tokenize.h"
 #include "../../headers/parsing.h"
 
-void	free_array(char **array, int i)
+void	free_array(char **array)
 {
     int i2 = 0;
     if (!array)
         return;
-    
     while (array[i2])
     {
         free(array[i2]);
@@ -92,7 +91,7 @@ char	**tokenize(const char *s, char **envp)
 	int		i;
 
 	while(*s && *s == ' ')
-		*s++;
+		s++;
 	if (s == NULL || ft_count_word(s) == 0)
 		return (NULL);
 	i = 0;

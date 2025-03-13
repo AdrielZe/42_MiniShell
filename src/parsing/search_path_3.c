@@ -80,7 +80,7 @@ char	*resolve_path(char *cmd, char **envp)
 	path_split = ft_split(cmd, ' ');
 	if (!path_split)
 	{
-		free_array(built, array_len(built));
+		free_array(built);
 		return (NULL);
 	}
 	path = search_valid_path(path_split[0], built);

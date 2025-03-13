@@ -26,9 +26,9 @@ void	get_cmd(t_ast_node *node, char **cmd, char ***tokens)
 
 void	if_not_path(char *cmd, char **tokens)
 {
-	printf("minishell: %s: command sdfsdfnot found\n", cmd);
+	printf("minishell: %s: command not found\n", cmd);
 	add_exitcode(127);
-	free_array(tokens, array_len(tokens));
+	free_array(tokens);
 }
 
 void	free_elements_and_wait_child(char *path,
@@ -36,7 +36,7 @@ void	free_elements_and_wait_child(char *path,
 {
 	free(path);
 	free(cmd);
-	free_array(tokens, array_len(tokens));
+	free_array(tokens);
 	waitpid(pid, NULL, 0);
 }
 

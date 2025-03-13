@@ -59,7 +59,7 @@ void		append_token(t_tokens **token_list, t_token_type type, char *value);
 void		print_list(t_tokens *token_list);
 
 //src/tokenize/tokenize_1.c
-void		free_array(char **array, int i);
+void		free_array(char **array);
 char		*allocate_word(const char *s, int len);
 size_t		ft_count_word(const char *s);
 char		*process_quotes(const char **s);
@@ -69,7 +69,7 @@ char		**tokenize(const char *s, char **envp);
 void		skip_spaces_and_alloc_elements(const char **s,
 				char ***array, int *i);
 void		alloc_new_word_in_array(char ***array, int *i,
-				char *new_word, char **old_string);
+				char *new_word);
 int			should_merge_token(int is_string);
 void		merge_last_token(char ***array, int i, char *new_word);
 

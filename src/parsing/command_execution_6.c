@@ -33,7 +33,7 @@ void	search_for_cmd_in_array(t_ast_node *node, char **temp,
 	if (!*arr_not_envp)
 		return ;
 	process_local_array(temp, *arr_not_envp);
-	free_array(*arr_not_envp, array_len(*arr_not_envp));
+	free_array(*arr_not_envp);
 }
 
 void	handle_not_found_env_var(t_ast_node *node, char **envp)

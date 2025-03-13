@@ -12,15 +12,15 @@
 
 #include "../headers/main.h"
 
-char	*extract_new_word(const char **s, char ***array, int *i)
+char	*extract_new_word(const char **s, char ***array)
 {
 	char	*new_word;
 
 	new_word = NULL;
-	get_new_word(&new_word, s, array, i);
+	get_new_word(&new_word, s, array);
 	if (!new_word)
 	{
-		free_array(*array, array_len(*array));
+		free_array(*array);
 		return (NULL);
 	}
 	return (new_word);

@@ -38,7 +38,7 @@ void	handle_env_var(t_ast_node *node, char **envp, char *old_string)
 void	process_command_execution(t_ast_node *node,
 			char **envp, char *old_string, char **split_result)
 {
-	if (if_cd(node->value, envp, node))
+	if (if_cd(node->value, envp))
 	{
 		if (old_string)
 			free(old_string);
@@ -56,7 +56,7 @@ void	process_command_execution(t_ast_node *node,
 void	free_env_and_array(char *env_result, char **env_processed)
 {
 	free(env_result);
-	free_array(env_processed, array_len(env_processed));
+	free_array(env_processed);
 }
 
 void	process_local_array(char **temp, char **arr_not_envp)
@@ -72,7 +72,7 @@ void	process_local_array(char **temp, char **arr_not_envp)
 		local_arr = ft_split(arr_not_envp[j], ' ');
 		if (!local_arr)
 		{
-			free_array(arr_not_envp, array_len(arr_not_envp));
+			free_array(arr_not_envp);
 			return ;
 		}
 		i = 0;
@@ -82,7 +82,7 @@ void	process_local_array(char **temp, char **arr_not_envp)
 				get_cmds_to_execute(&old_temp, temp, local_arr, i);
 			i++;
 		}
-		free_array(local_arr, array_len(local_arr));
+		free_array(local_arr);
 		j++;
 	}
 }

@@ -43,12 +43,12 @@ void	execute_invalid_cmd(t_ast_node *node, char **envp)
 		{
 			node->value = ft_strdup(arr[i]);
 			check_if_is_cmd_or_dir(node, envp);
-			free_array(arr, array_len(arr));
+			free_array(arr);
 			return ;
 		}
 		i++;
 	}
-	free_array(arr, array_len(arr));
+	free_array(arr);
 }
 
 void	handle_found_env_var(t_ast_node *node, char **envp, char *cmd)
@@ -73,7 +73,7 @@ void	handle_found_env_var(t_ast_node *node, char **envp, char *cmd)
 	else if (node->type == NODE_WORD)
 	{
 		check_if_is_cmd_or_dir(node, envp);
-		free_array(env_processed, array_len(env_processed));
+		free_array(env_processed);
 		return ;
 	}
 	node->value = env_processed[0];

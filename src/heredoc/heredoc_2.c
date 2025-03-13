@@ -47,7 +47,7 @@ t_delim	*get_all_delimiters(t_ast_node *node)
 		if (!delim)
 			return (NULL);
 		new->delimiter = ft_strdup(delim[0]);
-		free_array(delim, array_len(delim));
+		free_array(delim);
 		new->next = head;
 		head = new;
 		node = node->left;

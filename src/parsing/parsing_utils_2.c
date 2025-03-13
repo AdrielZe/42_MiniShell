@@ -31,11 +31,11 @@ void	process_valid_path(t_ast_node *node,
 	if (!valid_path)
 	{
 		update_node_value(node, value_to_search[0]);
-		free_array(value_to_search, array_len(value_to_search));
+		free_array(value_to_search);
 		check_and_execute_if_is_cmd(node, envp);
 		return ;
 	}
 	free(valid_path);
-	free_array(value_to_search, array_len(value_to_search));
+	free_array(value_to_search);
 	check_if_is_cmd_or_dir(node, envp);
 }

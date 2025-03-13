@@ -13,12 +13,12 @@
 #include "../../headers/tokenize.h"
 #include "../../headers/parsing.h"
 
-void	get_new_word(char **new_word, const char **s, char ***array, int *i)
+void	get_new_word(char **new_word, const char **s, char ***array)
 {
 	*new_word = process_quotes(s);
 	if (!*new_word)
 	{
-		free_array(*array, *i);
+		free_array(*array);
 		exit(0);
 	}
 }
@@ -74,10 +74,10 @@ void	process_words(const char **s, char ***array, int *i, char **envp)
 		skip_spaces_and_alloc_elements(s, array, i);
 		if (!**s)
 			return ;
-		get_new_word(&new_word, s, array, i);
+		get_new_word(&new_word, s, array);
 		if (!new_word)
 		{
-			free_array(*array, array_len(*array));
+			free_array(*array);
 			return ;
 		}
 		process_new_word(new_word, &data);

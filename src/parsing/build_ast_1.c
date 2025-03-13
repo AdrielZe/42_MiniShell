@@ -84,8 +84,6 @@ int	redirection_if(t_tokens *tokens, t_ast_node *node)
 void	handle_cmd_or_word_token(t_tokens *tokens,
 				t_ast_node **root, t_ast_node **current)
 {
-	char	*token_value;
-
 	if (tokens->type == TOKEN_WORD)
 		create_word_node(root, current, tokens);
 	else

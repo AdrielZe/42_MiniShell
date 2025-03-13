@@ -16,7 +16,7 @@ int	cd(char *argv[]);
 int	export(char *argv[], char **envp);
 int	unset(char *argv[]);
 
-int	if_cd(char *cmd, char **envp, t_ast_node *node)
+int	if_cd(char *cmd, char **envp)
 {
 	char	**split_cmd;
 
@@ -26,22 +26,22 @@ int	if_cd(char *cmd, char **envp, t_ast_node *node)
 	else if (ft_strcmp(split_cmd[0], "cd") == 0)
 	{
 		cd(split_cmd);
-		free_array(split_cmd, array_len(split_cmd));
+		free_array(split_cmd);
 		return (1);
 	}
 	else if (ft_strcmp(split_cmd[0], "export") == 0)
 	{
 		export(split_cmd, envp);
-		free_array(split_cmd, array_len(split_cmd));
+		free_array(split_cmd);
 		return (1);
 	}
 	else if (ft_strcmp(split_cmd[0], "unset") == 0)
 	{
 		unset(split_cmd);
-		free_array(split_cmd, array_len(split_cmd));
+		free_array(split_cmd);
 		return (1);
 	}
-	free_array(split_cmd, array_len(split_cmd));
+	free_array(split_cmd);
 	return (0);
 }
 
@@ -101,12 +101,12 @@ void	handle_node_value(t_ast_node *node, char **envp, char *old_string)
 	if (found_env_var(node, old_string) == 1)
 	{
 		handle_found_env_var(node, envp, old_string);
-		free_array(split_cmd, array_len(split_cmd));
+		free_array(split_cmd);
 		return ;
 	}
 	else
 	{
 		handle_not_found_env_var(node, envp);
-		free_array(split_cmd, array_len(split_cmd));
+		free_array(split_cmd);
 	}
 }

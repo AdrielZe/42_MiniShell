@@ -173,7 +173,7 @@ int	redirection_if(struct s_tokens *tokens, t_ast_node *node);
 void	not_found_msg_and_free(t_ast_node *node, char *search_result, char **split_values, char *command_to_execute);
 void	create_nodes_and_redirect_if(struct s_tokens **tokens, t_ast_node **root, t_ast_node **current);
 void	handle_env_var(t_ast_node *node, char **envp, char *old_string);
-int	if_cd(char *cmd, char **envp, t_ast_node *node);
+int	if_cd(char *cmd, char **envp);
 void	process_command_execution(t_ast_node *node, char **envp, char *old_string, char **split_result);
 void execute_command_for_node_function(char *path, char **tokens, char **envp);
 char *resolve_path(char *cmd, char **envp);
@@ -187,7 +187,7 @@ void	process_valid_path(t_ast_node *node,
 void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp);
 void	valid_outfile_and_path(char *cmd, char *path);
 void remove_quotes(char *str);
-void	get_new_word(char **new_word, const char **s, char ***array, int *i);
+void	get_new_word(char **new_word, const char **s, char ***array);
 int	execute_command_for_word_node(char *path, char **tokens, char **envp);
 int	control_command_execution_with_slash(char ***split_path, t_ast_node *node, char **envp);
 void	rmv_quotes_set_cmd(t_ast_node *node, char ***split_values, char **command_to_execute);
