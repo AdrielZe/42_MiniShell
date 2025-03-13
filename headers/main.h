@@ -53,7 +53,7 @@ void	handle_ctrl_d(char **envp_copy, struct s_tokens **token_list,
 			struct s_ast_node *root);
 
 //src/env_var/process_env_var.c
-char	*process_env_var(char *input);
+char	*process_env_var(char *input, int is_heredoc);
 
 void	add_exitcode(int status);
 #endif

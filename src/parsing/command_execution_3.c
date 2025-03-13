@@ -24,7 +24,7 @@ void	handle_word_node(t_ast_node *node, char **envp)
 	if (ft_strchr(node->value, '$') != NULL)
 		is_env_var = 1;
 	old_string = ft_strdup(node->value);
-	node->value = process_env_var(node->value);
+	node->value = process_env_var(node->value, 0);
 	if (is_env_var == 1)
 		when_only_env_var(node, envp);
 	else if (ft_strcmp(old_string, node->value) != 0)
@@ -115,7 +115,7 @@ int	verify_if_is_env_var(t_ast_node *node)
 	if (!node->value || node->value[0] == '\0')
 		return (0);
 	old_string = ft_strdup(node->value);
-	node->value = process_env_var(node->value);
+	node->value = process_env_var(node->value, 0);
 	if (ft_strcmp(old_string, node->value) != 0)
 	{
 		free(old_string);

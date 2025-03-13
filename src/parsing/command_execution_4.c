@@ -66,7 +66,7 @@ void	handle_command_node(t_ast_node *node, char **envp)
 	is_env_var = (split_result && ft_strchr(split_result[0], '$') != NULL);
 	old_string = ft_strdup(node->value);
 	if (node->type != NODE_SIMPLE_QUOTE)
-		node->value = process_env_var(node->value);
+		node->value = process_env_var(node->value, 0);
 	if (is_env_var)
 		when_only_env_var(node, envp);
 	else
