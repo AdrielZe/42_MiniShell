@@ -32,6 +32,5 @@ void	setup_tokens_and_build_ast(char *input,
 		return ;
 	}
 	classify_token(*token, token_list);
-	print_list(*token_list);
 	free_array(*token, array_len(*token));
 }

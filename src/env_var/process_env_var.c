@@ -94,9 +94,8 @@ char *process_env_var(char *input, int is_heredoc)
 	{
 		if (input[index] == '\'')
 		in_single_quotes = !in_single_quotes;
-		if (input[index] == '$' && !in_single_quotes)
+		if (input[index] == '$' && !in_single_quotes && is_heredoc == 0)
 		{
-			printf("in here\n");
 			word_to_switch = find_string_to_replace(input, index);
 			input_to_return = replace_substring(input, word_to_switch, index);
 			input = input_to_return;

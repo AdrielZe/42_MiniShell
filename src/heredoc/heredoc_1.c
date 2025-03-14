@@ -91,7 +91,7 @@ void execute_command_with_heredoc(int *pipefd, pid_t pid, t_ast_node *node, char
 	current = node;
 	pipe_found = 0;
 	pid = fork();
-	protect_fork(&pid); // Corrige: passa o endereço de pid
+	protect_fork(&pid);
 	if (pid == 0)
 	{
 		dup2(pipefd[0], STDIN_FILENO);
@@ -100,7 +100,7 @@ void execute_command_with_heredoc(int *pipefd, pid_t pid, t_ast_node *node, char
 		check_all_commands(node, envp);
 		exit(1);
 	}
-	close(pipefd[0]); // Fecha a extremidade de leitura no pai
+	close(pipefd[0]);
 	waitpid(pid, &status, 0);
 	add_exitcode(WEXITSTATUS(status));
 	}
