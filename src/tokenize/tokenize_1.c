@@ -51,7 +51,7 @@ size_t	ft_count_word(const char *s)
 		while (*s == '|')
 		{
 			delim_counter++;
-			s++;
+			// s++;
 			if (*s)
 				s++;
 		}
@@ -90,14 +90,14 @@ char	**tokenize(const char *s, char **envp)
 	char	**array;
 	int		i;
 
+	i = 0;
 	while(*s && *s == ' ')
 		s++;
 	if (s == NULL || ft_count_word(s) == 0)
 		return (NULL);
-	i = 0;
-	array = malloc((ft_count_word(s) + 1) * sizeof(char *));
 	if (control_quotes(s) == 1)
 		return (NULL);
+	array = ft_calloc(ft_count_word(s) + 1, sizeof(char *));
 	if (!array)
 		return (NULL);
 	process_words(&s, &array, &i, envp);
