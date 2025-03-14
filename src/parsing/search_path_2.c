@@ -32,14 +32,14 @@ char	*if_env_var(t_ast_node *node, char **tokens)
 	expanded = NULL;
 	if (!tokens || !tokens[0])
 		return (NULL);
-	cmd = process_env_var(tokens[0]);
+	cmd = process_env_var(tokens[0], 0);
 	if (node->type == NODE_ENV_VAR)
 	{
 		while (tokens[i])
 		{
 			if (ft_strchr(tokens[i], '$') != NULL)
 			{
-				expanded = process_env_var(tokens[i]);
+				expanded = process_env_var(tokens[i], 0);
 				break ;
 			}
 			i++;

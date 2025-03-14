@@ -27,10 +27,7 @@ void	not_found_msg_and_free(t_ast_node *node, char *search_result,
 void	handle_env_var(t_ast_node *node, char **envp, char *old_string)
 {
 	if (ft_strcmp(old_string, node->value) != 0)
-	{
-		printf("NDOE VALUE %s\n", node->value);
 		check_and_execute_if_is_cmd(node, envp);
-	}
 	else
 		execute_regular_cmd(node, envp);
 }

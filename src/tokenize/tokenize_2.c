@@ -29,11 +29,8 @@ void	skip_spaces_and_alloc_elements(const char **s, char ***array, int *i)
 void	alloc_new_word_in_array(char ***array,
 				int *i, char *new_word)
 {
-	if((*array)[*i])
-	{
 		(*array)[*i] = new_word;
 		(*i)++;
-	}
 	// *old_string = NULL;
 }
 

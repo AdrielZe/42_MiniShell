@@ -12,6 +12,9 @@ tokens.tx
 
 .my_history
 
+tests2.txt
+tasks.txt
+tests.txt
 norminette-env/
 norminette/
 src/tests/

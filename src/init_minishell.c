@@ -51,7 +51,7 @@ int	check_syntax(t_tokens *tokens)
 			current->type == TOKEN_REDIRECT_IN ||
 			current->type == TOKEN_REDIRECT_OUT)
 			if (!current->next || (current->next->type != TOKEN_WORD &&
-				current->next->type != TOKEN_COMMAND))
+				current->next->type != TOKEN_COMMAND && current->next->type != TOKEN_SIMPLE_QUOTE))
             {
                 printf("Erro de sintaxe: operador de redirecionamento.\n");
 				return (0);
@@ -76,7 +76,7 @@ static t_ast_node	*process_ast(t_ast_node **root, t_tokens **token_list, char **
 	save_stdout = 0;
 	save_stdin = 0;
 	save_stdout = dup(STDOUT_FILENO);
-	save_stdout = dup(STDIN_FILENO);
+	save_stdin = dup(STDIN_FILENO);
 	if(!token_list || !*token_list)
 		return NULL;
 	if(check_syntax(*token_list))

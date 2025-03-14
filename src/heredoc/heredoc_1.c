@@ -49,17 +49,18 @@ void read_heredoc(int *pipefd, t_delim *delimiters)
     char *input;
     t_delim *current;
 
-t_heredoc_data *data = get_heredoc_data();
+    t_heredoc_data *data = get_heredoc_data();
     data->pipefd = pipefd;
     data->delimiters = delimiters;
     current = delimiters;
-
     while (current)
     {
         while (1)
         {
             display_input_line(&input);
-            if (!input) // EOF (Ctrl+D)
+            remove_quotes(input);
+            input = process_env_var(input, 1);
+            if (!input)
             {
                 close_pipefd(pipefd);
                 free_delimiters(delimiters);
@@ -72,37 +73,37 @@ t_heredoc_data *data = get_heredoc_data();
                 break;
             }
             write_and_free_input(pipefd, input);
+
         }
     }
     cleanup_heredoc();
     close_pipefd(pipefd);
-// Mudar para o handler do heredoc
-
     exit(0);
 }
 
+
 void execute_command_with_heredoc(int *pipefd, pid_t pid, t_ast_node *node, char **envp)
 {
-    t_ast_node *current;
-    int pipe_found;
-    int status;
+	t_ast_node *current;
+	int pipe_found;
+	int status;
 
-    current = node;
-    pipe_found = 0;
-    pid = fork();
-    protect_fork(&pid); // Corrige: passa o endereço de pid
-    if (pid == 0)
-    {
-        dup2(pipefd[0], STDIN_FILENO);
-        close(pipefd[0]);
-        handle_nodes_to_execute_command(current, pipe_found, node, envp);
-        check_all_commands(node, envp);
-        exit(1);
-    }
-    close(pipefd[0]); // Fecha a extremidade de leitura no pai
-    waitpid(pid, &status, 0);
+	current = node;
+	pipe_found = 0;
+	pid = fork();
+	protect_fork(&pid);
+	if (pid == 0)
+	{
+		dup2(pipefd[0], STDIN_FILENO);
+		close(pipefd[0]);
+		handle_nodes_to_execute_command(current, pipe_found, node, envp);
+		check_all_commands(node, envp);
+		exit(1);
+	}
+	close(pipefd[0]);
+	waitpid(pid, &status, 0);
 	add_exitcode(WEXITSTATUS(status));
-}
+	}
 
 void handle_heredoc(t_ast_node *node, char **envp)
 {

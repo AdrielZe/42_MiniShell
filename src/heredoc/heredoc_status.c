@@ -6,13 +6,12 @@
 /*   By: victda-s <victda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:57:59 by asilveir          #+#    #+#             */
-/*   Updated: 2025/03/13 17:23:18 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/03/13 22:10:14 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/main.h"
 
-// static pid_t heredoc_pid = -1;
 
 int* get_heredoc_status(void)
 {

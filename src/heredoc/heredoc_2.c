@@ -43,9 +43,10 @@ t_delim	*get_all_delimiters(t_ast_node *node)
 		new = malloc(sizeof(t_delim));
 		if (!new)
 			return (NULL);
-		delim = ft_split(node->right->value, ' ');
+		delim = split_with_quotes(node->right->value);
 		if (!delim)
 			return (NULL);
+		remove_quotes(delim[0]);
 		new->delimiter = ft_strdup(delim[0]);
 		free_array(delim);
 		new->next = head;
