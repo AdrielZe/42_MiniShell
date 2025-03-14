@@ -18,7 +18,7 @@
 
 void	set_signal_handler(void (*handler)(int))
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	sa.sa_handler = handler;
 	sa.sa_flags = SA_RESTART;
@@ -26,9 +26,11 @@ void	set_signal_handler(void (*handler)(int))
 	sigaction(SIGINT, &sa, NULL);
 }
 
-void cleanup_heredoc(void)
+void	cleanup_heredoc(void)
 {
-	t_heredoc_data *data = get_heredoc_data();
+	t_heredoc_data	*data;
+
+	data = get_heredoc_data();
 	if (data->pipefd)
 	{
 		close(data->pipefd[0]);
@@ -43,6 +45,7 @@ void cleanup_heredoc(void)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 }
+
 void	handle_sigint(int sig)
 {
 	(void)sig;
@@ -51,6 +54,7 @@ void	handle_sigint(int sig)
 	rl_redisplay();
 	write(1, "\n> ", 3);
 }
+
 void	handle_ctrl_d(char **envp_copy, t_tokens **token_list, t_ast_node *root)
 {
 	write(1, "Exiting minishell\n", 19);
@@ -67,7 +71,8 @@ void	handle_ctrl_d(char **envp_copy, t_tokens **token_list, t_ast_node *root)
 	clear_history();
 	exit(0);
 }
-void sigint_heredoc_action(int sig)
+
+void	sigint_heredoc_action(int sig)
 {
 	(void)sig;
 	if (sig == SIGINT)
@@ -76,11 +81,4 @@ void sigint_heredoc_action(int sig)
 		cleanup_heredoc();
 		exit(130);
 	}
-}
-
-void sigint_cat_action(int sig)
-{
-    	(void)sig;
-	ft_putchar_fd('\n', 1);
-	return ;
 }

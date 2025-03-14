@@ -65,26 +65,25 @@ static char	*find_string_to_replace(char *input, int index_of_env_symbol)
 	return (word_to_switch);
 }
 
-int is_only_dollar(const char *str)
+int	is_only_dollar(const char *str)
 {
-    if (!str || !*str)
-        return 1; // Considera vazio como apenas '$'
-
-    while (*str)
-    {
-        if (*str != '$')
-            return 1; // Se encontrar algo diferente de '$', retorna 1
-        str++;
-    }
-    return 0; // Se passou por toda a string e só havia '$', retorna 0
+	if (!str || !*str)
+		return (1);
+	while (*str)
+	{
+		if (*str != '$')
+			return (1);
+		str++;
+	}
+	return (0);
 }
 
-char *process_env_var(char *input, int is_heredoc)
+char	*process_env_var(char *input, int is_heredoc)
 {
-	int     index;
-	char    *input_to_return;
-	char    *word_to_switch;
-	int     in_single_quotes;
+	char	*input_to_return;
+	char	*word_to_switch;
+	int		index;
+	int		in_single_quotes;
 
 	index = 0;
 	in_single_quotes = 0;
@@ -93,20 +92,17 @@ char *process_env_var(char *input, int is_heredoc)
 	while (input && input[index])
 	{
 		if (input[index] == '\'')
-		in_single_quotes = !in_single_quotes;
+			in_single_quotes = !in_single_quotes;
 		if (input[index] == '$' && !in_single_quotes && is_heredoc == 0)
 		{
 			word_to_switch = find_string_to_replace(input, index);
 			input_to_return = replace_substring(input, word_to_switch, index);
 			input = input_to_return;
 			free(word_to_switch);
-		} 
+		}
 		index++;
 	}
 	if (in_single_quotes)
 		return (ft_strdup(input));
 	return (input);
 }
-
-
-

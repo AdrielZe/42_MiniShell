@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_status.c                                   :+:      :+:    :+:   */
+/*   sig_int_cat.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 17:57:59 by asilveir          #+#    #+#             */
-/*   Updated: 2025/03/14 00:58:33 by asilveir         ###   ########.fr       */
+/*   Created: 2025/03/14 00:54:35 by asilveir          #+#    #+#             */
+/*   Updated: 2025/03/14 00:55:09 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/main.h"
 
-int	*get_heredoc_status(void)
+void	sigint_cat_action(int sig)
 {
-	static int	heredoc_status = 0;
-
-	return (&heredoc_status);
-}
-
-void	set_heredoc_status(int status)
-{
-	*get_heredoc_status() = status;
+	(void)sig;
+	ft_putchar_fd('\n', 1);
+	return ;
 }

@@ -15,15 +15,17 @@
 
 void	free_array(char **array)
 {
-    int i2 = 0;
-    if (!array)
-        return;
-    while (array[i2])
-    {
-        free(array[i2]);
-        i2++;
-    }
-    free(array);
+	int	i;
+
+	i = 0;
+	if (!array)
+		return ;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
 }
 
 char	*allocate_word(const char *s, int len)

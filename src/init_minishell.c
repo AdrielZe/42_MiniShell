@@ -40,6 +40,7 @@ void	free_token(char ***token)
 	free(*token);
 	*token = NULL;
 }
+
 int	check_syntax(t_tokens *tokens)
 {
 	t_tokens	*current;
@@ -47,18 +48,22 @@ int	check_syntax(t_tokens *tokens)
 	current = tokens;
 	while (current)
 	{
-		if(current->type == TOKEN_APPEND || current->type == TOKEN_HEREDOC ||
-			current->type == TOKEN_REDIRECT_IN ||
-			current->type == TOKEN_REDIRECT_OUT)
-			if (!current->next || (current->next->type != TOKEN_WORD &&
-				current->next->type != TOKEN_COMMAND && current->next->type != TOKEN_SIMPLE_QUOTE))
-            {
-                printf("Erro de sintaxe: operador de redirecionamento.\n");
-				return (0);
-            }
-		if(current->type == TOKEN_PIPE)
+		if (current->type == TOKEN_APPEND || current->type == TOKEN_HEREDOC
+			|| current->type == TOKEN_REDIRECT_IN
+			|| current->type == TOKEN_REDIRECT_OUT)
 		{
-			if(!current->next || (current->next && current->next->type == TOKEN_PIPE))
+			if (!current->next || (current->next->type != TOKEN_WORD
+					&& current->next->type != TOKEN_COMMAND
+					&& current->next->type != TOKEN_SIMPLE_QUOTE))
+			{
+				printf("Erro de sintaxe: operador de redirecionamento.\n");
+				return (0);
+			}
+		}
+		if (current->type == TOKEN_PIPE)
+		{
+			if (!current->next || (current->next
+					&& current->next->type == TOKEN_PIPE))
 			{
 				printf("Erro de sintaxe: pipes.\n");
 				return (0);
@@ -68,7 +73,9 @@ int	check_syntax(t_tokens *tokens)
 	}
 	return (1);
 }
-static t_ast_node	*process_ast(t_ast_node **root, t_tokens **token_list, char **envp)
+
+static t_ast_node	*process_ast(t_ast_node **root,
+			t_tokens **token_list, char **envp)
 {
 	int	save_stdout;
 
@@ -87,6 +94,7 @@ static t_ast_node	*process_ast(t_ast_node **root, t_tokens **token_list, char **
 	close(save_stdout);
 	return (*root);
 }
+
 void	init_shell(char ***token, t_tokens **token_list, char
 			**envp, t_ast_node **root)
 {
@@ -95,7 +103,7 @@ void	init_shell(char ***token, t_tokens **token_list, char
 	*token = NULL;
 	while (1)
 	{
- 		set_signal_handler(handle_sigint);
+		set_signal_handler(handle_sigint);
 		manage_rl_input(&input, envp, token_list, *root);
 		if (!input || ft_strlen(input) == 0)
 		{

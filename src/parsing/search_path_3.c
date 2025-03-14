@@ -17,7 +17,6 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 	int	saved_stdin;
 	int	saved_stdout;
 
-
 	fflush(stdout);
 	saved_stdin = dup(STDIN_FILENO);
 	fflush(stdout);

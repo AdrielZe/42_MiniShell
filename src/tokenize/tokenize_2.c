@@ -29,9 +29,8 @@ void	skip_spaces_and_alloc_elements(const char **s, char ***array, int *i)
 void	alloc_new_word_in_array(char ***array,
 				int *i, char *new_word)
 {
-		(*array)[*i] = new_word;
-		(*i)++;
-	// *old_string = NULL;
+	(*array)[*i] = new_word;
+	(*i)++;
 }
 
 int	should_merge_token(int is_string)
@@ -61,5 +60,4 @@ void	merge_last_token(char ***array, int i, char *new_word)
 		(*array)[i - 1] = NULL;
 	}
 	(*array)[i - 1] = joined;
-	//free(new_word);
 }

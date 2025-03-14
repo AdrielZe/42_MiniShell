@@ -197,4 +197,11 @@ void	open_right_pipe(pid_t *pid_right);
 void	right_process(int *pipe, t_ast_node *node, char **envp);
 void	left_process(int *pipe, t_ast_node *node,
 		t_delim *delimiters, char **envp);
+char	**replace_at_index(char **array, int size,
+	int index, const char *new_value);
+char	**map_strings(char **array, int size, char *(*func)(char *, int));
+void exec_heredoc_cmds(t_ast_node *node, t_ast_node *current, char **envp);
+void	find_command_node(t_ast_node *node, t_ast_node **current, int pipe_found, char **envp);
+t_heredoc_data	*get_heredoc_data(void);
+
 #endif

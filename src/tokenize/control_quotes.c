@@ -21,26 +21,20 @@ int	control_quotes(const char *new_word)
 	i = 0;
 	in_single_quotes = 0;
 	in_double_quotes = 0;
-
-	// Contagem das aspas e verificações para alternar entre aspas simples e duplas
 	while (new_word[i])
 	{
 		if (new_word[i] == '\'')
 		{
-			// Se estiver fora de aspas duplas, alterna entre dentro e fora das aspas simples
 			if (!in_double_quotes)
 				in_single_quotes = !in_single_quotes;
 		}
 		if (new_word[i] == '"')
 		{
-			// Se estiver fora de aspas simples, alterna entre dentro e fora das aspas duplas
 			if (!in_single_quotes)
 				in_double_quotes = !in_double_quotes;
 		}
 		i++;
 	}
-
-	// Se houver um número ímpar de aspas (simples ou duplas) fora de outras aspas, retorna erro
 	if (in_single_quotes || in_double_quotes)
 	{
 		if (in_single_quotes)
@@ -51,4 +45,3 @@ int	control_quotes(const char *new_word)
 	}
 	return (0);
 }
-

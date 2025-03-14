@@ -41,12 +41,11 @@ void	handle_pipe_node(t_ast_node *node, char **envp)
 
 	delimiters = get_all_delimiters(node);
 	open_left_pipe(pipefd, &pid_left);
-	 set_signal_handler(SIG_IGN);
+	set_signal_handler(SIG_IGN);
 	if (pid_left == 0)
 	{
 		left_process(pipefd, node, delimiters, envp);
-	 	set_signal_handler(handle_sigint);
-
+		set_signal_handler(handle_sigint);
 	}
 	waitpid(pid_left, &status, 0);
 	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)

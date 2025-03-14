@@ -6,7 +6,7 @@
 /*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/14 17:57:02 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/03/14 18:49:51 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	handle_command_node(t_ast_node *node, char **envp)
 	saved_stdin = dup(STDIN_FILENO);
 	if (node->outfile)
 		dup2(node->outfile, STDOUT_FILENO);
+	if (node->infile)
 	if (node->infile)
 		dup2(node->infile, STDIN_FILENO);
 	if (!node->value || node->value[0] == '\0')
