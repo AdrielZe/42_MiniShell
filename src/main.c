@@ -54,7 +54,6 @@ int	main(int argc, char *argv[], char *envp[])
 	char		**token;
 	t_tokens	*token_list;
 	char		**envp_copy;
-	int			len;
 	t_ast_node	*root;
 
 	(void) argc;
@@ -66,7 +65,6 @@ int	main(int argc, char *argv[], char *envp[])
 	init_shell(&token, &token_list, envp_copy, &root);
 	clear_token_list(&token_list);
 	write_history(".my_history");
-	len = array_len(envp_copy);
 	free_array(envp_copy);
 	clear_history();
 	return (0);

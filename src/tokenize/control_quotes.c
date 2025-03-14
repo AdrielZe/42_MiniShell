@@ -15,14 +15,10 @@
 int	control_quotes(const char *new_word)
 {
 	int	i;
-	int	double_quotes_number;
-	int	simple_quotes_number;
 	int	in_single_quotes;
 	int	in_double_quotes;
 
 	i = 0;
-	double_quotes_number = 0;
-	simple_quotes_number = 0;
 	in_single_quotes = 0;
 	in_double_quotes = 0;
 

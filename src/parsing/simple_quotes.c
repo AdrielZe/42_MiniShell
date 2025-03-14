@@ -15,9 +15,6 @@
 
 void	get_cmd(t_ast_node *node, char **cmd, char ***tokens)
 {
-	int	i;
-
-	i = 0;
 	*tokens = split_with_quotes(node->value);
 	if (!*tokens)
 		return ;
