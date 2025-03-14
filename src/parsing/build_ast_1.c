@@ -45,10 +45,7 @@ t_ast_node	*create_node(t_node_type type, char *value)
 		}
 	}
 	else
-	{
-		//free(node->value);
 		node->value = NULL;
-	}
 	node->left = NULL;
 	node->right = NULL;
 	return (node);

@@ -23,23 +23,17 @@ int	control_command_execution_with_slash(char ***split_path,
 				t_ast_node *node, char **envp)
 {
 	struct stat	path_stat;
-	char	*cmd_value;
+	char		*cmd_value;
 
 	cmd_value = ft_strdup(node->value);
-	remove_quotes(cmd_value); 
+	remove_quotes(cmd_value);
 	*split_path = ft_split(cmd_value, ' ');
 	if (!*split_path)
 		return (1);
 	if (ft_strcmp(*split_path[0], "/") == 0)
-	{
-		printf("/: is a directory\n");
-		return (1);
-	}
+		return (printf("/: is a directory\n"), 1);
 	if (search_valid_path(*split_path[0], envp) != NULL)
-	{
-		execute_command(cmd_value, envp, node);
-		return (1);
-	}
+		return (execute_command(cmd_value, envp, node), 1);
 	if (node->type != NODE_COMMAND)
 	{
 		free(*split_path[0]);

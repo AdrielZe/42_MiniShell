@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/10 16:14:53 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/03/14 00:44:09 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ void	free_resources(t_ast_node *node,
 		if (split_values)
 			free_split(split_values);
 	}
-	// if (search_result)
-	// 	free(search_result);
 }
 
 void	get_cmds_to_execute(char **old_temp,

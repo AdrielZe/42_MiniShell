@@ -59,7 +59,6 @@ void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 		return ;
 	}
 	open_pid(&pid);
-	//set_signal_handler(SIG_IGN);
 	set_signal_handler(sigint_cat_action);
 	if (pid == 0)
 	{
@@ -73,11 +72,6 @@ void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 	}
 	waitpid(pid, &status, 0);
 	add_exitcode(WEXITSTATUS(status));
-	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
-	{
-	    printf("\n");
-	}
-	//free_elements_and_wait_child(path, cmd, tokens, pid);
 }
 
 void	handle_simple_quote_node(t_ast_node *node, char **envp)

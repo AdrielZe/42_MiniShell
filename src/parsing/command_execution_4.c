@@ -55,10 +55,9 @@ void	handle_command_node(t_ast_node *node, char **envp)
 
 	saved_stdin = dup(STDIN_FILENO);
 	saved_stdout = dup(STDOUT_FILENO);
-
-	if(node->outfile)
+	if (node->outfile)
 		dup2(node->outfile, STDOUT_FILENO);
-	if(node->infile)
+	if (node->infile)
 		dup2(node->infile, STDIN_FILENO);
 	if (!node->value || node->value[0] == '\0')
 		return ;
