@@ -65,6 +65,7 @@ ls -la | grep ".c" > output.txt
 ls > redirect.txt
 ls | pwd | echo 'teste' > redirect_pipe.txt
 cat << eof > redirect_hrdc.txt
+>a
 ls -la | grep ".c" >> tst.txt
 exit oskaokds
 Exit

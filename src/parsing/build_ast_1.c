@@ -53,6 +53,8 @@ t_ast_node	*create_node(t_node_type type, char *value)
 
 int	redirection_if(t_tokens *tokens, t_ast_node *node)
 {
+	int	tmp;
+
 	if (!tokens->next && node->type != NODE_WORD)
 	{
 		ft_putstr_fd("Erro de sintaxe!\n", STDERR_FILENO);
@@ -60,19 +62,41 @@ int	redirection_if(t_tokens *tokens, t_ast_node *node)
 	}
 	if (tokens->type == TOKEN_REDIRECT_IN)
 	{
-		node->infile = open_stdin(tokens->next->value);
-		node->outfile_type = NODE_REDIRECT_IN;
+		if(node)
+		{
+			node->infile = open_stdin(tokens->next->value);
+			node->outfile_type = NODE_REDIRECT_IN;
+		}
+		else
+		{
+			tmp = open_stdin(tokens->next->value);
+			close(tmp);
+		}
 		return (1);
 	}
 	else if (tokens->type == TOKEN_REDIRECT_OUT)
 	{
-		node->outfile = open_stdout(tokens->next->value);
+		if(node)
+			node->outfile = open_stdout(tokens->next->value);
+		else
+		{
+			tmp = open_stdout(tokens->next->value);
+			close(tmp);
+		}
 		return (1);
 	}
 	else if (tokens->type == TOKEN_APPEND)
 	{
-		node->outfile = open_append(tokens->next->value);
-		node->outfile_type = NODE_APPEND;
+		if(node)
+		{
+			node->outfile = open_append(tokens->next->value);
+			node->outfile_type = NODE_APPEND;
+		}
+		else
+		{
+			tmp = open_append(tokens->next->value);
+			close(tmp);
+		}
 		return (1);
 	}
 	return (0);
