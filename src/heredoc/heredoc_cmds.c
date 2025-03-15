@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_cmds.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 01:09:05 by asilveir          #+#    #+#             */
-/*   Updated: 2025/03/14 02:20:12 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/03/14 19:40:51 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	find_command_node(t_ast_node *node,
 			dup2(node->right->outfile, STDOUT_FILENO);
 		execute_command((*current)->right->value, envp, node);
 	}
-}	
+}
 
 void	exec_heredoc_cmds(t_ast_node *node, t_ast_node *current, char **envp)
 {

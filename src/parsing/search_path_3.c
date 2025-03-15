@@ -78,7 +78,7 @@ char	*resolve_path(char *cmd, char **envp)
 	char	**path_split;
 	char	*built[2];
 
-	built[0] = "PATH=built-ins";
+	built[0] = "PATH=/home/victor-garcia/42sp/42_MiniShell/built-ins";
 	built[1] = NULL;
 	path_split = ft_split(cmd, ' ');
 	if (!path_split)

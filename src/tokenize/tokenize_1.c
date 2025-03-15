@@ -53,7 +53,6 @@ size_t	ft_count_word(const char *s)
 		while (*s == '|')
 		{
 			delim_counter++;
-			// s++;
 			if (*s)
 				s++;
 		}
@@ -93,7 +92,7 @@ char	**tokenize(const char *s, char **envp)
 	int		i;
 
 	i = 0;
-	while(*s && *s == ' ')
+	while (*s && *s == ' ')
 		s++;
 	if (s == NULL || ft_count_word(s) == 0)
 		return (NULL);

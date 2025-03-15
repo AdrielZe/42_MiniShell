@@ -80,9 +80,9 @@ static t_ast_node	*process_ast(t_ast_node **root,
 	int	save_stdout;
 
 	save_stdout = dup(STDOUT_FILENO);
-	if(!token_list || !*token_list)
-		return NULL;
-	if(check_syntax(*token_list))
+	if (!token_list || !*token_list)
+		return (NULL);
+	if (check_syntax(*token_list))
 	{
 		*root = build_ast(*token_list);
 		clear_token_list(token_list);

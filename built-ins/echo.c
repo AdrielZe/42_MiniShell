@@ -16,29 +16,29 @@
 int	main(int argc, char *argv[], char *envp[])
 {
 	int	i;
-	int new_line;
+	int	new_line;
 
 	i = 1;
 	new_line = 1;
-	if(!argv[1])
+	if (!argv[1])
 	{
 		printf("\n");
 		exit (0);
 	}
-	if(ft_strnstr(argv[1], "-n", 2))
+	if (ft_strnstr(argv[1], "-n", 2))
 	{
 		new_line = 0;
 		i++;
 	}
-	while(argv[i])
+	while (argv[i])
 	{
 		printf("%s", argv[i]);
-		if(argv[i+1])
+		if (argv[i + 1])
 			printf(" ");
 		i++;
 	}
 	printf("   ---by VICTDA-S");
-	if(new_line)
+	if (new_line)
 		printf("\n");
 	exit (0);
 }

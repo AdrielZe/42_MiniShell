@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:30:05 by victda-s          #+#    #+#             */
-/*   Updated: 2025/03/07 01:46:38 by marvin           ###   ########.fr       */
+/*   Updated: 2025/03/14 19:55:59 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	main(int argc, char *argv[], char *env[])
 {
-	while(*env)
+	while (*env)
 		printf("%s    ---by victda-s\n", *env++);
 	exit (0);
 }

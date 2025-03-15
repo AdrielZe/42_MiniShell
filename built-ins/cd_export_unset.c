@@ -44,21 +44,22 @@ static void	sort(char **arr)
 		}
 	}
 }
+
 int	cd(char *argv[])
 {
-	if(argv[1] && argv[2])
+	if (argv[1] && argv[2])
 	{
 		printf("cd: muitos argumentos\n");
 		add_exitcode(1);
 		return (0);
 	}
-	else if(((!argv[1] || argv[1][0] == '~') && chdir(getenv("HOME")) >= 0))
+	else if (((!argv[1] || argv[1][0] == '~') && chdir(getenv("HOME")) >= 0))
 	{
 		setenv("PWD", getcwd(NULL, 0), 1);
 		add_exitcode(0);
 		return (1);
 	}
-	if(chdir(argv[1]) >= 0)
+	if (chdir(argv[1]) >= 0)
 	{
 		write(1, "--- by VICTDA-S\n", 16);
 		setenv("PWD", getcwd(NULL, 0), 1);
@@ -73,27 +74,27 @@ int	cd(char *argv[])
 	return (0);
 }
 
-int export(char *argv[], char **envp)
+int	export(char *argv[], char **envp)
 {
-    int i2;
-    char *equal_pos;
-	char **tmp;
-	
+	int		i2;
+	char	*equal_pos;
+	char	**tmp;
+
 	i2 = 1;
 	tmp = envp;
-    if (!argv[1])
-    {
-        sort(envp);
-        while (*tmp)
-            printf("declare -x %s\n", *tmp++);
-    }
-    while (argv[i2])
-    {
-        equal_pos = strchr(argv[i2], '=');
+	if (!argv[1])
+	{
+		sort(envp);
+		while (*tmp)
+			printf("declare -x %s\n", *tmp++);
+	}
+	while (argv[i2])
+	{
+		equal_pos = strchr(argv[i2], '=');
 		if (equal_pos)
 		{
 			*equal_pos = '\0';
-			if(!equal_pos[1])
+			if (!equal_pos[1])
 			{
 				setenv(argv[i2], argv[i2 + 1], 1);
 				i2++;
@@ -113,13 +114,13 @@ int	unset(char *argv[])
 	int	i;
 
 	i = 1;
-	if(!argv[i])
+	if (!argv[i])
 	{
 		printf("Uso: %s NOME_VARIAVEL\n", argv[0]);
 		add_exitcode(1);
 		return (1);
 	}
-	while(argv[i])
+	while (argv[i])
 	{
 		unsetenv(argv[i]);
 		i++;
