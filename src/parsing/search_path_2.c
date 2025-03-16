@@ -80,12 +80,6 @@ void	execute_node_command(t_ast_node *node, char *cmd, char **envp)
 	if (!tokens)
 		return ;
 	path = resolve_path(updated_cmd, envp);
-	int i  = 0;
-	while(tokens[i])
-	{
-		printf("token is : %s\n", tokens[i]);
-		i++;
-	}
 	if (!path)
 	{
 		free(updated_cmd);

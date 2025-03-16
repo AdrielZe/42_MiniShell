@@ -15,15 +15,17 @@
 
 void	free_array(char **array)
 {
-    int i2 = 0;
-    if (!array || !*array)
-        return;
-    while (array[i2])
-    {
-        free(array[i2]);
-        i2++;
-    }
-    free(array);
+	int	i;
+
+	i = 0;
+	if (!array || !*array)
+		return ;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
 }
 
 char	*allocate_word(const char *s, int len)
@@ -59,122 +61,29 @@ size_t	ft_count_word(const char *s)
 	}
 	return (count + delim_counter);
 }
-int is_quoted(const char *s)
+
+int	is_quoted(const char *s)
 {
-	int len;
 	char	**cmd_split;
+	int		len;
 
 	len = 0;
 	if (!s)
 	{
 		printf("Error: s is NULL\n");
-		return 0;
+		return (0);
 	}
 	if (s[0] == '"' || s[0] == '\'')
-		return s[0];
+		return (s[0]);
 	return (0);
 }
-
-void add_quote_type(char **s, char quote)
-{
-    int len;
-    char *quoted_str;
-
-    if (!s || !*s)
-        return;
-
-    len = ft_strlen(*s) + 2;
-    quoted_str = malloc(len + 1);
-    if (!quoted_str)
-        return;
-
-    quoted_str[0] = quote;
-    ft_strcpy(quoted_str + 1, *s);
-    quoted_str[len - 1] = quote;
-    quoted_str[len] = '\0';
-
-    free(*s);  // Libera a string original antes de sobrescrever
-    *s = quoted_str;  // Atualiza o ponteiro original
-}
-char *process_quotes(const char **s) {
-	const char *start;
-	char quote;
-	char *word;
-	char *temp;
-	int quotes;
-   
-	start = *s;
-	word = NULL;
-	quotes = is_quoted(*s);
-   
-	// Processa o primeiro trecho entre aspas ou sem aspas
-	if (**s == '"' || **s == '\'') {
-	    quote = *(*s)++; // Pula a primeira aspa
-	    start = *s;
-   
-	    while (**s && **s != quote) {
-		 (*s)++;
-	    }
-   
-	    if (**s == quote) {
-		 word = allocate_word(start, *s - start); // Extrai o conteúdo entre aspas
-		 (*s)++; // Avança além da aspa final
-	    }
-	} else {
-	    while (**s && !ft_strchr(" |<>", **s) && **s != '"' && **s != '\'') {
-		 (*s)++;
-	    }
-	    word = allocate_word(start, *s - start); // Extrai a palavra sem aspas
-	}
-   
-	// Processa trechos adicionais entre aspas ou sem aspas
-	while (**s && !ft_strchr(" |<>", **s)) {
-	    if (**s == '"' || **s == '\'') {
-		 quote = *(*s)++; // Pula a aspa inicial
-		 start = *s;
-   
-		 while (**s && **s != quote) {
-		     (*s)++;
-		 }
-   
-		 if (**s == quote) {
-		     temp = allocate_word(start, *s - start); // Extrai o conteúdo entre aspas
-		     (*s)++; // Avança além da aspa final
-		 }
-	    } else {
-		 start = *s;
-   
-		 while (**s && !ft_strchr(" |<>", **s) && **s != '"' && **s != '\'') {
-		     (*s)++;
-		 }
-   
-		 temp = allocate_word(start, *s - start); // Extrai a palavra sem aspas
-	    }
-   
-	    // Concatena o novo trecho com a palavra anterior
-	    if (temp) {
-		 char *joined = ft_strjoin(word, temp);
-		 free(temp);
-		 free(word);
-		 word = joined;
-	    }
-	}
-
-	if (quotes != 0) {
-	    printf("removing quotes\n");
-	    add_quote_type(&word, quotes); // Adiciona o tipo de aspas, se necessário
-	}
-   
-	return word;
-   }
-
 
 char	**tokenize(const char *s, char **envp)
 {
 	char	**array;
 	int		i;
 
-	while(*s && *s == ' ')
+	while (*s && *s == ' ')
 		s++;
 	if (s == NULL || ft_count_word(s) == 0)
 		return (NULL);

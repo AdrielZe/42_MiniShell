@@ -16,8 +16,8 @@
 
 int	ft_exit(const char **args)
 {
-	int	exit_code;
 	char	**args_array;
+	int		exit_code;
 
 	exit_code = 127;
 	args_array = ft_split(*args, ' ');
@@ -36,7 +36,7 @@ int	ft_exit(const char **args)
 		add_exitcode(1);
 		return (1);
 	}
-	if (array_len(args_array) > 1 && !ft_isnumeric(args_array[1])) 
+	if (array_len(args_array) > 1 && !ft_isnumeric(args_array[1]))
 	{
 		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 		ft_putstr_fd(args_array[1], STDERR_FILENO);
@@ -68,20 +68,19 @@ void	handle_word_quotes(char *new_word,
 void	process_new_word(char *new_word, t_word_data *data)
 {
 	if (*(data->i) == 0 || ft_strcmp(new_word, "|") == 0
-			|| ft_strcmp(new_word, "<") == 0
-			|| ft_strcmp(new_word, ">") == 0
-			|| ft_strcmp(new_word, "<<") == 0)
+		|| ft_strcmp(new_word, "<") == 0
+		|| ft_strcmp(new_word, ">") == 0
+		|| ft_strcmp(new_word, "<<") == 0)
 	{
 		alloc_new_word_in_array(data->array,
 			data->i, new_word);
 		*(data->is_executable) = 0;
-
 	}
-	else if (ft_strcmp((*data->array)[*(data->i) - 1], "|") != 0 
-			&& ft_strcmp((*data->array)[*(data->i) - 1], "<") != 0 
+	else if (ft_strcmp((*data->array)[*(data->i) - 1], "|") != 0
+			&& ft_strcmp((*data->array)[*(data->i) - 1], "<") != 0
 			&& ft_strcmp((*data->array)[*(data->i) - 1], ">") != 0
 			&& ft_strcmp((*data->array)[*(data->i) - 1], "<<") != 0
-			&& ft_strcmp((*data->array)[(*data->i) -1], ">>") != 0)
+			&& ft_strcmp((*data->array)[(*data->i) - 1], ">>") != 0)
 	{
 		merge_last_token(data->array, *(data->i), new_word);
 		*(data->is_executable) = 0;

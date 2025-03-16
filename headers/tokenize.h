@@ -48,6 +48,7 @@ typedef struct s_tokens
 
 //Função print_list não está sendo usada
 // mas será útil para debugar (remover qnd projeto estiver pronto)
+int	is_quoted(const char *s);
 
 //src/tokenize/classify_token.c
 int			count_if(size_t *count, const char *s);
