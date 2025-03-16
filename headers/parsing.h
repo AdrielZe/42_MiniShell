@@ -203,5 +203,5 @@ char	**map_strings(char **array, int size, char *(*func)(char *, int));
 void exec_heredoc_cmds(t_ast_node *node, t_ast_node *current, char **envp);
 void	find_command_node(t_ast_node *node, t_ast_node **current, int pipe_found, char **envp);
 t_heredoc_data	*get_heredoc_data(void);
-
+int consumes_stdin(char *command, char **envp);
 #endif

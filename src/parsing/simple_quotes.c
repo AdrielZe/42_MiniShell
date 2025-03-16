@@ -26,9 +26,9 @@ void	get_cmd(t_ast_node *node, char **cmd, char ***tokens)
 
 void	if_not_path(char *cmd, char **tokens)
 {
-	write(2, "command: ", 9);
+	write(2, "minishell: ", 11);
 	write(2, cmd, ft_strlen(cmd));
-	write(2, " not found\n", 11);
+	write(2, ": command not found\n", 20);
 	add_exitcode(127);
 	free_array(tokens);
 }
@@ -52,9 +52,14 @@ void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 
 	built[0] = "PATH=built-ins";
 	get_cmd(node, &cmd, &tokens);
+	if (ft_strcmp(cmd, "minishell") == 0)
+	{
+		printf("minishell: minishell: command not found\n");
+		return ;
+	}
 	path = search_valid_path(cmd, built);
 	if (!path)
-		path = search_valid_path(cmd, envp);
+	path = search_valid_path(cmd, envp);
 	if (!path)
 	{
 		if_not_path(cmd, tokens);

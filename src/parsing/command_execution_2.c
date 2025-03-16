@@ -47,7 +47,6 @@ void	handle_pipe_node(t_ast_node *node, char **envp)
 		left_process(pipefd, node, delimiters, envp);
 		set_signal_handler(handle_sigint);
 	}
-	waitpid(pid_left, &status, 0);
 	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
 		return ;
 	open_right_pipe(&pid_right);
