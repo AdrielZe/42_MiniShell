@@ -75,42 +75,26 @@ int is_quoted(const char *s)
 	return (0);
 }
 
-void add_quote_type(char *s, char quote)
+void add_quote_type(char **s, char quote)
 {
     int len;
     char *quoted_str;
 
-    if (!s) // Verifica se a string é nula
+    if (!s || !*s)
         return;
 
-    len = ft_strlen(s) + 2; // Calcula o novo comprimento da string (adicionando espaço para as aspas)
-
-    // Aloca memória para a nova string com as aspas
-    quoted_str = malloc(len + 1);  // +1 para o caractere nulo '\0'
+    len = ft_strlen(*s) + 2;
+    quoted_str = malloc(len + 1);
     if (!quoted_str)
-    {
-        // Se a alocação falhar, retorna
         return;
-    }
 
-    // Coloca o tipo de aspa (quote) no início da string
     quoted_str[0] = quote;
-
-    // Copia a string original para a nova string, começando da posição 1
-    ft_strcpy(quoted_str + 1, s);
-
-    // Coloca a mesma aspa no final da string
+    ft_strcpy(quoted_str + 1, *s);
     quoted_str[len - 1] = quote;
-
-    // Adiciona o caractere nulo no final
     quoted_str[len] = '\0';
 
-    // Agora a string `quoted_str` contém a string original com as aspas ao redor
-    // Em vez de retornar, você pode fazer o que for necessário com `quoted_str`
-    // Exemplo: você pode copiar a string de volta para `s`, ou retornar, conforme a necessidade.
-    ft_strcpy(s, quoted_str); // Se você deseja sobrescrever a string original
-
-    free(quoted_str);  // Libera a memória alocada
+    free(*s);  // Libera a string original antes de sobrescrever
+    *s = quoted_str;  // Atualiza o ponteiro original
 }
 char *process_quotes(const char **s) {
 	const char *start;
@@ -175,10 +159,10 @@ char *process_quotes(const char **s) {
 		 word = joined;
 	    }
 	}
-   
+
 	if (quotes != 0) {
 	    printf("removing quotes\n");
-	    add_quote_type(word, quotes); // Adiciona o tipo de aspas, se necessário
+	    add_quote_type(&word, quotes); // Adiciona o tipo de aspas, se necessário
 	}
    
 	return word;

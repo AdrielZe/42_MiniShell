@@ -65,6 +65,8 @@ size_t		ft_count_word(const char *s);
 char		*process_quotes(const char **s);
 char		**tokenize(const char *s, char **envp);
 char	**split_with_quotes2(const char *s);
+void add_quote_type(char **s, char quote);
+
 //src/tokenize/tokenize_2.c
 void		skip_spaces_and_alloc_elements(const char **s,
 				char ***array, int *i);

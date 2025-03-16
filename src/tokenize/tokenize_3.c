@@ -80,7 +80,6 @@ void	process_words(const char **s, char ***array, int *i, char **envp)
 			free_array(*array);
 			return ;
 		}
-		printf("new word is : %s\n", new_word);
 		process_new_word(new_word, &data);
 		data.old_string = NULL;
 		handle_word_quotes(new_word, &is_executable, envp, *i);

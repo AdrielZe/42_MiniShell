@@ -6,13 +6,13 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 03:13:38 by asilveir          #+#    #+#             */
-/*   Updated: 2025/03/16 03:14:06 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/03/16 06:57:52 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char    *ft_strcpy(char *s1, char *s2)
+char    *ft_strcpy(char *s1, const char *s2)
 {
 	int i;
 
