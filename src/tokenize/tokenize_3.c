@@ -67,7 +67,7 @@ void	process_words(const char **s, char ***array, int *i, char **envp)
 	data.array = array;
 	new_word = NULL;
 	old_string = NULL;
-	if (ft_exit(s) == 1)
+	if (ft_exit(s, envp) == 1)
 		return ;
 	while (**s)
 	{

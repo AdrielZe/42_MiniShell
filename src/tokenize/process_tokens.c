@@ -14,7 +14,7 @@
 
 #include "../headers/main.h"
 
-int	ft_exit(const char **args)
+int	ft_exit(const char **args, char **envp)
 {
 	char	**args_array;
 	int		exit_code;
@@ -25,7 +25,10 @@ int	ft_exit(const char **args)
 	if (array_len(args_array) > 1)
 		remove_quotes(args_array[1]);
 	if (ft_strcmp(args_array[0], "exit") != 0)
+	{
+		free_array(args_array);
 		return (0);
+	}
 	if (!args_array)
 		return (0);
 	if (!args_array[0])
@@ -45,6 +48,8 @@ int	ft_exit(const char **args)
 	}
 	if (array_len(args_array) > 1 && ft_isnumeric(args_array[1]))
 		exit_code = ft_atoi(args_array[1]) % 256;
+	free_array(args_array);
+	free_array(envp);
 	exit(exit_code);
 	return (0);
 }

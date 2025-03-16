@@ -62,7 +62,7 @@ int	redirection_if(t_tokens *tokens, t_ast_node *node)
 	}
 	if (tokens->type == TOKEN_REDIRECT_IN)
 	{
-		if(node)
+		if (node)
 		{
 			node->infile = open_stdin(tokens->next->value);
 			node->outfile_type = NODE_REDIRECT_IN;
@@ -76,7 +76,7 @@ int	redirection_if(t_tokens *tokens, t_ast_node *node)
 	}
 	else if (tokens->type == TOKEN_REDIRECT_OUT)
 	{
-		if(node)
+		if (node)
 			node->outfile = open_stdout(tokens->next->value);
 		else
 		{
@@ -87,7 +87,7 @@ int	redirection_if(t_tokens *tokens, t_ast_node *node)
 	}
 	else if (tokens->type == TOKEN_APPEND)
 	{
-		if(node)
+		if (node)
 		{
 			node->outfile = open_append(tokens->next->value);
 			node->outfile_type = NODE_APPEND;

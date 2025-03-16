@@ -25,7 +25,7 @@ int	array_len(char **array)
 	return (i);
 }
 
-static char	**copy_envp(char *envp[])
+char	**copy_envp(char *envp[])
 {
 	int		i;
 	char	**envp_copy;
@@ -33,7 +33,7 @@ static char	**copy_envp(char *envp[])
 	i = 0;
 	while (envp[i])
 		i++;
-	envp_copy = (char **)malloc(sizeof(char *) * (i + 1));
+	envp_copy = (char **)malloc(sizeof(char *) * (1000 + 1));
 	if (!envp_copy)
 	{
 		perror("malloc");

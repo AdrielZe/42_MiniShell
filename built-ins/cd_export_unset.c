@@ -74,22 +74,37 @@ int	cd(char *argv[])
 	return (0);
 }
 
+void update_env_copy(char ***env_copy, const char *new_var)
+{
+	int	i;
+
+	i = 0;
+	while((*env_copy)[i])
+		i++;
+	(*env_copy)[i] = ft_strdup(new_var);
+	if (!(*env_copy)[i])
+		return ;
+	(*env_copy)[i+1] = NULL;
+}
+
 int	export(char *argv[], char **envp)
 {
 	int		i2;
 	char	*equal_pos;
 	char	**tmp;
 
+
 	i2 = 1;
 	tmp = envp;
 	if (!argv[1])
 	{
-		sort(envp);
+		sort(tmp);
 		while (*tmp)
 			printf("declare -x %s\n", *tmp++);
 	}
 	while (argv[i2])
 	{
+		update_env_copy(&envp, argv[i2]);
 		equal_pos = strchr(argv[i2], '=');
 		if (equal_pos)
 		{
