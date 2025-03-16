@@ -21,6 +21,7 @@ src/tests/
 gitignore
 program
 minishell
+minishell_tester/
 norminette_env/
 .gitignore
 ast_print.txt

@@ -26,7 +26,9 @@ void	get_cmd(t_ast_node *node, char **cmd, char ***tokens)
 
 void	if_not_path(char *cmd, char **tokens)
 {
-	printf("minishell: %s: command not found\n", cmd);
+	write(2, "command: ", 9);
+	write(2, cmd, ft_strlen(cmd));
+	write(2, " not found\n", 11);
 	add_exitcode(127);
 	free_array(tokens);
 }
