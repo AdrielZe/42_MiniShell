@@ -12,7 +12,7 @@
 
 #include "../headers/main.h"
 
-char	*extract_new_word(const char **s, char ***array)
+char	*extract_new_word(char **s, char ***array)
 {
 	char	*new_word;
 
