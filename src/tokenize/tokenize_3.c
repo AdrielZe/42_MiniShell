@@ -41,7 +41,7 @@ void	remove_quotes(char *str)
 	read = str;
 	write = str;
 	if (!str)
-		return;
+		return ;
 	while (*read)
 	{
 		if (*read != '"' && *read != '\'')
@@ -54,13 +54,15 @@ void	remove_quotes(char *str)
 	*write = '\0';
 }
 
-void	start_word_variables(t_word_data *data, char ***array, int *is_executable, int *i)
+void	start_word_variables(t_word_data *data,
+		char ***array, int *is_executable, int *i)
 {
 	data->old_string = NULL;
 	data->is_executable = is_executable;
 	data->i = i;
 	data->array = array;
 }
+
 void	process_words(const char **s, char ***array, int *i, char **envp)
 {
 	char		*old_string;
@@ -85,7 +87,6 @@ void	process_words(const char **s, char ***array, int *i, char **envp)
 			return ;
 		}
 		process_new_word(new_word, &data);
-		data.old_string = NULL;
 		handle_word_quotes(new_word, &is_executable, envp, *i);
 	}
 	free(old_string);

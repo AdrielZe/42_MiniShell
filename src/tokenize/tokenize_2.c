@@ -31,7 +31,6 @@ void	alloc_new_word_in_array(char ***array,
 {
 		(*array)[*i] = new_word;
 		(*i)++;
-	// *old_string = NULL;
 }
 
 int	should_merge_token(int is_string)
@@ -61,5 +60,4 @@ void	merge_last_token(char ***array, int i, char *new_word)
 		(*array)[i - 1] = NULL;
 	}
 	(*array)[i - 1] = joined;
-	//free(new_word);
 }
