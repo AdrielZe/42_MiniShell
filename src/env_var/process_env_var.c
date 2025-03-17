@@ -71,7 +71,7 @@ int	is_only_dollar(const char *str)
 		return (1);
 	while (*str)
 	{
-		if (*str != '$')
+		if (*str != '$' && *str != ' ')
 			return (1);
 		str++;
 	}
@@ -97,6 +97,8 @@ char	*process_env_var(char *input, int is_heredoc)
 		}
 		if ((input[index] == '$' && !in_single_quotes) || (input[index] == '$' && is_heredoc == 1))
 		{
+			if (is_only_dollar(input) == 1)
+				return (input);
 			word_to_switch = find_string_to_replace(input, index);
 			input_to_return = replace_substring(input, word_to_switch, index);
 			input = input_to_return;

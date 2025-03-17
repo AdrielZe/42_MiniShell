@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_execution_4.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/14 19:41:52 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/03/17 03:47:51 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	handle_command_node(t_ast_node *node, char **envp)
 	if (!node->value || node->value[0] == '\0')
 		return ;
 	split_result = ft_split(node->value, ' ');
-	is_env_var = (split_result && ft_strchr(split_result[0], '$') != NULL);
+	is_env_var = (split_result && ft_strchr(split_result[0], '$')
+		!= NULL && is_only_dollar(split_result[0]) == 1);
 	old_string = ft_strdup(node->value);
 	if (node->type != NODE_SIMPLE_QUOTE)
 		node->value = process_env_var(node->value, 0);
