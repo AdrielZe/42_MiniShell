@@ -212,5 +212,8 @@ void wait_for_processes(pid_t pid_left, pid_t pid_right, int *status);
 void handle_left_process(pid_t pid_left, int *pipefd, t_ast_node *node, t_delim *delimiters, char **envp);
 int should_wait_left_process(t_ast_node *node, pid_t pid_left, int *status);
 void handle_right_process(pid_t pid_right, int *pipefd, t_ast_node *node, char **envp);
+char	*get_quoted_string(const char **s, char quote);
+
+
 
 #endif

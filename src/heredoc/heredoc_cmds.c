@@ -6,18 +6,11 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 01:09:05 by asilveir          #+#    #+#             */
-/*   Updated: 2025/03/16 21:13:35 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/03/16 23:23:13 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/main.h"
-
-t_heredoc_data	*get_heredoc_data(void)
-{
-	static t_heredoc_data	data = {NULL, NULL};
-
-	return (&data);
-}
 
 void	find_command_node(t_ast_node *node,
 		t_ast_node **current, int pipe_found, char **envp)
@@ -55,7 +48,7 @@ char	**extract_quoted_strings(const char *s)
 				s++;
 			if (*s == quote)
 			{
-				quoted_strings[i] = strndup(start, s - start);
+				quoted_strings[i] = ft_strndup(start, s - start);
 				i++;
 				s++;
 			}

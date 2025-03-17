@@ -34,10 +34,7 @@ t_delim	*get_all_delimiters(t_ast_node *node)
 
 	head = NULL;
 	if (node_exists(node) == 1)
-	{
-		printf("✘ minishell: syntax error near unexpected token `newline'\n");
 		return (NULL);
-	}
 	while (node && node->type == NODE_HEREDOC)
 	{
 		new = malloc(sizeof(t_delim));

@@ -44,6 +44,7 @@ int		ft_tolower(int c);
 int		ft_atoi(const char *num);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_isnumeric(const char *str);
+char	*ft_strndup(const char *s1, size_t n);
 char	*ft_itoa(int n);
 char	*ft_strcpy(char *s1, const char *s2);
 char	*ft_strcat(char *dest, char *src);
