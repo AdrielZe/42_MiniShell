@@ -6,7 +6,7 @@
 /*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/14 19:41:52 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/03/17 15:36:22 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	cd(char *argv[]);
 int	export(char *argv[], char **envp);
-int	unset(char *argv[]);
+int	unset(char *argv[], char ***envp);
 
 int	if_cd(char *cmd, char **envp)
 {
@@ -37,7 +37,7 @@ int	if_cd(char *cmd, char **envp)
 	}
 	else if (ft_strcmp(split_cmd[0], "unset") == 0)
 	{
-		unset(split_cmd);
+		unset(split_cmd, &envp);
 		free_array(split_cmd);
 		return (1);
 	}
