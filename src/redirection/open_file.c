@@ -48,7 +48,7 @@ int	open_stdin(char *file)
 	if (fd == -1)
 	{
 		perror("Erro ao abrir o arquivo");
-		return (-1);
+		return (-2);
 	}
 	return (fd);
 }

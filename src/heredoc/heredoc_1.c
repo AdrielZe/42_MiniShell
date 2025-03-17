@@ -87,10 +87,10 @@ void	execute_command_with_heredoc(int *pipefd, pid_t pid,
 	protect_fork(&pid);
 	if (pid == 0)
 	{
-		dup2(pipefd[0], STDIN_FILENO);
-		close(pipefd[0]);
 		handle_nodes_to_execute_command(current, pipe_found, node, envp);
 		check_all_commands(node, envp);
+		dup2(pipefd[0], STDIN_FILENO);
+		close(pipefd[0]);
 		exit(1);
 	}
 	close(pipefd[0]);

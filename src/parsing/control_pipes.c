@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   control_pipes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/16 21:58:01 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:49:16 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	wait_for_processes(pid_t pid_left, pid_t pid_right, int *status)
 int	should_wait_left_process(t_ast_node *node,
 		pid_t pid_left, int *status)
 {
-	if (ft_strcmp(node->left->value, "<<") == 0)
+	if (node->left && node->left->value && ft_strcmp(node->left->value, "<<") == 0)
 	{
 		waitpid(pid_left, status, 0);
 	}
