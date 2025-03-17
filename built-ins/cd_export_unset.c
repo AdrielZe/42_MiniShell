@@ -45,33 +45,32 @@ int	cd(char *argv[])
 	return (0);
 }
 
-void remove_env_var(char ***env_copy, const char *var_name)
+void	remove_env_var(char ***env_copy, const char *var_name)
 {
-    int i, j;
-    size_t name_len;
+	int		i;
+	int		j;
+	size_t	name_len;
 
-    name_len = ft_strlen(var_name);
-    i = 0;
-
-    while ((*env_copy)[i])
-    {
-        // Verifica se a variável é igual ao nome fornecido, e se o valor após o "=" é vazio ou inexistente
-        if (ft_strncmp((*env_copy)[i], var_name, name_len) == 0 && ((*env_copy)[i][name_len] == '=' || (*env_copy)[i][name_len] == '\0'))
-        {
-            free((*env_copy)[i]);
-            j = i;
-            // Desloca os elementos seguintes para preencher o "buraco" criado pela remoção
-            while ((*env_copy)[j])
-            {
-                (*env_copy)[j] = (*env_copy)[j + 1];
-                j++;
-            }
-            return;
-        }
-        i++;
-    }
+	name_len = ft_strlen(var_name);
+	i = 0;
+	while ((*env_copy)[i])
+	{
+		if (ft_strncmp((*env_copy)[i], var_name, name_len) == 0 &&
+				((*env_copy)[i][name_len] == '=' ||
+				(*env_copy)[i][name_len] == '\0'))
+		{
+			free((*env_copy)[i]);
+			j = i;
+			while ((*env_copy)[j])
+			{
+				(*env_copy)[j] = (*env_copy)[j + 1];
+				j++;
+			}
+			return ;
+		}
+		i++;
+	}
 }
-
 
 int	unset(char *argv[], char ***envp)
 {
