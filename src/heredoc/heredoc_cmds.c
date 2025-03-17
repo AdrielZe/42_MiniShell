@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 01:09:05 by asilveir          #+#    #+#             */
-/*   Updated: 2025/03/17 05:35:33 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/03/17 10:53:43 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,25 @@ void	find_command_node(t_ast_node *node,
 	}
 }
 
-char	**extract_quoted_strings(const char *s)
+static char *extract_next_quoted(const char **s, char quote)
 {
-	char		**quoted_strings;
-	const char	*start;
-	char		quote;
-	int			count;
-	int			i;
+	const char *start = ++(*s);
+	while (**s && **s != quote)
+		(*s)++;
+	if (**s == quote)
+	{
+		char *str = ft_strndup(start, *s - start);
+		(*s)++;
+		return (str);
+	}
+	return (NULL);
+}
 
-	count = 0;
-	i = 0;
+char **extract_quoted_strings(const char *s)
+{
+	char **quoted_strings;
+	int i = 0;
+
 	quoted_strings = malloc(sizeof(char *) * 100);
 	if (!quoted_strings)
 		return (NULL);
@@ -42,19 +51,12 @@ char	**extract_quoted_strings(const char *s)
 	{
 		if (*s == '\'')
 		{
-			quote = *s++;
-			start = s;
-			while (*s && *s != quote)
-				s++;
-			if (*s == quote)
-			{
-				quoted_strings[i] = ft_strndup(start, s - start);
+			quoted_strings[i] = extract_next_quoted(&s, *s);
+			if (quoted_strings[i])
 				i++;
-				s++;
-			}
 		}
 		else
-			s++;
+		s++;
 	}
 	quoted_strings[i] = NULL;
 	return (quoted_strings);
@@ -115,12 +117,13 @@ void	remove_array_quotes(char ***array)
 	int i;
 	
 	i = 0;
-	while (*array[i])
+	while ((*array)[i])
 	{
-		remove_quotes(*array[i]);
+		remove_quotes((*array)[i]);
 		i++;
 	}
 }
+
 void	exec_heredoc_cmds(t_ast_node *node, t_ast_node *current, char **envp)
 {
 	char	*string;
