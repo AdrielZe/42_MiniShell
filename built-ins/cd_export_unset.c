@@ -76,11 +76,27 @@ int	cd(char *argv[])
 
 void	update_env_copy(char ***env_copy, const char *new_var)
 {
-	int	i;
+	int		i;
+	size_t	var_len;
+	char	*equal_sign;
 
 	i = 0;
+	equal_sign = ft_strchr(new_var, '=');
+	if (equal_sign)
+		var_len = equal_sign - new_var;
+	else
+		var_len = ft_strlen(new_var);
 	while ((*env_copy)[i])
+	{
+		if (ft_strncmp((*env_copy)[i], new_var, var_len) == 0 &&
+			(*env_copy)[i][var_len] == '=')
+		{
+			free((*env_copy)[i]);
+			(*env_copy)[i] = ft_strdup(new_var);
+			return ;
+		}
 		i++;
+	}
 	(*env_copy)[i] = ft_strdup(new_var);
 	if (!(*env_copy)[i])
 		return ;
