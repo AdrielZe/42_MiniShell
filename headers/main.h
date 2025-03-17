@@ -52,6 +52,7 @@ void	manage_rl_input(char **input,
 void	handle_sigint(int sig);
 void	handle_ctrl_d(char **envp_copy, struct s_tokens **token_list,
 			struct s_ast_node *root);
+void	sigquit_handler(int sig);
 
 //src/env_var/process_env_var.c
 char	*process_env_var(char *input, int is_heredoc);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_cmds.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 01:09:05 by asilveir          #+#    #+#             */
-/*   Updated: 2025/03/16 23:31:07 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/03/17 05:35:33 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ char	**place_simple_quote(char **array, char **in_quote)
 			{
 				free(new_array[i]);
 				new_array[i] = add_quote_type_str(in_quote[j], '\'');
-				printf("in quote: %s\n", new_array[i]);
 				break ;
 			}
 			j++;
@@ -111,6 +110,17 @@ char	**place_simple_quote(char **array, char **in_quote)
 	return (new_array);
 }
 
+void	remove_array_quotes(char ***array)
+{
+	int i;
+	
+	i = 0;
+	while (*array[i])
+	{
+		remove_quotes(*array[i]);
+		i++;
+	}
+}
 void	exec_heredoc_cmds(t_ast_node *node, t_ast_node *current, char **envp)
 {
 	char	*string;
@@ -130,6 +140,8 @@ void	exec_heredoc_cmds(t_ast_node *node, t_ast_node *current, char **envp)
 	free_array(args);
 	new_args = map_strings(new_args, array_len(new_args), process_env_var);
 	free_array(value_splitted);
+	remove_array_quotes(&new_args);
+
 	if (execve(value, new_args, envp) == -1)
 	{
 		perror("execve\n");

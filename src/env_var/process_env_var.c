@@ -68,10 +68,10 @@ static char	*find_string_to_replace(char *input, int index_of_env_symbol)
 int	is_only_dollar(const char *str)
 {
 	if (!str || !*str)
-		return (1);
+		return (0);
 	while (*str)
 	{
-		if (*str != '$')
+		if (*str != '$' && *str != ' ')
 			return (1);
 		str++;
 	}

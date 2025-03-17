@@ -58,6 +58,7 @@ int	main(int argc, char *argv[], char *envp[])
 
 	(void) argc;
 	(void) argv;
+	signal(SIGQUIT, SIG_IGN);
 	setenv("EXITCODEMINISHELL", "0", 1);
 	envp_copy = copy_envp(envp);
 	token_list = NULL;
