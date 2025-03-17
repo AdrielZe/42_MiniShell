@@ -77,9 +77,9 @@ int	is_quoted(const char *s)
 	return (0);
 }
 
-int check_pipe_syntax(const char *s)
+int	check_pipe_syntax(const char *s)
 {
-	int prev_char_was_pipe;
+	int	prev_char_was_pipe;
 
 	prev_char_was_pipe = 0;
 	while (*s == ' ')
@@ -110,8 +110,6 @@ int check_pipe_syntax(const char *s)
 	return (0);
 }
 
-
-
 char	**tokenize(const char *s, char **envp)
 {
 	char	**array;
@@ -124,22 +122,8 @@ char	**tokenize(const char *s, char **envp)
 	if (s == NULL || ft_count_word(s) == 0)
 		return (NULL);
 	s_copy = ft_strdup(s);
-	if (check_pipe_syntax(s_copy))
-	{
-	    printf("minishell: syntax error near unexpected token `|'\n");
-	    free(s_copy);
-	    return (NULL);
-	}   
-	if (control_quotes(s) == 1)
+	if (control_syntax(s_copy, array) == 1)
 		return (NULL);
-	if (is_only_dollar(s_copy) == 0)
-	{
-		array = split_with_quotes(s_copy);
-		printf("minishell: %s: command not found\n", array[0]);
-		free_array(array);
-		free(s_copy);
-		return (NULL);
-	}
 	array = ft_calloc(ft_count_word(s) + 1, sizeof(char *));
 	if (!array)
 		return (NULL);

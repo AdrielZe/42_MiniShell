@@ -62,6 +62,8 @@ char	*add_quote_type_str(const char *s, char quote);
 char **prepare_exec_args(t_ast_node *node, t_ast_node *current, char **envp);
 char	**extract_quoted_strings(const char *s);
 int	is_only_dollar(const char *str);
+int	control_syntax(char *s_copy, char **array);
+int check_pipe_syntax(const char *s);
 
 //src/ast_tokens.c
 void		create_heredoc_node(t_ast_node	**root, t_ast_node **current);
