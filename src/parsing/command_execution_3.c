@@ -49,15 +49,7 @@ void	when_only_env_var(t_ast_node *node, char **envp)
 				printf("minishell: %s: No such file or directory\n",
 					node->value);
 			else
-			{
-				cmd = ft_split(node->value, '"');
-				cmd_execute = ft_strtrim(cmd[0], " ");
-				if (!cmd_execute)
-					return ;
-				node->value = cmd_execute;
 				handle_command_node(node, envp);
-				free_array(cmd);
-			}
 			return ;
 		}
 		return ;

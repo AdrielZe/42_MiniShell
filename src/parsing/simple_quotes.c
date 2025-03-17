@@ -52,31 +52,20 @@ void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 
 	built[0] = "PATH=built-ins";
 	get_cmd(node, &cmd, &tokens);
-	if (ft_strcmp(cmd, "minishell") == 0)
-	{
-		printf("minishell: minishell: command not found\n");
+	if (is_src_file(cmd) == 1)
 		return ;
-	}
 	path = search_valid_path(cmd, built);
 	if (!path)
-	path = search_valid_path(cmd, envp);
+		path = search_valid_path(cmd, envp);
 	if (!path)
 	{
-		if_not_path(cmd, tokens);
+		handle_execution_failure(cmd, tokens);
 		return ;
 	}
 	open_pid(&pid);
 	set_signal_handler(sigint_cat_action);
 	if (pid == 0)
-	{
-		valid_outfile_and_path(cmd, path);
-		if (execve(path, tokens, envp) == -1)
-		{
-			perror("execve failed\n");
-			exit(127);
-		}
-		exit(0);
-	}
+		execute_child_process(cmd, path, tokens, envp);
 	waitpid(pid, &status, 0);
 	add_exitcode(WEXITSTATUS(status));
 }

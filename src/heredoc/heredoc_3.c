@@ -29,7 +29,6 @@ char	**map_strings(char **array, int size, char *(*func)(char *, int))
 			printf("new value: %s\n", array[i]);
 			if (!new_value)
 				return (NULL);
-			//free(array[i]);
 			array[i] = new_value;
 		}
 		i++;

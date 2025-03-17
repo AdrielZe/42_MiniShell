@@ -19,26 +19,11 @@ void	rmv_quotes_set_cmd(t_ast_node *node,
 	get_cmd_to_execute(node, split_values, command_to_execute);
 }
 
-int	control_command_execution_with_slash(char ***split_path,
-				t_ast_node *node, char **envp)
+int	control_stat(char *cmd_value,
+		char ***split_path, t_ast_node *node, char **envp)
 {
 	struct stat	path_stat;
-	char		*cmd_value;
 
-	cmd_value = ft_strdup(node->value);
-	remove_quotes(cmd_value);
-	*split_path = ft_split(cmd_value, ' ');
-	if (!*split_path)
-		return (1);
-	if (ft_strcmp(*split_path[0], "/") == 0)
-		return (printf("/: is a directory\n"), 1);
-	if (search_valid_path(*split_path[0], envp) != NULL)
-		return (execute_command(cmd_value, envp, node), 1);
-	if (node->type != NODE_COMMAND)
-	{
-		free(*split_path[0]);
-		*split_path[0] = ft_strdup(cmd_value);
-	}
 	if (stat(cmd_value, &path_stat) != 0)
 	{
 		printf("minishell: %s: No such file or directory\n", *split_path[0]);
@@ -56,6 +41,30 @@ int	control_command_execution_with_slash(char ***split_path,
 	}
 	else
 		execute_command(node->value, envp, node);
+	return (0);
+}
+
+int	control_command_execution_with_slash(char ***split_path,
+				t_ast_node *node, char **envp)
+{
+	char		*cmd_value;
+
+	cmd_value = ft_strdup(node->value);
+	remove_quotes(cmd_value);
+	*split_path = ft_split(cmd_value, ' ');
+	if (!*split_path)
+		return (1);
+	if (ft_strcmp(*split_path[0], "/") == 0)
+		return (printf("/: is a directory\n"), 1);
+	if (search_valid_path(*split_path[0], envp) != NULL)
+		return (execute_command(cmd_value, envp, node), 1);
+	if (node->type != NODE_COMMAND)
+	{
+		free(*split_path[0]);
+		*split_path[0] = ft_strdup(cmd_value);
+	}
+	if (control_stat(cmd_value, split_path, node, envp) == 1)
+		return (1);
 	return (0);
 }
 

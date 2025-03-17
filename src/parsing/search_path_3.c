@@ -43,7 +43,6 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 		execute_word_node(node, cmd, envp);
 	else if (node->type == NODE_SIMPLE_QUOTE)
 		execute_simple_quote_node(node, cmd, envp);
-
 	dup2(saved_stdin, STDIN_FILENO);
 	dup2(saved_stdout, STDOUT_FILENO);
 	close(saved_stdin);
@@ -66,13 +65,6 @@ void	setup_tokens_and_commands(t_ast_node *node, char ***tokens,
 		*cmd_to_split = ft_split(*cmd, ' ');
 	}
 	if (!*cmd_to_split)
-		return ;
-}
-
-void	open_pid(int *pid)
-{
-	*pid = fork();
-	if (*pid < 0)
 		return ;
 }
 
