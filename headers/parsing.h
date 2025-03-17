@@ -56,6 +56,13 @@ typedef struct s_ast_node
 	int					env_var;
 }	t_ast_node;
 
+void	remove_array_quotes(char ***array);
+char	**place_simple_quote(char **array, char **in_quote);
+char	*add_quote_type_str(const char *s, char quote);
+char **prepare_exec_args(t_ast_node *node, t_ast_node *current, char **envp);
+char	**extract_quoted_strings(const char *s);
+int	is_only_dollar(const char *str);
+
 //src/ast_tokens.c
 void		create_heredoc_node(t_ast_node	**root, t_ast_node **current);
 void		create_pipe_node(t_ast_node	**root, t_ast_node **current);
