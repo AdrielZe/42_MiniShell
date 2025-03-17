@@ -92,8 +92,10 @@ char	*process_env_var(char *input, int is_heredoc)
 	while (input && input[index])
 	{
 		if (input[index] == '\'')
+		{
 			in_single_quotes = !in_single_quotes;
-		if (input[index] == '$' && !in_single_quotes && is_heredoc == 0)
+		}
+		if ((input[index] == '$' && !in_single_quotes) || (input[index] == '$' && is_heredoc == 1))
 		{
 			word_to_switch = find_string_to_replace(input, index);
 			input_to_return = replace_substring(input, word_to_switch, index);

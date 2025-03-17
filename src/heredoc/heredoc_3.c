@@ -25,10 +25,10 @@ char	**map_strings(char **array, int size, char *(*func)(char *, int))
 	{
 		if (array[i][0] == '$')
 		{
-			new_value = func(array[i], 0);
+			new_value = func(array[i], 1);
+			printf("new value: %s\n", array[i]);
 			if (!new_value)
 				return (NULL);
-			free(array[i]);
 			array[i] = new_value;
 		}
 		i++;

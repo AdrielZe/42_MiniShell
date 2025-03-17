@@ -37,8 +37,7 @@ void	left_process(int *pipe, t_ast_node *node,
 			exit(1);
 		}
 	}
-	close(pipe[0]);
-	close(pipe[1]);
+	close_pipefd(pipe);
 	parse_commands(node->left, envp);
 	exit(0);
 }

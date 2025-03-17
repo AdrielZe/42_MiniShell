@@ -12,16 +12,8 @@
 
 #include "../headers/main.h"
 
-void	execute_command(char *cmd, char **envp, t_ast_node *node)
+void	redirect_io(t_ast_node *node)
 {
-	int	saved_stdin;
-	int	saved_stdout;
-
-	fflush(stdout);
-	saved_stdin = dup(STDIN_FILENO);
-	fflush(stdout);
-	saved_stdout = dup(STDOUT_FILENO);
-	fflush(stdout);
 	if (node->outfile)
 	{
 		dup2(node->outfile, STDOUT_FILENO);
@@ -32,14 +24,25 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 		dup2(node->infile, STDIN_FILENO);
 		close(node->infile);
 	}
-	if (node->type == NODE_COMMAND)
+}
+
+void	execute_command(char *cmd, char **envp, t_ast_node *node)
+{
+	int	saved_stdin;
+	int	saved_stdout;
+
+	fflush(stdout);
+	saved_stdin = dup(STDIN_FILENO);
+	fflush(stdout);
+	saved_stdout = dup(STDOUT_FILENO);
+	fflush(stdout);
+	redirect_io(node);
+	if (node->type == NODE_COMMAND || node->type == NODE_HEREDOC)
 		execute_node_command(node, cmd, envp);
 	else if (node->type == NODE_WORD)
 		execute_word_node(node, cmd, envp);
 	else if (node->type == NODE_SIMPLE_QUOTE)
 		execute_simple_quote_node(node, cmd, envp);
-	else if (node->type == NODE_HEREDOC)
-		execute_node_command(node, cmd, envp);
 	dup2(saved_stdin, STDIN_FILENO);
 	dup2(saved_stdout, STDOUT_FILENO);
 	close(saved_stdin);
@@ -62,13 +65,6 @@ void	setup_tokens_and_commands(t_ast_node *node, char ***tokens,
 		*cmd_to_split = ft_split(*cmd, ' ');
 	}
 	if (!*cmd_to_split)
-		return ;
-}
-
-void	open_pid(int *pid)
-{
-	*pid = fork();
-	if (*pid < 0)
 		return ;
 }
 

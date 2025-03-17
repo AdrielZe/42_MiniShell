@@ -14,25 +14,8 @@
 
 #include "../headers/main.h"
 
-int	ft_exit(const char **args, char **envp)
+int	handle_exit_errors(char **args_array)
 {
-	char	**args_array;
-	int		exit_code;
-
-	exit_code = 127;
-	args_array = ft_split(*args, ' ');
-	remove_quotes(args_array[0]);
-	if (array_len(args_array) > 1)
-		remove_quotes(args_array[1]);
-	if (ft_strcmp(args_array[0], "exit") != 0)
-	{
-		free_array(args_array);
-		return (0);
-	}
-	if (!args_array)
-		return (0);
-	if (!args_array[0])
-		return (0);
 	if (array_len(args_array) > 2)
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
@@ -46,6 +29,25 @@ int	ft_exit(const char **args, char **envp)
 		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 		return (1);
 	}
+	return (0);
+}
+
+int	ft_exit(const char **args, char **envp)
+{
+	char	**args_array;
+	int		exit_code;
+
+	exit_code = 127;
+	args_array = ft_split(*args, ' ');
+	if (!args_array || !args_array[0])
+		return (0);
+	remove_quotes(args_array[0]);
+	if (array_len(args_array) > 1)
+		remove_quotes(args_array[1]);
+	if (ft_strcmp(args_array[0], "exit") != 0)
+		return (0);
+	if (handle_exit_errors(args_array))
+		return (1);
 	if (array_len(args_array) > 1 && ft_isnumeric(args_array[1]))
 		exit_code = ft_atoi(args_array[1]) % 256;
 	free_array(args_array);
@@ -85,7 +87,7 @@ void	process_new_word(char *new_word, t_word_data *data)
 			&& ft_strcmp((*data->array)[*(data->i) - 1], "<") != 0
 			&& ft_strcmp((*data->array)[*(data->i) - 1], ">") != 0
 			&& ft_strcmp((*data->array)[*(data->i) - 1], "<<") != 0
-			&& ft_strcmp((*data->array)[*(data->i) - 1], ">>") != 0)
+			&& ft_strcmp((*data->array)[(*data->i) - 1], ">>") != 0)
 	{
 		merge_last_token(data->array, *(data->i), new_word);
 		*(data->is_executable) = 0;

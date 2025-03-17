@@ -61,29 +61,20 @@ size_t	ft_count_word(const char *s)
 	return (count + delim_counter);
 }
 
-char	*process_quotes(const char **s)
+int	is_quoted(const char *s)
 {
-	const char	*start;
-	char		quote;
+	char	**cmd_split;
+	int		len;
 
-	start = *s;
-	if (**s == '"' || **s == '\'')
+	len = 0;
+	if (!s)
 	{
-		quote = *(*s)++;
-		while (**s && **s != quote)
-			(*s)++;
-		if (**s == quote)
-			(*s)++;
+		printf("Error: s is NULL\n");
+		return (0);
 	}
-	else if (**s == '|')
-		(*s)++;
-	else
-	{
-		while (**s && **s != '|' && **s != '<' && **s != '>'
-			&& **s != '"' && **s != '\'')
-			(*s)++;
-	}
-	return (allocate_word(start, *s - start));
+	if (s[0] == '"' || s[0] == '\'')
+		return (s[0]);
+	return (0);
 }
 
 char	**tokenize(const char *s, char **envp)

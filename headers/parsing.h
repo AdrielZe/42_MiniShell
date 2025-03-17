@@ -203,5 +203,17 @@ char	**map_strings(char **array, int size, char *(*func)(char *, int));
 void exec_heredoc_cmds(t_ast_node *node, t_ast_node *current, char **envp);
 void	find_command_node(t_ast_node *node, t_ast_node **current, int pipe_found, char **envp);
 t_heredoc_data	*get_heredoc_data(void);
+int consumes_stdin(char *command, char **envp);
+void	handle_execution_failure(char *cmd, char **tokens);
+void	execute_child_process(char *cmd, char *path, char **tokens, char **envp);
+void	if_not_path(char *cmd, char **tokens);
+int	is_src_file(char *cmd);
+void wait_for_processes(pid_t pid_left, pid_t pid_right, int *status);
+void handle_left_process(pid_t pid_left, int *pipefd, t_ast_node *node, t_delim *delimiters, char **envp);
+int should_wait_left_process(t_ast_node *node, pid_t pid_left, int *status);
+void handle_right_process(pid_t pid_right, int *pipefd, t_ast_node *node, char **envp);
+char	*get_quoted_string(const char **s, char quote);
+
+
 
 #endif

@@ -36,6 +36,9 @@ void	handle_word_node(t_ast_node *node, char **envp)
 
 void	when_only_env_var(t_ast_node *node, char **envp)
 {
+	char	**cmd;	
+	char	*cmd_execute;
+
 	if (check_if_is_directory(node->value) == 0)
 		return ;
 	if (!is_file(node->value))
@@ -46,7 +49,7 @@ void	when_only_env_var(t_ast_node *node, char **envp)
 				printf("minishell: %s: No such file or directory\n",
 					node->value);
 			else
-				printf("minishell: %s: command not found\n", node->value);
+				handle_command_node(node, envp);
 			return ;
 		}
 		return ;

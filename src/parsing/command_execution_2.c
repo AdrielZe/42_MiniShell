@@ -33,11 +33,11 @@ int	is_file(const char *path)
 
 void	handle_pipe_node(t_ast_node *node, char **envp)
 {
-	pid_t		pid_left;
-	pid_t		pid_right;
-	int			pipefd[2];
-	t_delim		*delimiters;
-	int			status;
+	pid_t	pid_left;
+	pid_t	pid_right;
+	int		pipefd[2];
+	t_delim	*delimiters;
+	int		status;
 
 	delimiters = get_all_delimiters(node);
 	open_left_pipe(pipefd, &pid_left);
@@ -47,16 +47,11 @@ void	handle_pipe_node(t_ast_node *node, char **envp)
 		left_process(pipefd, node, delimiters, envp);
 		set_signal_handler(handle_sigint);
 	}
-	waitpid(pid_left, &status, 0);
-	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
+	if (should_wait_left_process(node, pid_left, &status))
 		return ;
 	open_right_pipe(&pid_right);
-	if (pid_right == 0)
-		right_process(pipefd, node, envp);
-	close_pipefd(pipefd);
-	waitpid(pid_left, &status, 0);
-	waitpid(pid_right, NULL, 0);
-	add_exitcode(WEXITSTATUS(status));
+	handle_right_process(pid_right, pipefd, node, envp);
+	wait_for_processes(pid_left, pid_right, &status);
 	free_delimiters(delimiters);
 }
 

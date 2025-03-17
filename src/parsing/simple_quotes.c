@@ -23,7 +23,9 @@ void	get_cmd(t_ast_node *node, char **cmd, char ***tokens)
 
 void	if_not_path(char *cmd, char **tokens)
 {
-	printf("minishell: %s: command not found\n", cmd);
+	write(2, "minishell: ", 11);
+	write(2, cmd, ft_strlen(cmd));
+	write(2, ": command not found\n", 20);
 	add_exitcode(127);
 	free_array(tokens);
 }
@@ -47,26 +49,20 @@ void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 
 	built[0] = "PATH=/home/victor-garcia/42sp/42_MiniShell/built-ins";
 	get_cmd(node, &cmd, &tokens);
+	if (is_src_file(cmd) == 1)
+		return ;
 	path = search_valid_path(cmd, built);
 	if (!path)
 		path = search_valid_path(cmd, envp);
 	if (!path)
 	{
-		if_not_path(cmd, tokens);
+		handle_execution_failure(cmd, tokens);
 		return ;
 	}
 	open_pid(&pid);
 	set_signal_handler(sigint_cat_action);
 	if (pid == 0)
-	{
-		valid_outfile_and_path(cmd, path);
-		if (execve(path, tokens, envp) == -1)
-		{
-			perror("execve failed\n");
-			exit(127);
-		}
-		exit(0);
-	}
+		execute_child_process(cmd, path, tokens, envp);
 	waitpid(pid, &status, 0);
 	add_exitcode(WEXITSTATUS(status));
 }
