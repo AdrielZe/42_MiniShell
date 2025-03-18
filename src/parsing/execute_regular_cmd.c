@@ -55,16 +55,27 @@ int	control_command_execution_with_slash(char ***split_path,
 	if (!*split_path)
 		return (1);
 	if (ft_strcmp(*split_path[0], "/") == 0)
+	{
+		free_array(*split_path);
+		free(cmd_value);
 		return (printf("/: is a directory\n"), 1);
+	}
 	if (search_valid_path(*split_path[0], envp) != NULL)
+	{
+		free_array(*split_path);
 		return (execute_command(cmd_value, envp, node), 1);
+	}
 	if (node->type != NODE_COMMAND)
 	{
 		free(*split_path[0]);
 		*split_path[0] = ft_strdup(cmd_value);
 	}
 	if (control_stat(cmd_value, split_path, node, envp) == 1)
+	{
+		free_array(*split_path);
 		return (1);
+	}
+	free_array(*split_path);
 	return (0);
 }
 

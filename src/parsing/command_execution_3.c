@@ -41,9 +41,10 @@ void	when_only_env_var(t_ast_node *node, char **envp)
 
 	if (check_if_is_directory(node->value) == 0)
 		return ;
+	cmd_execute = search_valid_path(node->value, envp);
 	if (!is_file(node->value))
 	{
-		if (!search_valid_path(node->value, envp))
+		if (!cmd_execute)
 		{
 			if (ft_strchr(node->value, '/'))
 				printf("minishell: %s: No such file or directory\n",
@@ -52,8 +53,10 @@ void	when_only_env_var(t_ast_node *node, char **envp)
 				handle_command_node(node, envp);
 			return ;
 		}
+		free(cmd_execute);
 		return ;
 	}
+	free(cmd_execute);
 	execute_command(node->value, envp, node);
 }
 
@@ -106,12 +109,17 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 	{
 		if (control_command_execution_with_slash(&split_path,
 				node, envp) == 1)
+		{
+			free_array(split_values);
+			free(search_result);
 			return ;
+		}
 		else if (not_result_msg_free(search_result,
 				node, split_values, command_to_execute) == 1)
 			return ;
 		else
 			execute_simple_quote_node(node, node->value, envp);
+		//free_array(split_values);
 	}
 	free(search_result);
 	free_array(split_values);
