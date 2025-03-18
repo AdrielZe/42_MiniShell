@@ -56,7 +56,6 @@ void	right_process(int *pipe, t_ast_node *node, char **envp)
 	{
 		dup2(node->outfile, STDOUT_FILENO);
 	}
-	printf("las tcommand\n");
 	close(pipe[0]);
 	close(pipe[1]);
 	parse_commands(node->right, envp);

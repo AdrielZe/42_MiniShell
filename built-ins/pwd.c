@@ -19,7 +19,7 @@ int	main(int argc, char *argv[])
 	char	pwd[256];
 
 	if (getcwd(pwd, sizeof(pwd)))
-		printf("%s   ---by VICTDA-S\n", pwd);
+		printf("%s\n", pwd);
 	else
 		perror("error pwd");
 	exit (0);

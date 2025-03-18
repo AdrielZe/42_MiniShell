@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/17 23:41:50 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/03/18 04:40:03 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	cd(char *argv[]);
 int	export(char *argv[], char **envp);
-int	unset(char *argv[]);
+int	unset(char *argv[], char ***envp);
 
 int	if_cd(char *cmd, char **envp)
 {
@@ -37,7 +37,7 @@ int	if_cd(char *cmd, char **envp)
 	}
 	else if (ft_strcmp(split_cmd[0], "unset") == 0)
 	{
-		unset(split_cmd);
+		unset(split_cmd, &envp);
 		free_array(split_cmd);
 		return (1);
 	}
@@ -63,7 +63,7 @@ void	handle_command_node(t_ast_node *node, char **envp)
 	if (!split_result)
 	{
 		close(saved_stdin);
-		return;
+		return ;
 	}
 	is_env_var = (split_result && ft_strchr(split_result[0], '$') != NULL);
 	old_string = ft_strdup(node->value);

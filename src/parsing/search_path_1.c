@@ -54,7 +54,7 @@ char	*search_valid_path(char *cmd, char **envp)
 	if (cmd[0] == '/' && access(cmd, F_OK) != 0)
 		return (NULL);
 	if (access(cmd, F_OK | X_OK) == 0)
-		return ft_strdup((cmd));
+		return (ft_strdup((cmd)));
 	i = search_for_path_index(envp);
 	paths = ft_split(envp[i] + 5, ':');
 	if (!paths)

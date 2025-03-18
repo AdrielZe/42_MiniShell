@@ -119,7 +119,6 @@ void	execute_regular_cmd(t_ast_node *node, char **envp)
 			return ;
 		else
 			execute_simple_quote_node(node, node->value, envp);
-		//free_array(split_values);
 	}
 	free(search_result);
 	free_array(split_values);

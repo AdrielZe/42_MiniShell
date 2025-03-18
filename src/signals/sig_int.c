@@ -37,11 +37,11 @@ void	cleanup_heredoc(void)
 		close(data->pipefd[1]);
 		data->pipefd = NULL;
 	}
-	// if (data->delimiters)
-	// {
-	// 	free_delimiters(data->delimiters);
-	// 	data->delimiters = NULL;
-	// }
+	if (data->delimiters)
+	{
+		free_delimiters(data->delimiters);
+		data->delimiters = NULL;
+	}
 	rl_replace_line("", 0);
 	rl_on_new_line();
 }

@@ -25,8 +25,10 @@
 struct	s_tokens;
 struct	s_ast_node;
 
+int	cd(char *argv[]);
+void	add_exitcode(int status);
 void	set_signal_handler(void (*handler)(int));
-int	ft_exit(char *args, char **envp, struct s_tokens **token_list, struct s_ast_node *node);
+int		ft_exit(char *args, char **envp, struct s_tokens **token_list, struct s_ast_node *node);
 void sigint_cat_action(int sig);
 int* get_heredoc_status(void);
 void cleanup_heredoc(void);
@@ -57,5 +59,4 @@ void	sigquit_handler(int sig);
 //src/env_var/process_env_var.c
 char	*process_env_var(char *input, int is_heredoc);
 
-void	add_exitcode(int status);
 #endif

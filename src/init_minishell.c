@@ -20,7 +20,7 @@ void	exit_if_typed_exit(char *input,
 		clear_token_list(token_list);
 		free_array(envp_copy);
 		free(input);
-		printf("Saindo do programa.\n");
+		printf("Exiting.\n");
 		exit(0);
 	}
 }
@@ -56,7 +56,7 @@ int	check_syntax(t_tokens *tokens)
 					&& current->next->type != TOKEN_COMMAND
 					&& current->next->type != TOKEN_SIMPLE_QUOTE))
 			{
-				printf("Erro de sintaxe: operador de redirecionamento.\n");
+				printf("Syntax error: redirection\n");
 				return (0);
 			}
 		}
@@ -65,7 +65,7 @@ int	check_syntax(t_tokens *tokens)
 			if (!current->next || (current->next
 					&& current->next->type == TOKEN_PIPE))
 			{
-				printf("Erro de sintaxe: pipes.\n");
+				printf("Syntax error: pipes\n");
 				return (0);
 			}
 		}

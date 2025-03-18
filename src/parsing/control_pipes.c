@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/16 21:58:01 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/03/18 04:38:26 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	wait_for_processes(pid_t pid_left, pid_t pid_right, int *status)
 int	should_wait_left_process(t_ast_node *node,
 		pid_t pid_left, int *status)
 {
-	if (ft_strcmp(node->left->value, "<<") == 0)
+	if (node->left && node->left->value
+		&& ft_strcmp(node->left->value, "<<") == 0)
 	{
 		waitpid(pid_left, status, 0);
 	}

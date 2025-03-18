@@ -133,7 +133,6 @@ char	**tokenize(const char *s, char **envp)
 	free(s_copy);
 	array = ft_calloc(ft_count_word(s) + 1, sizeof(char *));
 	if (!array)
-
 		return (NULL);
 	process_words(&s, &array, &i, envp);
 	array[i] = NULL;

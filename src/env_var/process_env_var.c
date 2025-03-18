@@ -98,6 +98,7 @@ char	*process_env_var(char *input, int is_heredoc)
 	char	*word_to_switch;
 	int		index;
 	int		in_single_quotes;
+	int		new_len;
 
 	index = 0;
 	in_single_quotes = 0;
@@ -107,26 +108,26 @@ char	*process_env_var(char *input, int is_heredoc)
 	{
 		if (input[index] == '\'')
 			in_single_quotes = !in_single_quotes;
-		if ((input[index] == '$' && !in_single_quotes) || (input[index] == '$' && is_heredoc == 1))
+		if ((input[index] == '$' && !in_single_quotes)
+			|| (input[index] == '$' && is_heredoc == 1))
 		{
 			original_input = input;
 			word_to_switch = find_string_to_replace(input, index);
 			if (!word_to_switch)
-				return (input) ;
+				return (input);
 			input_to_return = replace_substring(input, word_to_switch, index);
 			if (!input_to_return)
 			{
 				free(word_to_switch);
-				return (input); // Error handling
-            		}
+				return (input);
+			}
 			if (original_input != input_to_return)
 				free(original_input);
 			input = input_to_return;
 			free(word_to_switch);
-
-			int new_len = ft_strlen(input);
-            if (index >= new_len)
-                break;
+			new_len = ft_strlen(input);
+			if (index >= new_len)
+				break ;
 		}
 		index++;
 	}

@@ -22,9 +22,9 @@ void	free_ast(t_ast_node *node)
 		free_ast(node->right);
 	if (node->value)
 		free(node->value);
-	if(node->infile)
+	if (node->infile)
 		close(node->infile);
-	if(node->outfile)
+	if (node->outfile)
 		close(node->outfile);
 	free(node);
 }
@@ -125,6 +125,11 @@ t_ast_node	*build_ast(t_tokens *tokens)
 	while (tokens)
 	{
 		create_nodes_and_redirect_if(&tokens, &root, &current);
+		if (current && current->infile == -2)
+		{
+			current->value = NULL;
+			current->infile = 0;
+		}
 		if (tokens)
 			tokens = tokens->next;
 	}

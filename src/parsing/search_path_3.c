@@ -52,7 +52,6 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 void	setup_tokens_and_commands(t_ast_node *node, char ***tokens,
 		char **cmd, char ***cmd_to_split)
 {
-	printf("cmd in word node is: %s\n", *cmd);
 	*tokens = split_with_quotes(*cmd);
 	if (node->type != NODE_SIMPLE_QUOTE)
 	{

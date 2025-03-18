@@ -41,6 +41,7 @@ int	control_quotes(const char *new_word)
 	int	in_double_quotes;
 	int	double_quotes_number;
 	int	simple_quotes_number;
+
 	i = 0;
 	start_variables(&double_quotes_number, &simple_quotes_number,
 		&in_single_quotes, &in_double_quotes);

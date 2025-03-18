@@ -65,8 +65,9 @@ void	start_word_variables(t_word_data *data,
 
 int	is_word_in_array(char *word, char **array)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	while (array && array[i])
 	{
 		if (array[i] == word)
@@ -75,6 +76,7 @@ int	is_word_in_array(char *word, char **array)
 	}
 	return (0);
 }
+
 void	process_words(const char **s, char ***array, int *i, char **envp)
 {
 	char		*old_string;
@@ -85,8 +87,6 @@ void	process_words(const char **s, char ***array, int *i, char **envp)
 	start_word_variables(&data, array, &is_executable, i);
 	new_word = NULL;
 	old_string = NULL;
-	// if (ft_exit(s, envp) == 1)
-	// 	return ;
 	while (**s)
 	{
 		skip_spaces_and_alloc_elements(s, array, i);
