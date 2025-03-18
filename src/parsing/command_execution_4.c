@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_execution_4.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/14 19:41:52 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/03/17 23:41:50 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,11 @@ void	handle_command_node(t_ast_node *node, char **envp)
 	if (!node->value || node->value[0] == '\0')
 		return ;
 	split_result = ft_split(node->value, ' ');
+	if (!split_result)
+	{
+		close(saved_stdin);
+		return;
+	}
 	is_env_var = (split_result && ft_strchr(split_result[0], '$') != NULL);
 	old_string = ft_strdup(node->value);
 	if (node->type != NODE_SIMPLE_QUOTE)
@@ -67,7 +72,11 @@ void	handle_command_node(t_ast_node *node, char **envp)
 	if (is_env_var)
 		when_only_env_var(node, envp);
 	else
+	{
 		process_command_execution(node, envp, old_string, split_result);
+	}
+	free_array(split_result);
+	free(old_string);
 	dup2(saved_stdin, STDIN_FILENO);
 	close(saved_stdin);
 }

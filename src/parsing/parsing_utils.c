@@ -35,19 +35,15 @@ void	handle_env_var(t_ast_node *node, char **envp, char *old_string)
 void	process_command_execution(t_ast_node *node,
 			char **envp, char *old_string, char **split_result)
 {
-	if (if_cd(node->value, envp))
-	{
-		if (old_string)
-			free(old_string);
-		if (split_result)
-			free_split(split_result);
-		return ;
-	}
+	// if (if_cd(node->value, envp))
+	// {
+	// 	free(old_string);
+	// 	free_split(split_result);
+	// 	return ;
+	// }
 	handle_env_var(node, envp, old_string);
-	if (old_string)
-		free(old_string);
-	if (split_result)
-		free_split(split_result);
+	// free(old_string);
+	// free_array(split_result);
 }
 
 void	free_env_and_array(char *env_result, char **env_processed)

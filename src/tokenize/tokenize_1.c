@@ -122,13 +122,20 @@ char	**tokenize(const char *s, char **envp)
 	if (s == NULL || ft_count_word(s) == 0)
 		return (NULL);
 	s_copy = ft_strdup(s);
-	if (control_syntax(s_copy, array) == 1)
+	if (s_copy == NULL)
 		return (NULL);
+	if (control_syntax(s_copy, array) == 1)
+	{
+		if (s_copy != NULL)
+			free(s_copy);
+		return (NULL);
+	}
+	free(s_copy);
 	array = ft_calloc(ft_count_word(s) + 1, sizeof(char *));
 	if (!array)
+
 		return (NULL);
 	process_words(&s, &array, &i, envp);
-	free(s_copy);
 	array[i] = NULL;
 	return (array);
 }
