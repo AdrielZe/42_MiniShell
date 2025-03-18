@@ -26,7 +26,7 @@ void	set_signal_handler(void (*handler)(int))
 	sigaction(SIGINT, &sa, NULL);
 }
 
-void	cleanup_heredoc(void)
+void	cleanup_heredoc(t_ast_node *node, char **envp)
 {
 	t_heredoc_data	*data;
 
@@ -42,6 +42,13 @@ void	cleanup_heredoc(void)
 		free_delimiters(data->delimiters);
 		data->delimiters = NULL;
 	}
+	free_array(envp);
+	if (node)
+	{
+		free_ast(node);
+		node = NULL;
+	}
+	envp = NULL;
 	rl_replace_line("", 0);
 	rl_on_new_line();
 }
@@ -81,7 +88,7 @@ void	sigint_heredoc_action(int sig)
 	if (sig == SIGINT)
 	{
 		ft_putchar_fd('\n', 1);
-		cleanup_heredoc();
+	//	cleanup_heredoc();
 		exit(130);
 	}
 }

@@ -56,6 +56,9 @@ typedef struct s_ast_node
 	int					env_var;
 }	t_ast_node;
 
+void cleanup_heredoc(struct s_ast_node *node, char **envp);
+
+
 void	remove_array_quotes(char ***array);
 char	**place_simple_quote(char **array, char **in_quote);
 char	*add_quote_type_str(const char *s, char quote);
@@ -131,7 +134,7 @@ int			get_word_length(char **s, int *len,
 				int *in_quotes, char *quote_char);
 
 //src/heredoc/heredoc_1.c
-void	read_heredoc(int *pipefd, t_delim *delimiters);
+void	read_heredoc(int *pipefd, t_delim *delimiters, t_ast_node *node, char **envp);
 void		handle_heredoc(t_ast_node *node, char **envp);
 
 //src/heredoc/heredoc_2.c
