@@ -50,7 +50,10 @@ void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 	built[0] = "PATH=/home/victor-garcia/42sp/42_MiniShell/built-ins";
 	get_cmd(node, &cmd, &tokens);
 	if (is_src_file(cmd) == 1)
+	{
+		free_array(tokens);
 		return ;
+	}
 	path = search_valid_path(cmd, built);
 	if (!path)
 		path = search_valid_path(cmd, envp);
@@ -63,6 +66,8 @@ void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 	set_signal_handler(sigint_cat_action);
 	if (pid == 0)
 		execute_child_process(cmd, path, tokens, envp);
+	free_array(tokens);
+	free(path);
 	waitpid(pid, &status, 0);
 	add_exitcode(WEXITSTATUS(status));
 }

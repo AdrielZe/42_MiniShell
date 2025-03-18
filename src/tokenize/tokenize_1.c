@@ -128,6 +128,7 @@ char	**tokenize(const char *s, char **envp)
 	if (!array)
 		return (NULL);
 	process_words(&s, &array, &i, envp);
+	free(s_copy);
 	array[i] = NULL;
 	return (array);
 }

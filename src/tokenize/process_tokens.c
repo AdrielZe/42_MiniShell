@@ -45,9 +45,15 @@ int	ft_exit(const char **args, char **envp)
 	if (array_len(args_array) > 1)
 		remove_quotes(args_array[1]);
 	if (ft_strcmp(args_array[0], "exit") != 0)
+	{
+		free_array(args_array);
 		return (0);
+	}
 	if (handle_exit_errors(args_array))
+	{
+		free_array(args_array);
 		return (1);
+	}
 	if (array_len(args_array) > 1 && ft_isnumeric(args_array[1]))
 		exit_code = ft_atoi(args_array[1]) % 256;
 	free_array(args_array);
@@ -60,6 +66,7 @@ void	handle_word_quotes(char *new_word,
 				int *is_executable, char **envp, int index)
 {
 	char	*unquoted_word;
+	char	*valid_path;
 
 	if (!new_word)
 		return ;
@@ -67,9 +74,13 @@ void	handle_word_quotes(char *new_word,
 	if (!unquoted_word)
 		return ;
 	remove_quotes(unquoted_word);
-	if (search_valid_path(unquoted_word, envp) != NULL && index != 0)
-		*is_executable = 1;
+	valid_path = search_valid_path(unquoted_word, envp);
 	free(unquoted_word);
+	if (!valid_path)
+		return ;
+	if (valid_path != NULL && index != 0)
+		*is_executable = 1;
+	free(valid_path);
 }
 
 void	process_new_word(char *new_word, t_word_data *data)

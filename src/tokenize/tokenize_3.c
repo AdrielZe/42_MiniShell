@@ -89,5 +89,6 @@ void	process_words(const char **s, char ***array, int *i, char **envp)
 		process_new_word(new_word, &data);
 		handle_word_quotes(new_word, &is_executable, envp, *i);
 	}
+	//free (new_word);	
 	free(old_string);
 }
