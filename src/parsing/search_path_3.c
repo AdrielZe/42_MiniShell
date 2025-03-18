@@ -85,6 +85,7 @@ char	*resolve_path(char *cmd, char **envp)
 	path = search_valid_path(path_split[0], built);
 	if (!path)
 		path = search_valid_path(path_split[0], envp);
+	free_array(path_split);
 	return (path);
 }
 

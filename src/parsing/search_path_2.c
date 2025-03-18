@@ -87,6 +87,7 @@ void	execute_node_command(t_ast_node *node, char *cmd, char **envp)
 		return ;
 	}
 	execute_command_for_node_function(path, tokens, envp);
+	free(path);
 	free_array(tokens);
 }
 

@@ -81,30 +81,41 @@ int	is_only_dollar(const char *str)
 char	*process_env_var(char *input, int is_heredoc)
 {
 	char	*input_to_return;
+	char	*original_input;
 	char	*word_to_switch;
 	int		index;
 	int		in_single_quotes;
 
 	index = 0;
 	in_single_quotes = 0;
-	if (is_only_dollar(input) == 0)
+	if (!input || is_only_dollar(input) == 0)
 		return (input);
-	while (input && input[index])
+	while (input[index])
 	{
 		if (input[index] == '\'')
-		{
 			in_single_quotes = !in_single_quotes;
-		}
 		if ((input[index] == '$' && !in_single_quotes) || (input[index] == '$' && is_heredoc == 1))
 		{
+			original_input = input;
 			word_to_switch = find_string_to_replace(input, index);
+			if (!word_to_switch)
+				return (input) ;
 			input_to_return = replace_substring(input, word_to_switch, index);
+			if (!input_to_return)
+			{
+				free(word_to_switch);
+				return (input); // Error handling
+            		}
+			if (original_input != input_to_return)
+				free(original_input);
 			input = input_to_return;
 			free(word_to_switch);
+
+			int new_len = ft_strlen(input);
+            if (index >= new_len)
+                break;
 		}
 		index++;
 	}
-	if (in_single_quotes)
-		return (ft_strdup(input));
 	return (input);
 }

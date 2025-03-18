@@ -60,13 +60,17 @@ void	when_only_env_var(t_ast_node *node, char **envp)
 void	check_and_execute_if_is_cmd(t_ast_node *node, char **envp)
 {
 	char	**cmd;
+	char	*cmd_path;
 
 	cmd = ft_split(node->value, ' ');
 	if (!cmd)
 		return ;
+	cmd_path = search_valid_path(cmd[0], envp);
+	if (!cmd_path)
+		return ;
 	if (cmd[0])
 	{
-		if (search_valid_path(cmd[0], envp) == NULL)
+		if (cmd_path == NULL)
 		{
 			printf("minishell: %s: command not found\n",
 				cmd[0]);
@@ -75,6 +79,7 @@ void	check_and_execute_if_is_cmd(t_ast_node *node, char **envp)
 			return ;
 		}
 	}
+	free(cmd_path);
 	if (is_directory(node->value) == 0)
 	{
 		printf("minishell: %s: Is a directory\n", node->value);
