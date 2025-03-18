@@ -131,7 +131,7 @@ int			get_word_length(char **s, int *len,
 				int *in_quotes, char *quote_char);
 
 //src/heredoc/heredoc_1.c
-void		read_heredoc(int *pipefd, t_delim *delimiter);
+void	read_heredoc(int *pipefd, t_delim *delimiters);
 void		handle_heredoc(t_ast_node *node, char **envp);
 
 //src/heredoc/heredoc_2.c

@@ -32,13 +32,13 @@ int	handle_exit_errors(char **args_array)
 	return (0);
 }
 
-int	ft_exit(const char **args, char **envp)
+int	ft_exit(char *args, char **envp, t_tokens **token_list, t_ast_node *node)
 {
 	char	**args_array;
 	int		exit_code;
 
 	exit_code = 127;
-	args_array = ft_split(*args, ' ');
+	args_array = ft_split(args, ' ');
 	if (!args_array || !args_array[0])
 		return (0);
 	remove_quotes(args_array[0]);
@@ -58,8 +58,20 @@ int	ft_exit(const char **args, char **envp)
 		exit_code = ft_atoi(args_array[1]) % 256;
 	free_array(args_array);
 	free_array(envp);
+	if (node)
+	{
+		free_ast(node);
+		node = NULL;
+	}
+	if (token_list)
+	{
+		clear_token_list(token_list);
+		token_list = NULL;
+	}
+	envp = NULL;
+	rl_clear_history();
+	clear_history();
 	exit(exit_code);
-	return (0);
 }
 
 void	handle_word_quotes(char *new_word,

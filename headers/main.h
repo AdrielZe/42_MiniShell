@@ -26,7 +26,7 @@ struct	s_tokens;
 struct	s_ast_node;
 
 void	set_signal_handler(void (*handler)(int));
-int	ft_exit(const char **args, char **envp);
+int	ft_exit(char *args, char **envp, struct s_tokens **token_list, struct s_ast_node *node);
 void sigint_cat_action(int sig);
 int* get_heredoc_status(void);
 void cleanup_heredoc(void);

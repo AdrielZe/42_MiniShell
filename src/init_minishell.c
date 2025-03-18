@@ -105,6 +105,8 @@ void	init_shell(char ***token, t_tokens **token_list, char
 	{
 		set_signal_handler(handle_sigint);
 		manage_rl_input(&input, envp, token_list, *root);
+		if (ft_exit(input, envp, token_list, *root) == 1)
+			return ;
 		if (!input || ft_strlen(input) == 0)
 		{
 			free(input);

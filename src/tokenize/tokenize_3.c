@@ -85,8 +85,8 @@ void	process_words(const char **s, char ***array, int *i, char **envp)
 	start_word_variables(&data, array, &is_executable, i);
 	new_word = NULL;
 	old_string = NULL;
-	if (ft_exit(s, envp) == 1)
-		return ;
+	// if (ft_exit(s, envp) == 1)
+	// 	return ;
 	while (**s)
 	{
 		skip_spaces_and_alloc_elements(s, array, i);

@@ -22,6 +22,10 @@ void	free_ast(t_ast_node *node)
 		free_ast(node->right);
 	if (node->value)
 		free(node->value);
+	if(node->infile)
+		close(node->infile);
+	if(node->outfile)
+		close(node->outfile);
 	free(node);
 }
 
