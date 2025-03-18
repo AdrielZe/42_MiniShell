@@ -45,25 +45,28 @@ int	control_stat(char *cmd_value,
 }
 
 int	control_command_execution_with_slash(char ***split_path,
-				t_ast_node *node, char **envp)
+	t_ast_node *node, char **envp)
 {
 	char		*cmd_value;
+	char		*split_value;
+	char		*path;
 
 	cmd_value = ft_strdup(node->value);
+	*split_path = split_with_quotes(cmd_value);
 	remove_quotes(cmd_value);
-	*split_path = ft_split(cmd_value, ' ');
 	if (!*split_path)
 		return (1);
-	if (ft_strcmp(*split_path[0], "/") == 0)
-	{
-		free_array(*split_path);
-		free(cmd_value);
-		return (printf("/: is a directory\n"), 1);
-	}
 	if (search_valid_path(*split_path[0], envp) != NULL)
 	{
+		execute_command(cmd_value, envp, node);
 		free_array(*split_path);
-		return (execute_command(cmd_value, envp, node), 1);
+		return (1);
+	}
+	if ((*split_path)[0][0] == '/')
+	{
+		node->value = *split_path[0];
+		check_if_is_cmd_or_dir(node, envp);
+		return (1);
 	}
 	if (node->type != NODE_COMMAND)
 	{

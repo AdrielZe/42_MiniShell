@@ -100,7 +100,7 @@ void	execute_word_node(t_ast_node *node, char *cmd, char **envp)
 	int		status;
 
 	setup_tokens_and_commands(node, &tokens, &cmd, &cmd_to_split);
-	built[0] = "PATH=/home/victor-garcia/42sp/42_MiniShell/built-ins";
+	built[0] = "PATH=../built-ins";
 	path = search_valid_path(cmd_to_split[0], built);
 	if (!path)
 		path = search_valid_path(cmd_to_split[0], envp);

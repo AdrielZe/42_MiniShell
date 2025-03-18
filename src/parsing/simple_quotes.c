@@ -47,7 +47,7 @@ void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 	char	*built[1];
 	int		status;
 
-	built[0] = "PATH=/home/victor-garcia/42sp/42_MiniShell/built-ins";
+	built[0] = "PATH=built-ins";
 	get_cmd(node, &cmd, &tokens);
 	if (is_src_file(cmd) == 1)
 	{
