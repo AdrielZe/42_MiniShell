@@ -24,7 +24,7 @@ int	handle_exit_errors(char **args_array)
 	}
 	if (array_len(args_array) > 1 && !ft_isnumeric(args_array[1]))
 	{
-		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+		ft_putstr_fd("minishell exit: ", STDERR_FILENO);
 		ft_putstr_fd(args_array[1], STDERR_FILENO);
 		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 		return (1);
@@ -49,7 +49,7 @@ int	ft_exit(char *args, char **envp, t_tokens **token_list, t_ast_node *node)
 		free_array(args_array);
 		return (0);
 	}
-	if (handle_exit_errors(args_array))
+	if (handle_exit_errors(args_array) == 1)
 	{
 		free_array(args_array);
 		return (1);

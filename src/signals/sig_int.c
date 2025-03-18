@@ -58,14 +58,17 @@ void	handle_sigint(int sig)
 void	handle_ctrl_d(char **envp_copy, t_tokens **token_list, t_ast_node *root)
 {
 	write(1, "Exiting minishell\n", 19);
+	free_array(envp_copy);
 	if (root)
 	{
 		free_ast(root);
 		root = NULL;
 	}
-	clear_token_list(token_list);
-	token_list = NULL;
-	free_array(envp_copy);
+	if (token_list)
+	{
+		clear_token_list(token_list);
+		token_list = NULL;
+	}
 	envp_copy = NULL;
 	rl_clear_history();
 	clear_history();
