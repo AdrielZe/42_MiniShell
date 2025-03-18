@@ -17,7 +17,6 @@ int	execute_command_for_word_node(char *path, char **tokens, char **envp)
 	pid_t	pid;
 	int		status;
 
-	printf("Preguicoso assim?\n");
 	open_pid(&pid);
 	if (pid == 0)
 	{

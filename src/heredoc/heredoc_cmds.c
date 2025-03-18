@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 01:09:05 by asilveir          #+#    #+#             */
-/*   Updated: 2025/03/17 11:10:57 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/03/18 03:23:47 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,11 @@ void	exec_heredoc_cmds(t_ast_node *node, t_ast_node *current, char **envp)
 {
 	char	*value;
 	char	**new_args;
+	char	**value_split;
 
-	value = search_valid_path(ft_split(current->value, ' ')[0], envp);
+	value_split = split_with_quotes(current->value);
+	value = search_valid_path(value_split[0], envp);
+	free(value_split);
 	new_args = prepare_exec_args(node, current, envp);
 	if (execve(value, new_args, envp) == -1)
 	{

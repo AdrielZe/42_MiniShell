@@ -56,16 +56,21 @@ int	control_command_execution_with_slash(char ***split_path,
 	remove_quotes(cmd_value);
 	if (!*split_path)
 		return (1);
-	if (search_valid_path(*split_path[0], envp) != NULL)
+	path = search_valid_path(*split_path[0], envp);
+	if (path != NULL)
 	{
 		execute_command(cmd_value, envp, node);
+		free(cmd_value);
 		free_array(*split_path);
+		free(path);
 		return (1);
 	}
+	free(path);
 	if ((*split_path)[0][0] == '/')
 	{
 		node->value = *split_path[0];
 		check_if_is_cmd_or_dir(node, envp);
+		free(cmd_value);
 		return (1);
 	}
 	if (node->type != NODE_COMMAND)

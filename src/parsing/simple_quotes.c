@@ -88,7 +88,7 @@ void	handle_simple_quote_node(t_ast_node *node, char **envp)
 		if (control_command_execution_with_slash(&split_path,
 				node, envp) == 1)
 		{
-			free(split_values);
+			free_array(split_values);
 			return ;
 		}
 		else if (not_result_msg_free(search_result,

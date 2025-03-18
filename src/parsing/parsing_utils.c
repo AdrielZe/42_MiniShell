@@ -18,7 +18,7 @@ void	not_found_msg_and_free(t_ast_node *node, char *search_result,
 	printf("minishell: %s: command not found\n", command_to_execute);
 	add_exitcode(127);
 	if (node->type == NODE_COMMAND)
-		free_split(split_values);
+		free_array(split_values);
 	else
 		free(command_to_execute);
 	free(search_result);
