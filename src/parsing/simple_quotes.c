@@ -87,12 +87,16 @@ void	handle_simple_quote_node(t_ast_node *node, char **envp)
 	{
 		if (control_command_execution_with_slash(&split_path,
 				node, envp) == 1)
+		{
+			free(split_values);
 			return ;
+		}
 		else if (not_result_msg_free(search_result,
 				node, split_values, command_to_execute) == 1)
 			return ;
 		else
 			execute_simple_quote_node(node, node->value, envp);
 	}
+	free_array(split_values);
 	execute_simple_quote_node(node, node->value, envp);
 }
