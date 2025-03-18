@@ -13,12 +13,12 @@ LIBS = -lreadline
 
 # Pega todos os .c dentro de src/
 SRCS = $(shell find $(SRC_DIR) -name "*.c")
-SRCS += $(BUILT_INS)/cd_export_unset.c #Adiciona um arquivo avulço a srcs
+SRCS += $(BUILT_INS)/cd_unset.c #Adiciona um arquivo avulço a srcs
 SRCS += $(BUILT_INS)/export.c
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
 # Pega todos os .c dentro de built-ins/
-SRC_BUILTINS = $(shell find $(BUILT_INS) -name "*.c" ! -name "cd_export_unset.c" ! -name "export.c")
+SRC_BUILTINS = $(shell find $(BUILT_INS) -name "*.c" ! -name "cd_unset.c" ! -name "export.c")
 BUILT_EXECUTABLES = $(patsubst $(BUILT_INS)/%.c, $(BUILT_INS)/%, $(SRC_BUILTINS))
 
 all: $(LIBFT) $(NAME) built
