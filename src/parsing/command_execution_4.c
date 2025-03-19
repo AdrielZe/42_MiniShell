@@ -6,7 +6,7 @@
 /*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/18 23:06:51 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/03/19 04:38:52 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	check_if_is_directory(char *node_value)
 	if (is_directory(node_value) == 0)
 	{
 		printf("minishell: %s: Is a directory\n", node_value);
-		add_exitcode(126);
+		write_exitcode(126);
 		return (0);
 	}
 	return (1);

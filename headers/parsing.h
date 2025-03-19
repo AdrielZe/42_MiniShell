@@ -54,6 +54,7 @@ typedef struct s_ast_node
 	t_node_type			outfile_type;
 	int					infile;
 	int					env_var;
+	int					lastcmd;
 }	t_ast_node;
 
 void cleanup_heredoc(struct s_ast_node *node, char **envp);

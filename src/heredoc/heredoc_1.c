@@ -101,7 +101,7 @@ void	execute_command_with_heredoc(int *pipefd, pid_t pid,
 	}
 	close(pipefd[0]);
 	waitpid(pid, &status, 0);
-	add_exitcode(WEXITSTATUS(status));
+	write_exitcode(126);
 }
 
 void	handle_heredoc(t_ast_node *node, char **envp)

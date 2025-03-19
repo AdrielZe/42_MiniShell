@@ -29,6 +29,7 @@ print_ast.c
 print_ast.txt
 utils
 old_tree.txt
+.exitcode
 
 # Built-ins exec
 echo

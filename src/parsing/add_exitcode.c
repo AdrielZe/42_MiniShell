@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_exitcode.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 20:32:09 by victda-s          #+#    #+#             */
-/*   Updated: 2025/03/08 19:01:06 by marvin           ###   ########.fr       */
+/*   Updated: 2025/03/19 04:11:15 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,33 @@ void	add_exitcode(int status)
 		return ;
 	setenv("EXITCODEMINISHELL", status_char, 1);
 	free(status_char);
+}
+
+void	open_exitcode(void)
+{
+	int		fd;
+	int		bytes_read;
+	char	buffer[256];
+
+	fd = open_stdin(".exitcode");
+	bytes_read = read(fd, buffer, sizeof(buffer) - 1);
+	if(bytes_read)
+	{
+		buffer[bytes_read] = '\0';
+		setenv("EXITCODEMINISHELL", buffer, 1);
+	}
+	close(fd);
+}
+void	write_exitcode(int exitcode)
+{
+	int		fd;
+	int		bytes_read;
+	char	buffer[256];
+	char	*str_exitcode;
+
+	fd = open_stdout(".exitcode");
+	str_exitcode = ft_itoa(exitcode);
+	write(fd, str_exitcode, ft_strlen(str_exitcode));
+	free(str_exitcode);
+	close(fd);
 }

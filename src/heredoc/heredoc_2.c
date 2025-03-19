@@ -67,10 +67,10 @@ void	check_all_commands(t_ast_node *node, char **envp)
 		if (search_valid_path(cmd, envp) == NULL)
 		{
 			printf("minishell: %s: command not found\n", cmd);
-			g_exit = 127;
+			write_exitcode(127);
 			free(cmd);
 		}
-		add_exitcode(127);
+		write_exitcode(126);
 	}
 	check_all_commands(node->left, envp);
 	check_all_commands(node->right, envp);

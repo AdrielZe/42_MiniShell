@@ -6,7 +6,7 @@
 /*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 17:01:30 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/18 23:13:11 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/03/19 04:16:33 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	is_src_file(char *cmd)
 	if (ft_strcmp(cmd, "minishell") == 0)
 	{
 		printf("minishell: minishell: command not found\n");
-		g_exit = 127;
+		write_exitcode(127);
 		return (1);
 	}
 	return (0);

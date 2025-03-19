@@ -19,7 +19,7 @@ int	handle_exit_errors(char **args_array)
 	if (array_len(args_array) > 2)
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
-		add_exitcode(1);
+		write_exitcode(1);
 		return (0);
 	}
 	if (array_len(args_array) > 1 && !ft_isnumeric(args_array[1]))

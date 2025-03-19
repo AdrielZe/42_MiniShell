@@ -108,5 +108,5 @@ void	execute_command_for_node_function(char *path,
 		exit(0);
 	}
 	waitpid(pid, &status, 0);
-	g_exit = WEXITSTATUS(status);
+	write_exitcode(WEXITSTATUS(status));
 }

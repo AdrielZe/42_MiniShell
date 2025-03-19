@@ -12,8 +12,6 @@
 
 #include "../headers/main.h"
 
-int	g_exit;
-
 void	exit_if_typed_exit(char *input,
 			t_tokens **token_list, char **envp_copy)
 {
@@ -59,7 +57,7 @@ int	check_syntax(t_tokens *tokens)
 					&& current->next->type != TOKEN_SIMPLE_QUOTE))
 			{
 				printf("Syntax error: \n");
-				add_exitcode(2);
+				write_exitcode(2);
 				return (0);
 			}
 		}
@@ -69,7 +67,7 @@ int	check_syntax(t_tokens *tokens)
 					&& current->next->type == TOKEN_PIPE))
 			{
 				printf("Syntax error: pipes\n");
-				add_exitcode(2);
+				write_exitcode(2);
 				return (0);
 			}
 		}
@@ -91,7 +89,7 @@ static t_ast_node	*process_ast(t_ast_node **root,
 		*root = build_ast(*token_list);
 		clear_token_list(token_list);
 		parse_commands(*root, envp);
-		add_exitcode(g_exit);
+		open_exitcode();
 	}
 	else
 		clear_token_list(token_list);

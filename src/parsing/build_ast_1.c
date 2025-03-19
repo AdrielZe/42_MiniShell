@@ -132,6 +132,10 @@ t_ast_node	*build_ast(t_tokens *tokens)
 		}
 		if (tokens)
 			tokens = tokens->next;
+		if(!tokens)
+			current->lastcmd = 1;
+		else
+			current->lastcmd = 0;
 	}
 	return (root);
 }

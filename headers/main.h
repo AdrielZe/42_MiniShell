@@ -24,7 +24,6 @@
 
 struct	s_tokens;
 struct	s_ast_node;
-extern int	g_exit;
 int	cd(char *argv[]);
 void	add_exitcode(int status);
 void	set_signal_handler(void (*handler)(int));
@@ -57,5 +56,7 @@ void	sigquit_handler(int sig);
 
 //src/env_var/process_env_var.c
 char	*process_env_var(char *input, int is_heredoc);
+void	open_exitcode(void);
+void	write_exitcode(int exitcode);
 
 #endif
