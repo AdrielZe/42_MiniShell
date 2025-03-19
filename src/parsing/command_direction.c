@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_direction.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/16 02:00:55 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/03/18 23:13:38 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	print_not_found_msg_and_free(char *command_to_execute,
 		t_ast_node *node, char **split_values)
 {
 	printf("minishell: %s: command not found\n", command_to_execute);
-	add_exitcode(127);
+	g_exit = 127;
 	if (command_to_execute)
 		free(command_to_execute);
 	if (node->type == NODE_COMMAND)

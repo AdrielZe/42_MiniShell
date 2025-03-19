@@ -26,7 +26,7 @@ void	if_not_path(char *cmd, char **tokens)
 	write(2, "minishell: ", 11);
 	write(2, cmd, ft_strlen(cmd));
 	write(2, ": command not found\n", 20);
-	add_exitcode(127);
+	g_exit = 127;
 	free_array(tokens);
 }
 
@@ -47,7 +47,7 @@ void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 	char	*built[1];
 	int		status;
 
-	built[0] = "PATH=built-ins";
+	built[0] = PWD_PROJ;
 	get_cmd(node, &cmd, &tokens);
 	if (is_src_file(cmd) == 1)
 	{
@@ -69,7 +69,7 @@ void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
 	free_array(tokens);
 	free(path);
 	waitpid(pid, &status, 0);
-	add_exitcode(WEXITSTATUS(status));
+	g_exit = WEXITSTATUS(status);
 }
 
 void	handle_simple_quote_node(t_ast_node *node, char **envp)

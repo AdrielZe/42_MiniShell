@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:53:40 by asilveir          #+#    #+#             */
-/*   Updated: 2025/03/17 23:30:21 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/03/18 23:12:54 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	control_syntax(char *s_copy, char **array)
 	if (check_pipe_syntax(s_copy))
 	{
 		printf("minishell: syntax error near unexpected token `|'\n");
+		add_exitcode(2);
 		return (1);
 	}
 	if (control_quotes(s_copy) == 1)
@@ -25,6 +26,7 @@ int	control_syntax(char *s_copy, char **array)
 	{
 		array = split_with_quotes(s_copy);
 		printf("minishell: %s: command not found\n", array[0]);
+		g_exit = 127;
 		free_array(array);
 		return (1);
 	}

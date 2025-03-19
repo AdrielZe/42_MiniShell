@@ -35,6 +35,7 @@ int	node_exists(t_ast_node *node)
 		|| ft_strcmp(node->right->value, " ") == 0)
 	{
 		printf("✘ minishell: syntax error near unexpected token `newline'\n");
+		add_exitcode(2);
 		return (1);
 	}
 	return (0);

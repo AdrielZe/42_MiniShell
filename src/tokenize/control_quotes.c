@@ -17,9 +17,15 @@ int	inside_quotes(int in_single_quotes, int in_double_quotes)
 	if (in_single_quotes || in_double_quotes)
 	{
 		if (in_single_quotes)
+		{
 			printf("minishell: unexpected EOF for `\"\"\n");
+			g_exit = 1;
+		}
 		if (in_double_quotes)
+		{
 			printf("minishell: unexpected EOF for `\'\'\n");
+			g_exit = 1;
+		}
 		return (1);
 	}
 	return (0);

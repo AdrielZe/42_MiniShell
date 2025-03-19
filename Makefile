@@ -10,7 +10,7 @@ SRC_DIR = src
 OBJ_DIR = obj
 BUILT_INS = built-ins
 LIBS = -lreadline
-
+PWD_PROJ := PATH=$(shell pwd)/built-ins
 # Pega todos os .c dentro de src/
 SRCS = $(shell find $(SRC_DIR) -name "*.c")
 SRCS += $(BUILT_INS)/cd_unset.c #Adiciona um arquivo avulço a srcs
@@ -25,12 +25,12 @@ all: $(LIBFT) $(NAME) built
 
 # Regra para compilar minishell
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LIBS) $(INCLUDES) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LIBS) $(INCLUDES) -D PWD_PROJ="\"$(PWD_PROJ)\"" -o $(NAME)
 
 # Compilação dos objetos do minishell
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -D PWD_PROJ="\"$(PWD_PROJ)\"" -c $< -o $@
 
 # Regra para compilar a libft
 $(LIBFT):

@@ -12,6 +12,8 @@
 
 #include "../headers/main.h"
 
+int	g_exit;
+
 void	exit_if_typed_exit(char *input,
 			t_tokens **token_list, char **envp_copy)
 {
@@ -57,6 +59,7 @@ int	check_syntax(t_tokens *tokens)
 					&& current->next->type != TOKEN_SIMPLE_QUOTE))
 			{
 				printf("Syntax error: redirection\n");
+				add_exitcode(2);
 				return (0);
 			}
 		}
@@ -66,6 +69,7 @@ int	check_syntax(t_tokens *tokens)
 					&& current->next->type == TOKEN_PIPE))
 			{
 				printf("Syntax error: pipes\n");
+				add_exitcode(2);
 				return (0);
 			}
 		}
@@ -87,6 +91,7 @@ static t_ast_node	*process_ast(t_ast_node **root,
 		*root = build_ast(*token_list);
 		clear_token_list(token_list);
 		parse_commands(*root, envp);
+		add_exitcode(g_exit);
 	}
 	else
 		clear_token_list(token_list);
@@ -99,6 +104,7 @@ void	init_shell(char ***token, t_tokens **token_list, char
 			**envp, t_ast_node **root)
 {
 	char	*input;
+	char	*str_exit;
 
 	*token = NULL;
 	while (1)

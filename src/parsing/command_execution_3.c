@@ -77,7 +77,7 @@ void	check_and_execute_if_is_cmd(t_ast_node *node, char **envp)
 		{
 			printf("minishell: %s: command not found\n",
 				cmd[0]);
-			add_exitcode(127);
+			g_exit = 127;
 			free_array(cmd);
 			return ;
 		}
@@ -86,6 +86,7 @@ void	check_and_execute_if_is_cmd(t_ast_node *node, char **envp)
 	if (is_directory(node->value) == 0)
 	{
 		printf("minishell: %s: Is a directory\n", node->value);
+		add_exitcode(126);
 		free_array(cmd);
 		return ;
 	}

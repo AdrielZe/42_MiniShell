@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   control_pipes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/18 04:38:26 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/03/18 20:52:18 by victda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 void	wait_for_processes(pid_t pid_left, pid_t pid_right, int *status)
 {
-	waitpid(pid_left, status, 0);
-	waitpid(pid_right, NULL, 0);
+	waitpid(pid_left, NULL, 0);
+	waitpid(pid_right, status, 0);
 	add_exitcode(WEXITSTATUS(*status));
 }
 

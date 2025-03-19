@@ -20,12 +20,7 @@ int	main(int argc, char *argv[], char *envp[])
 
 	i = 1;
 	new_line = 1;
-	if (!argv[1])
-	{
-		printf("\n");
-		exit (0);
-	}
-	if (ft_strnstr(argv[1], "-n", 2))
+	if (argv[1] && ft_strcmp(argv[1], "-n") == 0)
 	{
 		new_line = 0;
 		i++;

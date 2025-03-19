@@ -24,7 +24,7 @@
 
 struct	s_tokens;
 struct	s_ast_node;
-
+extern int	g_exit;
 int	cd(char *argv[]);
 void	add_exitcode(int status);
 void	set_signal_handler(void (*handler)(int));

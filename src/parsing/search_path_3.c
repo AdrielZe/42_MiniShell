@@ -73,7 +73,7 @@ char	*resolve_path(char *cmd, char **envp)
 	char	**path_split;
 	char	*built[2];
 
-	built[0] = "PATH=/built-ins";
+	built[0] = PWD_PROJ;
 	built[1] = NULL;
 	path_split = ft_split(cmd, ' ');
 	if (!path_split)
@@ -108,5 +108,5 @@ void	execute_command_for_node_function(char *path,
 		exit(0);
 	}
 	waitpid(pid, &status, 0);
-	add_exitcode(WEXITSTATUS(status));
+	g_exit = WEXITSTATUS(status);
 }

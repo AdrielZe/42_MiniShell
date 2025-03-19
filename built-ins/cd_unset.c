@@ -35,7 +35,6 @@ int	cd(char *argv[])
 	}
 	if (chdir(argv[1]) >= 0)
 	{
-		write(1, "--- by VICTDA-S\n", 16);
 		setenv("PWD", getcwd(NULL, 0), 1);
 		add_exitcode(0);
 		return (1);
