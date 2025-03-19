@@ -44,19 +44,12 @@ int	control_stat(char *cmd_value,
 	return (0);
 }
 
-int	control_command_execution_with_slash(char ***split_path,
-	t_ast_node *node, char **envp)
+static int	execute_if_valid_path(char *cmd_value,
+		char ***split_path, char **envp, t_ast_node *node)
 {
-	char		*cmd_value;
-	char		*split_value;
-	char		*path;
+	char	*path;
 
-	cmd_value = ft_strdup(node->value);
-	*split_path = split_with_quotes(cmd_value);
-	if (!*split_path)
-		return (1);
-	remove_quotes(cmd_value);
-	path = search_valid_path(*split_path[0], envp);
+	path = search_valid_path((*split_path)[0], envp);
 	if (path != NULL)
 	{
 		execute_command(cmd_value, envp, node);
@@ -66,36 +59,47 @@ int	control_command_execution_with_slash(char ***split_path,
 		return (1);
 	}
 	free(path);
+	return (0);
+}
+
+static int	handle_absolute_path(char *cmd_value,
+		char ***split_path, t_ast_node *node, char **envp)
+{
 	if ((*split_path)[0][0] == '/')
 	{
-		node->value = *split_path[0];
-		free_array(envp);
+		node->value = (*split_path)[0];
 		check_if_is_cmd_or_dir(node, envp);
 		free(cmd_value);
 		return (1);
 	}
+	return (0);
+}
+
+int	control_command_execution_with_slash(char ***split_path,
+		t_ast_node *node, char **envp)
+{
+	char	*cmd_value;
+
+	cmd_value = ft_strdup(node->value);
+	*split_path = split_with_quotes(cmd_value);
+	if (!*split_path)
+		return (1);
+	remove_quotes(cmd_value);
+	if (execute_if_valid_path(cmd_value, split_path, envp, node))
+		return (1);
+	if (handle_absolute_path(cmd_value, split_path, node, envp))
+		return (1);
 	if (node->type != NODE_COMMAND)
 	{
-		free(*split_path[0]);
-		*split_path[0] = ft_strdup(cmd_value);
+		free((*split_path)[0]);
+		(*split_path)[0] = ft_strdup(cmd_value);
 	}
 	if (control_stat(cmd_value, split_path, node, envp) == 1)
 	{
+		free(cmd_value);
 		free_array(*split_path);
 		return (1);
 	}
 	free_array(*split_path);
-	return (0);
-}
-
-int	not_result_msg_free(char *search_result,
-			t_ast_node *node, char **split_values, char *command_to_execute)
-{
-	if (!search_result)
-	{
-		not_found_msg_and_free(node, search_result,
-			split_values, command_to_execute);
-		return (1);
-	}
 	return (0);
 }

@@ -62,6 +62,24 @@ int	is_quoted(const char *s)
 	return (0);
 }
 
+int	handle_pipe_error(const char *s, int *prev_char_was_pipe)
+{
+	if (*s == '|')
+	{
+		if (*prev_char_was_pipe)
+			return (1);
+		s++;
+		while (*s == ' ')
+			s++;
+		if (*s == '\0')
+			return (1);
+		*prev_char_was_pipe = 1;
+	}
+	else
+		*prev_char_was_pipe = 0;
+	return (0);
+}
+
 int	check_pipe_syntax(const char *s)
 {
 	int	prev_char_was_pipe;
@@ -75,22 +93,9 @@ int	check_pipe_syntax(const char *s)
 		return (1);
 	while (*s)
 	{
-		if (*s == '|')
-		{
-			if (prev_char_was_pipe)
-				return (1);
-			s++;
-			while (*s == ' ')
-				s++;
-			if (*s == '\0')
-				return (1);
-			prev_char_was_pipe = 1;
-		}
-		else
-		{
-			prev_char_was_pipe = 0;
-			s++;
-		}
+		if (handle_pipe_error(s, &prev_char_was_pipe) == 1)
+			return (1);
+		s++;
 	}
 	return (0);
 }

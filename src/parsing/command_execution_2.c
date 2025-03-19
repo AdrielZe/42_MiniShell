@@ -61,15 +61,11 @@ void	handle_node_types(t_ast_node *node, char **envp, t_delim **delimiters)
 	if (node->type == NODE_PIPE)
 		handle_pipe_node(node, envp);
 	else if (node->type == NODE_HEREDOC)
-	{
-		handle_heredoc(node, envp);;
-	}
+		handle_heredoc(node, envp);
 	else if (node->type == NODE_WORD)
 		handle_word_node(node, envp);
 	else if (node->type == NODE_COMMAND)
 		handle_command_node(node, envp);
 	else if (node->type == NODE_SIMPLE_QUOTE)
-	{
 		handle_simple_quote_node(node, envp);
-	}
 }

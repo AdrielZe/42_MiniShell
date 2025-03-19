@@ -60,6 +60,17 @@ void	when_only_env_var(t_ast_node *node, char **envp)
 	execute_command(node->value, envp, node);
 }
 
+void	handle_command_not_found(char **cmd, char *cmd_path)
+{
+	if (cmd_path == NULL)
+	{
+		printf("minishell: %s: command not found\n", cmd[0]);
+		write_exitcode(127);
+		free_array(cmd);
+	}
+	free(cmd_path);
+}
+
 void	check_and_execute_if_is_cmd(t_ast_node *node, char **envp)
 {
 	char	**cmd;
@@ -69,20 +80,12 @@ void	check_and_execute_if_is_cmd(t_ast_node *node, char **envp)
 	if (!cmd)
 		return ;
 	cmd_path = search_valid_path(cmd[0], envp);
-	if (!cmd_path)
-		return ;
-	if (cmd[0])
+	if (!cmd_path || cmd[0] == NULL)
 	{
-		if (cmd_path == NULL)
-		{
-			printf("minishell: %s: command not found\n",
-				cmd[0]);
-			write_exitcode(127);
-			free_array(cmd);
-			return ;
-		}
+		free_array(cmd);
+		return ;
 	}
-	free(cmd_path);
+	handle_command_not_found(cmd, cmd_path);
 	if (is_directory(node->value) == 0)
 	{
 		printf("minishell: %s: Is a directory\n", node->value);
@@ -90,40 +93,49 @@ void	check_and_execute_if_is_cmd(t_ast_node *node, char **envp)
 		free_array(cmd);
 		return ;
 	}
-	else
-		execute_command(node->value, envp, node);
+	execute_command(node->value, envp, node);
 	free_array(cmd);
+}
+
+void	handle_command_with_slash(t_ast_node *node,
+		char **split_values, char *command_to_execute, char **envp)
+{
+	char	*search_result;
+	char	**split_path;
+
+	search_result = search_valid_path(command_to_execute, envp);
+	if (control_command_execution_with_slash(&split_path, node, envp) == 1)
+	{
+		free_array(split_values);
+		free(search_result);
+		return ;
+	}
+	else if (not_result_msg_free(search_result,
+			node, split_values, command_to_execute) == 1)
+	{
+		free(search_result);
+		return ;
+	}
+	execute_simple_quote_node(node, node->value, envp);
+	free(search_result);
+	free_array(split_values);
 }
 
 void	execute_regular_cmd(t_ast_node *node, char **envp)
 {
 	char	*command_to_execute;
 	char	**split_values;
-	char	*search_result;
-	char	**split_path;
 
 	rmv_quotes_set_cmd(node, &split_values, &command_to_execute);
-	search_result = search_valid_path(command_to_execute, envp);
 	if (!node->value || node->value[0] == '\0')
 		return ;
 	if (ft_strchr(node->value, '/') != NULL)
 	{
-		if (control_command_execution_with_slash(&split_path,
-				node, envp) == 1)
-		{
-			free_array(split_values);
-			free(search_result);
-			return ;
-		}
-		else if (not_result_msg_free(search_result,
-				node, split_values, command_to_execute) == 1)
-			return ;
-		else
-			execute_simple_quote_node(node, node->value, envp);
+		handle_command_with_slash(node, split_values, command_to_execute, envp);
+		return ;
 	}
-	free(search_result);
-	free_array(split_values);
 	execute_simple_quote_node(node, node->value, envp);
+	free_array(split_values);
 }
 
 int	verify_if_is_env_var(t_ast_node *node)

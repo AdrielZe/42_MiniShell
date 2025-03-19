@@ -42,23 +42,13 @@ static int	search_for_path_index(char **envp)
 	return (i);
 }
 
-char	*search_valid_path(char *cmd, char **envp)
+static char	*find_executable_path(char **paths, char *cmd)
 {
-	char		**paths;
-	char		*current_path;	
-	char		*current_path_and_command;
-	int			i;
-	int			j;
+	char	*current_path;
+	char	*current_path_and_command;
+	int		j;
 
 	j = 0;
-	if (cmd[0] == '/' && access(cmd, F_OK) != 0)
-		return (NULL);
-	if (access(cmd, F_OK | X_OK) == 0)
-		return (ft_strdup((cmd)));
-	i = search_for_path_index(envp);
-	paths = ft_split(envp[i] + 5, ':');
-	if (!paths)
-		return (NULL);
 	while (paths && paths[j])
 	{
 		current_path = ft_strjoin(paths[j], "/");
@@ -71,4 +61,20 @@ char	*search_valid_path(char *cmd, char **envp)
 	}
 	free_paths(paths);
 	return (NULL);
+}
+
+char	*search_valid_path(char *cmd, char **envp)
+{
+	char	**paths;
+	int		i;
+
+	if (cmd[0] == '/' && access(cmd, F_OK) != 0)
+		return (NULL);
+	if (access(cmd, F_OK | X_OK) == 0)
+		return (ft_strdup(cmd));
+	i = search_for_path_index(envp);
+	paths = ft_split(envp[i] + 5, ':');
+	if (!paths)
+		return (NULL);
+	return (find_executable_path(paths, cmd));
 }

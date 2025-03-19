@@ -21,6 +21,8 @@ void	add_exitcode(int status);
 
 int	cd(char *argv[])
 {
+	char *cwd;
+
 	if (argv[1] && argv[2])
 	{
 		printf("cd: many arguments\n");
@@ -35,6 +37,7 @@ int	cd(char *argv[])
 	}
 	if (chdir(argv[1]) >= 0)
 	{
+		cwd = getcwd(NULL, 0);
 		setenv("PWD", getcwd(NULL, 0), 1);
 		add_exitcode(0);
 		return (1);

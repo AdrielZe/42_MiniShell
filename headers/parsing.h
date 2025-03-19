@@ -57,6 +57,8 @@ typedef struct s_ast_node
 	int					lastcmd;
 }	t_ast_node;
 
+void	get_cmd(t_ast_node *node, char **cmd, char ***tokens);
+int	control_path(char **path, char *cmd, char **envp, char **tokens);
 void	cleanup_heredoc(struct s_ast_node *node, char **envp);
 void	free_array(char **array);
 int	is_word_in_array(char *word, char **array);

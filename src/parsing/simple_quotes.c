@@ -39,38 +39,16 @@ void	free_elements_and_wait_child(char *path,
 	waitpid(pid, NULL, 0);
 }
 
-void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
+int	control_path(char **path, char *cmd, char **envp, char **tokens)
 {
-	char	**tokens;
-	char	*path;
-	pid_t	pid;
-	char	*built[1];
-	int		status;
-
-	built[0] = PWD_PROJ;
-	get_cmd(node, &cmd, &tokens);
-	if (is_src_file(cmd) == 1)
-	{
-		free_array(tokens);
-		return ;
-	}
-	path = search_valid_path(cmd, built);
-	if (!path)
-		path = search_valid_path(cmd, envp);
-	if (!path)
+	if (!*path)
+		*path = search_valid_path(cmd, envp);
+	if (!*path)
 	{
 		handle_execution_failure(cmd, tokens);
-		return ;
+		return (1);
 	}
-	open_pid(&pid);
-	set_signal_handler(sigint_cat_action);
-	if (pid == 0)
-		execute_child_process(cmd, path, tokens, envp);
-	free_array(tokens);
-	free(path);
-	waitpid(pid, &status, 0);
-	if(node->lastcmd)
-		write_exitcode(WEXITSTATUS(status));
+	return (0);
 }
 
 void	handle_simple_quote_node(t_ast_node *node, char **envp)

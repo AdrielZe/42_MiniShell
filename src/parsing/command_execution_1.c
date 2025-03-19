@@ -30,13 +30,7 @@ void	left_process(int *pipe, t_ast_node *node,
 		current = current->left;
 	}
 	if (verify_if_is_env_var(node->left) != 1)
-	{
-		if (dup2(pipe[1], STDOUT_FILENO) == -1)
-		{
-			perror("dup2 left");
-			exit(1);
-		}
-	}
+		dup2(pipe[1], STDOUT_FILENO);
 	close_pipefd(pipe);
 	parse_commands(node->left, envp);
 	free_array(envp);

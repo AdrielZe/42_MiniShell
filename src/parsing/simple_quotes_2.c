@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_quotes_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 17:01:30 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/19 04:16:33 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/03/19 06:56:15 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,33 @@ void	execute_child_process(char *cmd, char *path, char **tokens, char **envp)
 		exit(127);
 	}
 	exit(0);
+}
+
+void	execute_simple_quote_node(t_ast_node *node, char *cmd, char **envp)
+{
+	char	**tokens;
+	char	*path;
+	pid_t	pid;
+	char	*built[1];
+	int		status;
+
+	built[0] = PWD_PROJ;
+	get_cmd(node, &cmd, &tokens);
+	if (is_src_file(cmd) == 1)
+	{
+		free_array(tokens);
+		return ;
+	}
+	path = search_valid_path(cmd, built);
+	if (control_path(&path, cmd, envp, tokens) == 1)
+		return ;
+	open_pid(&pid);
+	set_signal_handler(sigint_cat_action);
+	if (pid == 0)
+		execute_child_process(cmd, path, tokens, envp);
+	free_array(tokens);
+	free(path);
+	waitpid(pid, &status, 0);
+	if (node->lastcmd)
+		write_exitcode(WEXITSTATUS(status));
 }

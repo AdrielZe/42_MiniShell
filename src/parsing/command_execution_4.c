@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_execution_4.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/19 05:14:24 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/03/19 07:15:42 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,25 @@ int	if_cd(char *cmd, char **envp)
 	return (0);
 }
 
+void	process_command(t_ast_node *node,
+		char **envp, char *old_string, char **split_result)
+{
+	int	is_env_var;
+
+	is_env_var = (split_result && ft_strchr(split_result[0], '$') != NULL);
+	if (node->type != NODE_SIMPLE_QUOTE)
+		node->value = process_env_var(node->value, 0);
+	if (is_env_var)
+		when_only_env_var(node, envp);
+	else
+		process_command_execution(node, envp, old_string, split_result);
+	free_array(split_result);
+	free(old_string);
+}
+
 void	handle_command_node(t_ast_node *node, char **envp)
 {
 	char	*old_string;
-	int		is_env_var;
 	char	**split_result;
 	int		saved_stdin;
 
@@ -65,18 +80,8 @@ void	handle_command_node(t_ast_node *node, char **envp)
 		close(saved_stdin);
 		return ;
 	}
-	is_env_var = (split_result && ft_strchr(split_result[0], '$') != NULL);
 	old_string = ft_strdup(node->value);
-	if (node->type != NODE_SIMPLE_QUOTE)
-		node->value = process_env_var(node->value, 0);
-	if (is_env_var)
-		when_only_env_var(node, envp);
-	else
-	{
-		process_command_execution(node, envp, old_string, split_result);
-	}
-	free_array(split_result);
-	free(old_string);
+	process_command(node, envp, old_string, split_result);
 	dup2(saved_stdin, STDIN_FILENO);
 	close(saved_stdin);
 }

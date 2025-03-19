@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_exitcode.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 20:32:09 by victda-s          #+#    #+#             */
-/*   Updated: 2025/03/19 04:11:15 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/03/19 07:16:05 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,14 @@ void	open_exitcode(void)
 
 	fd = open_stdin(".exitcode");
 	bytes_read = read(fd, buffer, sizeof(buffer) - 1);
-	if(bytes_read)
+	if (bytes_read)
 	{
 		buffer[bytes_read] = '\0';
 		setenv("EXITCODEMINISHELL", buffer, 1);
 	}
 	close(fd);
 }
+
 void	write_exitcode(int exitcode)
 {
 	int		fd;
