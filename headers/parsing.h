@@ -224,7 +224,8 @@ int			not_result_msg_free(char *search_result, t_ast_node *node,
 void		open_left_pipe(int *pipefd, pid_t *pid_left);
 void		open_right_pipe(pid_t *pid_right);
 void		right_process(int *pipe, t_ast_node *node, char **envp);
-void		left_process(int *pipe, t_ast_node *node, char **envp);
+void		left_process(int *pipe, t_ast_node *node,
+				t_delim *delimiters, char **envp);
 char		**replace_at_index(char **array, int size,
 				int index, const char *new_value);
 char		**map_strings(char **array, int size, char *(*func)(char *, int));

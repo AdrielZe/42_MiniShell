@@ -1,7 +1,7 @@
 NAME = minishell
 
 CC = cc
-CFLAGS = -g3 
+CFLAGS = -g3 -Wall -Wextra -Werror
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -53,9 +53,5 @@ built: $(BUILT_EXECUTABLES)
 
 $(BUILT_INS)/%: $(BUILT_INS)/%.c $(LIBFT)
 	$(CC) $< $(INCLUDES) $(LIBFT) -o $@
-
-v: all
-	valgrind --leak-check=full --show-leak-kinds=all --keep-debuginfo=yes \
-	--suppressions=readline.supp --track-fds=yes ./$(NAME)
 
 .PHONY: all clean fclean re built

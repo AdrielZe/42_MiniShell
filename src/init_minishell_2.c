@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:36:49 by asilveir          #+#    #+#             */
-/*   Updated: 2025/03/19 14:41:24 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/03/19 19:08:03 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	redirects_verification(t_tokens *current)
 				&& current->next->type != TOKEN_COMMAND
 				&& current->next->type != TOKEN_SIMPLE_QUOTE))
 		{
-			printf("Syntax error: redirects\n");
+			printf("syntax error: redirects\n");
 			write_exitcode(2);
 			return (0);
 		}
@@ -53,7 +53,7 @@ int	pipes_verification(t_tokens *current)
 		if (!current->next || (current->next
 				&& current->next->type == TOKEN_PIPE))
 		{
-			printf("Syntax error: pipes\n");
+			printf("syntax error: pipes\n");
 			write_exitcode(2);
 			return (0);
 		}
@@ -100,7 +100,8 @@ int	check_syntax(t_tokens *tokens, char **envp)
 			return (0);
 		if (slash_verification(current, envp) == 0)
 		{
-			printf("no such file or directory: %s \n", current->value);
+			printf("minishell: no such file or directory: %s \n",
+				current->value);
 			return (0);
 		}
 		current = current->next;

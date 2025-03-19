@@ -45,7 +45,7 @@ void	handle_pipe_node(t_ast_node *node, char **envp)
 	set_signal_handler(SIG_IGN);
 	if (pid_left == 0)
 	{
-		left_process(pipefd, node, envp);
+		left_process(pipefd, node, delimiters, envp);
 		set_signal_handler(handle_sigint);
 	}
 	if (should_wait_left_process(node, pid_left, &status))
@@ -61,7 +61,7 @@ void	handle_node_types(t_ast_node *node, char **envp, t_delim **delimiters)
 	if (node->type == NODE_PIPE)
 		handle_pipe_node(node, envp);
 	else if (node->type == NODE_HEREDOC)
-		handle_heredoc(node, envp, 0);
+		handle_heredoc(node, envp);
 	else if (node->type == NODE_WORD)
 		handle_word_node(node, envp);
 	else if (node->type == NODE_COMMAND)

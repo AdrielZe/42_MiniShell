@@ -19,22 +19,19 @@ int	cd(char *argv[])
 	if (argv[1] && argv[2])
 	{
 		printf("cd: many arguments\n");
-		add_exitcode(1);
-		return (0);
+		return (add_exitcode(1), 0);
 	}
 	else if (((!argv[1] || argv[1][0] == '~') && chdir(getenv("HOME")) >= 0))
 	{
-		setenv("PWD", getcwd(NULL, 0), 1);//GETCWD MEMORY LEAK
-		add_exitcode(0);
-		return (1);
+		cwd = getcwd(NULL, 0);
+		setenv("PWD", cwd, 1);
+		return (free(cwd), add_exitcode(0), 1);
 	}
 	if (chdir(argv[1]) >= 0)
 	{
 		cwd = getcwd(NULL, 0);
 		setenv("PWD", cwd, 1);
-		add_exitcode(0);
-		free(cwd);
-		return (1);
+		return (free(cwd), add_exitcode(0), 1);
 	}
 	else
 	{

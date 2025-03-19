@@ -55,13 +55,31 @@ void	handle_heredoc_delimiters(int *pipefd,
 }
 
 void	read_heredoc(int *pipefd,
-		t_delim *delimiters, t_ast_node *node, char **envp)
+	t_delim *delimiters, t_ast_node *node, char **envp)
 {
-	t_heredoc_data	*data;
+	int	newfd[2];
+	int	save_dup;
+	int	save_out;
 
-	data->pipefd = pipefd;
-	data->delimiters = delimiters;
-	handle_heredoc_delimiters(pipefd, delimiters, node, envp);
+	save_out = dup(STDOUT_FILENO);
+	save_dup = dup(STDIN_FILENO);
+	if (pipe(newfd))
+	{
+		perror("pipe failed");
+		return ;
+	}
+	handle_heredoc_delimiters(newfd, delimiters, node, envp);
+	dup2(newfd[0], STDIN_FILENO);
+	if (node->right->outfile)
+		dup2(node->right->outfile, STDOUT_FILENO);
+	else
+		dup2(pipefd[1], STDOUT_FILENO);
+	close(newfd[1]);
+	handle_command_node(node->left, envp);
+	close(pipefd[1]);
+	dup2(save_dup, STDIN_FILENO);
+	dup2(save_out, STDOUT_FILENO);
+	close_pipefd(newfd);
 	close_pipefd(pipefd);
 	exit(0);
 }
