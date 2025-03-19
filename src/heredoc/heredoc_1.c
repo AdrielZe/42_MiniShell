@@ -130,10 +130,10 @@ void	handle_heredoc(t_ast_node *node, char **envp)
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status) && WEXITSTATUS(status) == 0)
 		execute_command_with_heredoc(pipefd, pid, node, envp);
-	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
-	{
-		free_array(envp);
-	}
+	// if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
+	// {
+	// 	free_array(envp);
+	// }
 	close(pipefd[0]);
 	set_signal_handler(handle_sigint);
 }

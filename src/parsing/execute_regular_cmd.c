@@ -69,6 +69,7 @@ int	control_command_execution_with_slash(char ***split_path,
 	if ((*split_path)[0][0] == '/')
 	{
 		node->value = *split_path[0];
+		free_array(envp);
 		check_if_is_cmd_or_dir(node, envp);
 		free(cmd_value);
 		return (1);

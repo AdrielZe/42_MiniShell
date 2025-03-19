@@ -56,9 +56,9 @@ typedef struct s_ast_node
 	int					env_var;
 }	t_ast_node;
 
-void cleanup_heredoc(struct s_ast_node *node, char **envp);
-
-
+void	cleanup_heredoc(struct s_ast_node *node, char **envp);
+void	free_array(char **array);
+int	is_word_in_array(char *word, char **array);
 void	remove_array_quotes(char ***array);
 char	**place_simple_quote(char **array, char **in_quote);
 char	*add_quote_type_str(const char *s, char quote);
