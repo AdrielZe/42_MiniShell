@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 01:09:05 by asilveir          #+#    #+#             */
-/*   Updated: 2025/03/18 03:23:47 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:55:03 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,16 @@ void	exec_heredoc_cmds(t_ast_node *node, t_ast_node *current, char **envp)
 
 	value_split = split_with_quotes(current->value);
 	value = search_valid_path(value_split[0], envp);
+	if (!value)
+	{
+		printf("minishell: %s : command not found\n", value_split[0]);
+		exit(2);
+	}
 	free(value_split);
 	new_args = prepare_exec_args(node, current, envp);
 	if (execve(value, new_args, envp) == -1)
 	{
-		perror("execve\n");
+		perror("execve");
 		exit(2);
 	}
 	free_array(new_args);

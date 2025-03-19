@@ -12,6 +12,19 @@
 
 #include "../headers/main.h"
 
+void	exit_if_typed_exit(char *input,
+	t_tokens **token_list, char **envp_copy)
+{
+	if (ft_strcmp("exit", input) == 0)
+	{
+		clear_token_list(token_list);
+		free_array(envp_copy);
+		free(input);
+		printf("Exiting.\n");
+		exit(0);
+	}
+}
+
 static t_ast_node	*process_ast(t_ast_node **root,
 			t_tokens **token_list, char **envp)
 {
@@ -20,7 +33,7 @@ static t_ast_node	*process_ast(t_ast_node **root,
 	save_stdout = dup(STDOUT_FILENO);
 	if (!token_list || !*token_list)
 		return (NULL);
-	if (check_syntax(*token_list))
+	if (check_syntax(*token_list, envp))
 	{
 		*root = build_ast(*token_list);
 		clear_token_list(token_list);

@@ -46,7 +46,7 @@ typedef struct s_tokens
 	struct s_tokens	*next;
 }	t_tokens;
 
-int		check_syntax(t_tokens *tokens);
+int		check_syntax(t_tokens *tokens, char **envp);
 int		is_quoted(const char *s);
 
 //src/tokenize/classify_token.c

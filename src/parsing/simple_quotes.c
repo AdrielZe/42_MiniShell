@@ -64,8 +64,7 @@ void	handle_simple_quote_node(t_ast_node *node, char **envp)
 		return ;
 	if (ft_strchr(node->value, '/') != NULL)
 	{
-		if (control_command_execution_with_slash(&split_path,
-				node, envp) == 1)
+		if (control_command_execution_with_slash(node, envp) == 1)
 		{
 			free_array(split_values);
 			return ;

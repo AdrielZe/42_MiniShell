@@ -54,10 +54,9 @@ void	handle_command_with_slash(t_ast_node *node,
 		char **split_values, char *command_to_execute, char **envp)
 {
 	char	*search_result;
-	char	**split_path;
 
 	search_result = search_valid_path(command_to_execute, envp);
-	if (control_command_execution_with_slash(&split_path, node, envp) == 1)
+	if (control_command_execution_with_slash(node, envp) == 1)
 	{
 		free_array(split_values);
 		free(search_result);
@@ -66,7 +65,6 @@ void	handle_command_with_slash(t_ast_node *node,
 	else if (not_result_msg_free(search_result,
 			node, split_values, command_to_execute) == 1)
 	{
-		free_array(split_path);
 		free(search_result);
 		return ;
 	}

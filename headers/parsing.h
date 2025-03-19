@@ -216,8 +216,7 @@ void		remove_quotes(char *str);
 void		get_new_word(char **new_word, const char **s, char ***array);
 int			execute_command_for_word_node(char *path,
 				char **tokens, char **envp);
-int			control_command_execution_with_slash(char ***split_path,
-				t_ast_node *node, char **envp);
+int			control_command_execution_with_slash(t_ast_node *node, char **envp);
 void		rmv_quotes_set_cmd(t_ast_node *node,
 				char ***split_values, char **command_to_execute);
 int			not_result_msg_free(char *search_result, t_ast_node *node,
@@ -225,8 +224,7 @@ int			not_result_msg_free(char *search_result, t_ast_node *node,
 void		open_left_pipe(int *pipefd, pid_t *pid_left);
 void		open_right_pipe(pid_t *pid_right);
 void		right_process(int *pipe, t_ast_node *node, char **envp);
-void		left_process(int *pipe, t_ast_node *node,
-				t_delim *delimiters, char **envp);
+void		left_process(int *pipe, t_ast_node *node, char **envp);
 char		**replace_at_index(char **array, int size,
 				int index, const char *new_value);
 char		**map_strings(char **array, int size, char *(*func)(char *, int));

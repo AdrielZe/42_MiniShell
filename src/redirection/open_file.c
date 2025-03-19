@@ -60,7 +60,7 @@ int	open_stdin(char *file)
 	free(file);
 	if (fd == -1)
 	{
-		perror("Erro ao abrir o arquivo");
+		perror("error opening file");
 		return (-2);
 	}
 	return (fd);

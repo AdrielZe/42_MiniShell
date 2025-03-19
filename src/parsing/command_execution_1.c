@@ -12,8 +12,7 @@
 
 #include "../headers/main.h"
 
-void	left_process(int *pipe, t_ast_node *node,
-		t_delim *delimiters, char **envp)
+void	left_process(int *pipe, t_ast_node *node, char **envp)
 {
 	t_ast_node	*current;
 
@@ -23,9 +22,8 @@ void	left_process(int *pipe, t_ast_node *node,
 		if (current->type == NODE_HEREDOC)
 		{
 			set_signal_handler(sigint_heredoc_action);
-			delimiters = get_all_delimiters(current);
 			handle_heredoc(node->left, envp);
-			return ;
+			exit (0);
 		}
 		current = current->left;
 	}
