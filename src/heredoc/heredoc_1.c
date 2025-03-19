@@ -86,7 +86,6 @@ void	execute_command_with_heredoc(int *pipefd, pid_t pid,
 	int			pipe_found;
 	int			status;
 
-	printf("aaaaaaaa\n");
 	current = node;
 	pipe_found = 0;
 	pid = fork();

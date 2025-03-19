@@ -22,9 +22,9 @@ void	free_ast(t_ast_node *node)
 		free_ast(node->right);
 	if (node->value)
 		free(node->value);
-	if (node->infile)
+	if (node->infile != -1)
 		close(node->infile);
-	if (node->outfile)
+	if (node->outfile != -1)
 		close(node->outfile);
 	free(node);
 }

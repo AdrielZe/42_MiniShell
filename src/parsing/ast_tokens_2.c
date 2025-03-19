@@ -33,8 +33,8 @@ void	create_envp_node(t_ast_node **root,
 	t_ast_node	*env_var_node;
 
 	env_var_node = create_node(NODE_ENV_VAR, tokens->value);
-	env_var_node->infile = 0;
-	env_var_node->outfile = 0;
+	env_var_node->infile = -1;
+	env_var_node->outfile = -1;
 	if (!*root)
 		*root = env_var_node;
 	else if (*current)

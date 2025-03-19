@@ -81,7 +81,7 @@ static t_ast_node	*process_ast(t_ast_node **root,
 {
 	int	save_stdout;
 
-	save_stdout = dup(STDOUT_FILENO);
+	// save_stdout = dup(STDOUT_FILENO);
 	if (!token_list || !*token_list)
 		return (NULL);
 	if (check_syntax(*token_list))
@@ -93,8 +93,8 @@ static t_ast_node	*process_ast(t_ast_node **root,
 	}
 	else
 		clear_token_list(token_list);
-	dup2(save_stdout, STDOUT_FILENO);
-	close(save_stdout);
+	// dup2(save_stdout, STDOUT_FILENO);
+	// close(save_stdout);
 	return (*root);
 }
 
