@@ -66,6 +66,10 @@ int	is_only_spaces(char *str)
 
 void	close_pipefd(int *pipefd)
 {
-	close(pipefd[0]);
-	close(pipefd[1]);
+	if(!pipefd)
+		return ;
+	if(pipefd[0] != 0)
+		close(pipefd[0]);
+	if(pipefd[1] != 0)
+		close(pipefd[1]);
 }

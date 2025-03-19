@@ -1,0 +1,2 @@
+Este é o conteúdo do arquivo
+com múltiplas linhas.

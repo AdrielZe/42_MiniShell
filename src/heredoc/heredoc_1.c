@@ -51,7 +51,7 @@ void	read_heredoc(int *pipefd, t_delim *delimiters, t_ast_node *node, char **env
 	{
 		while (1)
 		{
-			display_input_line(&input);
+			display_input_line(&input, envp, node);
 			if (!input)
 			{
 				close_pipefd(pipefd);
@@ -75,7 +75,6 @@ void	read_heredoc(int *pipefd, t_delim *delimiters, t_ast_node *node, char **env
 			write_and_free_input(pipefd, input);
 		}
 	}
-	free_delimiters(delimiters);
 	close_pipefd(pipefd);
 	exit(0);
 }
@@ -87,6 +86,7 @@ void	execute_command_with_heredoc(int *pipefd, pid_t pid,
 	int			pipe_found;
 	int			status;
 
+	printf("aaaaaaaa\n");
 	current = node;
 	pipe_found = 0;
 	pid = fork();
@@ -124,13 +124,16 @@ void	handle_heredoc(t_ast_node *node, char **envp)
 			exit(1);
 		}
 		read_heredoc(pipefd, delim_list, node, envp);
-		free_delimiters(delim_list);
 		exit(0);
 	}
 	close(pipefd[1]);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status) && WEXITSTATUS(status) == 0)
 		execute_command_with_heredoc(pipefd, pid, node, envp);
+	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
+	{
+		free_array(envp);
+	}
 	close(pipefd[0]);
 	set_signal_handler(handle_sigint);
 }

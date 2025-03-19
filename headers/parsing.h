@@ -177,11 +177,12 @@ int			node_exists(t_ast_node *node);
 
 void	create_simple_quote_node(t_ast_node **root,
 	t_ast_node **current, struct s_tokens *tokens);
+void	cleanup_heredoc_c(t_ast_node *node, char **envp);
 
 void	handle_cmd_or_word_token(struct s_tokens *tokens,
 				t_ast_node **root, t_ast_node **current);
 int	redirection_if(struct s_tokens *tokens, t_ast_node *node);
-
+void	handle_ctrl_d_heredoc(char **envp_copy, struct s_tokens **token_list, t_ast_node *root);
 void	not_found_msg_and_free(t_ast_node *node, char *search_result, char **split_values, char *command_to_execute);
 void	create_nodes_and_redirect_if(struct s_tokens **tokens, t_ast_node **root, t_ast_node **current);
 void	handle_env_var(t_ast_node *node, char **envp, char *old_string);
@@ -189,7 +190,7 @@ int	if_cd(char *cmd, char **envp);
 void	process_command_execution(t_ast_node *node, char **envp, char *old_string, char **split_result);
 void execute_command_for_node_function(char *path, char **tokens, char **envp);
 char *resolve_path(char *cmd, char **envp);
-void	display_input_line(char **input);
+void	display_input_line(char **input, char **envp, t_ast_node *node);
 void	handle_simple_quote_node(t_ast_node *node, char **envp);
 void	free_env_and_array(char *env_result, char **env_processed);
 void	update_node_value(t_ast_node *node, char *new_value);

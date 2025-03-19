@@ -19,12 +19,12 @@ void	write_and_free_input(int *pipefd, char *input)
 	free(input);
 }
 
-void	display_input_line(char **input)
+void	display_input_line(char **input, char **envp, t_ast_node *node)
 {
 	*input = readline("heredoc> ");
 	if (!*input)
 	{
-		close_heredoc_prompt();
+		handle_ctrl_d_heredoc(envp, NULL, node);
 		return ;
 	}
 }
