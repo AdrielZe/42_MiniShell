@@ -26,22 +26,8 @@ void	set_signal_handler(void (*handler)(int))
 	sigaction(SIGINT, &sa, NULL);
 }
 
-void	cleanup_heredoc(t_ast_node *node, char **envp)
+void	cleanup_heredoc_c(t_ast_node *node, char **envp)
 {
-	// t_heredoc_data	*data;
-
-	// data = get_heredoc_data();
-	// if (data->pipefd)
-	// {
-	// 	close(data->pipefd[0]);
-	// 	close(data->pipefd[1]);
-	// 	data->pipefd = NULL;
-	// }
-	// if (data->delimiters)
-	// {
-	// 	free_delimiters(data->delimiters);
-	// 	data->delimiters = NULL;
-	// }
 	if (envp)
 		free_array(envp);
 	if (node)
@@ -49,7 +35,18 @@ void	cleanup_heredoc(t_ast_node *node, char **envp)
 		free_ast(node);
 		node = NULL;
 	}
-	envp = NULL;
+	rl_replace_line("", 0);
+	rl_on_new_line();
+}
+void	cleanup_heredoc(t_ast_node *node, char **envp)
+{
+	if (envp)
+		free_array(envp);
+	if (node)
+	{
+		free_ast(node);
+		node = NULL;
+	}
 	rl_replace_line("", 0);
 	rl_on_new_line();
 }
@@ -74,13 +71,21 @@ void	handle_ctrl_d(char **envp_copy, t_tokens **token_list, t_ast_node *root)
 	exit(0);
 }
 
+void	handle_ctrl_d_heredoc(char **envp_copy, t_tokens **token_list, t_ast_node *root)
+{
+	cleanup_heredoc(root, envp_copy);
+	clear_token_list(token_list);
+	token_list = NULL;
+	rl_clear_history();
+	clear_history();
+	exit(0);
+}
+
 void	sigint_heredoc_action(int sig)
 {
 	(void)sig;
-	if (sig == SIGINT)
-	{
 		ft_putchar_fd('\n', 1);
 	//	cleanup_heredoc();
 		exit(130);
-	}
+
 }

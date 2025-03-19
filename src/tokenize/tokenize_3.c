@@ -63,20 +63,6 @@ void	start_word_variables(t_word_data *data,
 	data->array = array;
 }
 
-int	is_word_in_array(char *word, char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array && array[i])
-	{
-		if (array[i] == word)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 void	process_words(const char **s, char ***array, int *i, char **envp)
 {
 	char		*old_string;

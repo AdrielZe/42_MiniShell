@@ -31,11 +31,8 @@ void	execute_command(char *cmd, char **envp, t_ast_node *node)
 	int	saved_stdin;
 	int	saved_stdout;
 
-	fflush(stdout);
 	saved_stdin = dup(STDIN_FILENO);
-	fflush(stdout);
 	saved_stdout = dup(STDOUT_FILENO);
-	fflush(stdout);
 	redirect_io(node);
 	if (node->type == NODE_COMMAND || node->type == NODE_HEREDOC)
 		execute_node_command(node, cmd, envp);

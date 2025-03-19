@@ -57,8 +57,7 @@ void	right_process(int *pipe, t_ast_node *node, char **envp)
 	{
 		dup2(node->outfile, STDOUT_FILENO);
 	}
-	close(pipe[0]);
-	close(pipe[1]);
+	close_pipefd(pipe);
 	parse_commands(node->right, envp);
 	free_array(envp);
 	free_ast(node);
