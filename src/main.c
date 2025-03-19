@@ -64,6 +64,7 @@ int	main(int argc, char *argv[], char *envp[])
 	token_list = NULL;
 	root = NULL;
 	init_shell(&token, &token_list, envp_copy, &root);
+	free_ast(root);
 	clear_token_list(&token_list);
 	write_history(".my_history");
 	free_array(envp_copy);

@@ -26,22 +26,30 @@ void	set_signal_handler(void (*handler)(int))
 	sigaction(SIGINT, &sa, NULL);
 }
 
-void	cleanup_heredoc(void)
+void	cleanup_heredoc(t_ast_node *node, char **envp)
 {
-	t_heredoc_data	*data;
+	// t_heredoc_data	*data;
 
-	data = get_heredoc_data();
-	if (data->pipefd)
+	// data = get_heredoc_data();
+	// if (data->pipefd)
+	// {
+	// 	close(data->pipefd[0]);
+	// 	close(data->pipefd[1]);
+	// 	data->pipefd = NULL;
+	// }
+	// if (data->delimiters)
+	// {
+	// 	free_delimiters(data->delimiters);
+	// 	data->delimiters = NULL;
+	// }
+	if (envp)
+		free_array(envp);
+	if (node)
 	{
-		close(data->pipefd[0]);
-		close(data->pipefd[1]);
-		data->pipefd = NULL;
+		free_ast(node);
+		node = NULL;
 	}
-	if (data->delimiters)
-	{
-		free_delimiters(data->delimiters);
-		data->delimiters = NULL;
-	}
+	envp = NULL;
 	rl_replace_line("", 0);
 	rl_on_new_line();
 }
@@ -58,18 +66,9 @@ void	handle_sigint(int sig)
 void	handle_ctrl_d(char **envp_copy, t_tokens **token_list, t_ast_node *root)
 {
 	write(1, "Exiting minishell\n", 19);
-	free_array(envp_copy);
-	if (root)
-	{
-		free_ast(root);
-		root = NULL;
-	}
-	if (token_list)
-	{
-		clear_token_list(token_list);
-		token_list = NULL;
-	}
-	envp_copy = NULL;
+	cleanup_heredoc(root, envp_copy);
+	clear_token_list(token_list);
+	token_list = NULL;
 	rl_clear_history();
 	clear_history();
 	exit(0);
@@ -81,7 +80,7 @@ void	sigint_heredoc_action(int sig)
 	if (sig == SIGINT)
 	{
 		ft_putchar_fd('\n', 1);
-		cleanup_heredoc();
+	//	cleanup_heredoc();
 		exit(130);
 	}
 }

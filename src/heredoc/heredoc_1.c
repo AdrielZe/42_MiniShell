@@ -37,7 +37,7 @@ static void	open_heredoc_pipe(int *pipefd, pid_t *pid)
 	}
 }
 
-void	read_heredoc(int *pipefd, t_delim *delimiters)
+void	read_heredoc(int *pipefd, t_delim *delimiters, t_ast_node *node, char **envp)
 {
 	t_heredoc_data	*data;
 	t_delim			*current;
@@ -52,6 +52,12 @@ void	read_heredoc(int *pipefd, t_delim *delimiters)
 		while (1)
 		{
 			display_input_line(&input);
+			if (!input)
+			{
+				close_pipefd(pipefd);
+				free_delimiters(delimiters);
+				exit(1);
+			}
 			remove_quotes(input);
 			input = process_env_var(input, 1);
 			if (!input)
@@ -69,7 +75,7 @@ void	read_heredoc(int *pipefd, t_delim *delimiters)
 			write_and_free_input(pipefd, input);
 		}
 	}
-	cleanup_heredoc();
+	free_delimiters(delimiters);
 	close_pipefd(pipefd);
 	exit(0);
 }
@@ -87,9 +93,9 @@ void	execute_command_with_heredoc(int *pipefd, pid_t pid,
 	protect_fork(&pid);
 	if (pid == 0)
 	{
+		dup2(pipefd[0], STDIN_FILENO);
 		handle_nodes_to_execute_command(current, pipe_found, node, envp);
 		check_all_commands(node, envp);
-		dup2(pipefd[0], STDIN_FILENO);
 		close(pipefd[0]);
 		exit(1);
 	}
@@ -111,7 +117,13 @@ void	handle_heredoc(t_ast_node *node, char **envp)
 	{
 		set_signal_handler(sigint_heredoc_action);
 		delim_list = get_all_delimiters(node);
-		read_heredoc(pipefd, delim_list);
+		if (!delim_list)
+		{
+			close(pipefd[0]);
+			close(pipefd[1]);
+			exit(1);
+		}
+		read_heredoc(pipefd, delim_list, node, envp);
 		free_delimiters(delim_list);
 		exit(0);
 	}

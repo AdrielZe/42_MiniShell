@@ -17,12 +17,25 @@ void	manage_rl_input(char **input,
 {
 	*input = readline("> ");
 	if (*input == NULL)
+	{
 		handle_ctrl_d(envp, token_list, root);
+	}
 }
 
 void	setup_tokens_and_build_ast(char *input,
 	t_tokens **token_list, char **envp, char ***token)
 {
+	char	**input_split;
+
+	input_split = split_with_quotes(input);
+	if (!input_split)
+		return ;
+	if (ft_strcmp(input_split[0], "exit") == 0)
+	{
+		free_array(input_split);
+		return;
+	}
+	free_array(input_split);
 	*token = tokenize(input, envp);
 	if (!*token)
 	{
