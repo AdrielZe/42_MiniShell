@@ -95,7 +95,7 @@ void		parse_commands(t_ast_node *node, char **envp);
 
 //src/command_execution_2.c
 void		handle_node_types(t_ast_node *node,
-				char **envp, t_delim **delimiters);
+				char **envp);
 int			is_directory(char *path);
 int			is_file(const char *path);
 
@@ -199,7 +199,7 @@ void		create_nodes_and_redirect_if(struct s_tokens **tokens,
 void		handle_env_var(t_ast_node *node, char **envp, char *old_string);
 int			if_cd(char *cmd, char **envp);
 void		process_command_execution(t_ast_node *node,
-				char **envp, char *old_string, char **split_result);
+				char **envp, char *old_string);
 void		execute_command_for_node_function(char *path,
 				char **tokens, char **envp);
 char		*resolve_path(char *cmd, char **envp);

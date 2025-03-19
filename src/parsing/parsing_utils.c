@@ -33,7 +33,7 @@ void	handle_env_var(t_ast_node *node, char **envp, char *old_string)
 }
 
 void	process_command_execution(t_ast_node *node,
-			char **envp, char *old_string, char **split_result)
+			char **envp, char *old_string)
 {
 	if (if_cd(node->value, envp))
 		return ;

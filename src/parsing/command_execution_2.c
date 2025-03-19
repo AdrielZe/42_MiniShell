@@ -56,7 +56,7 @@ void	handle_pipe_node(t_ast_node *node, char **envp)
 	free_delimiters(delimiters);
 }
 
-void	handle_node_types(t_ast_node *node, char **envp, t_delim **delimiters)
+void	handle_node_types(t_ast_node *node, char **envp)
 {
 	if (node->type == NODE_PIPE)
 		handle_pipe_node(node, envp);

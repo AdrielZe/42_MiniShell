@@ -63,7 +63,7 @@ int	is_only_dollar(const char *str)
 	return (0);
 }
 
-char	*replace_env_var(char *input, int *index, int is_heredoc)
+char	*replace_env_var(char *input, int *index)
 {
 	char	*original_input;
 	char	*word_to_switch;
@@ -102,7 +102,7 @@ char	*process_env_var(char *input, int is_heredoc)
 		if ((input[index] == '$' && !in_single_quotes)
 			|| (input[index] == '$' && is_heredoc == 1))
 		{
-			input = replace_env_var(input, &index, is_heredoc);
+			input = replace_env_var(input, &index);
 			new_len = ft_strlen(input);
 			if (index >= new_len)
 				break ;

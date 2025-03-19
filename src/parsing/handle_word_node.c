@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 09:07:19 by asilveir          #+#    #+#             */
-/*   Updated: 2025/03/19 09:07:56 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/03/19 19:14:05 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	handle_word_node(t_ast_node *node, char **envp)
 
 void	when_only_env_var(t_ast_node *node, char **envp)
 {
-	char	**cmd;	
 	char	*cmd_execute;
 
 	if (check_if_is_directory(node->value) == 0)

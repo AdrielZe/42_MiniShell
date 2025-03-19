@@ -15,7 +15,6 @@
 
 int	is_quoted(const char *s)
 {
-	char	**cmd_split;
 	int		len;
 
 	len = 0;
@@ -73,6 +72,7 @@ char	**tokenize(const char *s, char **envp)
 	char	*s_copy;
 	int		i;
 
+	array = NULL;
 	i = 0;
 	while (*s && *s == ' ')
 		s++;
@@ -92,6 +92,5 @@ char	**tokenize(const char *s, char **envp)
 	if (!array)
 		return (NULL);
 	process_words(&s, &array, &i, envp);
-	array[i] = NULL;
-	return (array);
+	return (array[i] = NULL, array);
 }

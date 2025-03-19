@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/19 09:08:30 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/03/19 19:14:34 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	process_command(t_ast_node *node,
 	if (is_env_var)
 		when_only_env_var(node, envp);
 	else
-		process_command_execution(node, envp, old_string, split_result);
+		process_command_execution(node, envp, old_string);
 	free_array(split_result);
 	free(old_string);
 }

@@ -56,7 +56,6 @@ void	handle_simple_quote_node(t_ast_node *node, char **envp)
 	char	*command_to_execute;
 	char	**split_values;
 	char	*search_result;
-	char	**split_path;
 
 	rmv_quotes_set_cmd(node, &split_values, &command_to_execute);
 	search_result = search_valid_path(command_to_execute, envp);
