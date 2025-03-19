@@ -16,6 +16,12 @@ void	manage_rl_input(char **input,
 		char **envp, t_tokens **token_list, t_ast_node *root)
 {
 	*input = readline("> ");
+	if (is_only_spaces(*input) == 0)
+	{
+		free(*input);
+		*input = NULL;
+		return ;
+	}
 	if (*input == NULL)
 	{
 		handle_ctrl_d(envp, token_list, root);

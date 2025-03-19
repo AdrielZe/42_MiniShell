@@ -58,7 +58,7 @@ int	check_syntax(t_tokens *tokens)
 					&& current->next->type != TOKEN_COMMAND
 					&& current->next->type != TOKEN_SIMPLE_QUOTE))
 			{
-				printf("Syntax error: redirection\n");
+				printf("Syntax error: \n");
 				add_exitcode(2);
 				return (0);
 			}
@@ -111,13 +111,13 @@ void	init_shell(char ***token, t_tokens **token_list, char
 	{
 		set_signal_handler(handle_sigint);
 		manage_rl_input(&input, envp, token_list, *root);
-		if (ft_exit(input, envp, token_list, *root) == 1)
-			return ;
 		if (!input || ft_strlen(input) == 0)
 		{
 			free(input);
 			continue ;
 		}
+		if (ft_exit(input, envp, token_list, *root) == 1)
+			return ;
 		setup_tokens_and_build_ast(input, token_list, envp, token);
 		*root = process_ast(root, token_list, envp);
 		if (*root)
