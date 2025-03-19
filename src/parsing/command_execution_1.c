@@ -40,6 +40,7 @@ void	left_process(int *pipe, t_ast_node *node,
 	close_pipefd(pipe);
 	parse_commands(node->left, envp);
 	free_array(envp);
+	free_ast(node);
 	exit(0);
 }
 
@@ -59,6 +60,8 @@ void	right_process(int *pipe, t_ast_node *node, char **envp)
 	close(pipe[0]);
 	close(pipe[1]);
 	parse_commands(node->right, envp);
+	free_array(envp);
+	free_ast(node);
 	exit(0);
 }
 

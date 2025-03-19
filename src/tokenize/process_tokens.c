@@ -20,27 +20,32 @@ int	handle_exit_errors(char **args_array)
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
 		add_exitcode(1);
-		return (1);
+		return (0);
 	}
 	if (array_len(args_array) > 1 && !ft_isnumeric(args_array[1]))
 	{
 		ft_putstr_fd("minishell exit: ", STDERR_FILENO);
 		ft_putstr_fd(args_array[1], STDERR_FILENO);
 		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
-		return (1);
+		return (0);
 	}
-	return (0);
+	return (1);
 }
 
-int	ft_exit(char *args, char **envp, t_tokens **token_list, t_ast_node *node)
+int ft_exit(char *args, char **envp, t_tokens **token_list, t_ast_node *node)
 {
-	char	**args_array;
-	int		exit_code;
+	char **args_array;
+	int exit_code = 127;
 
-	exit_code = 127;
-	args_array = ft_split(args, ' ');
-	if (!args_array || !args_array[0])
+	if (!args)
 		return (0);
+
+	args_array = split_with_quotes(args);
+	if (!args_array || !args_array[0])
+	{
+		free_array(args_array);
+		return (0);
+	}
 	remove_quotes(args_array[0]);
 	if (array_len(args_array) > 1)
 		remove_quotes(args_array[1]);
@@ -49,31 +54,24 @@ int	ft_exit(char *args, char **envp, t_tokens **token_list, t_ast_node *node)
 		free_array(args_array);
 		return (0);
 	}
-	if (handle_exit_errors(args_array) == 1)
+	if (handle_exit_errors(args_array) == 0)
 	{
 		free_array(args_array);
-		return (1);
+		return (0);
 	}
 	if (array_len(args_array) > 1 && ft_isnumeric(args_array[1]))
 		exit_code = ft_atoi(args_array[1]) % 256;
 	free_array(args_array);
 	free_array(envp);
 	if (node)
-	{
 		free_ast(node);
-		node = NULL;
-	}
 	if (token_list)
-	{
 		clear_token_list(token_list);
-		token_list = NULL;
-	}
-	envp = NULL;
 	rl_clear_history();
 	clear_history();
 	exit(exit_code);
+	return (0);
 }
-
 void	handle_word_quotes(char *new_word,
 				int *is_executable, char **envp, int index)
 {

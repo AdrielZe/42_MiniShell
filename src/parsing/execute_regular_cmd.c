@@ -53,9 +53,9 @@ int	control_command_execution_with_slash(char ***split_path,
 
 	cmd_value = ft_strdup(node->value);
 	*split_path = split_with_quotes(cmd_value);
-	remove_quotes(cmd_value);
 	if (!*split_path)
 		return (1);
+	remove_quotes(cmd_value);
 	path = search_valid_path(*split_path[0], envp);
 	if (path != NULL)
 	{
