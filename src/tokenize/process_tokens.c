@@ -32,36 +32,9 @@ int	handle_exit_errors(char **args_array)
 	return (1);
 }
 
-int ft_exit(char *args, char **envp, t_tokens **token_list, t_ast_node *node)
+void	clean_exit(int exit_code, char **envp,
+		t_tokens **token_list, t_ast_node *node)
 {
-	char **args_array;
-	int exit_code = 127;
-
-	if (!args)
-		return (0);
-
-	args_array = split_with_quotes(args);
-	if (!args_array || !args_array[0])
-	{
-		free_array(args_array);
-		return (0);
-	}
-	remove_quotes(args_array[0]);
-	if (array_len(args_array) > 1)
-		remove_quotes(args_array[1]);
-	if (ft_strcmp(args_array[0], "exit") != 0)
-	{
-		free_array(args_array);
-		return (0);
-	}
-	if (handle_exit_errors(args_array) == 0)
-	{
-		free_array(args_array);
-		return (0);
-	}
-	if (array_len(args_array) > 1 && ft_isnumeric(args_array[1]))
-		exit_code = ft_atoi(args_array[1]) % 256;
-	free_array(args_array);
 	free_array(envp);
 	if (node)
 		free_ast(node);
@@ -70,8 +43,46 @@ int ft_exit(char *args, char **envp, t_tokens **token_list, t_ast_node *node)
 	rl_clear_history();
 	clear_history();
 	exit(exit_code);
+}
+
+int	process_exit_code(char **args_array)
+{
+	if (array_len(args_array) > 1 && ft_isnumeric(args_array[1]))
+		return (ft_atoi(args_array[1]) % 256);
+	return (127);
+}
+
+int	validate_exit_args(char **args_array)
+{
+	if (!args_array || !args_array[0])
+		return (0);
+	remove_quotes(args_array[0]);
+	if (array_len(args_array) > 1)
+		remove_quotes(args_array[1]);
+	if (ft_strcmp(args_array[0], "exit") != 0)
+		return (0);
+	return (handle_exit_errors(args_array));
+}
+
+int	ft_exit(char *args, char **envp, t_tokens **token_list, t_ast_node *node)
+{
+	char	**args_array;
+	int		exit_code;
+
+	if (!args)
+		return (0);
+	args_array = split_with_quotes(args);
+	if (validate_exit_args(args_array) == 0)
+	{
+		free_array(args_array);
+		return (0);
+	}
+	exit_code = process_exit_code(args_array);
+	free_array(args_array);
+	clean_exit(exit_code, envp, token_list, node);
 	return (0);
 }
+
 void	handle_word_quotes(char *new_word,
 				int *is_executable, char **envp, int index)
 {
