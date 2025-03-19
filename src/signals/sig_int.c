@@ -38,6 +38,7 @@ void	cleanup_heredoc_c(t_ast_node *node, char **envp)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 }
+
 void	cleanup_heredoc(t_ast_node *node, char **envp)
 {
 	if (envp)
@@ -69,23 +70,4 @@ void	handle_ctrl_d(char **envp_copy, t_tokens **token_list, t_ast_node *root)
 	rl_clear_history();
 	clear_history();
 	exit(0);
-}
-
-void	handle_ctrl_d_heredoc(char **envp_copy, t_tokens **token_list, t_ast_node *root)
-{
-	cleanup_heredoc(root, envp_copy);
-	clear_token_list(token_list);
-	token_list = NULL;
-	rl_clear_history();
-	clear_history();
-	exit(0);
-}
-
-void	sigint_heredoc_action(int sig)
-{
-	(void)sig;
-		ft_putchar_fd('\n', 1);
-	//	cleanup_heredoc();
-		exit(130);
-
 }

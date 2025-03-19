@@ -10,18 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include "libft.h"
 #include "../headers/main.h"
-
-void	add_exitcode(int status);
-
 
 int	cd(char *argv[])
 {
-	char *cwd;
+	char	*cwd;
 
 	if (argv[1] && argv[2])
 	{
@@ -31,15 +24,16 @@ int	cd(char *argv[])
 	}
 	else if (((!argv[1] || argv[1][0] == '~') && chdir(getenv("HOME")) >= 0))
 	{
-		setenv("PWD", getcwd(NULL, 0), 1);
+		setenv("PWD", getcwd(NULL, 0), 1);//GETCWD MEMORY LEAK
 		add_exitcode(0);
 		return (1);
 	}
 	if (chdir(argv[1]) >= 0)
 	{
 		cwd = getcwd(NULL, 0);
-		setenv("PWD", getcwd(NULL, 0), 1);
+		setenv("PWD", cwd, 1);
 		add_exitcode(0);
+		free(cwd);
 		return (1);
 	}
 	else

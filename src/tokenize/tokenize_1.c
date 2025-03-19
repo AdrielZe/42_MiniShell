@@ -13,39 +13,6 @@
 #include "../../headers/tokenize.h"
 #include "../../headers/parsing.h"
 
-char	*allocate_word(const char *s, int len)
-{
-	char	*word;
-
-	word = malloc((len + 1) * sizeof(char));
-	if (!word)
-		return (NULL);
-	ft_memcpy(word, s, len);
-	word[len] = '\0';
-	return (word);
-}
-
-size_t	ft_count_word(const char *s)
-{
-	size_t	count;
-	size_t	delim_counter;
-
-	delim_counter = 0;
-	count = 0;
-	while (*s)
-	{
-		s += count_if(&count, s);
-		while (*s == '|')
-		{
-			delim_counter++;
-			if (*s)
-				s++;
-		}
-		count++;
-	}
-	return (count + delim_counter);
-}
-
 int	is_quoted(const char *s)
 {
 	char	**cmd_split;

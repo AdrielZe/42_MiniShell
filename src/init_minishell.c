@@ -12,70 +12,6 @@
 
 #include "../headers/main.h"
 
-void	exit_if_typed_exit(char *input,
-			t_tokens **token_list, char **envp_copy)
-{
-	if (ft_strcmp("exit", input) == 0)
-	{
-		clear_token_list(token_list);
-		free_array(envp_copy);
-		free(input);
-		printf("Exiting.\n");
-		exit(0);
-	}
-}
-
-void	free_token(char ***token)
-{
-	int	i;
-
-	if (!*token)
-		return ;
-	i = 0;
-	while ((*token)[i])
-	{
-		free((*token)[i]);
-		i++;
-	}
-	free(*token);
-	*token = NULL;
-}
-
-int	check_syntax(t_tokens *tokens)
-{
-	t_tokens	*current;
-
-	current = tokens;
-	while (current)
-	{
-		if (current->type == TOKEN_APPEND || current->type == TOKEN_HEREDOC
-			|| current->type == TOKEN_REDIRECT_IN
-			|| current->type == TOKEN_REDIRECT_OUT)
-		{
-			if (!current->next || (current->next->type != TOKEN_WORD
-					&& current->next->type != TOKEN_COMMAND
-					&& current->next->type != TOKEN_SIMPLE_QUOTE))
-			{
-				printf("Syntax error: \n");
-				write_exitcode(2);
-				return (0);
-			}
-		}
-		if (current->type == TOKEN_PIPE)
-		{
-			if (!current->next || (current->next
-					&& current->next->type == TOKEN_PIPE))
-			{
-				printf("Syntax error: pipes\n");
-				write_exitcode(2);
-				return (0);
-			}
-		}
-		current = current->next;
-	}
-	return (1);
-}
-
 static t_ast_node	*process_ast(t_ast_node **root,
 			t_tokens **token_list, char **envp)
 {
@@ -98,34 +34,49 @@ static t_ast_node	*process_ast(t_ast_node **root,
 	return (*root);
 }
 
-void	init_shell(char ***token, t_tokens **token_list, char
-			**envp, t_ast_node **root)
+void	setup_and_build(char **input,
+		t_tokens **token_list, char **envp, t_ast_node **root)
 {
-	char	*input;
-	char	*str_exit;
+	char	**token;
 
-	*token = NULL;
+	token = NULL;
+	setup_tokens_and_build_ast(*input, token_list, envp, &token);
+	*root = process_ast(root, token_list, envp);
+}
+
+void	process_input_loop(char **input,
+		char **envp, t_tokens **token_list, t_ast_node **root)
+{
 	while (1)
 	{
 		set_signal_handler(handle_sigint);
-		manage_rl_input(&input, envp, token_list, *root);
-		if (!input || ft_strlen(input) == 0)
+		manage_rl_input(input, envp, token_list, *root);
+		if (!(*input) || ft_strlen(*input) == 0)
 		{
-			free(input);
+			free(*input);
 			continue ;
 		}
-		if (ft_exit(input, envp, token_list, *root) == 1)
+		if (ft_exit(*input, envp, token_list, *root) == 1)
 			return ;
-		setup_tokens_and_build_ast(input, token_list, envp, token);
-		*root = process_ast(root, token_list, envp);
+		setup_and_build(input, token_list, envp, root);
 		if (*root)
 		{
 			free_ast(*root);
 			*root = NULL;
 		}
-		if (input)
-			add_history(input);
-		free(input);
-		input = NULL;
+		if (*input)
+			add_history(*input);
+		free(*input);
+		*input = NULL;
 	}
+}
+
+void	init_shell(char ***token,
+		t_tokens **token_list, char **envp, t_ast_node **root)
+{
+	char	*input;
+
+	input = NULL;
+	*token = NULL;
+	process_input_loop(&input, envp, token_list, root);
 }

@@ -12,13 +12,26 @@
 
 #include "../headers/main.h"
 #include <fcntl.h>
-#include <unistd.h>
+
+static char	*space_tratament(char *str)
+{
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	str = ft_strtrim(str, " ");
+	while (str[i] && str[i] != ' ')
+		i++;
+	tmp = ft_substr(str, 0, i);
+	free(str);
+	return (tmp);
+}
 
 int	open_stdout(char *file)
 {
 	int	fd;
 
-	file = ft_strtrim(file, " ");
+	file = space_tratament(file);
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	free(file);
 	if (fd == -1)
@@ -30,7 +43,7 @@ int	open_append(char *file)
 {
 	int	fd;
 
-	file = ft_strtrim(file, " ");
+	file = space_tratament(file);
 	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR, 0644);
 	free(file);
 	if (fd == -1)
@@ -42,7 +55,7 @@ int	open_stdin(char *file)
 {
 	int	fd;
 
-	file = ft_strtrim(file, " ");
+	file = space_tratament(file);
 	fd = open(file, O_RDONLY);
 	free(file);
 	if (fd == -1)

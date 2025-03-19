@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   control_pipes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victda-s <victda-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2025/03/19 04:38:33 by victda-s         ###   ########.fr       */
+/*   Updated: 2025/03/19 10:09:07 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	wait_for_processes(pid_t pid_left, pid_t pid_right, int *status)
 {
 	waitpid(pid_left, NULL, 0);
 	waitpid(pid_right, status, 0);
-	//Talvez falte o exitcode aqui, ou não
 }
 
 int	should_wait_left_process(t_ast_node *node,

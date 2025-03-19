@@ -6,7 +6,7 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 14:47:35 by asilveir          #+#    #+#             */
-/*   Updated: 2025/03/12 14:48:20 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/03/19 10:08:53 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,13 @@ int	ft_isnumeric(const char *str)
 	if (!str || !*str)
 		return (0);
 	i = 0;
-	if (str[i] == '-' || str[i] == '+') // Permite sinais no início
+	if (str[i] == '-' || str[i] == '+')
 		i++;
 	while (str[i])
 	{
-		if (!isdigit((unsigned char)str[i])) // Verifica se não é um número
+		if (!isdigit((unsigned char)str[i]))
 			return (0);
 		i++;
 	}
 	return (1);
 }
-

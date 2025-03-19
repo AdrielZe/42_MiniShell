@@ -1,25 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_status.c                                   :+:      :+:    :+:   */
+/*   heredoc_pipes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:57:59 by asilveir          #+#    #+#             */
-/*   Updated: 2025/03/14 00:58:33 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/03/19 09:21:48 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/main.h"
 
-int	*get_heredoc_status(void)
+void	protect_fork(pid_t *pid)
 {
-	static int	heredoc_status = 0;
-
-	return (&heredoc_status);
+	if (*pid < 0)
+	{
+		perror("fork");
+		return ;
+	}
 }
 
-void	set_heredoc_status(int status)
+void	open_heredoc_pipe(int *pipefd, pid_t *pid)
 {
-	*get_heredoc_status() = status;
+	if (pipe(pipefd) == -1)
+	{
+		perror("pipe");
+		return ;
+	}
+	*pid = fork();
+	if (*pid < 0)
+	{
+		perror("fork");
+		return ;
+	}
 }

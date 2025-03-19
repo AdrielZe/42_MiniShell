@@ -12,34 +12,6 @@
 
 #include "../headers/main.h"
 
-static char	*replace_substring(char *string, char *replace_string, int index)
-{
-	char	*string_rest;
-	char	*env_value;
-	char	*new_string;
-	int		new_length;
-
-	string_rest = ft_substr(string, index + ft_strlen(replace_string) + 1,
-			ft_strlen(string) - index);
-	if (!string_rest)
-		return (string);
-	if (ft_strcmp(replace_string, "?") == 0)
-		env_value = getenv("EXITCODEMINISHELL");
-	else
-		env_value = getenv(replace_string);
-	if (!env_value)
-		env_value = "";
-	new_length = index + ft_strlen(env_value) + ft_strlen(string_rest) + 1;
-	new_string = malloc(new_length);
-	if (!new_string)
-		return (string);
-	ft_strlcpy(new_string, string, index + 1);
-	ft_strlcat(new_string, env_value, new_length);
-	ft_strlcat(new_string, string_rest, new_length);
-	free(string_rest);
-	return (new_string);
-}
-
 static char	*find_string_to_replace(char *input, int index_of_env_symbol)
 {
 	char	*word_to_switch;
@@ -91,11 +63,30 @@ int	is_only_dollar(const char *str)
 	return (0);
 }
 
-char	*process_env_var(char *input, int is_heredoc)
+char	*replace_env_var(char *input, int *index, int is_heredoc)
 {
-	char	*input_to_return;
 	char	*original_input;
 	char	*word_to_switch;
+	char	*input_to_return;
+
+	original_input = input;
+	word_to_switch = find_string_to_replace(input, *index);
+	if (!word_to_switch)
+		return (input);
+	input_to_return = replace_substring(input, word_to_switch, *index);
+	if (!input_to_return)
+	{
+		free(word_to_switch);
+		return (input);
+	}
+	if (original_input != input_to_return)
+		free(original_input);
+	free(word_to_switch);
+	return (input_to_return);
+}
+
+char	*process_env_var(char *input, int is_heredoc)
+{
 	int		index;
 	int		in_single_quotes;
 	int		new_len;
@@ -111,20 +102,7 @@ char	*process_env_var(char *input, int is_heredoc)
 		if ((input[index] == '$' && !in_single_quotes)
 			|| (input[index] == '$' && is_heredoc == 1))
 		{
-			original_input = input;
-			word_to_switch = find_string_to_replace(input, index);
-			if (!word_to_switch)
-				return (input);
-			input_to_return = replace_substring(input, word_to_switch, index);
-			if (!input_to_return)
-			{
-				free(word_to_switch);
-				return (input);
-			}
-			if (original_input != input_to_return)
-				free(original_input);
-			input = input_to_return;
-			free(word_to_switch);
+			input = replace_env_var(input, &index, is_heredoc);
 			new_len = ft_strlen(input);
 			if (index >= new_len)
 				break ;

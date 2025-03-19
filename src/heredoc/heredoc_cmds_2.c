@@ -6,18 +6,11 @@
 /*   By: asilveir <asilveir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 01:09:05 by asilveir          #+#    #+#             */
-/*   Updated: 2025/03/17 11:13:33 by asilveir         ###   ########.fr       */
+/*   Updated: 2025/03/19 09:09:52 by asilveir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/main.h"
-
-t_heredoc_data	*get_heredoc_data(void)
-{
-	static t_heredoc_data	data = {NULL, NULL};
-
-	return (&data);
-}
 
 char	*get_quoted_string(const char **s, char quote)
 {
@@ -46,11 +39,24 @@ void	remove_array_quotes(char ***array)
 	}
 }
 
+char	*check_and_add_quote(char *str, char **in_quote)
+{
+	int	j;
+
+	j = 0;
+	while (in_quote[j])
+	{
+		if (ft_strcmp(str, in_quote[j]) == 0)
+			return (add_quote_type_str(in_quote[j], '\''));
+		j++;
+	}
+	return (ft_strdup(str));
+}
+
 char	**place_simple_quote(char **array, char **in_quote)
 {
-	char		**new_array;
-	int			i;
-	int			j;
+	char	**new_array;
+	int		i;
 
 	new_array = malloc((array_len(array) + 1) * sizeof(char *));
 	if (!new_array)
@@ -58,18 +64,7 @@ char	**place_simple_quote(char **array, char **in_quote)
 	i = 0;
 	while (array[i])
 	{
-		j = 0;
-		new_array[i] = ft_strdup(array[i]);
-		while (in_quote[j])
-		{
-			if (ft_strcmp(array[i], in_quote[j]) == 0)
-			{
-				free(new_array[i]);
-				new_array[i] = add_quote_type_str(in_quote[j], '\'');
-				break ;
-			}
-			j++;
-		}
+		new_array[i] = check_and_add_quote(array[i], in_quote);
 		i++;
 	}
 	new_array[i] = NULL;

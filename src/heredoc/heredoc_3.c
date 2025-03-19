@@ -63,9 +63,7 @@ void	handle_nodes_to_execute_command(t_ast_node *current, int pipe_found,
 			if (node->right->outfile)
 				dup2(node->right->outfile, STDOUT_FILENO);
 			if (pid == 0)
-			{
 				exec_heredoc_cmds(node, current, envp);
-			}
 		}
 		else
 			search_valid_path(ft_split(current->value, ' ')[0], envp);
@@ -74,7 +72,6 @@ void	handle_nodes_to_execute_command(t_ast_node *current, int pipe_found,
 	waitpid(pid, &status, 0);
 	check_all_commands(node, envp);
 	cleanup_heredoc(node, envp);
-
 	exit(1);
 }
 

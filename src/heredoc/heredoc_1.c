@@ -13,59 +13,36 @@
 #include "../headers/main.h"
 #include <signal.h>
 
-static void	protect_fork(pid_t *pid)
+void	process_heredoc_input(int *pipefd,
+			char **input, t_ast_node *node, char **envp)
 {
-	if (*pid < 0)
+	display_input_line(input, envp, node);
+	if (!(*input))
 	{
-		perror("fork");
-		return ;
+		close_pipefd(pipefd);
+		exit(1);
+	}
+	remove_quotes(*input);
+	*input = process_env_var(*input, 1);
+	if (!(*input))
+	{
+		close_pipefd(pipefd);
+		exit(1);
 	}
 }
 
-static void	open_heredoc_pipe(int *pipefd, pid_t *pid)
+void	handle_heredoc_delimiters(int *pipefd,
+			t_delim *delimiters, t_ast_node *node, char **envp)
 {
-	if (pipe(pipefd) == -1)
-	{
-		perror("pipe");
-		return ;
-	}
-	*pid = fork();
-	if (*pid < 0)
-	{
-		perror("fork");
-		return ;
-	}
-}
+	t_delim	*current;
+	char	*input;
 
-void	read_heredoc(int *pipefd, t_delim *delimiters, t_ast_node *node, char **envp)
-{
-	t_heredoc_data	*data;
-	t_delim			*current;
-	char			*input;
-
-	data = get_heredoc_data();
-	data->pipefd = pipefd;
-	data->delimiters = delimiters;
 	current = delimiters;
 	while (current)
 	{
 		while (1)
 		{
-			display_input_line(&input, envp, node);
-			if (!input)
-			{
-				close_pipefd(pipefd);
-				free_delimiters(delimiters);
-				exit(1);
-			}
-			remove_quotes(input);
-			input = process_env_var(input, 1);
-			if (!input)
-			{
-				close_pipefd(pipefd);
-				free_delimiters(delimiters);
-				exit(1);
-			}
+			process_heredoc_input(pipefd, &input, node, envp);
 			if (ft_strcmp(input, current->delimiter) == 0)
 			{
 				free(input);
@@ -75,6 +52,16 @@ void	read_heredoc(int *pipefd, t_delim *delimiters, t_ast_node *node, char **env
 			write_and_free_input(pipefd, input);
 		}
 	}
+}
+
+void	read_heredoc(int *pipefd,
+		t_delim *delimiters, t_ast_node *node, char **envp)
+{
+	t_heredoc_data	*data;
+
+	data->pipefd = pipefd;
+	data->delimiters = delimiters;
+	handle_heredoc_delimiters(pipefd, delimiters, node, envp);
 	close_pipefd(pipefd);
 	exit(0);
 }
@@ -86,7 +73,6 @@ void	execute_command_with_heredoc(int *pipefd, pid_t pid,
 	int			pipe_found;
 	int			status;
 
-	printf("aaaaaaaa\n");
 	current = node;
 	pipe_found = 0;
 	pid = fork();
@@ -119,8 +105,7 @@ void	handle_heredoc(t_ast_node *node, char **envp)
 		delim_list = get_all_delimiters(node);
 		if (!delim_list)
 		{
-			close(pipefd[0]);
-			close(pipefd[1]);
+			close_pipefd(pipefd);
 			exit(1);
 		}
 		read_heredoc(pipefd, delim_list, node, envp);
@@ -130,10 +115,6 @@ void	handle_heredoc(t_ast_node *node, char **envp)
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status) && WEXITSTATUS(status) == 0)
 		execute_command_with_heredoc(pipefd, pid, node, envp);
-	// if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
-	// {
-	// 	free_array(envp);
-	// }
 	close(pipefd[0]);
 	set_signal_handler(handle_sigint);
 }

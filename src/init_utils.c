@@ -39,7 +39,7 @@ void	setup_tokens_and_build_ast(char *input,
 	if (ft_strcmp(input_split[0], "exit") == 0)
 	{
 		free_array(input_split);
-		return;
+		return ;
 	}
 	free_array(input_split);
 	*token = tokenize(input, envp);
