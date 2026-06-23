@@ -1,22 +1,34 @@
 # 42_MiniShell
 
 ## About the Project
-The **Minishell** is a 42 project that aims to create a command interpreter based on Bash. The main challenge is to implement features of a real shell, ensuring compliance with practical behaviors and POSIX standards, while learning more about operating systems and inter-process communication.
 
-This repository was created to document and organize the development of the project, which is being done collaboratively and following good programming practices.
+The **Minishell** is a completed 42 project that implements a command interpreter inspired by Bash.
+
+The goal of this project was to recreate the behavior of a real shell while following POSIX standards, handling processes, system calls, and inter-process communication. During development, the project provided a deeper understanding of operating systems concepts, command parsing, and process management.
+
+This repository contains the final implementation developed collaboratively, following good programming practices and 42 coding standards.
 
 ---
 
-## Required Features
-- Implement a prompt that accepts and executes commands.
-- Support the following Bash features:
-    - Execution of commands with arguments.
-    - Support for redirections (`>`, `>>`, `<`).
-    - Pipes (`|`).
-    - Environment variables.
-    - Variable and special character expansion (`$`, `~`).
-    - Signal handling (`Ctrl+C`, `Ctrl+D`, `Ctrl+\`).
-- Implement builtins:
+## Implemented Features
+
+- Interactive command prompt.
+- Command execution with arguments.
+- Input and output redirections:
+    - `>`
+    - `>>`
+    - `<`
+- Pipes:
+    - `|`
+- Environment variable handling.
+- Variable expansion:
+    - `$`
+    - `~`
+- Signal handling:
+    - `Ctrl+C`
+    - `Ctrl+D`
+    - `Ctrl+\`
+- Built-in commands:
     - `echo`
     - `cd`
     - `pwd`
@@ -24,22 +36,28 @@ This repository was created to document and organize the development of the proj
     - `unset`
     - `env`
     - `exit`
-- Error management:
-    - Friendly error messages for invalid commands or syntax errors.
-    - Appropriate exit signaling (return status).
+- Error handling:
+    - Invalid command handling.
+    - Syntax error detection.
+    - Correct exit status management.
 
 ---
 
 ## Technologies and Tools
+
 - Language: **C**
 - Operating System: **Linux**
 - Libraries:
-    - `readline` for user input handling.
+    - `readline` for command line input handling.
     - POSIX standard library functions.
 
 ---
 
 ## How to Compile
-To compile the project, make sure you have the **gcc** compiler and **Make** installed. Use the following command:
+
+Make sure you have **gcc** and **Make** installed.
+
+Clone the repository and run:
+
 ```bash
 make
